@@ -28,7 +28,7 @@ export const SOCIAL_LINKS: DefaultTheme.SocialLink[] = []
 
 export { catalog, contentRevision, totalChapters }
 
-// 学习仓储：按 appId 隔离（localStorage 键 hb.v1.<appId>.learning）。
+// 学习仓储：按 appId 隔离（localStorage 键 lubook.v1.<appId>.learning）。
 export const repository = createLearningRepository({
   appId: APP_ID,
   totalChapters,

@@ -44,9 +44,12 @@ export const SOCIAL_LINKS: DefaultTheme.SocialLink[] = [
 export { catalog, contentRevision, totalChapters }
 
 // 学习仓储：创建后逐章注册（catalog 含全部 140 章），避免现行章被误判为 tombstone。
+// 旧键迁移：hh.v1.learning（最早全局）→ hb.v1.handbook.learning（旧 app 键）→
+// lubook.v1.hardware.learning（新键）；旧键保留，合并以最新 updatedAt。
 export const repository = createLearningRepository({
   appId: APP_ID,
   totalChapters,
-  contentRevision
+  contentRevision,
+  legacyKeys: ['hh.v1.learning', 'hb.v1.handbook.learning']
 })
 catalog.entries.forEach((e) => repository.getChapter(e.id))
