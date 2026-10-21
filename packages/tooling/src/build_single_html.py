@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-build_single_html.py — 把 docs/ 下的 Markdown 手册构建为单个自包含 HTML。
+build_single_html.py — 把指定 app 的 Markdown 手册构建为单个自包含 HTML。
 
-用法（packages/tooling 已参数化，默认对 handbook 等价）：
-    python packages/tooling/src/build_single_html.py
-    python packages/tooling/src/build_single_html.py --published
-    python packages/tooling/src/build_single_html.py --src docs --vendor packages/tooling/vendor
-    python packages/tooling/src/build_single_html.py --manifest .generated/content-manifest.json
+用法（按 app 参数化，默认 app=hardware）：
+    python packages/tooling/src/build_single_html.py --app hardware
+    python packages/tooling/src/build_single_html.py --app hardware --published
+    python packages/tooling/src/build_single_html.py --app hardware \
+        --manifest .generated/hardware-content-manifest.json
 
-零第三方依赖（Python 3.8+）。输出 dist/hardware-handbook.html。
+零第三方依赖（Python 3.8+）。输出 dist/<app>.html（如 dist/hardware.html）。
 若传入 --manifest 且文件存在，则在构建后按其对账（章节数/标题/图片引用数）；
 manifest 缺失时维持现状自解析，不重写 Markdown（ARCHITECTURE §6）。
 """
