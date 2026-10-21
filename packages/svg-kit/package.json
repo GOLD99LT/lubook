@@ -1,5 +1,5 @@
 {
-  "name": "@hw/svg-kit",
+  "name": "@lubook/svg-kit",
   "version": "0.1.0",
   "private": true,
   "type": "module",

@@ -4,7 +4,7 @@
 // 预构建生成的静态模块（docs/.vitepress/catalog.generated.mjs），浏览器端可安全 import。
 // 仓储在模块加载时创建并注册全部已知章节，使导入数据时未知章节正确进入 tombstone。
 import type { DefaultTheme } from 'vitepress'
-import { createLearningRepository } from '@hw/learning'
+import { createLearningRepository } from '@lubook/learning'
 
 import { catalog, contentRevision, totalChapters } from './docs/.vitepress/catalog.generated.mjs'
 

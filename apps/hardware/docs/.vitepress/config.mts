@@ -1,6 +1,6 @@
-// 薄 config：通用规则全部来自 @hw/shared-config，站点数据来自 content.config。
+// 薄 config：通用规则全部来自 @lubook/shared-config，站点数据来自 content.config。
 // sidebar 为预构建生成物（gen:sidebar）；nav 用 content.config 的固定导航。
-import { defineHwConfig } from '@hw/shared-config'
+import { defineBookConfig } from '@lubook/shared-config'
 import sidebar from './sidebar.generated.mjs'
 import {
   APP_ID,
@@ -12,7 +12,7 @@ import {
   SOCIAL_LINKS
 } from '../../content.config'
 
-export default defineHwConfig({
+export default defineBookConfig({
   appId: APP_ID,
   title: TITLE,
   description: DESCRIPTION,

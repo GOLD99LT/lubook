@@ -1,5 +1,5 @@
 {
-  "name": "hardware-handbook-monorepo",
+  "name": "lubook-monorepo",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,16 +9,16 @@
     "node": ">=22"
   },
   "scripts": {
-    "gen:handbook": "pnpm -F @hw/handbook gen",
-    "dev:handbook": "pnpm -F @hw/handbook docs:dev",
-    "build:handbook": "pnpm -F @hw/handbook docs:build",
-    "preview:handbook": "pnpm -F @hw/handbook docs:preview",
-    "build:template": "pnpm -F @hw/site-template docs:build",
-    "manifest": "pnpm -F @hw/content-core manifest",
-    "manifest:parity": "pnpm -F @hw/content-core parity",
+    "gen:hardware": "pnpm -F @lubook/hardware gen",
+    "dev:hardware": "pnpm -F @lubook/hardware docs:dev",
+    "build:hardware": "pnpm -F @lubook/hardware docs:build",
+    "preview:hardware": "pnpm -F @lubook/hardware docs:preview",
+    "build:template": "pnpm -F @lubook/site-template docs:build",
+    "manifest": "pnpm -F @lubook/content-core manifest",
+    "manifest:parity": "pnpm -F @lubook/content-core parity",
     "test:learning": "node packages/learning/test/learning.test.ts",
     "quality": "python run_quality.py",
-    "offline": "python packages/tooling/src/freeze_manifest.py && python packages/tooling/src/build_single_html.py --manifest .generated/content-manifest.json",
-    "verify": "pnpm build:handbook && pnpm build:template && pnpm test:learning && pnpm quality && pnpm offline"
+    "offline": "python packages/tooling/src/freeze_manifest.py && python packages/tooling/src/build_single_html.py --manifest .generated/hardware-content-manifest.json",
+    "verify": "pnpm build:hardware && pnpm build:template && pnpm test:learning && pnpm quality && pnpm offline"
   }
 }

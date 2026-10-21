@@ -1,11 +1,11 @@
-// @hw/theme —— 布局 / 品牌 / 学习 UI / EChart / 图片查看器。
+// @lubook/theme —— 布局 / 品牌 / 学习 UI / EChart / 图片查看器。
 //
-// 边界（ARCHITECTURE §4）：只依赖 CatalogProvider（app 注入）与 @hw/learning 的
+// 边界（ARCHITECTURE §4）：只依赖 CatalogProvider（app 注入）与 @lubook/learning 的
 // LearningRepository（接口）；不 import 任何 app 的 sidebar，不直接读写 localStorage。
-// 默认 Logo/品牌随包提供，可被 app 经 createHwTheme({ logo }) 覆盖。
+// 默认 Logo/品牌随包提供，可被 app 经 createBookTheme({ logo }) 覆盖。
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
-import type { LearningRepository } from '@hw/learning'
+import type { LearningRepository } from '@lubook/learning'
 
 import Layout from './components/brand/LayoutBrand.vue'
 import Logo from './components/brand/Logo.vue'
@@ -18,11 +18,11 @@ import 'katex/dist/katex.min.css'
 import './style.css'
 import './learning.css'
 
-export const PACKAGE_NAME = '@hw/theme' as const
+export const PACKAGE_NAME = '@lubook/theme' as const
 export const VERSION = '0.1.0' as const
 
 export type { CatalogEntry, CatalogProvider } from './components/learning/catalog'
-export type { LearningRepository } from '@hw/learning'
+export type { LearningRepository } from '@lubook/learning'
 export type {
   ChapterStatus,
   RepositoryStats,
@@ -31,10 +31,10 @@ export type {
   LearningFacade
 } from './components/learning/store'
 
-export interface HwThemeOptions {
+export interface BookThemeOptions {
   /** app 构造的章节目录（来自其 sidebar / content-manifest） */
   catalog: CatalogProvider
-  /** @hw/learning 提供的学习数据仓储实例 */
+  /** @lubook/learning 提供的学习数据仓储实例 */
   repository: LearningRepository
   /** 可选：覆盖默认品牌 Logo 组件（注册为全局 <Logo>） */
   logo?: unknown
@@ -83,16 +83,16 @@ function setupFigureZoom(): void {
  * 构造硬件手册 VitePress 主题。app 侧用法：
  *
  * ```ts
- * import { createHwTheme } from '@hw/theme'
- * import { createLocalLearningRepository } from '@hw/learning'
+ * import { createBookTheme } from '@lubook/theme'
+ * import { createLocalLearningRepository } from '@lubook/learning'
  *
- * export default createHwTheme({
+ * export default createBookTheme({
  *   catalog: myCatalogProvider,          // app 从 sidebar/manifest 构造
  *   repository: createLocalLearningRepository({ appId: 'handbook' })
  * })
  * ```
  */
-export function createHwTheme(opts: HwThemeOptions): Theme {
+export function createBookTheme(opts: BookThemeOptions): Theme {
   const facade = createLearningFacade(opts.repository, opts.catalog)
   setLearningContext(facade)
   // 注：LearningRepository 在 createLearningRepository() 内已自举 boot()（加载/迁移），
@@ -111,4 +111,4 @@ export function createHwTheme(opts: HwThemeOptions): Theme {
   } satisfies Theme
 }
 
-export default createHwTheme
+export default createBookTheme

@@ -1,4 +1,4 @@
-// @hw/content-core —— manifest 生成器（ARCHITECTURE §3.1）。
+// @lubook/content-core —— manifest 生成器（ARCHITECTURE §3.1）。
 //
 // 本文件逐行移植 P0 的 tools/build_vp_sidebar.py（parse_yaml / split_frontmatter /
 // parse_summary）与 tools/freeze_manifest.py 的解析/校验/checksum 逻辑，
@@ -215,7 +215,7 @@ export function countSvg(srcDir: string): number {
 // manifest 构建（移植 freeze_manifest.build_manifest）
 // ---------------------------------------------------------------------------
 
-export function buildManifest(srcDir: string, appId = 'handbook'): ContentManifest {
+export function buildManifest(srcDir: string, appId = 'book'): ContentManifest {
   const errors: string[] = []
   const parts = parseSummary(path.join(srcDir, 'SUMMARY.md'))
   const docs: ContentDoc[] = []

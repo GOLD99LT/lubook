@@ -166,18 +166,18 @@ importers:
 
   .: {}
 
-  apps/handbook:
+  apps/hardware:
     dependencies:
-      '@hw/content-core':
+      '@lubook/content-core':
         specifier: workspace:*
         version: link:../../packages/content-core
-      '@hw/learning':
+      '@lubook/learning':
         specifier: workspace:*
         version: link:../../packages/learning
-      '@hw/shared-config':
+      '@lubook/shared-config':
         specifier: workspace:*
         version: link:../../packages/shared-config
-      '@hw/theme':
+      '@lubook/theme':
         specifier: workspace:*
         version: link:../../packages/theme
       vue:
@@ -215,7 +215,7 @@ importers:
 
   packages/theme:
     dependencies:
-      '@hw/learning':
+      '@lubook/learning':
         specifier: workspace:*
         version: link:../learning
       echarts:
@@ -234,16 +234,16 @@ importers:
 
   templates/site-template:
     dependencies:
-      '@hw/content-core':
+      '@lubook/content-core':
         specifier: workspace:*
         version: link:../../packages/content-core
-      '@hw/learning':
+      '@lubook/learning':
         specifier: workspace:*
         version: link:../../packages/learning
-      '@hw/shared-config':
+      '@lubook/shared-config':
         specifier: workspace:*
         version: link:../../packages/shared-config
-      '@hw/theme':
+      '@lubook/theme':
         specifier: workspace:*
         version: link:../../packages/theme
       vue:

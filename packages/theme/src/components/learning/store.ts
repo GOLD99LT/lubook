@@ -4,7 +4,7 @@
 // 还 import app 的 sidebar。现在：
 //   - 本包不直接读写 localStorage、不 import app 的 sidebar；
 //   - 持久化、按 appId 隔离、旧 key 迁移、导入/导出、tombstone 全部由
-//     `@hw/learning` 的 `LearningRepository` 负责（它内部已是 reactive 并自举 boot）；
+//     `@lubook/learning` 的 `LearningRepository` 负责（它内部已是 reactive 并自举 boot）；
 //   - 这里只做一层薄委托：UI 读到的值直接穿透到 repository 的 reactive 状态，
 //     因此 Vue computed 天然响应，不再维护第二份镜像。
 import type {
@@ -12,10 +12,10 @@ import type {
   ChapterStatus,
   RepositoryStats,
   ImportResult
-} from '@hw/learning'
+} from '@lubook/learning'
 import type { CatalogProvider } from './catalog'
 
-export type { ChapterStatus, RepositoryStats, ImportResult } from '@hw/learning'
+export type { ChapterStatus, RepositoryStats, ImportResult } from '@lubook/learning'
 
 export interface FavItem {
   /** 章节 id（= page.relativePath） */
@@ -44,7 +44,7 @@ export interface LearningFacade {
   clearAll(): void
 }
 
-// 模块级上下文：createHwTheme 注入一次；组件通过 useLearning() 读取。
+// 模块级上下文：createBookTheme 注入一次；组件通过 useLearning() 读取。
 let current: LearningFacade | null = null
 
 export function setLearningContext(facade: LearningFacade): void {
@@ -54,7 +54,7 @@ export function setLearningContext(facade: LearningFacade): void {
 export function useLearning(): LearningFacade {
   if (!current) {
     throw new Error(
-      '[@hw/theme] 学习上下文未注入：请通过 createHwTheme({ catalog, repository }) 初始化主题'
+      '[@lubook/theme] 学习上下文未注入：请通过 createBookTheme({ catalog, repository }) 初始化主题'
     )
   }
   return current

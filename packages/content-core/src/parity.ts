@@ -1,4 +1,4 @@
-// parity 校验 —— 证明 @hw/content-core（TS）产物与 P0 tools/freeze_manifest.py 产物一致。
+// parity 校验 —— 证明 @lubook/content-core（TS）产物与 P0 tools/freeze_manifest.py 产物一致。
 //
 // 比对项：
 //   1. revision 必须等于 sha256-4c8521761e575941（P0 冻结基线）
@@ -78,4 +78,4 @@ if (problems.length) {
   for (const p of problems) console.error('  - ' + p)
   process.exit(1)
 }
-console.log('\n[PARITY PASS] @hw/content-core 与 P0 freeze_manifest.py 产物一致')
+console.log('\n[PARITY PASS] @lubook/content-core 与 P0 freeze_manifest.py 产物一致')

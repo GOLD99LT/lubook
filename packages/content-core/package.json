@@ -1,5 +1,5 @@
 {
-  "name": "@hw/content-core",
+  "name": "@lubook/content-core",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
   },
   "types": "./src/index.ts",
   "bin": {
-    "hw-manifest": "./src/cli.ts"
+    "book-manifest": "./src/cli.ts"
   },
   "scripts": {
     "manifest": "node src/cli.ts --src ../../docs --out ../../.generated/content-manifest.json",

@@ -1,9 +1,9 @@
-// @hw/learning — LearningRepository：学习数据仓储化。
+// @lubook/learning — LearningRepository：学习数据仓储化。
 // 按 appId 隔离（localStorage），支持一次性旧键迁移、导入导出（merge/replace）、未知章节 tombstone。
 // UI 只依赖本接口，不直接碰 localStorage；本版不引入 IndexedDB（见 ARCHITECTURE §5 / §14.3）。
 import { reactive } from 'vue'
 
-// ---- 契约类型（@hw/theme 依赖同一接口，命名/字段不可改）----
+// ---- 契约类型（@lubook/theme 依赖同一接口，命名/字段不可改）----
 
 export type ChapterStatus = 'done' | 'learning'
 

@@ -1,9 +1,9 @@
 {
-  "name": "@hw/shared-config",
+  "name": "@lubook/shared-config",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "defineHwConfig：VitePress 通用 markdown/搜索/插件工厂（五类容器、KaTeX、CJK 加粗、details 折叠、ECharts 围栏、figure 化、frontmatter 修复、本地搜索中文）",
+  "description": "defineBookConfig：VitePress 通用 markdown/搜索/插件工厂（五类容器、KaTeX、CJK 加粗、details 折叠、ECharts 围栏、figure 化、frontmatter 修复、本地搜索中文）",
   "exports": {
     ".": "./src/index.ts"
   },

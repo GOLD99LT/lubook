@@ -1,4 +1,4 @@
-// @hw/learning 自验：node 直跑（node test/learning.test.ts），注入内存 fake Storage。
+// @lubook/learning 自验：node 直跑（node test/learning.test.ts），注入内存 fake Storage。
 import { createLearningRepository } from '../src/index.ts'
 
 class MemStorage {
