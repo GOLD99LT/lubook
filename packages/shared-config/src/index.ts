@@ -1,4 +1,4 @@
-// @hw/shared-config —— defineHwConfig：VitePress 通用 markdown/搜索/插件工厂。
+// @lubook/shared-config —— defineBookConfig：VitePress 通用 markdown/搜索/插件工厂。
 //
 // 边界铁律：本包只封装与具体站点无关的通用规则（五类容器、KaTeX、CJK 加粗、
 // details 折叠、ECharts 围栏、figure 化、frontmatter 修复、本地搜索中文、
@@ -374,19 +374,42 @@ const DEFAULT_LOCAL_SEARCH: DefaultTheme.Config['search'] = {
   }
 }
 
-export const PACKAGE_NAME = '@hw/shared-config' as const
+export const PACKAGE_NAME = '@lubook/shared-config' as const
 export const VERSION = '0.1.0' as const
-export const DEFAULT_BASE = '/hardware-handbook/' as const
+/** 多 app 部署的默认根 base：本地 dev/build 默认根相对（门户 '/'、分册 '/<slug>/'）。 */
+export const DEFAULT_VP_BASE = '/' as const
 
-/** defineHwConfig 入参：站点特有项全部由 app 传入，通用规则由本包封装。 */
-export interface HwConfigOptions {
+/** 归一化 base：保证以 '/' 开头、以 '/' 结尾（VitePress 要求 base 首尾为斜杠）。 */
+export function normalizeBase(vp: string): string {
+  let b = vp.trim()
+  if (!b.startsWith('/')) b = '/' + b
+  if (!b.endsWith('/')) b = b + '/'
+  return b
+}
+
+/**
+ * 由 VP_BASE 派生各 app 的 base（ADR-0006 / NAMING）：
+ *   门户 portal  → base = VP_BASE
+ *   内容分册     → base = VP_BASE + '<slug>/'
+ * 部署取值：GitHub Pages VP_BASE='/lubook/'；Cloudflare VP_BASE='/'；本地默认 '/'。
+ * 显式 options.base 优先（保留单点覆盖能力）。
+ */
+export function deriveBase(appId: string, vpBase?: string, explicit?: string): string {
+  if (explicit) return normalizeBase(explicit)
+  const vp = normalizeBase(vpBase || process.env.VP_BASE || DEFAULT_VP_BASE)
+  if (appId === 'portal') return vp
+  return vp + appId + '/'
+}
+
+/** defineBookConfig 入参：站点特有项全部由 app 传入，通用规则由本包封装。 */
+export interface BookConfigOptions {
   /** 应用标识（多 app 隔离用，注入 <meta name="app-id">） */
   appId: string
   /** 站点标题 */
   title: string
   /** 站点描述 */
   description?: string
-  /** base 子路径，默认 '/hardware-handbook/'，可用 VP_BASE 环境变量覆盖 */
+  /** base 子路径；不传则由 VP_BASE 派生（门户=VP_BASE，分册=VP_BASE+'<slug>/'） */
   base?: string
   /** 语言，默认 'zh-CN' */
   lang?: string
@@ -408,8 +431,8 @@ export interface HwConfigOptions {
  * 工厂：封装 config.mts 里的全部通用 markdown/搜索/插件规则，返回 VitePress UserConfig。
  * 站点特有的 nav/sidebar/篇名/站名不写死，全部来自 options。
  */
-export function defineHwConfig(options: HwConfigOptions): UserConfig {
-  const base = process.env.VP_BASE || options.base || DEFAULT_BASE
+export function defineBookConfig(options: BookConfigOptions): UserConfig {
+  const base = deriveBase(options.appId, process.env.VP_BASE, options.base)
   const lang = options.lang ?? 'zh-CN'
 
   const head: HeadConfig[] = [['meta', { name: 'app-id', content: options.appId }]]
@@ -462,8 +485,8 @@ export function defineHwConfig(options: HwConfigOptions): UserConfig {
 
     vite: {
       plugins: [fixFrontmatterPlugin() as any],
-      // 统一：源码 TS 包（@hw/*）不做预构建
-      ssr: { noExternal: [/@hw\//] }
+      // 统一：源码 TS 包（@lubook/*）不做预构建
+      ssr: { noExternal: [/@lubook\//] }
     },
 
     themeConfig: {

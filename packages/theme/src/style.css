@@ -285,10 +285,22 @@
   line-height: 1.6;
 }
 
-/* 表格移动端横向滚动 */
+/* 表格：宽屏 100% 宽度；窄屏转为横向滚动容器，不挤压列（每列保底可读宽度） */
 .vp-doc table {
   display: table;
   width: 100%;
+}
+@media (max-width: 640px) {
+  .vp-doc table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .vp-doc table th,
+  .vp-doc table td {
+    min-width: 108px;
+  }
 }
 
 /* ECharts 容器 */

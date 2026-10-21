@@ -18,6 +18,12 @@ function showToast(msg: string) {
 
 function onExport() {
   const json = learning.exportJSON()
+  let appId = 'book'
+  try {
+    appId = JSON.parse(json).appId || 'book'
+  } catch {
+    /* 用默认值 */
+  }
   const blob = new Blob([json], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
@@ -25,7 +31,7 @@ function onExport() {
   const stamp =
     `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
   a.href = url
-  a.download = `hardware-handbook-learning-${stamp}.json`
+  a.download = `${appId}-learning-${stamp}.json`
   document.body.appendChild(a)
   a.click()
   a.remove()

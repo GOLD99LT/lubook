@@ -57,7 +57,7 @@
 | 需求 | 状态 | 说明 |
 | --- | --- | --- |
 | 支持长期持续更新、可升级的架构 | 【已规划·待执行】 | Monorepo 方案 `ARCHITECTURE.md` 已出，待你核对 |
-| 主题/组件/工具/质检跨专项复用 | 【已规划·待执行】 | 抽为 `@hw/theme`、`@hw/shared-config`、`packages/tooling` |
+| 主题/组件/工具/质检跨专项复用 | 【已实现】 | 抽为 `@lubook/theme`、`@lubook/shared-config`、`packages/tooling` |
 | 新专项低成本落地 | 【已规划】 | 复制 `templates/site-template` + 写 Markdown |
 | 第一个新专项：**嵌入式软件开发手册** | 【已规划·阶段 4】 | 目录 `apps/embedded`，固件/驱动/RTOS/构建/嵌入式 Linux |
 | 软硬件一体专项 | 【已规划·更后】 | 目录 `apps/hwsw`，硬件 + 软件联调方向 |
@@ -183,10 +183,12 @@
 
 ## 七、待办与待决策
 
-1. 【已通过·执行中】`ARCHITECTURE.md` 已升级为 **v2（融合 Codex R1 评审）**，用户已全部同意，在 `refactor/monorepo` 分支执行 P0–P3；完成自审后请用户核实，核实通过再合并/部署。
+1. 【已完成】Monorepo v2（P0–P3）已合并并部署上线（GitHub Pages + Cloudflare），main 与 origin 同步；后续在其上迭代。
 2. 【待办】你手动检查并撤销旧 PAT。
-3. 【已定】第一个新专项为《嵌入式软件开发手册》。
-4. 【后期再议】门户根 URL 拓扑、学习进度是否上云、英文版范围。
+3. 【已定】新专项：《嵌入式软件开发手册》（MCU，`embedded`）与《嵌入式 Linux 开发手册》（`embedded-linux`），先做共享地基再并行（见 EMBEDDED_PLAN）。
+4. 【已定·待核实执行】品牌定为「路书 Lubook」，命名规范见 [docs/NAMING.md](docs/NAMING.md)；品牌重命名 + 多 app 门户拓扑方案见 [ADR-0006](docs/adr/ADR-0006.md)，待你核实后执行。
+5. 【后续任务】注册/配置自定义域名（首选 `lubook.dev`），见附录 A B16。
+6. 【后期再议】学习进度上云、英文版范围。
 
 ---
 
@@ -211,5 +213,6 @@
 | B13 | PR 预览环境（每个 PR 一个可点链接）+ 部署 OIDC/最小权限 | 合并前可视化评审、收敛凭据 | 个人项目当前直接 push main 自动部署；需改 CI 流程 | 多人协作或改动频繁需要预览时 | 中 |
 | B14 | frontmatter/学习导出/图表 option 用 **Zod/JSON Schema 强校验** | 数据结构错误在构建期即暴露 | 本版 content-core 先用最小手写校验；引入 Zod 增加依赖 | 字段增多、多专项复用导致结构出错时 | 小 |
 | B15 | "五类资产"（知识/编译/产品/工程/信任）模型与发布门禁全面落地 | 每次变更可回答"改了什么/谁审核/如何构建发布回滚" | 平台公司级目标，当前以 manifest + verify + ADR 覆盖关键部分 | 项目从"作品"走向长期产品/团队协作时 | 大（持续） |
+| B16 | 注册并配置**自定义域名**（首选 `lubook.dev`，备选 `lubook.io`；2026-10-21 核实可注册）：域名购买、DNS、GitHub Pages CNAME / Cloudflare Pages 自定义域、HTTPS | 域名与仓库名解耦，对外链接稳定、好记、利于长期品牌化；门户占根后再改仓库名也不影响 URL | 免费的 `github.io`/`pages.dev` 已可用；域名购买与 DNS 需你本人操作 | 品牌重命名（ADR-0006）上线后，或希望对外分享稳定链接时 | 小（注册 + 配置） |
 
 > 评审方式：你可逐条回复"B1 做 / B8 暂缓"等；确定做的条目，我会先写 ADR、给出执行方案，再纳入对应阶段。未评审前不实施。

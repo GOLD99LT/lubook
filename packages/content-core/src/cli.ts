@@ -1,6 +1,6 @@
-// hw-manifest CLI —— 由 SUMMARY.md + frontmatter + 磁盘扫描生成 content-manifest.json。
+// book-manifest CLI —— 由 SUMMARY.md + frontmatter + 磁盘扫描生成 content-manifest.json。
 // 用法：node src/cli.ts [--src <docs目录>] [--out <输出JSON>] [--appId <id>]
-// 默认：--src docs  --out .generated/content-manifest.json  --appId handbook
+// 默认：--src docs  --out .generated/content-manifest.json  --appId book（各 app 均显式传 --appId）
 
 import * as fs from 'node:fs'
 import * as path from 'node:path'
@@ -14,7 +14,7 @@ function arg(name: string, fallback: string): string {
 const src = arg('src', 'docs')
 const out = arg('out', path.join('.generated', 'content-manifest.json'))
 const catalogOut = arg('catalogOut', '')
-const appId = arg('appId', 'handbook')
+const appId = arg('appId', 'book')
 
 const manifest = buildManifest(src, appId)
 const imageTotal = manifest.docs.reduce((a, d) => a + d.images.length, 0)
@@ -38,7 +38,7 @@ if (catalogOut) {
     catalog: { entries, titleById, linkById }
   }
   const body =
-    '// 本文件由 @hw/content-core 自动生成，请勿手改（纯数据，浏览器端可安全 import）。\n' +
+    '// 本文件由 @lubook/content-core 自动生成，请勿手改（纯数据，浏览器端可安全 import）。\n' +
     `export const contentRevision = ${JSON.stringify(payload.contentRevision)}\n` +
     `export const totalChapters = ${payload.totalChapters}\n` +
     `export const catalog = ${JSON.stringify(payload.catalog, null, 2)}\n`

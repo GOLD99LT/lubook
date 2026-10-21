@@ -1,7 +1,7 @@
-// 薄 config：通用规则全部来自 @hw/shared-config，站点数据来自 content.config。
-// sidebar 为预构建生成物（gen:sidebar）；默认根 base，可用 VP_BASE 环境变量覆盖
-// （如部署到子路径：VP_BASE='/<app>/' pnpm docs:build）。
-import { defineHwConfig } from '@hw/shared-config'
+// 薄 config：通用规则全部来自 @lubook/shared-config，站点数据来自 content.config。
+// sidebar 为预构建生成物（gen:sidebar）；base 由 VP_BASE 环境变量派生
+// （门户=VP_BASE，分册=VP_BASE+'<slug>/'，详见 ADR-0006）。
+import { defineBookConfig } from '@lubook/shared-config'
 import sidebar from './sidebar.generated.mjs'
 import {
   APP_ID,
@@ -13,7 +13,7 @@ import {
   SOCIAL_LINKS
 } from '../../content.config'
 
-export default defineHwConfig({
+export default defineBookConfig({
   appId: APP_ID,
   title: TITLE,
   description: DESCRIPTION,

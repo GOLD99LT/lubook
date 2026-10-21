@@ -1,9 +1,9 @@
 {
-  "name": "@hw/site-template",
+  "name": "@lubook/site-template",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "新专项脚手架：复制到 apps/<app> 后改 appId/title/base 即可；与正式 app 同形态（@hw/shared-config + @hw/theme + @hw/content-core + @hw/learning）。",
+  "description": "新专项脚手架：复制到 apps/<app> 后改 appId/title/base 即可；与正式 app 同形态（@lubook/shared-config + @lubook/theme + @lubook/content-core + @lubook/learning）。",
   "scripts": {
     "gen:sidebar": "python ../../packages/tooling/src/build_vp_sidebar.py --src docs",
     "gen:catalog": "node ../../packages/content-core/src/cli.ts --appId site-template --src docs --out ../../.generated/site-template-manifest.json --catalogOut docs/.vitepress/catalog.generated.mjs",
@@ -15,10 +15,10 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@hw/content-core": "workspace:*",
-    "@hw/learning": "workspace:*",
-    "@hw/shared-config": "workspace:*",
-    "@hw/theme": "workspace:*",
+    "@lubook/content-core": "workspace:*",
+    "@lubook/learning": "workspace:*",
+    "@lubook/shared-config": "workspace:*",
+    "@lubook/theme": "workspace:*",
     "vue": "^3.5.43"
   },
   "devDependencies": {

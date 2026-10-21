@@ -1,15 +1,15 @@
-// apps/handbook/content.config.ts —— 手册 app 的站点元数据与装配（part registry）。
+// apps/hardware/content.config.ts —— 硬件分册 app 的站点元数据与装配（part registry）。
 //
 // 本文件【不在运行时访问文件系统】：catalog / contentRevision / totalChapters 来自
 // 预构建生成的静态模块（docs/.vitepress/catalog.generated.mjs），因此浏览器端也能安全
 // import。仓储在模块加载时创建并注册全部已知章节，使导入数据时未知章节正确进入 tombstone。
 import type { DefaultTheme } from 'vitepress'
-import { createLearningRepository } from '@hw/learning'
-import type { CatalogProvider } from '@hw/theme'
+import { createLearningRepository } from '@lubook/learning'
+import type { CatalogProvider } from '@lubook/theme'
 
 import { catalog, contentRevision, totalChapters } from './docs/.vitepress/catalog.generated.mjs'
 
-export const APP_ID = 'handbook'
+export const APP_ID = 'hardware'
 export const TITLE = '硬件工程师手册'
 export const DESCRIPTION =
   '一本开源、可交互的硬件工程师学习手册：从电路基础到电源、PCB 与 EMC，含原理图、公式推导、设计示例与面试题库。'
@@ -38,15 +38,18 @@ export const NAV: DefaultTheme.NavItem[] = [
 ]
 
 export const SOCIAL_LINKS: DefaultTheme.SocialLink[] = [
-  { icon: 'github', link: 'https://github.com/GOLD99LT/hardware-handbook' }
+  { icon: 'github', link: 'https://github.com/GOLD99LT/lubook' }
 ]
 
 export { catalog, contentRevision, totalChapters }
 
 // 学习仓储：创建后逐章注册（catalog 含全部 140 章），避免现行章被误判为 tombstone。
+// 旧键迁移：hh.v1.learning（最早全局）→ hb.v1.handbook.learning（旧 app 键）→
+// lubook.v1.hardware.learning（新键）；旧键保留，合并以最新 updatedAt。
 export const repository = createLearningRepository({
   appId: APP_ID,
   totalChapters,
-  contentRevision
+  contentRevision,
+  legacyKeys: ['hh.v1.learning', 'hb.v1.handbook.learning']
 })
 catalog.entries.forEach((e) => repository.getChapter(e.id))

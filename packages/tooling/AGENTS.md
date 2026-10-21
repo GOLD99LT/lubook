@@ -1,20 +1,20 @@
 # AGENTS.md — 智能体协作任务书
 
-本文件是 hardware-handbook 工程中所有 AI 智能体的工作规范。新增篇章、新增 Agent 时在此追加，不改动既有条目。
+本文件是路书 Lubook 工程中所有 AI 智能体的工作规范。新增篇章、新增 Agent 时在此追加，不改动既有条目。
 
 > Monorepo 总规范见根 [`../../AGENTS.md`](../../AGENTS.md)，操作步骤见 [`../../docs/PLAYBOOK.md`](../../docs/PLAYBOOK.md)；本文件聚焦「内容写作与质检」。
 
 ## 1. 工程概述
 
-- 目标：生产一本开源硬件工程师手册（Markdown 为唯一事实来源），可构建为单文件 HTML、可发布为网站。
-- 内容按 `apps/handbook/docs/SUMMARY.md` 装配；章节文件分布在 `apps/handbook/docs/<篇>/`。
+- 目标：生产路书各分册（Markdown 为唯一事实来源），可构建为单文件 HTML、可发布为网站，门户统一聚合。
+- 内容按各分册 `apps/<app>/docs/SUMMARY.md` 装配；章节文件分布在 `apps/<app>/docs/<篇>/`。
 - Agent 之间通过**文件系统**交接，不依赖对话上下文。
 
 ## 2. 文件与命名约定
 
 - 每章一个 Markdown 文件，文件名 = 语义 id（小写英文、连字符），如 `inverting-amplifier.md`。
 - **章节 id 即相对路径**（如 `opamp/inverting-amplifier.md`），frontmatter 不再手写 `id`，也不回填 `status/sources`（见 ADR-0002）。
-- 原理图放 `apps/handbook/docs/assets/schematics/<id>.svg`；风格遵循 `packages/tooling/templates/schematic-library.svg`。
+- 原理图放 `apps/<app>/docs/assets/schematics/<id>.svg`；风格遵循 `packages/tooling/templates/schematic-library.svg`。
 - 稳定路径一旦发布不可更改（改路径=URL 变更，须 ADR）；显示编号由构建时按 SUMMARY 顺序生成，正文中禁止手写"第 N 章"。
 - 交叉引用链接相对路径文件，如 `[反相放大器](../opamp/inverting-amplifier.md)`。
 
@@ -60,8 +60,8 @@ difficulty: 2                # 必填 1入门/2进阶/3深入
 
 ### 写作 Agents（每篇一个，可并行）
 
-- 输入：`apps/handbook/docs/SUMMARY.md` 中该篇条目、`packages/tooling/templates/chapter.md`、`sources/` 中相关资料、本规范。
-- 输出：该篇所有 Markdown 文件 + 原理图 SVG，写入对应 `apps/handbook/docs/<篇>/`。
+- 输入：`apps/<app>/docs/SUMMARY.md` 中该篇条目、`packages/tooling/templates/chapter.md`、`sources/` 中相关资料、本规范。
+- 输出：该篇所有 Markdown 文件 + 原理图 SVG，写入对应 `apps/<app>/docs/<篇>/`。
 - 单个 Agent 负责不超过 15 章；超过则拆分为多个 Agent（如 part3 可拆为 core/circuits 两个）。
 - 每章必须完成模板的 11 个模块；基础层与 `::: advanced` 分层。
 - 电路章必须含：原理图、静态分析、动态分析（含波形）、环路分析（结论+进阶推导）、取值计算、设计示例、坑、自测题、来源。

@@ -16,7 +16,7 @@ features:
   - title: 与正式 app 同形态
     details: 五类容器 / KaTeX / ECharts / 折叠题 / 学习面板开箱即用
   - title: 数据按 appId 隔离
-    details: 学习进度/笔记/收藏存 hb.v1.<appId>.learning，互不串扰
+    details: 学习进度/笔记/收藏存 lubook.v1.<appId>.learning，互不串扰
   - title: 离线单文件
     details: packages/tooling 的 build_single_html.py 可按 manifest 生成自包含 HTML
 ---

@@ -1,9 +1,9 @@
-// @hw/learning — LearningRepository：学习数据仓储化。
+// @lubook/learning — LearningRepository：学习数据仓储化。
 // 按 appId 隔离（localStorage），支持一次性旧键迁移、导入导出（merge/replace）、未知章节 tombstone。
 // UI 只依赖本接口，不直接碰 localStorage；本版不引入 IndexedDB（见 ARCHITECTURE §5 / §14.3）。
 import { reactive } from 'vue'
 
-// ---- 契约类型（@hw/theme 依赖同一接口，命名/字段不可改）----
+// ---- 契约类型（@lubook/theme 依赖同一接口，命名/字段不可改）----
 
 export type ChapterStatus = 'done' | 'learning'
 
@@ -58,13 +58,23 @@ export interface CreateLearningRepositoryOptions {
   contentRevision?: string
   /** 可注入的存储（测试用内存 Storage）；缺省时浏览器用 localStorage，SSR/无 localStorage 用内存实现 */
   storage?: Storage
+  /**
+   * 旧键列表（按从旧到新排序）：新键不存在时，依次读取并合并，迁移后保留旧键。
+   * 兼容两种形态：旧全局键（OldShape：version/notes 为字符串）与
+   * 旧 app 键（PersistedShape：schemaVersion/appId/notes 为对象）。
+   */
+  legacyKeys?: string[]
 }
 
 // ---- 常量 ----
 
-/** 旧版全局键（docs/.vitepress 旧 store）。一次性迁移后保留，不删除。 */
+/** 最早的全局键（docs/.vitepress 旧 store，OldShape）。迁移后保留，不删除。 */
 const OLD_KEY = 'hh.v1.learning'
+/** 新键前缀（ADR-0006：lubook.v1.<slug>.learning）。 */
+const NEW_KEY_PREFIX = 'lubook.v1'
 const SCHEMA_VERSION = 1 as const
+/** 无时间戳的旧全局笔记在合并时使用的纪元（低于任何真实 updatedAt）。 */
+const LEGACY_EPOCH = '1970-01-01T00:00:00.000Z'
 const NOTE_MAX_LEN = 100_000 // 单条笔记字符上限
 const NOTES_TOTAL_MAX = 5 * 1024 * 1024 // 笔记总字符上限（5MB）
 
@@ -97,7 +107,7 @@ function safeParse(s: string): unknown {
 
 function warn(...args: unknown[]): void {
   if (typeof console !== 'undefined' && typeof console.warn === 'function') {
-    console.warn('[hw/learning]', ...args)
+    console.warn('[lubook/learning]', ...args)
   }
 }
 
@@ -183,7 +193,11 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
   const appId = opts.appId
   const totalChapters = opts.totalChapters
   const defaultRevision = opts.contentRevision ?? 'unknown'
-  const newKey = `hb.v1.${appId}.learning`
+  const newKey = `${NEW_KEY_PREFIX}.${appId}.learning`
+  // 旧键：app 显式传入（从旧到新）；最早的全局键始终纳入最前。
+  const legacyKeys = [OLD_KEY, ...(opts.legacyKeys ?? [])].filter(
+    (k, i, arr) => arr.indexOf(k) === i
+  )
 
   const storage = resolveStorage(opts.storage)
 
@@ -222,7 +236,7 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     }
   }
 
-  // ---- 启动：加载新键，或一次性迁移旧键（保留旧键）----
+  // ---- 启动：加载新键；不存在则合并迁移所有旧键（保留旧键）----
   function boot(): void {
     try {
       const rawNew = storage.getItem(newKey)
@@ -238,31 +252,89 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
         warn('新格式数据缺失或损坏，按空数据启动', parsed)
         return
       }
-      // 新键不存在 → 尝试迁移旧键
-      const rawOld = storage.getItem(OLD_KEY)
-      if (rawOld) {
-        const old = safeParse(rawOld) as OldShape | null
-        if (old && old.version === 1) {
-          migrateFromOld(old)
-          // 注意：保留旧键，不调用 removeItem(OLD_KEY)
-        }
+      // 新键不存在 → 依次读取旧键（从旧到新），归一化后合并
+      const sources: Normalized[] = []
+      for (const key of legacyKeys) {
+        const raw = storage.getItem(key)
+        if (!raw) continue
+        const n = readLegacy(raw)
+        if (n) sources.push(n)
+      }
+      if (sources.length) {
+        const merged = mergeSources(sources)
+        state.progress = merged.progress
+        state.favorites = merged.favorites
+        state.notes = merged.notes
+        seedKnown()
+        persist() // 写新键；所有旧键保留
       }
     } catch (e) {
       warn('启动加载失败', e)
     }
   }
 
-  function migrateFromOld(old: OldShape): void {
-    const now = new Date().toISOString()
-    state.progress = normalizeProgress(old.progress)
-    state.favorites = normalizeFavorites(old.favorites)
-    const notes: PersistedShape['notes'] = {}
-    for (const [id, text] of Object.entries(old.notes ?? {})) {
-      if (typeof text === 'string' && text) notes[id] = { text, updatedAt: now }
+  /** 归一化中间形态（notes 均为 {text,updatedAt}）。 */
+  interface Normalized {
+    progress: Record<string, ChapterStatus>
+    favorites: Record<string, boolean>
+    notes: Record<string, { text: string; updatedAt: string }>
+  }
+
+  /** 读取一个旧键，自动识别 OldShape（version）/ PersistedShape（schemaVersion）。 */
+  function readLegacy(raw: string): Normalized | null {
+    const data = safeParse(raw)
+    if (!data || typeof data !== 'object') return null
+    const o = data as Record<string, unknown>
+    // 旧 app 键：PersistedShape
+    if (o.schemaVersion === SCHEMA_VERSION) {
+      // 允许 appId 与当前不同（如 handbook -> hardware），数据按章 id 迁移。
+      try {
+        return {
+          progress: normalizeProgress(o.progress),
+          favorites: normalizeFavorites(o.favorites),
+          notes: normalizeNotes(o.notes)
+        }
+      } catch (e) {
+        warn('旧 app 键数据损坏，已跳过', e)
+        return null
+      }
     }
-    state.notes = notes
-    seedKnown()
-    persist() // 写新键；旧键保留
+    // 最早全局键：OldShape（version=1，notes 为字符串，无时间戳）
+    if (o.version === 1) {
+      const old = o as unknown as OldShape
+      // 无原始时间戳：标记为最早纪元，使任何带真实 updatedAt 的新来源在合并时胜出。
+      const notes: Normalized['notes'] = {}
+      for (const [id, text] of Object.entries(old.notes ?? {})) {
+        if (typeof text === 'string' && text) notes[id] = { text, updatedAt: LEGACY_EPOCH }
+      }
+      try {
+        return {
+          progress: normalizeProgress(old.progress),
+          favorites: normalizeFavorites(old.favorites),
+          notes
+        }
+      } catch (e) {
+        warn('旧全局键数据损坏，已跳过', e)
+        return null
+      }
+    }
+    return null
+  }
+
+  /** 合并多个归一化来源（从旧到新）：后者覆盖前者 progress/favorites；notes 取 updatedAt 最新。 */
+  function mergeSources(sources: Normalized[]): Normalized {
+    const progress: Record<string, ChapterStatus> = {}
+    const favorites: Record<string, boolean> = {}
+    const notes: Record<string, { text: string; updatedAt: string }> = {}
+    for (const s of sources) {
+      for (const [id, v] of Object.entries(s.progress)) progress[id] = v
+      for (const [id, v] of Object.entries(s.favorites)) favorites[id] = v
+      for (const [id, n] of Object.entries(s.notes)) {
+        const prev = notes[id]
+        if (!prev || n.updatedAt >= prev.updatedAt) notes[id] = { ...n }
+      }
+    }
+    return { progress, favorites, notes }
   }
 
   // ---- 仓储方法 ----
@@ -448,3 +520,4 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
 }
 
 export const OLD_STORAGE_KEY = OLD_KEY
+export const NEW_STORAGE_KEY_PREFIX = NEW_KEY_PREFIX

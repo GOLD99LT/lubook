@@ -1,17 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="硬件工程师手册">
-  <style>
-    .badge { fill: #1a4f8b; }
-    @media (prefers-color-scheme: dark) { .badge { fill: #2f6fc4; } }
-  </style>
-  <rect class="badge" x="3" y="3" width="58" height="58" rx="16"/>
-  <g fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20 16 L20 48 L48 32 Z"/>
-    <path d="M11 22 H20"/>
-    <path d="M11 42 H20"/>
-    <path d="M48 32 H53"/>
-    <path d="M53 32 q1.3 -3.8 2.6 0 t2.6 0"/>
-    <path d="M23.6 24 H27.4"/>
-    <path d="M25.5 22.1 V25.9"/>
-    <path d="M23.6 40 H27.4"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="路书">
+  <rect width="64" height="64" rx="14" fill="#101821"/>
+  <path d="M20 44 L20 35 Q20 28 27 28 L36 28 Q43 28 43 21"
+        fill="none" stroke="#d99a4e" stroke-width="3.2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="20" cy="44" r="3.6" fill="none" stroke="#d99a4e" stroke-width="2.8"/>
+  <circle cx="43" cy="21" r="4" fill="#d99a4e"/>
 </svg>

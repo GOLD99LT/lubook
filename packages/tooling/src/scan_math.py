@@ -6,9 +6,9 @@
 """
 import os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from paths_util import add_common_args
+from paths_util import add_common_args, resolve_src
 _args, _ = add_common_args().parse_known_args()
-DOCS = os.path.abspath(_args.src)
+DOCS = resolve_src(_args)
 
 CJK = re.compile(r'[\u4e00-\u9fff]')
 # KaTeX 不直接支持或应使用命令的 Unicode

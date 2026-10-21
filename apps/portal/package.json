@@ -1,0 +1,23 @@
+{
+  "name": "@lubook/portal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "路书门户：品牌首页 + 各分册入口（极简，无章节目录/学习）。",
+  "scripts": {
+    "gen:public": "python ../../packages/tooling/src/sync_public.py --app portal",
+    "predocs:dev": "pnpm run gen:public",
+    "predocs:build": "pnpm run gen:public",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "@lubook/shared-config": "workspace:*",
+    "@lubook/theme": "workspace:*",
+    "vue": "^3.5.43"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}

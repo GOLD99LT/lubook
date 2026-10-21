@@ -47,6 +47,11 @@ docs/public/
 # Monorepo 重构 P0 起的生成物（由 tools/freeze_manifest.py 生成，不入库；快照在 tests/ 入库）
 .generated/
 
+# 多 app 合并部署目录（build_pages_bundle.py 产出）；本地预览根（不入库）
+.bundle/
+.bundle_test/
+.preview_root/
+
 # P2 起：apps/templates 内 VitePress 生成的侧边栏/目录模块与同步的 public（不入库）
 **/.vitepress/sidebar.generated.mjs
 **/.vitepress/catalog.generated.mjs

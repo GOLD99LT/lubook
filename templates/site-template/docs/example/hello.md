@@ -10,10 +10,10 @@ difficulty: 1
 
 这是 `templates/site-template` 的示例章，验证共享工具链在空 app 下即可工作：
 
-- `pnpm --filter @hw/site-template gen` 生成 sidebar 与 catalog（Python + Node，零第三方依赖）；
-- `pnpm --filter @hw/site-template docs:dev` 可启动、HMR 正常；
-- `pnpm --filter @hw/site-template docs:build` 0 错误（SSR 成功）；
-- `pnpm --filter @hw/site-template docs:preview` 可加载产物；
+- `pnpm --filter @lubook/site-template gen` 生成 sidebar 与 catalog（Python + Node，零第三方依赖）；
+- `pnpm --filter @lubook/site-template docs:dev` 可启动、HMR 正常；
+- `pnpm --filter @lubook/site-template docs:build` 0 错误（SSR 成功）；
+- `pnpm --filter @lubook/site-template docs:preview` 可加载产物；
 - 五类容器、KaTeX 公式、ECharts 围栏、折叠题、学习面板（在学/已学/收藏/笔记）均可用。
 
 ## 公式与容器自检

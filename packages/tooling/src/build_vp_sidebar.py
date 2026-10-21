@@ -16,9 +16,9 @@ build_vp_sidebar.py — 由 docs/SUMMARY.md + 各章 frontmatter 自动生成 Vi
 import os, re, sys, json
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from paths_util import add_common_args, REPO_ROOT
+from paths_util import add_common_args, resolve_src, REPO_ROOT
 _args, _ = add_common_args().parse_known_args()
-DOCS = os.path.abspath(_args.src)
+DOCS = resolve_src(_args)
 OUT = os.path.abspath(_args.out) if _args.out else os.path.join(
     DOCS, '.vitepress', 'sidebar.generated.mjs')
 

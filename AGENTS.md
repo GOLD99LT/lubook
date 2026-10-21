@@ -1,37 +1,38 @@
-# AGENTS.md — Monorepo 智能体协作规范（根）
+# AGENTS.md — 路书 Lubook 智能体协作规范（根）
 
-本文件是所有 AI 智能体在本仓库工作的**根规范**。内容生产细则见 [`packages/tooling/AGENTS.md`](packages/tooling/AGENTS.md)；操作步骤见 [`docs/PLAYBOOK.md`](docs/PLAYBOOK.md)；权威蓝图是 [`ARCHITECTURE.md`](ARCHITECTURE.md)。
+本文件是所有 AI 智能体在本仓库工作的**根规范**。命名宪法见 [`docs/NAMING.md`](docs/NAMING.md)；内容生产细则见 [`packages/tooling/AGENTS.md`](packages/tooling/AGENTS.md)；操作步骤见 [`docs/PLAYBOOK.md`](docs/PLAYBOOK.md)；权威蓝图是 [`ARCHITECTURE.md`](ARCHITECTURE.md)。
 
 ## 1. 工程是什么
 
-开源硬件学习生态，**pnpm Monorepo**：`apps/handbook` 是 140 章的硬件工程师手册；`packages/*` 提供共享配置/主题/内容内核/学习仓储；`packages/tooling` 是 Python 离线构建与质检；`templates/site-template` 是新专项脚手架。两种交付形态长期并存：在线 VitePress 与离线单文件 HTML，共用同一份 Markdown。
+「路书 Lubook」是作者路先生的开源个人知识手册合集，**pnpm Monorepo**：`apps/portal` 是占根的极简门户（品牌首页 + 分册卡片）；`apps/hardware` 是 140 章的硬件工程师手册；`packages/*` 提供共享配置/主题/内容内核/学习仓储；`packages/tooling` 是 Python 离线构建、质检与 bundle 组装；`templates/site-template` 是新分册脚手架。两种交付形态长期并存：在线 VitePress 与离线单文件 HTML，共用同一份 Markdown。
 
 ## 2. 不可违反的不变量（违反即返工）
 
 1. **Markdown 是唯一事实源**；内容文件只 `git mv`，Git 对内容仅见 rename，不改写 140 章正文与 411 SVG。
-2. **现有线上 URL 永不变**；路由快照（`tests/routes.snapshot.json`）必须零差异，任何 URL 变更先写 ADR。
+2. **现有线上 URL 永不变**；路由快照（`tests/<app>.routes.snapshot.json`）必须零差异，任何 URL 变更先写 ADR。
 3. **不把 Python 离线/质检重写为 Node**；离线构建保持零第三方依赖。
 4. **不回填** 140 章 id/status/sources（id 即相对路径）；不引入 IndexedDB；不建审核状态机/CODEOWNERS。
-5. 不做 embedded/portal/仿真/题库/计算器/Giscus/PWA/云同步/后端/英文版（P4/P5 立项后再说）。
-6. 不部署、不合并 main、不 push，除非用户明确授权。
+5. 不做 embedded/embedded-linux 实际内容、门户增强/仿真/题库/计算器/Giscus/PWA/云同步/后端/英文版（P4/P5 立项后再说）。
+6. 不部署、不合并 main、不 push、不改 GitHub 仓库设置、不碰 Cloudflare 项目、不买域名，除非用户明确授权。
 7. pnpm 无法启用时**停下反馈**，禁止擅自降级或换 npm/yarn。
 
 ## 3. 常用命令
 
 ```bash
 pnpm install                         # 安装/链接全部 workspace
-pnpm --filter @hw/handbook docs:dev  # 开发
-pnpm --filter @hw/handbook docs:build
-pnpm --filter @hw/site-template docs:build
-pnpm verify                          # 在线+空app构建、learning 单测、质检、离线对账
-python run_quality.py                # manifest 快照 + validate/scan_*
+pnpm dev:portal                      # 开发门户
+pnpm dev:hardware                    # 开发硬件分册
+pnpm build:hardware                  # 构建硬件分册
+pnpm bundle:pages                    # 组装门户+各分册为可整体部署目录
+pnpm verify:all                      # 遍历 apps：构建/质检/离线 + learning 单测
+pnpm quality:hardware                # 硬件分册质检（manifest 快照 + validate/scan_*）
 ```
 
 ## 4. 交接与验证
 
 - 智能体之间以**文件系统**交接，不依赖对话上下文。
 - 产出后必须自证：构建退出码、`run_quality` 各项数字、快照 diff、（必要时）截图结论，而不是「我看着没问题」。
-- 新增生成物要确认已被 `.gitignore` 忽略（`.generated/`、`**/.vitepress/{cache,dist}`、`*.generated.mjs`、`docs/public`、`dist/`、`.shots/`）。
+- 新增生成物要确认已被 `.gitignore` 忽略（`.generated/`、`**/.vitepress/{cache,dist}`、`*.generated.mjs`、`docs/public`、`dist/`、`.shots/`、`.bundle/`）。
 
 ## 5. ADR 触发规则
 
