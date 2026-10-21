@@ -77,7 +77,7 @@ jobs:
       - name: Scaffold build (empty app must pass)
         run: pnpm --filter @lubook/site-template docs:build
 
-      - name: Quality gate (hardware: manifest + validate + scan)
+      - name: "Quality gate (hardware: manifest + validate + scan)"
         run: pnpm quality:hardware
 
       - name: Offline single-file build + manifest reconciliation
