@@ -2,7 +2,36 @@
 
 遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 格式；本项目遵循语义化版本。
 
-## [Unreleased] — Monorepo 重构 v2（已合并 `main` 并部署上线，2026-10-14，main `9cbeb4a`；开发分支 `refactor/monorepo`，基线 tag `pre-monorepo`）
+## [Unreleased] — 品牌重命名为「路书 Lubook」与多 app 门户拓扑（ADR-0006，2026-10-21，分支 `refactor/brand-lubook`，基线 tag `pre-brand`；待用户核实，未 push）
+
+> 内容（140 章 md / 411 SVG）**零改动**，仅 `git mv`；内容 revision 改名前后均为 `sha256-361225735a3a67f4`。
+
+### 新增（Added）
+
+- 极简门户 `apps/portal`（`@lubook/portal`，占根 base）：品牌「路书」+ 副标题「路先生知识手册」+ 分册卡片网格；卡片在门户 `content.config.ts` 的 `PORTAL_CARDS` 集中声明（internal/external；hardware 可用，embedded/embedded-linux 显示「即将上线」占位）。
+- 品牌资产：`BrandMark`（路书 mark）、`BookIcon`（分册线性图标）、`PortalLayout`/`PortalHome`、分册「路书」角标回链 `BackToPortal`；favicon/logo 更新为路书品牌。
+- 工具链：`build_pages_bundle.py`（按 `VP_BASE` 组装门户+各分册为一个可整体部署目录）、`verify_all.py`（遍历 apps）、`sync_public.py`（门户品牌资产同步）。
+- 学习数据 per-app `legacyKeys` 多源迁移；新键 `lubook.v1.<slug>.learning`。
+
+### 变更（Changed）
+
+- pnpm scope `@hw/*` → `@lubook/*`；根包 `hardware-handbook-monorepo` → `lubook-monorepo`。
+- 框架工厂/CLI：`defineHwConfig`→`defineBookConfig`、`createHwTheme`→`createBookTheme`、bin `hw-manifest`→`book-manifest`。
+- `apps/handbook` → `apps/hardware`（558 rename 全 R100）；包 `@lubook/hardware`、`appId` `handbook`→`hardware`；中文书名《硬件工程师手册》保留。
+- base 由 `VP_BASE` 派生（门户=`VP_BASE`，分册=`VP_BASE<slug>/`）；run_quality/离线/快照均按 app 参数化（`tests/<app>.*.snapshot.json`、`dist/<app>.html`）。
+- 社交链接改 `GOLD99LT/lubook`；离线导出文件名按 app 化（`<appId>-learning-…`）。
+- CI：`quality.yml` 多 app 矩阵；`deploy-docs.yml` 用 bundle（`VP_BASE=/lubook/`）+ 部署后 HTTP smoke；`deploy-cloudflare.yml` 用 bundle（`VP_BASE=/`）+ `--project-name=lubook`。
+
+### 修复（Fixed）
+
+- 窄屏（≤640px）多列表格被挤压逐字折行：表格改为横向滚动容器、每列保底 108px（完成既有「表格移动端横向滚动」意图；纯主题 CSS，内容指纹不变）。
+
+### 不变（Preserved）
+
+- 140 章 md 与 411 SVG 归一化 LF 后与 pre-brand(`ff8da96`) 逐字一致；revision `sha256-361225735a3a67f4`（140/418/411，grounds 247，routes 141）。
+- 旧学习键 `hh.v1.learning`、`hb.v1.handbook.learning` 迁移后保留不删；learning 单测 43 passed。
+
+## [0.2.0] — Monorepo 重构 v2（已合并 `main` 并部署上线，2026-10-14，main `9cbeb4a`；开发分支 `refactor/monorepo`，基线 tag `pre-monorepo`）
 
 > 内容（140 章 md / 411 SVG）**零改动**，仅 `git mv`；已发布 URL 全部保持不变。
 

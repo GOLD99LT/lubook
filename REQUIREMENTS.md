@@ -57,7 +57,7 @@
 | 需求 | 状态 | 说明 |
 | --- | --- | --- |
 | 支持长期持续更新、可升级的架构 | 【已规划·待执行】 | Monorepo 方案 `ARCHITECTURE.md` 已出，待你核对 |
-| 主题/组件/工具/质检跨专项复用 | 【已规划·待执行】 | 抽为 `@hw/theme`、`@hw/shared-config`、`packages/tooling` |
+| 主题/组件/工具/质检跨专项复用 | 【已实现】 | 抽为 `@lubook/theme`、`@lubook/shared-config`、`packages/tooling` |
 | 新专项低成本落地 | 【已规划】 | 复制 `templates/site-template` + 写 Markdown |
 | 第一个新专项：**嵌入式软件开发手册** | 【已规划·阶段 4】 | 目录 `apps/embedded`，固件/驱动/RTOS/构建/嵌入式 Linux |
 | 软硬件一体专项 | 【已规划·更后】 | 目录 `apps/hwsw`，硬件 + 软件联调方向 |

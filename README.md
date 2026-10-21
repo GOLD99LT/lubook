@@ -1,27 +1,24 @@
-# Hardware Handbook · 硬件工程师手册
+# 路书 Lubook · 路先生知识手册
 
-> 从零开始、由浅入深的开源硬件知识手册：电路基础 → 元器件 → 模拟电路与运放 → 数字电路 → 单片机硬件 → 电源设计 → PCB/EMC → 测量调试与工程实践。
+> 一个开源、可交互的个人知识手册合集（pnpm Monorepo）：以**门户**为入口，按领域分册，Markdown 是唯一事实源，在线 VitePress 与离线单文件 HTML 双形态。
 >
-> 每章包含原理图、静态/动态分析、环路分析、设计示例、常见坑与自测题。本仓库是 **pnpm Monorepo**：在线 VitePress 与离线单文件 HTML 双形态，共用同一份 Markdown（唯一事实源）。
+> 首个分册《硬件工程师手册》从零开始、由浅入深：电路基础 → 元器件 → 模拟电路与运放 → 数字电路 → 单片机硬件 → 电源设计 → PCB/EMC → 测量调试与工程实践，共 140 章，每章含原理图、静态/动态分析、设计示例、常见坑与自测题。
 
-- 在线阅读：<https://gold99lt.github.io/hardware-handbook/>
-- 国内镜像：<https://hardware-handbook.pages.dev/>
-- 架构蓝图：[`ARCHITECTURE.md`](ARCHITECTURE.md) ｜ 操作手册：[`docs/PLAYBOOK.md`](docs/PLAYBOOK.md) ｜ 贡献指南：[`CONTRIBUTING.md`](CONTRIBUTING.md) ｜ 决策记录：[`docs/adr/`](docs/adr/)
+- 门户入口：<https://gold99lt.github.io/lubook/>
+- 硬件分册：<https://gold99lt.github.io/lubook/hardware/>
+- 国内镜像：<https://lubook.pages.dev/>
+- 命名宪法：[`docs/NAMING.md`](docs/NAMING.md) ｜ 架构蓝图：[`ARCHITECTURE.md`](ARCHITECTURE.md) ｜ 操作手册：[`docs/PLAYBOOK.md`](docs/PLAYBOOK.md) ｜ 贡献指南：[`CONTRIBUTING.md`](CONTRIBUTING.md) ｜ 决策记录：[`docs/adr/`](docs/adr/)
 
-## 内容总览（140 章 + 411 张原理图）
+## 分册与路线
 
-| 篇 | 内容 | 章节数 |
+| 分册 | 内容 | 状态 |
 |---|---|---|
-| 第一篇 | 电路基础 | 14 |
-| 第二篇 | 元器件详解 | 13 |
-| 第三篇 | 模拟电路与运放（核心） | 33 |
-| 第四篇 | 数字电路与逻辑 | 12 |
-| 第五篇 | 单片机与嵌入式硬件 | 13 |
-| 第六篇 | 电源设计 | 12 |
-| 第七篇 | PCB 设计与 EMC | 13 |
-| 第八篇 | 测量、调试与工程实践 | 12 |
-| 第九篇 | 硬件测试与面试题库 | 9 |
-| 附录 | 术语表 / 选型速查 / 实验清单等 | 9 |
+| 门户 `portal` | 路书品牌首页 + 分册导航 | 已上线 |
+| 硬件工程师手册 `hardware` | 140 章 + 411 张原理图 | 已上线 |
+| 嵌入式软件手册 `embedded` | Cortex-M 裸机 / HAL / RTOS | 即将上线（P4 试点） |
+| 嵌入式 Linux 手册 `embedded-linux` | Cortex-A / 启动链 / 设备树 / Yocto / OTA | 即将上线（P4 试点） |
+
+硬件分册 140 章分布：电路基础 14 / 元器件 13 / 模拟电路与运放 33 / 数字电路 12 / 单片机 13 / 电源 12 / PCB 13 / 工程实践 12 / 题库 9 / 附录 9。
 
 ## 环境要求
 
@@ -32,59 +29,56 @@
 
 ```bash
 pnpm install
-pnpm --filter @hw/handbook docs:dev       # 本地开发（自动生成 sidebar/catalog）
-pnpm --filter @hw/handbook docs:build     # 在线构建
-pnpm --filter @hw/handbook docs:preview   # 预览构建产物
+pnpm dev:portal        # 本地开发门户
+pnpm dev:hardware      # 本地开发硬件分册（自动生成 sidebar/catalog）
+pnpm build:hardware    # 构建硬件分册
+pnpm preview:hardware  # 预览构建产物
 ```
 
-## 离线单文件版（无需联网）
+## 多 app 构建与离线单文件
 
 ```bash
-pnpm offline
-# = python packages/tooling/src/freeze_manifest.py
-#   + python packages/tooling/src/build_single_html.py --manifest .generated/content-manifest.json
-# 产物：dist/hardware-handbook.html（约 6 MB，自包含 140 章），并用 manifest 对账
+pnpm bundle:pages      # 组装门户 + 各分册为一个可整体部署目录（VP_BASE=/lubook/）
+pnpm verify:all        # 遍历 apps：构建 + 质检 + 离线 + learning 单测
+pnpm offline:hardware  # 硬件分册离线单文件 dist/hardware.html（自包含 140 章，按 manifest 对账）
 ```
 
 ## 质量门禁
 
-```bash
-pnpm verify      # 在线构建 + 空脚手架构建 + learning 单测 + run_quality + 离线对账
-pnpm quality     # 仅 run_quality：路由/内容快照 + validate/scan_math/scan_grounds/scan_svg_order
-```
+- `pnpm verify:all`：遍历 `apps/*`，门户构建、内容 app 构建 + run_quality（路由/内容快照 + validate/scan_math/scan_grounds/scan_svg_order）+ 离线对账，最后 learning 单测。
+- `pnpm quality:hardware`：仅硬件分册质检。
+- 已发布 URL 受 `tests/<app>.routes.snapshot.json` 保护，任何路径变更须先写 ADR。
 
-## 新增一个专项
+## 新增一个分册
 
-`templates/site-template` 是与正式 app 同形态的脚手架：复制到 `apps/<app>`，改 appId/标题/篇名，写内容即可。详见 [PLAYBOOK 第 9 节](docs/PLAYBOOK.md#9-新增一个专项-app)。
+`templates/site-template` 是与正式 app 同形态的脚手架：复制到 `apps/<app>`，改 appId/标题/篇名，写内容，验证通过后在门户 `apps/portal/content.config.ts` 加卡片。详见 [PLAYBOOK 第 9 节](docs/PLAYBOOK.md)。
 
 ## 仓库结构
 
 ```
-hardware-handbook/
-├── apps/handbook/docs/   # 140 章 Markdown + assets SVG（唯一事实源）+ SUMMARY.md
+lubook-monorepo/
+├── apps/
+│   ├── portal/          # 门户：品牌首页 + 分册卡片
+│   └── hardware/        # 硬件分册：140 章 Markdown + assets SVG（唯一事实源）
 ├── packages/
-│   ├── shared-config/    # defineHwConfig：通用 markdown/搜索/插件
-│   ├── theme/            # 布局、品牌、学习 UI、EChart、图片查看器
-│   ├── content-core/     # 内容 manifest 生成（TS）
-│   ├── learning/         # 学习数据仓储（按 appId 隔离、迁移、导入导出）
-│   └── tooling/          # Python 离线构建/质检/vendor（零第三方依赖）
-├── templates/site-template/  # 新专项脚手架
-├── tests/                # 路由/内容指纹快照（CI 基准）
-├── docs/                 # 活文档：PLAYBOOK + ADR
-└── .github/workflows/    # quality.yml（门禁）、deploy-docs/cloudflare
+│   ├── shared-config/   # defineBookConfig：通用 markdown/搜索/插件
+│   ├── theme/           # 布局、品牌、学习 UI、EChart、图片查看器
+│   ├── content-core/    # 内容 manifest 生成（TS，CLI bin book-manifest）
+│   ├── learning/        # 学习数据仓储（lubook.v1.<slug>.learning、legacyKeys 迁移）
+│   └── tooling/         # Python：bundle 组装/离线构建/质检（零第三方依赖）
+├── templates/site-template/  # 新分册脚手架
+├── tests/               # hardware 路由/内容指纹快照（CI 基准）
+├── docs/                # 活文档：NAMING + PLAYBOOK + ADR
+└── .github/workflows/    # quality.yml（多 app 矩阵）、deploy-docs/cloudflare
 ```
 
 ## 部署
 
-- GitHub Pages（主）：`.github/workflows/deploy-docs.yml`，推 `main` 即构建发布，base `/hardware-handbook/`；首次需在 Settings → Pages 将 Source 设为 **GitHub Actions**。
-- Cloudflare Pages（镜像，根路径）：`deploy-cloudflare.yml` 构建时设 `VP_BASE=/`；控制台绑定方式见 PLAYBOOK。
-- 已发布 URL 受 `tests/routes.snapshot.json` 保护，任何路径变更须先写 ADR。
-
-## 扩展章节
-
-在对应篇目录写 md、在 `apps/handbook/docs/SUMMARY.md` 加一行、重新构建。写作规范见 [`packages/tooling/AGENTS.md`](packages/tooling/AGENTS.md)，破坏性变更/ADR 规则见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
+- GitHub Pages（主）：`deploy-docs.yml`，推 `main` 用 `bundle:pages`（`VP_BASE=/lubook/`）组装并统一发布；门户在根、分册在 `<slug>/`。
+- Cloudflare Pages（镜像，根路径）：`deploy-cloudflare.yml` 用 `bundle:cloudflare`（`VP_BASE=/`），`wrangler pages deploy --project-name=lubook`。
+- 自定义域名（`lubook.dev`）列为 backlog，本期不注册。
 
 ## License
 
 - 代码与构建工具：[MIT License](LICENSE)
-- 文档内容（`apps/handbook/docs/`）：[CC BY-SA 4.0](apps/handbook/docs/LICENSE-docs.md)
+- 文档内容（`apps/hardware/docs/`）：[CC BY-SA 4.0](apps/hardware/docs/LICENSE-docs.md)

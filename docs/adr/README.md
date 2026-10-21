@@ -11,7 +11,7 @@
 | [ADR-0003](ADR-0003.md) | 学习数据仓储化与 appId 隔离 | Accepted |
 | [ADR-0004](ADR-0004.md) | 双形态共用 manifest 对账（Python 离线零依赖保留） | Accepted |
 | [ADR-0005](ADR-0005.md) | 发布制品与 release.json | Proposed（目标，未实施） |
-| [ADR-0006](ADR-0006.md) | 品牌重命名为「路书 Lubook」与多 app 门户拓扑 | Proposed（方案待核实） |
+| [ADR-0006](ADR-0006.md) | 品牌重命名为「路书 Lubook」与多 app 门户拓扑 | Accepted（本地实施完成，待用户核实） |
 
 ## 规则
 

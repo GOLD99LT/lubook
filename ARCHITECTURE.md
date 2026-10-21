@@ -1,8 +1,9 @@
-# 硬件学习生态 · 架构设计与 Monorepo 重构方案（ARCHITECTURE v2）
+# 硬件学习生态 · 架构设计与 Monorepo 重构方案（ARCHITECTURE v3）
 
-> 状态：**已评审通过，进入执行（2026-10-14）**
-> 版本：v2（融合内部方案与外部 Codex R1 评审，用户已"全部同意"）
+> 状态：**v3 品牌重命名与多 app 门户拓扑已落地（2026-10-21，ADR-0006 Accepted）**
+> 版本：v3（在 v2 Monorepo 基础上完成「路书 Lubook」品牌重命名 + 门户占根/分册居子路径拓扑；v2 由内部方案与外部 Codex R1 评审融合，用户已"全部同意"）
 > 决策：1A 2A 3A 4A 5A 6A；并采纳 Codex R1 的路由快照/内容 manifest/统一 verify/学习数据仓储/包边界/发布可追溯；**不采纳** Python→Node 全量重写与 140 章强回填（详见第 14 节"本版明确不做"）。
+> v3 命名与拓扑以 [`docs/NAMING.md`](docs/NAMING.md) 与 [`ADR-0006`](docs/adr/ADR-0006.md) 为准：scope `@lubook/*`、根包 `lubook-monorepo`、门户 `apps/portal` 占根、硬件分册 `apps/hardware`、学习键 `lubook.v1.<slug>.learning`。
 > 被推迟/待评审的建议见 `REQUIREMENTS.md` 附录 A（Backlog，由用户日后逐项评审）。
 
 ---
@@ -40,43 +41,49 @@
 ## 2. 目标架构（pnpm Monorepo）
 
 ```
-hardware-handbook/
+lubook-monorepo/                    # 根包（原 hardware-handbook-monorepo）
 ├─ apps/
-│  └─ handbook/                     # 现有手册迁入（内容零改动）
-│     ├─ docs/                      # 140 章 md + assets/schematics + SUMMARY.md + index.md
-│     ├─ .vitepress/
-│     │  ├─ config.mts              # 薄配置：defineHwConfig(本站项)
-│     │  └─ theme/index.ts          # 引 @hw/theme（可覆盖 Logo/布局）
-│     ├─ content.config.ts          # appId、part registry（篇名）、站点元数据
-│     └─ package.json
+│  ├─ portal/                      # 极简门户（占根 base，品牌「路书」首页）
+│  │  ├─ docs/
+│  │  │  ├─ index.md               # 渲染 PortalHome（品牌 + 分册卡片）
+│  │  │  └─ .vitepress/{config.mts,theme/index.ts}
+│  │  ├─ content.config.ts         # 集中声明 PORTAL_CARDS（internal/external）
+│  │  └─ package.json              # @lubook/portal
+│  └─ hardware/                    # 硬件分册（原 apps/handbook，内容零改动）
+│     ├─ docs/                     # 140 章 md + 411 SVG + assets + SUMMARY + index
+│     ├─ .vitepress/{config.mts,theme/index.ts}
+│     ├─ content.config.ts         # appId=hardware、part registry、legacyKeys
+│     └─ package.json              # @lubook/hardware
 ├─ packages/
-│  ├─ theme/            (@hw/theme)         # 布局、品牌、学习 UI、EChart、图片查看器；只依赖接口
-│  ├─ shared-config/    (@hw/shared-config) # defineHwConfig：通用 markdown/搜索/插件工厂
-│  ├─ content-core/     (@hw/content-core)  # manifest/路由快照/校验（Node/TS，单一内容清单）
-│  ├─ learning/         (@hw/learning)      # LearningRepository、迁移、导入导出（UI 不碰 localStorage）
-│  ├─ tooling/          (Python，非 npm 包)  # 离线构建、质检、vendor（参数化，读 manifest 对账）
-│  ├─ components/                           # 占位：P5 交互组件（仿真/题库/计算器）
-│  └─ svg-kit/                              # 占位：原理图元件/接地标准（后期从 tooling 拆）
-├─ templates/site-template/                  # 新专项脚手架（空内容也能过 verify）
+│  ├─ theme/            (@lubook/theme)        # 布局/品牌/学习 UI/EChart/图片查看器；只依赖接口
+│  ├─ shared-config/    (@lubook/shared-config) # defineBookConfig：通用 markdown/搜索/插件工厂
+│  ├─ content-core/     (@lubook/content-core)  # manifest/路由快照/校验；CLI bin book-manifest
+│  ├─ learning/         (@lubook/learning)      # LearningRepository、legacyKeys 迁移、导入导出
+│  ├─ tooling/          (Python，非 npm 包)       # bundle 组装/离线/质检/快照（参数化，读 manifest）
+│  ├─ components/                            # 占位：P5 交互组件（仿真/题库/计算器）
+│  └─ svg-kit/                               # 占位：原理图元件/接地标准（后期从 tooling 拆）
+├─ templates/site-template/                   # 新专项脚手架（空内容也能过 verify）
 ├─ tests/
-│  ├─ fixtures/                      # frontmatter/公式/图表/学习迁移样本
-│  ├─ routes.snapshot.json           # 已发布 URL 快照（入库，CI 比对基准）
-│  └─ manifest.snapshot.json         # 内容指纹（章节数/标题/图片数/checksum）
-├─ .generated/                      # 生成物：manifest、sidebar、路由表（不入库）
+│  ├─ fixtures/                     # frontmatter/公式/图表/学习迁移样本
+│  ├─ hardware.routes.snapshot.json # 各分册独立 URL 快照（入库，CI 比对基准）
+│  └─ hardware.manifest.snapshot.json # 各分册内容指纹（章节数/标题/图片数/checksum）
+├─ .generated/                     # 生成物：<app>-content-manifest、sidebar、catalog（不入库）
 ├─ docs/
-│  ├─ PLAYBOOK.md
-│  ├─ adr/ADR-0001…0005.md
-│  └─ reference/                    # 接地标准、内容方言、组件/许可证规范
+│  ├─ NAMING.md  PLAYBOOK.md
+│  └─ adr/ADR-0001…0006.md（含 README 索引）
 ├─ .github/workflows/
-│  ├─ deploy-docs.yml                # 改 pnpm + apps/handbook（P2）
-│  └─ quality.yml                    # 新增：pnpm verify 门禁
+│  ├─ quality.yml                   # 多 app 矩阵 + pnpm verify:all 门禁
+│  ├─ deploy-docs.yml               # bundle（VP_BASE=/lubook/）+ 部署后 HTTP smoke
+│  └─ deploy-cloudflare.yml         # bundle（VP_BASE=/）+ wrangler --project-name=lubook
 ├─ package.json  pnpm-workspace.yaml  pnpm-lock.yaml  .npmrc  .node-version
 ├─ ARCHITECTURE.md  REQUIREMENTS.md  CHANGELOG.md  CONTRIBUTING.md  AGENTS.md  README.md
-├─ THIRD_PARTY_LICENSES.md          # KaTeX/ECharts/字体等许可证清单
-└─ dist/                            # 离线单文件（不入库）
+├─ THIRD_PARTY_LICENSES.md         # KaTeX/ECharts/字体等许可证清单
+├─ .bundle/  .bundle_test/         # 可整体部署站点目录（不入库）
+└─ dist/                           # 离线单文件 <app>.html（不入库）
 ```
 
-> 未来：`apps/embedded`（P4，嵌入式软件开发手册）、`apps/hwsw`、`apps/portal`（2 个专项后）。
+> 本地下划线：门户 `apps/portal` 占根 base；硬件分册 `apps/hardware`。
+> 未来：`apps/embedded`（P4 试点 5 章，嵌入式软件开发手册）、`apps/embedded-linux`（P4 试点 4 章，另立第三 app，见 EMBEDDED_PLAN）；更远候选 fpca/power-electronics/pcb-emc/test-measurement/signal-integrity/algorithms-control。
 
 ---
 
@@ -84,7 +91,7 @@ hardware-handbook/
 
 ### 3.1 content-manifest.json（两形态共同的单一事实清单）
 
-由 `@hw/content-core` 从 `SUMMARY.md` + 各章 frontmatter + 磁盘扫描生成（写入 `.generated/`）：
+由 `@lubook/content-core`（CLI bin `book-manifest`）从 `SUMMARY.md` + 各章 frontmatter + 磁盘扫描生成（写入 `.generated/<app>-content-manifest.json`）：
 
 ```ts
 interface ContentManifest {
@@ -116,34 +123,37 @@ interface ContentDoc {
 
 ### 3.2 路由快照（URL 不变的硬门禁）
 
-- `tests/routes.snapshot.json`：现有全部干净 URL 的排序列表，**P0 冻结入库**。
-- `tests/manifest.snapshot.json`：章节数、标题序列、图片总数、SVG 数等指纹。
+- `tests/<app>.routes.snapshot.json`：现有全部干净 URL 的排序列表，**P0 冻结入库**（现 `tests/hardware.routes.snapshot.json`）。
+- `tests/<app>.manifest.snapshot.json`：章节数、标题序列、图片总数、SVG 数等指纹（现 `tests/hardware.manifest.snapshot.json`）。
 - CI / verify：重新生成后与快照 diff，出现删除或变更即失败，需人工更新快照并在 PR 说明（URL 破坏性变更须 ADR）。
 
 ### 3.3 生成器演进
 
-- **P0（零依赖、先冻结）**：用现有 Python 标准库新增 `tools/freeze_manifest.py` 生成 manifest + 两张快照，立刻拿到回归基线。
-- **P1 后**：`@hw/content-core`（TS）成为 manifest 生成主体，纳入 VitePress 构建；Python 离线/质检**只读 manifest JSON 对账**，不重写 Markdown。
+- **P0（零依赖、先冻结）**：用 Python 标准库 `freeze_manifest.py` 生成 manifest + 两张快照，立刻拿到回归基线。
+- **P1 后**：`@lubook/content-core`（TS）成为 manifest 生成主体，纳入 VitePress 构建；Python 离线/质检**只读 manifest JSON 对账**，不重写 Markdown。
 
 ---
 
 ## 4. 共享包设计与边界
 
-- `@hw/shared-config`：`defineHwConfig(options)` 封装五类容器、KaTeX、CJK 加粗、details 折叠、ECharts 围栏、figure 化、frontmatter 修复、本地搜索中文、难度默认名；`options` 含 `appId/title/description/base/sidebar/nav/partRegistry/socialLinks/logo?`。统一设置 `vite.ssr.noExternal=[/@hw\//]`。
-- `@hw/theme`：布局/品牌/学习 UI/EChart/图片查看器；**只依赖 `CatalogProvider` 与 `LearningRepository` 接口**，不 import 任何 app 的 sidebar；默认 Logo/站名可被 app 覆盖。
-- `@hw/content-core`：见第 3 节。
-- `@hw/learning`：见第 5 节。
-- `packages/tooling`（Python）：脚本参数化 `--app/--src/--out/--vendor`，默认对 handbook 等价；`vendor` 平移；读 manifest 对账。
+- `@lubook/shared-config`：`defineBookConfig(options)` 封装五类容器、KaTeX、CJK 加粗、details 折叠、ECharts 围栏、figure 化、frontmatter 修复、本地搜索中文、难度默认名；`options` 含 `appId/title/description/base/sidebar/nav/partRegistry/socialLinks/logo?`。base 由 `deriveBase(appId, VP_BASE)` 派生（门户=VP_BASE，分册=VP_BASE+slug+'/'）。统一设置 `vite.ssr.noExternal=[/@lubook\//]`。
+- `@lubook/theme`：布局/品牌/学习 UI/EChart/图片查看器；**只依赖 `CatalogProvider` 与 `LearningRepository` 接口**，不 import 任何 app 的 sidebar；门户用 `createPortalTheme`（`PortalLayout`），分册用 `createBookTheme`（`LayoutBrand`，含「路书」角标回链）。
+- `@lubook/content-core`：见第 3 节。
+- `@lubook/learning`：见第 5 节。
+- `packages/tooling`（Python）：`build_pages_bundle.py`（bundle 组装）、`verify_all.py`（遍历 apps）、`freeze_manifest.py`、`build_single_html.py`、`run_quality.py` 等均按 `--app/--src/--out` 参数化；读 manifest 对账。
 - 边界铁律：共享包**不得**读取 `apps/<app>` 私有路径；app 只能通过包 API 使用，不改包内部文件。
-- 生成物统一在 `.generated/`（manifest、sidebar、路由表），不入库；缓存按 `内容 checksum + lockfile + toolchain 版本` 失效（B12 完整化在 Backlog）。
+- 生成物统一在 `.generated/`（`<app>-content-manifest`、sidebar、catalog），不入库；缓存按 `内容 checksum + lockfile + toolchain 版本` 失效（B12 完整化在 Backlog）。
 
 ---
 
 ## 5. 学习数据（仓储化 + 迁移加固，本版仍用 localStorage）
 
-- `@hw/learning` 定义 `LearningRepository` 接口（getChapter/putChapter/export/import），UI 只依赖接口，不直接操作 localStorage。
-- 存储 key 按 appId：`hb.v1.<appId>.learning`（handbook=`hb.v1.handbook.learning`）。
-- 一次性迁移：启动时若新 key 不存在而旧 `hh.v1.learning` 存在，读旧写新并**保留旧 key**。
+- `@lubook/learning` 定义 `LearningRepository` 接口（getChapter/putChapter/export/import），UI 只依赖接口，不直接操作 localStorage。
+- 存储 key 按 appId：`lubook.v1.<appId>.learning`（hardware=`lubook.v1.hardware.learning`、portal 无学习数据）。
+- 多源迁移（per-app `legacyKeys`，从旧到新）：新键不存在时依次读取旧键、归一化后合并并写新键，**所有旧键保留不删**。
+  - hardware 迁移链：`hh.v1.learning`（最早全局键，OldShape，notes 为字符串、无时间戳）→ `hb.v1.handbook.learning`（旧 app 键，PersistedShape）→ `lubook.v1.hardware.learning`。
+  - 合并：progress/favorites 后者覆盖前者；notes 按 `updatedAt` 取最新；无时间戳的旧全局笔记标记为最早纪元（`1970-01-01`），不覆盖新来源。
+  - 新 app 默认无 `legacyKeys`。
 - 导出：
   ```ts
   interface LearningExport {
@@ -161,24 +171,25 @@ interface ContentDoc {
 
 ## 6. 离线形态
 
-- 保留 Python 标准库零依赖单文件构建（已验证 140 章、约 5.79MB、0 错误），纳入 `packages/tooling` 参数化。
+- 保留 Python 标准库零依赖单文件构建（已验证 140 章、0 错误），纳入 `packages/tooling` 参数化：`build_single_html.py --app <app> --manifest .generated/<app>-content-manifest.json`，输出 `dist/<app>.html`（如 `dist/hardware.html`）。
 - 离线构建按 `content-manifest.json` 与在线结果对账（章节/标题/图片/资源数量一致）。
+- 离线品牌按 app 化（书名/英文标题/系列/存储前缀）；hardware 沿用 storePrefix `hh` 以保留旧离线笔记。
 - **不做** Python→Node 全量重写。"离线打包改为消费 VitePress 已渲染产物（而非自解析 Markdown）"列为 Backlog B1，仅允许做一个**不阻塞的 POC**，失败即维持现状。
 
 ---
 
 ## 7. 统一 verify 与质量门禁
 
-`pnpm verify`（P0 先用纯 Python `run_quality.py` 实现，P1 后由根脚本统一编排）固定顺序：
+`pnpm verify:all`（`packages/tooling/src/verify_all.py` 遍历 `apps/*`；非内容 app 自动跳过内容检查）每个 app 固定顺序：
 
 1. 工具链/lockfile 版本检查；
-2. 内容 schema/manifest 校验（SUMMARY↔磁盘、id/URL、part、draft 拦截）；
-3. 本地链接/锚点/资源检查（validate）；
-4. SVG XML 与接地规范（scan_grounds、scan_svg_order）；
-5. 数学/容器/details/ECharts 扫描（scan_math 等）；
-6. 生成在线站与离线包，按 manifest 对账；
+2. 构建（`build:<app>`，含 gen sidebar/catalog）；
+3. 内容 app：manifest 快照门禁（SUMMARY↔磁盘、id/URL、part、draft 拦截）；
+4. 内容 app：本地链接/锚点/资源检查（validate）；
+5. 内容 app：SVG XML 与接地规范（scan_grounds、scan_svg_order）；
+6. 内容 app：数学/容器/details/ECharts 扫描（scan_math）+ 离线单文件并按 manifest 对账；
 7. **路由快照比对（删除/变更必须人工批准）**；
-8. 代表页截图（首页 + 代表章，桌面/移动，0 console error、无横向溢出）。
+8. 最后跑学习模块单测（`test:learning`）；代表页截图（门户/首页/代表章，桌面/移动，0 console error、无横向溢出）。
 
 本版**不强制** Playwright/axe/CSP（列 Backlog B9/B10，预留挂点）；**低成本先做**：依赖审计（pnpm audit）、第三方许可证清单 `THIRD_PARTY_LICENSES.md`、保持资源本地化（已满足）。
 
@@ -186,17 +197,26 @@ interface ContentDoc {
 
 ## 8. 构建与部署
 
-- 本地：`pnpm install`、`pnpm dev:handbook`、`pnpm build:handbook`、`pnpm build:all`、`pnpm verify`、`pnpm single:handbook`。
-- GitHub Pages（P2）：corepack/pnpm → `pnpm install --frozen-lockfile` → `pnpm verify` → `pnpm -F handbook build`，产物 `apps/handbook/docs/.vitepress/dist`，base 仍 `/hardware-handbook/`，URL 不变。
-- Cloudflare：构建命令改 pnpm、输出目录改为 app 产物；短期仍直连 Git 构建但用 release.json/快照**对账**。
+- 本地：`pnpm install`、`pnpm dev:<app>`、`pnpm build:<app>`、`pnpm verify:all`、`pnpm offline:<app>`。
+- **base 由 `VP_BASE` 派生**：门户 base=`VP_BASE`，分册 base=`VP_BASE<slug>/`。
+- **bundle 组装**：`build_pages_bundle.py` 按 `VP_BASE` 构建门户与各分册，门户 dist 放输出根、分册 dist 放 `<slug>/`，产出一个可整体上传的站点目录（`.bundle`）。
+- GitHub Pages（`deploy-docs.yml`）：`pnpm install --frozen-lockfile` → `pnpm bundle:pages`（`VP_BASE='/lubook/'`）→ 统一 `upload-pages-artifact` 该 bundle；部署后 smoke job 对门户 `/lubook/`、硬件 `/lubook/hardware/`、代表章做 HTTP 200。
+- Cloudflare（`deploy-cloudflare.yml`）：`pnpm bundle:cloudflare`（`VP_BASE='/'`）→ `wrangler pages deploy .bundle --project-name=lubook`。
 - 中期目标（Backlog B8）：**构建一次、多处发布**——同一 artifact 配 `release.json`（commit SHA、manifest revision、构建时间、Node/pnpm 版本、锁哈希、资源清单）发 Pages 与 Cloudflare（需 Cloudflare API token，届时请用户授权）；部署后跑 HTTP/资源/搜索/旧 URL smoke。
 
 ---
 
-## 9. 新专项脚手架与嵌入式手册
+## 9. 门户、新专项脚手架与嵌入式手册
 
-`templates/site-template/`：最小可构建 app（index、SUMMARY、示例章、薄 config、content.config、package.json），空内容也能过 `verify`。
-新专项（P4）：`cp -r templates/site-template apps/embedded` → 设 `appId='embedded'`、title《嵌入式软件开发手册》、base `/hardware-handbook/embedded/` → 写 md+SUMMARY。先做 3–5 章验证 schema、搜索、学习数据隔离、离线包，再决定门户。
+`templates/site-template/`：最小可构建 app（index、SUMMARY、示例章、薄 config、content.config、package.json），空内容也能过 `verify:all`。
+
+**门户 `apps/portal`（v3，占根）**：极简首页，品牌「路书」+ 副标题「路先生知识手册」+ 分册卡片网格。卡片在门户 `content.config.ts` 的 `PORTAL_CARDS` 集中声明：
+- `internal`：链接到 `<VP_BASE><slug>/`（如 hardware）；`available:false` 渲染非链接占位 +「即将上线」徽章（embedded/embedded-linux）。
+- `external`：新标签页外链（本期不实际接外部站）。
+- 图标统一内联 SVG 线性图标（`BookIcon`），无 emoji。
+
+**新专项（P4）**：`cp -r templates/site-template apps/<slug>` → 设 `appId`、title、part registry → 写 md+SUMMARY；先做 3–5 章验证 schema、搜索、学习数据隔离（`lubook.v1.<slug>.learning`）、离线包，再在门户卡片置为可用。
+- `apps/embedded`（嵌入式软件开发手册，MCU/RTOS，试点 5 章）与 `apps/embedded-linux`（嵌入式 Linux，独立技术栈，试点 4 章）——大纲与边界见 `EMBEDDED_PLAN.md`。
 
 ---
 
@@ -211,11 +231,11 @@ interface ContentDoc {
 
 ## 11. 现状 → 目标 映射（git mv，保留历史）
 
-- `docs/<各篇>`、`docs/quizbank`、`docs/appendix`、`docs/assets`、`SUMMARY.md`、`index.md` → `apps/handbook/docs/…`（内容零改动）。
+- `docs/<各篇>`、`docs/quizbank`、`docs/appendix`、`docs/assets`、`SUMMARY.md`、`index.md` → `apps/handbook/docs/…`（P2，内容零改动），v3 再 `git mv` 到 `apps/hardware/docs/…`。
 - `docs/.vitepress/theme/**` → `packages/theme/src/**`（通用化）。
-- `config.mts` 通用规则 → `packages/shared-config`；手册特有项 → `apps/handbook/.vitepress/config.mts` + `content.config.ts`。
-- `tools/*.py` → `packages/tooling/`（参数化）；`tools/vendor` → `packages/tooling/vendor`。
-- 根 `package.json` 拆为 workspace 根 + `apps/handbook/package.json`。
+- `config.mts` 通用规则 → `packages/shared-config`；手册特有项 → app 的 `config.mts` + `content.config.ts`。
+- `tools/*.py` → `packages/tooling/src/`（参数化）；`tools/vendor` → `packages/tooling/vendor`。
+- 根 `package.json` 拆为 workspace 根 + app 的 `package.json`。
 - 根 `docs/`（内容移走后）→ 活文档。
 - 内容文件 Git 只记录 rename，不记录内容增删。
 
@@ -253,10 +273,23 @@ interface ContentDoc {
 
 ---
 
+## 12.5 v3 品牌重命名与门户拓扑（ADR-0006，2026-10-21，已完成）
+
+- 回滚点：main(`ff8da96`) 打 tag `pre-brand`；切 `refactor/brand-lubook`。
+- **A 本地改名**：根包/scope `@hw→@lubook`、工厂 `defineBookConfig/createBookTheme`、bin `book-manifest`；`apps/handbook→apps/hardware`（558 rename 全 R100）。
+- **B 多 app 地基**：`VP_BASE` 派生、`build_pages_bundle.py`、run_quality/离线/快照按 app 参数化、根脚本与 CI。
+- **C 门户**：`apps/portal` 与分册卡片（hardware 可用，embedded/embedded-linux 占位）。
+- **D 学习数据**：迁移到 `lubook.v1.<slug>.learning`，per-app `legacyKeys` 多源合并 + 43 单测。
+- **E 验证**：`verify:all` 全绿、门户/硬件/代表章桌面+移动截图、浏览器注入旧键实测、离线对账、grep 无残留。
+- **F 文档**：NAMING/ARCHITECTURE/PLAYBOOK/README/CHANGELOG/AGENTS/CONTRIBUTING 更新；ADR-0006 转 Accepted。
+- 停在 `refactor/brand-lubook` 待用户核实，未 push；GitHub 侧（仓库改名/Pages/Cloudflare）核实后另行操作。
+
+---
+
 ## 13. 回滚预案
 
-- 全程在 `refactor/monorepo`；main 与线上始终可部署，未合并可随时放弃。
-- tag `pre-monorepo`；合并后异常可 revert 合并提交或回到该 tag 重部署。
+- v2 全程在 `refactor/monorepo`；v3 全程在 `refactor/brand-lubook`；main 与线上始终可部署，未合并可随时放弃。
+- tag `pre-monorepo`（v2 基线）、`pre-brand`（v3 基线）；合并后异常可 revert 合并提交或回到对应 tag 重部署。
 - 内容仅 rename，回退可完整还原；学习数据迁移保留旧 key，回退不丢用户数据。
 
 ---
@@ -267,7 +300,7 @@ interface ContentDoc {
 2. **不**回填 140 章独立 id/status/sources/review；id=路径，新字段可选（B2–B5）。
 3. **不**引入 IndexedDB，保持 localStorage + 仓储接口（B6）。
 4. **不**建正式技术/编辑审核状态机、不建 CODEOWNERS（B5）。
-5. **不**做 embedded/hwsw/portal 内容、不做仿真/题库/计算器/Giscus/PWA/云同步/后端/英文版（P4/P5）。
+5. **不**做 embedded/embedded-linux 实际内容、不做仿真/题库/计算器/Giscus/PWA/云同步/后端/英文版/门户增强（P4/P5）；门户仅极简卡片。
 6. **不**强制 Playwright/axe/CSP（B9/B10），仅预留 verify 挂点。
 7. **不**部署、不合并、不 push main；全部完成并自审后请用户核实，核实通过再操作。
 8. pnpm 若无法在本机启用，**停下反馈**，不擅自改用其他方案或降级。
@@ -284,3 +317,12 @@ interface ContentDoc {
 6. 旧 `hh.v1.learning` 平滑迁移到 `hb.v1.handbook.learning`，merge/replace 导入与 tombstone 行为正确。
 7. PLAYBOOK + ADR-0001~0005 + CHANGELOG + CONTRIBUTING 落地；site-template 空 app 过 verify。
 8. 分支 CI 绿；release.json 字段就绪（单 artifact 双发列为 B8）。
+
+### 15.5 v3 品牌重命名验收（ADR-0006，已达成）
+
+1. 558 个 rename 全 R100（143 md / 411 svg / 4 配置）；归一化 LF 后 md/svg 与 pre-brand(`ff8da96`) 逐字一致。
+2. 内容 revision 改名前后均为 `sha256-361225735a3a67f4`（140/418/411，grounds 247，routes 141）。
+3. `pnpm install --frozen-lockfile` 成功；`pnpm verify:all` 全绿（portal + hardware 构建、质检、离线、learning 43 单测）。
+4. 门户 `/lubook/`、硬件 `/lubook/hardware/`、代表章均 200；桌面/移动截图 0 console error（仅 favicon 外链 warning）、无横向溢出、无 emoji、图标全 SVG。
+5. 浏览器注入 `hh.v1.learning` + `hb.v1.handbook.learning`，刷新后写入 `lubook.v1.hardware.learning`，进度/收藏/笔记完整、textarea 16px、收藏星 SVG。
+6. 代码/配置/CI 无 `@hw`/`defineHwConfig`/`createHwTheme`/`hw-manifest`/`hardware-handbook` 残留；`hb.v1` 仅作为 legacyKeys 声明与历史文档存在。
