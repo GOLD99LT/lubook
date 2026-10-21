@@ -7,7 +7,9 @@ name: Deploy to Cloudflare Pages (mirror)
 #                            模板 "Cloudflare Pages: Edit" 权限（Account → Cloudflare Pages → Edit）
 #   CLOUDFLARE_ACCOUNT_ID    Dashboard 右侧栏 / 任意域名概览页右下角可见的 32 位账户 ID
 #
-# 项目名：lubook（Pages → Create a project → 先空项目，由 wrangler 首次部署自动创建生产环境）。
+# 项目名：lubook。下面 "Create project" 步骤幂等创建（首次运行自动建项目，之后跳过），
+# 无需在控制台手动建空项目；wrangler 已作为根 devDependency（pnpm exec wrangler），
+# 不再依赖 wrangler-action 在线安装（pnpm 环境下该自动安装会失败）。
 #
 # base 路径：app config 读环境变量 VP_BASE。Cloudflare Pages 部署在项目根域名
 #   （lubook.pages.dev 或自定义域根路径），故下方以 VP_BASE='/' 构建 bundle：
@@ -55,9 +57,15 @@ jobs:
       - name: Build & assemble multi-app bundle (VP_BASE=/)
         run: pnpm bundle:cloudflare
 
+      - name: Create Cloudflare Pages project (idempotent)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          pnpm exec wrangler pages project create lubook --production-branch main || echo "project already exists"
+
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy .bundle --project-name=lubook
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler pages deploy .bundle --project-name=lubook --branch=main

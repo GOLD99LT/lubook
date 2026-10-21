@@ -28,5 +28,8 @@
     "bundle": "python packages/tooling/src/build_pages_bundle.py",
     "bundle:pages": "python packages/tooling/src/build_pages_bundle.py --vp-base /lubook/",
     "bundle:cloudflare": "python packages/tooling/src/build_pages_bundle.py --vp-base /"
+  },
+  "devDependencies": {
+    "wrangler": "^4.151.3"
   }
 }

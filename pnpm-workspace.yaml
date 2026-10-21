@@ -3,6 +3,8 @@ packages:
   - 'packages/*'
   - 'templates/*'
 
-# pnpm 12 设置统一在此：允许 esbuild 运行构建脚本（安装平台二进制）
+# pnpm 12 设置统一在此：允许运行构建脚本的依赖（安装平台二进制）
+# esbuild：VitePress 构建；workerd：wrangler（Cloudflare Pages 部署 CLI）运行时
 allowBuilds:
   esbuild: true
+  workerd: true
