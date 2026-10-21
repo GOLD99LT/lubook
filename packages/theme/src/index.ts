@@ -8,6 +8,8 @@ import DefaultTheme from 'vitepress/theme'
 import type { LearningRepository } from '@lubook/learning'
 
 import Layout from './components/brand/LayoutBrand.vue'
+import PortalLayout from './components/brand/PortalLayout.vue'
+import PortalHome from './components/brand/PortalHome.vue'
 import Logo from './components/brand/Logo.vue'
 import EChart from './components/EChart.vue'
 import LearningPanel from './components/learning/HomePanel.vue'
@@ -23,6 +25,8 @@ export const VERSION = '0.1.0' as const
 
 export type { CatalogEntry, CatalogProvider } from './components/learning/catalog'
 export type { LearningRepository } from '@lubook/learning'
+export { default as PortalHome } from './components/brand/PortalHome.vue'
+export { default as BrandMark } from './components/brand/BrandMark.vue'
 export type {
   ChapterStatus,
   RepositoryStats,
@@ -107,6 +111,52 @@ export function createBookTheme(opts: BookThemeOptions): Theme {
       app.component('Logo', (opts.logo as any) || Logo)
       app.component('LearningPanel', LearningPanel)
       setupFigureZoom()
+    }
+  } satisfies Theme
+}
+
+// ---------------------------------------------------------------------------
+// 门户主题：无学习/目录，仅渲染路书品牌 + 分册卡片
+// ---------------------------------------------------------------------------
+
+/** 门户分册卡片（在门户 content.config 集中声明，ADR-0006 §4）。 */
+export interface PortalCard {
+  /** internal=同站分册（VP_BASE+slug/）；external=外链新标签 */
+  type: 'internal' | 'external'
+  /** internal：分册 slug */
+  slug?: string
+  /** 卡片标题 */
+  title: string
+  /** 卡片描述 */
+  desc: string
+  /** 内联线性图标名（hardware/embedded/linux/external） */
+  icon: string
+  /** internal：false 显示「即将上线」占位（非链接） */
+  available?: boolean
+  /** external：外链 URL */
+  url?: string
+}
+
+export interface PortalThemeOptions {
+  /** 分册卡片列表 */
+  cards: PortalCard[]
+  /** 副标题（默认「路先生知识手册」） */
+  tagline?: string
+  /** 可选简介 */
+  intro?: string
+}
+
+/** 门户主题工厂：注册 PortalHome，使用 PortalLayout（无侧边栏）。 */
+export function createPortalTheme(opts: PortalThemeOptions): Theme {
+  return {
+    extends: DefaultTheme,
+    Layout: PortalLayout,
+    enhanceApp({ app }) {
+      app.component('PortalHome', PortalHome)
+      // 卡片数据通过全局属性提供给首页 md
+      app.config.globalProperties.$portalCards = opts.cards
+      app.config.globalProperties.$portalTagline = opts.tagline
+      app.config.globalProperties.$portalIntro = opts.intro
     }
   } satisfies Theme
 }

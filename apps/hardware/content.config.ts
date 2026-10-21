@@ -38,7 +38,7 @@ export const NAV: DefaultTheme.NavItem[] = [
 ]
 
 export const SOCIAL_LINKS: DefaultTheme.SocialLink[] = [
-  { icon: 'github', link: 'https://github.com/GOLD99LT/hardware-handbook' }
+  { icon: 'github', link: 'https://github.com/GOLD99LT/lubook' }
 ]
 
 export { catalog, contentRevision, totalChapters }

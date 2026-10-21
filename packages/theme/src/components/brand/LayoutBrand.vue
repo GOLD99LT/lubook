@@ -2,6 +2,7 @@
 import DefaultTheme from 'vitepress/theme'
 import SidebarProgress from '../learning/SidebarProgress.vue'
 import ChapterLearning from '../learning/ChapterLearning.vue'
+import BackToPortal from './BackToPortal.vue'
 // 注意：Logo 不在此局部 import，而是由 createBookTheme 通过 app.component('Logo', ...)
 // 全局注册（默认包内 Logo，app 可经 createBookTheme({ logo }) 覆盖）。
 </script>
@@ -11,6 +12,11 @@ import ChapterLearning from '../learning/ChapterLearning.vue'
     <!-- 导航栏标题前放 ~24px 品牌标识；其余插槽/功能完全沿用默认主题 -->
     <template #nav-bar-title-before>
       <Logo class="nav-brand" :width="32" :height="24" aria-hidden="true" />
+    </template>
+
+    <!-- 导航内容：「路书」角标，回链门户 -->
+    <template #nav-bar-content-before>
+      <BackToPortal />
     </template>
 
     <!-- 侧边栏顶部：整体学习进度（client-only，不影响 SSG/SEO） -->
