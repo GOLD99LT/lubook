@@ -1,7 +1,7 @@
 # Documentation License
 
 The prose, figures, and documentation content in the `docs/` directory of the
-**hardware-handbook** project is licensed under the **Creative Commons
+**lubook** project is licensed under the **Creative Commons
 Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)**.
 
 Full license text: https://creativecommons.org/licenses/by-sa/4.0/legalcode

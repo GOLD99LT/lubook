@@ -62,4 +62,4 @@ features:
 
 ## 许可
 
-本站代码以 [MIT 协议](https://opensource.org/licenses/MIT) 开源；文档内容以 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) 共享。源码与协作见 [GitHub 仓库](https://github.com/GOLD99LT/hardware-handbook)。
+本站代码以 [MIT 协议](https://opensource.org/licenses/MIT) 开源；文档内容以 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) 共享。源码与协作见 [GitHub 仓库](https://github.com/GOLD99LT/lubook)。
