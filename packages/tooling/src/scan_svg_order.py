@@ -4,9 +4,9 @@
 合法的 <?xml ...?> 声明不计为异常。参数化：--src 指定内容源（默认 <repo>/docs）。"""
 import os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from paths_util import add_common_args
+from paths_util import add_common_args, resolve_src
 _args, _ = add_common_args().parse_known_args()
-SD = os.path.join(os.path.abspath(_args.src), 'assets', 'schematics')
+SD = os.path.join(resolve_src(_args), 'assets', 'schematics')
 
 broken, ok = [], []
 for fn in sorted(os.listdir(SD)):

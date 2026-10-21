@@ -7,16 +7,15 @@ name: Deploy to Cloudflare Pages (mirror)
 #                            模板 "Cloudflare Pages: Edit" 权限（Account → Cloudflare Pages → Edit）
 #   CLOUDFLARE_ACCOUNT_ID    Dashboard 右侧栏 / 任意域名概览页右下角可见的 32 位账户 ID
 #
-# 首次运行前还需在 Cloudflare Pages 创建同名项目：hardware-handbook
-# （Pages → Create a project → Connect to Git 或先空项目，由 wrangler 首次部署自动创建生产环境）。
+# 项目名：lubook（Pages → Create a project → 先空项目，由 wrangler 首次部署自动创建生产环境）。
 #
-# ℹ️ base 路径：app config 读环境变量 VP_BASE，默认 '/hardware-handbook/'（GitHub Pages 项目站路径）。
-#    Cloudflare Pages 部署在项目根域名（hardware-handbook.pages.dev 或自定义域根路径），
-#    故下方 Build 步骤设 VP_BASE='/' 以根路径构建；GitHub Pages 流水线不设该变量，保持默认子路径。
+# base 路径：app config 读环境变量 VP_BASE。Cloudflare Pages 部署在项目根域名
+#   （lubook.pages.dev 或自定义域根路径），故下方以 VP_BASE='/' 构建 bundle：
+#   门户在根、分册在 /<slug>/。GitHub Pages 流水线用 VP_BASE=/lubook/。
 
 on:
   workflow_dispatch:
-  # 配置好 Secrets、创建好 Pages 项目、并解决 base 路径后，取消下方注释即可随 main 自动镜像：
+  # 配置好 Secrets、创建好 Pages 项目后，取消下方注释即可随 main 自动镜像：
   # push:
   #   branches:
   #     - main
@@ -53,15 +52,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build VitePress site
-        env:
-          # Cloudflare Pages 部署在根路径，以根 base 构建（config: process.env.VP_BASE || '/hardware-handbook/'）
-          VP_BASE: '/'
-        run: pnpm --filter @hw/handbook docs:build
+      - name: Build & assemble multi-app bundle (VP_BASE=/)
+        run: pnpm bundle:cloudflare
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/handbook/docs/.vitepress/dist --project-name=hardware-handbook
+          command: pages deploy .bundle --project-name=lubook

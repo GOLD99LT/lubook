@@ -2,11 +2,11 @@
 """
 paths_util.py — packages/tooling 共享路径默认值（纯 Python 标准库，零第三方依赖）。
 
-按 ARCHITECTURE §4：脚本参数化 --app/--src/--out/--vendor，默认对 handbook 等价：
-  - app    = 'handbook'
-  - src    = <repo_root>/docs
+按 ARCHITECTURE §4 / ADR-0006：脚本参数化 --app/--src/--out/--vendor，默认对 hardware 等价：
+  - app    = 'hardware'
+  - src    = <repo_root>/apps/hardware/docs
   - vendor = <repo_root>/packages/tooling/vendor
-未传参时默认值与重构前 tools/ 布局等价，保证 run_quality.py 无需额外参数即可跑通。
+未传参时默认值与硬件分册当前布局等价，保证 run_quality.py --app hardware 可跑通。
 """
 import os
 import argparse
@@ -18,7 +18,7 @@ TOOLING_DIR = os.path.dirname(HERE)
 
 
 def find_repo_root(start=None):
-    """向上查找含 ARCHITECTURE.md 的目录作为仓库根（重构前 = 仓库根）。"""
+    """向上查找含 ARCHITECTURE.md 的目录作为仓库根。"""
     d = os.path.abspath(start or HERE)
     while True:
         if os.path.exists(os.path.join(d, 'ARCHITECTURE.md')):
@@ -30,21 +30,51 @@ def find_repo_root(start=None):
 
 
 REPO_ROOT = find_repo_root()
-# P2 起 handbook 内容在 apps/handbook/docs（P0/P1 为 <repo>/docs）
-DEFAULT_SRC = os.path.join(REPO_ROOT, 'apps', 'handbook', 'docs')
+# P2 起内容在 apps/<slug>/docs；品牌重命名后硬件分册为 apps/hardware/docs
+DEFAULT_SRC = os.path.join(REPO_ROOT, 'apps', 'hardware', 'docs')
 DEFAULT_VENDOR = os.path.join(TOOLING_DIR, 'vendor')
 DEFAULT_OUT_DIST = os.path.join(REPO_ROOT, 'dist')
 
 
+def list_apps():
+    """返回 apps/ 下含 package.json 的分册 slug 列表（按目录名排序，含 portal）。"""
+    apps_dir = os.path.join(REPO_ROOT, 'apps')
+    if not os.path.isdir(apps_dir):
+        return []
+    out = []
+    for name in sorted(os.listdir(apps_dir)):
+        if os.path.isfile(os.path.join(apps_dir, name, 'package.json')):
+            out.append(name)
+    return out
+
+
+def app_src(app):
+    """分册内容源目录：apps/<app>/docs。"""
+    return os.path.join(REPO_ROOT, 'apps', app, 'docs')
+
+
+def app_dist(app):
+    """分册 VitePress 构建产物目录：apps/<app>/docs/.vitepress/dist。"""
+    return os.path.join(REPO_ROOT, 'apps', app, 'docs', '.vitepress', 'dist')
+
+
 def add_common_args(parser=None, out_default=None):
-    """给 ArgumentParser 追加 --app/--src/--out/--vendor 四个通用参数。"""
+    """给 ArgumentParser 追加 --app/--src/--out/--vendor 四个通用参数。
+    未显式传 --src 时，--src 随 --app 派生（apps/<app>/docs）。"""
     p = parser or argparse.ArgumentParser()
-    p.add_argument('--app', default='handbook',
-                   help='应用 id（默认 handbook）')
-    p.add_argument('--src', default=DEFAULT_SRC,
-                   help='内容源目录（默认 <repo>/docs）')
+    p.add_argument('--app', default='hardware',
+                   help='应用 slug（默认 hardware）')
+    p.add_argument('--src', default=None,
+                   help='内容源目录（默认 apps/<app>/docs）')
     p.add_argument('--out', default=out_default,
                    help='输出目录/文件（默认见各脚本）')
     p.add_argument('--vendor', default=DEFAULT_VENDOR,
                    help='vendor 资源目录（默认 packages/tooling/vendor）')
     return p
+
+
+def resolve_src(args):
+    """统一口径：--src 显式优先，否则 apps/<app>/docs。"""
+    if getattr(args, 'src', None):
+        return os.path.abspath(args.src)
+    return app_src(getattr(args, 'app', 'hardware'))

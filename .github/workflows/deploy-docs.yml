@@ -23,7 +23,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    # deploy-pages@v4 仅输出 page_url；base 路径（/hardware-handbook/）由 app config 配置，不在此处
     outputs:
       page_url: ${{ steps.deployment.outputs.page_url }}
     steps:
@@ -50,17 +49,39 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build VitePress site
-        run: pnpm --filter @hw/handbook docs:build
+      - name: Build & assemble multi-app bundle (VP_BASE=/lubook/)
+        run: pnpm bundle:pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload artifact (whole bundle)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/handbook/docs/.vitepress/dist
+          path: .bundle
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  smoke:
+    name: Post-deploy HTTP smoke
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Check portal + hardware routes
+        env:
+          BASE_URL: ${{ needs.deploy.outputs.page_url }}
+        run: |
+          set -e
+          portal="${BASE_URL}"
+          hardware="${BASE_URL}hardware/"
+          chapter="${BASE_URL}hardware/basics/voltage-current-power"
+          for url in "$portal" "$hardware" "$chapter"; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' -L "$url")
+            echo "GET $url -> $code"
+            if [ "$code" != "200" ]; then
+              echo "Expected 200 for $url" >&2
+              exit 1
+            fi
+          done

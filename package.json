@@ -3,22 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "硬件学习生态 · pnpm Monorepo（在线 VitePress 多 app + 离线单文件，共享内容内核）",
+  "description": "路书 Lubook · pnpm Monorepo（门户 + 多分册在线 VitePress + 离线单文件，共享内容内核）",
   "packageManager": "pnpm@12.11.2",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
+    "gen:portal": "pnpm -F @lubook/portal gen",
+    "dev:portal": "pnpm -F @lubook/portal docs:dev",
+    "build:portal": "pnpm -F @lubook/portal docs:build",
+    "preview:portal": "pnpm -F @lubook/portal docs:preview",
     "gen:hardware": "pnpm -F @lubook/hardware gen",
     "dev:hardware": "pnpm -F @lubook/hardware docs:dev",
     "build:hardware": "pnpm -F @lubook/hardware docs:build",
     "preview:hardware": "pnpm -F @lubook/hardware docs:preview",
+    "quality:hardware": "python run_quality.py --app hardware",
+    "freeze:hardware": "python packages/tooling/src/freeze_manifest.py --app hardware",
+    "offline:hardware": "pnpm run freeze:hardware; python packages/tooling/src/build_single_html.py --app hardware --manifest .generated/hardware-content-manifest.json",
     "build:template": "pnpm -F @lubook/site-template docs:build",
     "manifest": "pnpm -F @lubook/content-core manifest",
     "manifest:parity": "pnpm -F @lubook/content-core parity",
     "test:learning": "node packages/learning/test/learning.test.ts",
-    "quality": "python run_quality.py",
-    "offline": "python packages/tooling/src/freeze_manifest.py && python packages/tooling/src/build_single_html.py --manifest .generated/hardware-content-manifest.json",
-    "verify": "pnpm build:hardware && pnpm build:template && pnpm test:learning && pnpm quality && pnpm offline"
+    "verify:all": "python packages/tooling/src/verify_all.py",
+    "bundle": "python packages/tooling/src/build_pages_bundle.py",
+    "bundle:pages": "python packages/tooling/src/build_pages_bundle.py --vp-base /lubook/",
+    "bundle:cloudflare": "python packages/tooling/src/build_pages_bundle.py --vp-base /"
   }
 }

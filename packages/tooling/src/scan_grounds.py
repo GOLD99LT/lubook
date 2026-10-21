@@ -3,9 +3,9 @@
 报告位置与尺寸，用于统一规范化。参数化：--src 指定内容源（默认 <repo>/docs）。"""
 import os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from paths_util import add_common_args
+from paths_util import add_common_args, resolve_src
 _args, _ = add_common_args().parse_known_args()
-SDIR = os.path.join(os.path.abspath(_args.src), 'assets', 'schematics')
+SDIR = os.path.join(resolve_src(_args), 'assets', 'schematics')
 
 LINE = re.compile(r'<line\b[^>]*x1="([\d.]+)"[^>]*y1="([\d.]+)"[^>]*x2="([\d.]+)"[^>]*y2="([\d.]+)"[^>]*/?>')
 

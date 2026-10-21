@@ -10,11 +10,11 @@ validate.py — 手册客观质检：frontmatter 完整性、id 一致/唯一、
 import os, re, sys, json, argparse
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from paths_util import add_common_args
+from paths_util import add_common_args, resolve_src
 import build_single_html as B
 
 _args, _rest = add_common_args().parse_known_args()
-B.DOCS = os.path.abspath(_args.src)
+B.DOCS = resolve_src(_args)
 DOCS = B.DOCS
 errors, warnings = [], []
 def err(f, m): errors.append('%s: %s' % (f, m))

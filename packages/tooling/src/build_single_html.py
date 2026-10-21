@@ -30,6 +30,31 @@ def warn(msg):
     print('  [warn] ' + msg)
 
 # ============================================================
+# 离线分册品牌（按 app 区分；中文书名保留，新增「路书」系列角标）
+# storePrefix：离线运行时 localStorage 键前缀；hardware 沿用旧 'hh' 以保留既有离线笔记
+# ============================================================
+OFFLINE_BRANDS = {
+    'hardware': {
+        'book': '硬件工程师手册',
+        'en': 'HARDWARE HANDBOOK',
+        'htmlTitle': '硬件工程师手册 · 路书',
+        'storePrefix': 'hh',
+        'series': '路书 · Lubook 系列',
+    },
+}
+
+def brand_for(app):
+    if app in OFFLINE_BRANDS:
+        return dict(OFFLINE_BRANDS[app])
+    return {
+        'book': app,
+        'en': app.upper(),
+        'htmlTitle': '%s · 路书' % app,
+        'storePrefix': app,
+        'series': '路书 · Lubook 系列',
+    }
+
+# ============================================================
 # YAML 子集解析（frontmatter）
 # ============================================================
 def parse_yaml(text):
@@ -387,6 +412,7 @@ button{font-family:inherit;cursor:pointer}
 .sb-brand{padding:20px 20px 14px;border-bottom:1px solid #1d2a37}
 .sb-brand .logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px;color:#f0f4f8}
 .sb-brand .sub{font-size:12px;color:#6b7a8a;margin-top:5px;padding-left:34px;letter-spacing:1px}
+.sb-brand .series{margin-top:9px;font-size:11px;color:#d99a4e;letter-spacing:.5px;padding-left:2px}
 .sb-search{padding:14px 16px 10px}
 .sb-search input{width:100%;background:#15202b;border:1px solid #243242;border-radius:8px;color:#dde5ec;padding:9px 12px;font-size:13.5px;outline:none;font-family:inherit}
 .sb-search input:focus{border-color:#b5642e}
@@ -528,7 +554,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>硬件工程师手册 · Hardware Handbook</title>
+<title>__HTML_TITLE__</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23101821'/%3E%3Cpolygon points='10,7 10,25 24,16' fill='none' stroke='%23c98a3e' stroke-width='2.4'/%3E%3C/svg%3E">
 __VENDOR__
 <style>__CSS__</style>
@@ -539,9 +565,10 @@ __VENDOR__
     <div class="sb-brand">
       <div class="logo">
         <svg width="24" height="24" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#1d2c3b"/><polygon points="10,7 10,25 24,16" fill="none" stroke="#d99a4e" stroke-width="2.4"/></svg>
-        硬件工程师手册
+        __BOOK_TITLE__
       </div>
-      <div class="sub">HARDWARE HANDBOOK</div>
+      <div class="sub">__BOOK_EN__</div>
+      <div class="series">__SERIES__</div>
     </div>
     <div class="sb-search"><input type="text" id="searchInput" placeholder="搜索知识点，如 虚短 / Buck…"></div>
     <nav class="sb-tree" id="tree">__TREE__</nav>
@@ -563,6 +590,7 @@ __VENDOR__
   </div>
 </div>
 <div class="toast" id="toast"></div>
+<script>window.BRAND=__BRAND__;</script>
 <script>window.SEARCH_DATA=__SEARCH__;</script>
 <script>__RUNTIME__</script>
 </body>
@@ -647,14 +675,15 @@ def plain_text(body):
 
 RUNTIME_JS = r"""
 const CARDS = window.SEARCH_DATA || [];
+const BRAND = window.BRAND || {app:'hardware', storePrefix:'hh'};
 const STORE = {
-  learned: JSON.parse(localStorage.getItem('hh-learned') || '{}'),
-  starred: JSON.parse(localStorage.getItem('hh-starred') || '{}'),
-  notes: JSON.parse(localStorage.getItem('hh-notes') || '{}')
+  learned: JSON.parse(localStorage.getItem(BRAND.storePrefix + '-learned') || '{}'),
+  starred: JSON.parse(localStorage.getItem(BRAND.storePrefix + '-starred') || '{}'),
+  notes: JSON.parse(localStorage.getItem(BRAND.storePrefix + '-notes') || '{}')
 };
 let charts = [];
 const $ = s => document.querySelector(s);
-function save(k){ localStorage.setItem('hh-' + k, JSON.stringify(STORE[k])); }
+function save(k){ localStorage.setItem(BRAND.storePrefix + '-' + k, JSON.stringify(STORE[k])); }
 function cardEl(id){ return document.getElementById('card-' + id); }
 function currentId(){ const s = $('.card.show'); return s ? s.dataset.id : null; }
 
@@ -787,7 +816,7 @@ $('#exportBtn').onclick = () => {
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'hardware-handbook-notes-' + new Date().toISOString().slice(0,10) + '.json';
+  a.download = BRAND.app + '-notes-' + new Date().toISOString().slice(0,10) + '.json';
   a.click(); toast('笔记备份已导出');
 };
 $('#menuBtn').onclick = () => $('#sidebar').classList.toggle('open');
@@ -888,11 +917,15 @@ def main():
     args = ap.parse_args()
 
     global DOCS, DIST, VENDOR
-    DOCS = os.path.abspath(args.src)
+    from paths_util import resolve_src
+    DOCS = resolve_src(args)
     VENDOR = os.path.abspath(args.vendor)
     if args.out:
         DIST = os.path.abspath(args.out)
     _INLINE_BASE[0] = DOCS
+
+    app = args.app
+    brand = brand_for(app)
 
     only_pub = args.published
     cards = collect_cards(only_pub)
@@ -907,15 +940,22 @@ def main():
     search = [{'id': c['id'], 'title': c['title'], 'part': c['part'],
                'tags': c['tags'], 'diff': c['difficulty'],
                'text': plain_text(c['body'])} for c in cards]
+    brand_js = json.dumps({'app': app, 'storePrefix': brand['storePrefix']},
+                          ensure_ascii=False)
     page = (PAGE_TEMPLATE
+            .replace('__HTML_TITLE__', H.escape(brand['htmlTitle']))
+            .replace('__BOOK_TITLE__', H.escape(brand['book']))
+            .replace('__BOOK_EN__', H.escape(brand['en']))
+            .replace('__SERIES__', H.escape(brand['series']))
             .replace('__VENDOR__', load_vendor())
             .replace('__CSS__', CSS_STR)
             .replace('__TREE__', tree)
             .replace('__CARDS__', card_html)
             .replace('__SEARCH__', json.dumps(search, ensure_ascii=False))
+            .replace('__BRAND__', brand_js)
             .replace('__RUNTIME__', RUNTIME_JS))
     os.makedirs(DIST, exist_ok=True)
-    out = os.path.join(DIST, 'hardware-handbook.html')
+    out = os.path.join(DIST, '%s.html' % app)
     open(out, 'w', encoding='utf-8').write(page)
     print('构建完成: %s（%d 章）' % (out, len(cards)))
     if WARNINGS:
