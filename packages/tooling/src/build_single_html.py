@@ -13,7 +13,7 @@ build_single_html.py — 把指定 app 的 Markdown 手册构建为单个自包�
 若传入 --manifest 且文件存在，则在构建后按其对账（章节数/标题/图片引用数）；
 manifest 缺失时维持现状自解析，不重写 Markdown（ARCHITECTURE §6）。
 """
-import os, re, sys, json, base64, html as H
+import os, re, sys, json, base64, html as H, posixpath
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from paths_util import (REPO_ROOT, DEFAULT_SRC, DEFAULT_VENDOR,
@@ -25,6 +25,13 @@ DIST = DEFAULT_OUT_DIST
 VENDOR = DEFAULT_VENDOR
 
 WARNINGS = []
+
+# ---- F07：章节相对路径 <-> 单文件锚点 / frontmatter slug 映射（构建期填充，见 main()）----
+REL_TO_ANCHOR = {}      # 裸 relativePath -> 单文件内安全锚点 id
+SLUG_TO_REL = {}        # frontmatter slug（旧离线 id）-> 裸 relativePath
+KNOWN_RELS = set()      # 本册全部已知 relativePath（导入 tombstone 判定）
+_INLINE_BASE = [DOCS]   # 当前章节图片解析基准目录
+_INLINE_REL = ['']      # 当前章节裸 relativePath（链接相对路径规范化基准）
 def warn(msg):
     WARNINGS.append(msg)
     print('  [warn] ' + msg)
@@ -145,28 +152,109 @@ def attr_escape(s):
             .replace('<', '&lt;').replace('>', '&gt;'))
 
 # ============================================================
-# 行内 Markdown
+# 行内 Markdown（F06：公式原文只在入 data-t 属性时编码一次；F07：链接分类改写）
 # ============================================================
-def inline(text):
-    s = H.escape(text)
-    # 行内代码
-    s = re.sub(r'`([^`]+)`', lambda m: '<code>%s</code>' % m.group(1), s)
-    # 行内公式 $...$（排除 $$）
-    s = re.sub(r'(?<!\$)\$([^$\n]+?)\$(?!\$)',
-               lambda m: '<span class="tex-inline" data-t="%s"></span>' % attr_escape(m.group(1)), s)
-    # 图片（行内）
-    def _img(m):
-        return '<span class="inline-fig">' + inline_asset(m.group(2), _INLINE_BASE[0]) + '</span>'
-    s = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', _img, s)
-    # 链接
-    s = re.sub(r'\[([^\]]+)\]\(([^)]+)\)',
-               lambda m: '<a href="%s" target="_blank" rel="noopener">%s</a>' % (m.group(2), m.group(1)), s)
-    # 粗体 / 斜体
+def anchor_for(rel):
+    """裸 relativePath -> HTML 安全锚点 id（/ 与 . 分别替换为 -- 与 -，避免跨目录碰撞）。"""
+    a = rel.replace('/', '--').replace('.', '-').replace('#', '-').replace(' ', '-')
+    return 'ch-' + a.strip('-')
+
+
+def classify_link(target):
+    """把 Markdown 链接目标分类为 external / frag / internal / missing。
+    internal 返回 (anchor, fragment)；external 返回原始 URL；missing 不可点击。
+    相对路径基于当前章节所在目录规范化（ADR-0007 F07）。
+    """
+    t = (target or '').strip()
+    if not t:
+        return ('missing', None, None, None)
+    m = re.match(r'^([a-zA-Z][a-zA-Z0-9+.-]*):', t)
+    if m:
+        scheme = m.group(1).lower()
+        if scheme in ('http', 'https', 'mailto', 'data', 'ftp', 'file'):
+            return ('external', t, None, None)
+        return ('missing', t, None, None)
+    if t.startswith('#'):
+        return ('frag', None, None, t[1:])
+    path, _, frag = t.partition('#')
+    if path.startswith('/'):
+        # 站点根相对路径：相对本册 docs 根解析
+        norm = posixpath.normpath(path[1:])
+    else:
+        norm = posixpath.normpath(posixpath.join(
+            posixpath.dirname(_INLINE_REL[0]), path))
+    norm = norm.replace('\\', '/')
+    if norm in REL_TO_ANCHOR:
+        return ('internal', None, REL_TO_ANCHOR[norm], frag or None)
+    return ('missing', t, None, None)
+
+
+def _label_inline(label):
+    """链接文本：转义一次后处理粗体/斜体（链接文本内不递归解析链接/公式）。"""
+    s = H.escape(label)
     s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)
     s = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'<em>\1</em>', s)
     return s
 
-_INLINE_BASE = [DOCS]
+
+def render_link(label, target):
+    kind, url, anchor, frag = classify_link(target)
+    inner = _label_inline(label)
+    if kind == 'external':
+        return '<a href="%s" target="_blank" rel="noopener">%s</a>' % (attr_escape(url), inner)
+    if kind == 'frag':
+        # 同章标题锚点（正文暂无显式标题 id，保留片段供未来扩展）
+        return '<a href="#%s">%s</a>' % (attr_escape(frag), inner)
+    if kind == 'internal':
+        data = ' data-frag="%s"' % attr_escape(frag) if frag else ''
+        return '<a href="#%s"%s>%s</a>' % (anchor, data, inner)
+    # 跨分册 / 不存在目标：不可点击占位，不产生死链
+    return ('<span class="offline-missing" title="目标不在本离线册">%s'
+            '<span class="offline-missing-note">（目标不在本离线册）</span></span>') % inner
+
+
+def inline(text):
+    tokens = []
+
+    def stash(kind, raw):
+        tokens.append((kind, raw))
+        return '\x00%d\x00' % (len(tokens) - 1)
+
+    # 1) 先保护行内代码：代码内的 $、<、>、& 不作为公式/正文语法处理
+    s = re.sub(r'`([^`]+)`', lambda m: stash('code', m.group(1)), text)
+    # 2) 提取并保护行内公式原始 LaTeX（未经 HTML 转义），排除 $$ 块级公式
+    s = re.sub(r'(?<!\$)\$([^$\n]+?)\$(?!\$)',
+               lambda m: stash('tex', m.group(1)), s)
+    # 3) 保护行内图片
+    s = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)',
+               lambda m: stash('img', (m.group(1), m.group(2))), s)
+    # 4) 保护链接（保留原始 target 供分类与相对路径规范化）
+    s = re.sub(r'\[([^\]]+)\]\(([^)]+)\)',
+               lambda m: stash('link', (m.group(1), m.group(2))), s)
+
+    # 5) 正文文本只做一次 HTML 转义（公式原文此刻已被保护，不会被二次编码）
+    s = H.escape(s)
+    # 6) 粗体 / 斜体（作用于正文）
+    s = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', s)
+    s = re.sub(r'(?<!\*)\*([^*]+)\*(?!\*)', r'<em>\1</em>', s)
+
+    # 7) 还原受保护片段：代码/正文转义一次；公式原文在入 data-t 属性时 attr_escape 一次
+    def restore(m):
+        kind, raw = tokens[int(m.group(1))]
+        if kind == 'code':
+            return '<code>%s</code>' % H.escape(raw)
+        if kind == 'tex':
+            return '<span class="tex-inline" data-t="%s"></span>' % attr_escape(raw)
+        if kind == 'img':
+            _alt, src = raw
+            return '<span class="inline-fig">%s</span>' % inline_asset(src, _INLINE_BASE[0])
+        if kind == 'link':
+            label, target = raw
+            return render_link(label, target)
+        return raw
+
+    s = re.sub(r'\x00(\d+)\x00', restore, s)
+    return s
 
 # ============================================================
 # 读取所有卡片
@@ -182,9 +270,11 @@ def collect_cards(only_published=False):
             meta, body = split_frontmatter(open(fp, encoding='utf-8').read())
             if only_published and str(meta.get('status', 'draft')) != 'published':
                 continue
-            cid = meta.get('id') or os.path.splitext(os.path.basename(fp))[0]
+            # ADR-0007 §4：运行时章节 id = 裸 relativePath（与在线 catalog 对齐）；
+            # slug 仅用于旧离线三键 / 旧备份的 slug -> 路径迁移映射。
+            slug = meta.get('id') or os.path.splitext(os.path.basename(fp))[0]
             cards.append({
-                'id': cid, 'title': meta.get('title', cid),
+                'id': rel, 'slug': slug, 'title': meta.get('title', slug),
                 'part': part['name'], 'chapter': meta.get('chapter', ''),
                 'tags': meta.get('tags', []), 'difficulty': int(meta.get('difficulty', 1)),
                 'sources': meta.get('sources', []), 'rel': rel,
@@ -395,6 +485,7 @@ def parse_blocks(lines, base_dir):
 
 def md_to_html(card):
     _INLINE_BASE[0] = card['base_dir']
+    _INLINE_REL[0] = card['rel']
     return parse_blocks(card['body'].splitlines(), card['base_dir'])
 
 # ============================================================
@@ -431,9 +522,10 @@ button{font-family:inherit;cursor:pointer}
 .sb-foot{flex-shrink:0;padding:12px 18px;border-top:1px solid #1d2a37;font-size:12px;color:#6b7a8a}
 .progress-bar{height:5px;background:#1d2a37;border-radius:3px;overflow:hidden;margin-bottom:8px}
 .progress-bar i{display:block;height:100%;background:linear-gradient(90deg,#b5642e,#d99a4e);width:0;transition:width .4s}
-.sb-foot .ptext{display:flex;justify-content:space-between;align-items:center}
+.sb-foot .ptext{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .sb-foot button{background:none;border:none;color:#8fa0b0;font-size:11.5px}
 .sb-foot button:hover{color:#d99a4e}
+.pbtns{display:flex;gap:12px;align-items:center;flex-shrink:0}
 .depth-toggle{display:flex;background:#15202b;border:1px solid #243242;border-radius:7px;overflow:hidden;margin-bottom:8px}
 .depth-toggle button{flex:1;background:none;border:none;color:#7e8d9d;font-size:12px;padding:6px 0}
 .depth-toggle button.on{background:#1d2c3b;color:#d99a4e;font-weight:700}
@@ -516,6 +608,7 @@ details[open] .qarrow{transform:rotate(180deg)}
 .act-btn:hover{border-color:#b5642e;color:#b5642e}
 .act-btn.on.learned{background:#ecf5ee;border-color:#4f9e63;color:#3a9e5e}
 .act-btn.on.starred{background:#fdf3e6;border-color:#b5642e;color:#b5642e}
+.act-btn.on.learning{background:#fdf3e6;border-color:#b5642e;color:#b5642e}
 .pager{display:flex;justify-content:space-between;gap:14px;margin-top:40px;padding-top:22px;border-top:1px solid #e3e0d7}
 .pager a{flex:1;background:#fff;border:1px solid #e3e0d7;border-radius:10px;padding:14px 18px;text-align:left;font-size:14px;color:#5c6772;text-decoration:none}
 .pager a:hover{border-color:#b5642e;color:#b5642e}
@@ -535,6 +628,9 @@ details[open] .qarrow{transform:rotate(180deg)}
 .s-empty{color:#5c6772;font-size:14px}
 .inline-img{max-width:100%}
 .img-missing{color:#cc5a47;font-size:13px}
+.offline-missing{color:#98a2ac;cursor:not-allowed;text-decoration:line-through;word-break:break-all}
+.offline-missing-note{text-decoration:none;font-size:11px;color:#b08968;margin-left:4px}
+.tlearning{color:#b5642e}
 body.depth-basic .card.diff-3{display:none !important}
 body.depth-basic .tree-item.for-diff-3{display:none}
 @media (max-width:900px){
@@ -575,8 +671,9 @@ __VENDOR__
     <div class="sb-foot">
       <div class="depth-toggle"><button id="dtAll" class="on">全部深度</button><button id="dtBasic">仅入门</button></div>
       <div class="progress-bar"><i id="progBar"></i></div>
-      <div class="ptext"><span id="progText"></span><button id="exportBtn">导出笔记备份</button></div>
+      <div class="ptext"><span id="progText"></span><span class="pbtns"><button id="exportBtn">导出备份</button><button id="importBtn">导入备份</button></span></div>
     </div>
+    <input type="file" id="importFile" accept="application/json,.json" style="display:none">
   </aside>
   <div class="main">
     <header class="topbar">
@@ -591,6 +688,7 @@ __VENDOR__
 </div>
 <div class="toast" id="toast"></div>
 <script>window.BRAND=__BRAND__;</script>
+<script>window.SLUG_TO_REL=__SLUGMAP__;</script>
 <script>window.SEARCH_DATA=__SEARCH__;</script>
 <script>__RUNTIME__</script>
 </body>
@@ -630,7 +728,7 @@ def pager_link(x, is_next):
     pd = '下一节 →' if is_next else '← 上一节'
     cls = 'pnext' if is_next else ''
     return '<a class="%s" href="#%s"><span class="pdir">%s</span>%s</a>' % (
-        cls, x['id'], pd, H.escape(x['title']))
+        cls, x['anchor'], pd, H.escape(x['title']))
 
 def build_card(c, idx, total, cards):
     prev = cards[idx - 1] if idx > 0 else None
@@ -643,13 +741,13 @@ def build_card(c, idx, total, cards):
         for s in c['sources']:
             s = str(s)
             if s.startswith('http'):
-                items.append('<a href="%s" target="_blank">%s</a>' % (H.escape(s), H.escape(s)))
+                items.append('<a href="%s" target="_blank" rel="noopener">%s</a>' % (attr_escape(s), H.escape(s)))
             else:
                 items.append(H.escape(s))
         src = '<div class="src-list"><b>参考来源：</b><br>' + '<br>'.join(items) + '</div>'
     pager = '<nav class="pager">%s %s</nav>' % (pager_link(prev, False), pager_link(nxt, True))
     return (
-        '<section class="card diff-%d" id="card-%s" data-id="%s">'
+        '<section class="card diff-%d" id="%s" data-id="%s">'
         '<article class="article"><div class="card-head">'
         '<div class="card-tags">%s %s</div>'
         '<h1 class="card-title">%s</h1>'
@@ -662,7 +760,7 @@ def build_card(c, idx, total, cards):
         '<textarea data-role="note" placeholder="记录理解、疑问、实验现象…"></textarea>'
         '<div class="n-status" data-role="nstatus"></div></div>'
         '%s</article></section>'
-    ) % (c['difficulty'], c['id'], c['id'], tags, diff, H.escape(c['title']),
+    ) % (c['difficulty'], c['anchor'], c['id'], tags, diff, H.escape(c['title']),
          H.escape(c['part']), idx + 1, c['html'], src, pager)
 
 def plain_text(body):
@@ -675,17 +773,112 @@ def plain_text(body):
 
 RUNTIME_JS = r"""
 const CARDS = window.SEARCH_DATA || [];
-const BRAND = window.BRAND || {app:'hardware', storePrefix:'hh'};
-const STORE = {
-  learned: JSON.parse(localStorage.getItem(BRAND.storePrefix + '-learned') || '{}'),
-  starred: JSON.parse(localStorage.getItem(BRAND.storePrefix + '-starred') || '{}'),
-  notes: JSON.parse(localStorage.getItem(BRAND.storePrefix + '-notes') || '{}')
-};
+const BRAND = window.BRAND || {app:'hardware', storePrefix:'hh', contentRevision:'unknown'};
+const SLUG_TO_REL = window.SLUG_TO_REL || {};
+const KNOWN_IDS = new Set(CARDS.map(c => c.id));
+const NEW_KEY = 'lubook.v1.' + BRAND.app + '.learning';
+const LEGACY_KEYS = [BRAND.storePrefix + '-learned', BRAND.storePrefix + '-starred', BRAND.storePrefix + '-notes'];
+const LEGACY_EPOCH = '1970-01-01T00:00:00.000Z';
+const NOTE_MAX_LEN = 100000;
+const NOTES_TOTAL_MAX = 5 * 1024 * 1024;
+
+/* ADR-0007 §6：单键 {schemaVersion, appId, progress, favorites, notes}，与在线同构 */
+const state = { progress: {}, favorites: {}, notes: {} };
 let charts = [];
 const $ = s => document.querySelector(s);
-function save(k){ localStorage.setItem(BRAND.storePrefix + '-' + k, JSON.stringify(STORE[k])); }
-function cardEl(id){ return document.getElementById('card-' + id); }
-function currentId(){ const s = $('.card.show'); return s ? s.dataset.id : null; }
+
+function persist(){
+  try {
+    localStorage.setItem(NEW_KEY, JSON.stringify({
+      schemaVersion: 1, appId: BRAND.app,
+      progress: state.progress, favorites: state.favorites, notes: state.notes
+    }));
+    return {ok: true};
+  } catch(e) {
+    const error = e && e.message ? e.message : String(e);
+    console.warn('[lubook] 本地保存失败', e);
+    toast('保存失败：浏览器存储不可用或配额已满，请先导出备份');
+    return {ok: false, error};
+  }
+}
+
+function isPlainObj(v){ return v && typeof v === 'object' && !Array.isArray(v); }
+
+function safeProgress(v){
+  const out = {};
+  if(v && typeof v === 'object' && !Array.isArray(v)){
+    for(const [k, val] of Object.entries(v)){
+      if(val === 'done' || val === 'learning') out[k] = val;
+    }
+  }
+  return out;
+}
+function safeFavorites(v){
+  const out = {};
+  if(v && typeof v === 'object' && !Array.isArray(v)){
+    for(const [k, val] of Object.entries(v)) if(val === true) out[k] = true;
+  }
+  return out;
+}
+function safeNotes(v){
+  const out = {};
+  if(v && typeof v === 'object' && !Array.isArray(v)){
+    for(const [k, val] of Object.entries(v)){
+      if(val && typeof val === 'object' && typeof val.text === 'string' && typeof val.updatedAt === 'string')
+        out[k] = {text: val.text, updatedAt: val.updatedAt};
+    }
+  }
+  return out;
+}
+
+/* 启动：读新键；不存在才旧三键经 slug -> relativePath 一次性迁移（旧键保留）。
+   新键损坏 / appId 不符时按空数据启动，不回退旧键（与在线仓储一致）。 */
+function boot(){
+  const raw = localStorage.getItem(NEW_KEY);
+  if(raw){
+    let p = null;
+    try { p = JSON.parse(raw); } catch(e){ console.warn('[lubook] 新键数据损坏，按空数据启动', e); }
+    if(p && p.schemaVersion === 1 && p.appId === BRAND.app){
+      state.progress = safeProgress(p.progress);
+      state.favorites = safeFavorites(p.favorites);
+      state.notes = safeNotes(p.notes);
+      for(const id of Object.keys(state.progress)) if(!KNOWN_IDS.has(id)) delete state.progress[id];
+      for(const id of Object.keys(state.favorites)) if(!KNOWN_IDS.has(id)) delete state.favorites[id];
+      for(const id of Object.keys(state.notes)) if(!KNOWN_IDS.has(id)) delete state.notes[id];
+      return;
+    }
+    if(p) console.warn('[lubook] 新格式数据缺失或损坏，按空数据启动', p);
+    return;
+  }
+  try {
+    const learned = JSON.parse(localStorage.getItem(LEGACY_KEYS[0]) || '{}');
+    const starred = JSON.parse(localStorage.getItem(LEGACY_KEYS[1]) || '{}');
+    const notesOld = JSON.parse(localStorage.getItem(LEGACY_KEYS[2]) || '{}');
+    for(const [slug, v] of Object.entries(learned || {})){
+      const rel = SLUG_TO_REL[slug];
+      if(rel && KNOWN_IDS.has(rel) && v) state.progress[rel] = 'done';
+    }
+    for(const [slug, v] of Object.entries(starred || {})){
+      const rel = SLUG_TO_REL[slug];
+      if(rel && KNOWN_IDS.has(rel) && v === true) state.favorites[rel] = true;
+    }
+    for(const [slug, val] of Object.entries(notesOld || {})){
+      const rel = SLUG_TO_REL[slug];
+      if(!rel || !KNOWN_IDS.has(rel)) continue;
+      const text = typeof val === 'string' ? val : (val && typeof val === 'object' ? val.text : '');
+      if(text) state.notes[rel] = {text, updatedAt: (val && val.updatedAt) || LEGACY_EPOCH};
+    }
+    if(Object.keys(state.progress).length || Object.keys(state.favorites).length || Object.keys(state.notes).length)
+      persist();
+  } catch(e){ console.warn('[lubook] 旧键迁移失败', e); }
+}
+
+function cardEl(anchor){ return document.getElementById(anchor); }
+function currentCard(){
+  const sec = document.querySelector('.card.show');
+  return sec ? CARDS.find(c => c.id === sec.dataset.id) : null;
+}
+function currentId(){ const c = currentCard(); return c ? c.id : null; }
 
 /* ---- KaTeX ---- */
 function renderTex(){
@@ -705,62 +898,87 @@ function initCharts(){
   });
 }
 
-/* ---- 状态标记 ---- */
+/* ---- 状态标记（progress: done | learning；favorites: boolean）---- */
 function refreshMarks(){
   CARDS.forEach(c => {
-    const sec = cardEl(c.id); if(!sec) return;
-    const L = !!STORE.learned[c.id], S = !!STORE.starred[c.id];
+    const sec = cardEl(c.anchor); if(!sec) return;
+    const st = state.progress[c.id];
+    const L = st === 'done', Le = st === 'learning', S = !!state.favorites[c.id];
     const lb = sec.querySelector('[data-role=learned]');
-    lb.classList.toggle('on', L); lb.textContent = L ? '已学' : '标记为已学';
+    lb.classList.toggle('on', L || Le);
+    lb.classList.toggle('learning', Le);
+    lb.textContent = L ? '已学' : (Le ? '在学' : '标记为已学');
     const sb = sec.querySelector('[data-role=starred]');
     sb.classList.toggle('on', S); sb.textContent = S ? '已收藏' : '收藏';
     const ti = document.querySelector('.tree-item[data-id="' + c.id + '"]');
     if(ti) ti.innerHTML = '<span class="ticon">' + (S ? '<span class="tstar">★</span>' : '·') +
-      '</span><span>' + c.title + '</span>' + (L ? '<span class="tlearned">✓</span>' : '');
+      '</span><span>' + c.title + '</span>' +
+      (L ? '<span class="tlearned">✓</span>' : '') +
+      (Le ? '<span class="tlearned tlearning">◐</span>' : '');
   });
-  const n = CARDS.filter(c => STORE.learned[c.id]).length;
-  $('#progText').textContent = '已学 ' + n + ' / ' + CARDS.length;
+  const n = CARDS.filter(c => state.progress[c.id] === 'done').length;
+  const m = CARDS.filter(c => state.progress[c.id] === 'learning').length;
+  $('#progText').textContent = '已学 ' + n + ' / ' + CARDS.length + (m ? ' · 在学 ' + m : '');
   $('#progBar').style.width = (CARDS.length ? n / CARDS.length * 100 : 0) + '%';
 }
-function toggle(key, id){
-  STORE[key][id] = !STORE[key][id];
-  if(!STORE[key][id]) delete STORE[key][id];
-  save(key); refreshMarks();
-  toast(STORE[key][id] ? '已标记' : '已取消');
+function toggleLearned(id){
+  const cur = state.progress[id];
+  if(cur === 'done') delete state.progress[id];
+  else state.progress[id] = 'done';
+  persist(); refreshMarks();
+  toast(cur === 'done' ? '已取消已学标记' : '已标记为已学');
+}
+function toggleFav(id){
+  state.favorites[id] = !state.favorites[id];
+  if(!state.favorites[id]) delete state.favorites[id];
+  persist(); refreshMarks();
+  toast(state.favorites[id] ? '已收藏' : '已取消收藏');
 }
 
 /* ---- 笔记 ---- */
+function renderNotes(){
+  CARDS.forEach(c => {
+    const sec = cardEl(c.anchor); if(!sec) return;
+    const ta = sec.querySelector('[data-role=note]');
+    ta.value = state.notes[c.id] ? state.notes[c.id].text : '';
+    const st = sec.querySelector('[data-role=nstatus]');
+    if(st) st.textContent = '';
+  });
+}
 function bindNotes(){
   CARDS.forEach(c => {
-    const sec = cardEl(c.id);
+    const sec = cardEl(c.anchor);
     const ta = sec.querySelector('[data-role=note]');
-    ta.value = STORE.notes[c.id] || '';
+    ta.value = state.notes[c.id] ? state.notes[c.id].text : '';
     let timer;
     ta.addEventListener('input', () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        STORE.notes[c.id] = ta.value; save('notes');
+        const text = ta.value;
+        if(text.trim()) state.notes[c.id] = {text, updatedAt: new Date().toISOString()};
+        else delete state.notes[c.id];
+        persist();
         const st = sec.querySelector('[data-role=nstatus]');
         st.textContent = '已自动保存 · ' + new Date().toLocaleTimeString();
         setTimeout(() => st.textContent = '', 2500);
       }, 500);
     });
-    sec.querySelector('[data-role=learned]').onclick = () => toggle('learned', c.id);
-    sec.querySelector('[data-role=starred]').onclick = () => toggle('starred', c.id);
+    sec.querySelector('[data-role=learned]').onclick = () => toggleLearned(c.id);
+    sec.querySelector('[data-role=starred]').onclick = () => toggleFav(c.id);
   });
 }
 
-/* ---- 路由 ---- */
+/* ---- 路由（hash 可为锚点 id，也兼容裸 relativePath）---- */
 function route(){
-  const id = location.hash.slice(1);
-  const c = CARDS.find(x => x.id === id) || CARDS[0];
+  const hash = decodeURIComponent(location.hash.slice(1));
+  const c = CARDS.find(x => x.anchor === hash || x.id === hash) || CARDS[0];
   document.querySelectorAll('.card').forEach(s =>
     s.classList.toggle('show', s.dataset.id === c.id));
   document.querySelectorAll('.tree-item').forEach(t =>
     t.classList.toggle('active', t.dataset.id === c.id));
   $('#crumb').innerHTML = c.part + ' / <b>' + c.title + '</b>';
-  $('#learnedBtn').classList.toggle('on', !!STORE.learned[c.id]);
-  $('#starBtn').classList.toggle('on', !!STORE.starred[c.id]);
+  $('#learnedBtn').classList.toggle('on', !!state.progress[c.id]);
+  $('#starBtn').classList.toggle('on', !!state.favorites[c.id]);
   window.scrollTo(0, 0);
   setTimeout(() => charts.forEach(x => x.resize()), 60);
 }
@@ -782,14 +1000,14 @@ function doSearch(kw){
     const i = full.toLowerCase().indexOf(k);
     const snip = full.slice(Math.max(0, i - 22), i + 46)
       .replace(new RegExp(escRe(kw), 'i'), m => '<mark>' + m + '</mark>');
-    html += '<div class="s-result" data-id="' + c.id + '">' +
+    html += '<div class="s-result" data-id="' + c.id + '" data-anchor="' + c.anchor + '">' +
       '<div class="sr-title">' + c.title + '</div>' +
       '<div class="sr-meta">' + c.part + ' · ' + (c.tags||[]).map(t => '#' + t).join(' ') + '</div>' +
       '<div class="sr-meta">…' + snip + '…</div></div>';
   });
   panel.innerHTML = html;
   panel.querySelectorAll('.s-result').forEach(el =>
-    el.onclick = () => { $('#searchInput').value = ''; location.hash = el.dataset.id; });
+    el.onclick = () => { $('#searchInput').value = ''; location.hash = el.dataset.anchor; });
 }
 
 /* ---- 深度切换 ---- */
@@ -800,29 +1018,145 @@ function setDepth(b){
   const id = currentId();
   if(b && id){
     const cur = CARDS.find(c => c.id === id);
-    if(cur.diff >= 3){ const f = CARDS.find(c => c.diff < 3); if(f) location.hash = f.id; }
+    if(cur && cur.diff >= 3){ const f = CARDS.find(c => c.diff < 3); if(f) location.hash = f.anchor; }
   }
 }
 
-/* ---- 导出 / Toast / 杂项 ---- */
+/* ---- Toast / 版本化导出 / 离线导入 ---- */
 let toastTimer;
 function toast(msg){
   const t = $('#toast'); t.textContent = msg; t.classList.add('show');
   clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
 }
-$('#exportBtn').onclick = () => {
-  const data = {exportedAt:new Date().toISOString(), learned:STORE.learned,
-    starred:STORE.starred, notes:STORE.notes};
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+
+/* 导出与在线完全相同的版本化信封（ADR-0007 §1） */
+function exportBackup(){
+  const notes = {};
+  for(const [id, n] of Object.entries(state.notes)) notes[id] = {text: n.text, updatedAt: n.updatedAt};
+  const data = {
+    schemaVersion: 1, appId: BRAND.app,
+    contentRevision: BRAND.contentRevision || 'unknown',
+    exportedAt: new Date().toISOString(),
+    progress: Object.assign({}, state.progress),
+    favorites: Object.assign({}, state.favorites),
+    notes
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = BRAND.app + '-notes-' + new Date().toISOString().slice(0,10) + '.json';
-  a.click(); toast('笔记备份已导出');
-};
+  a.download = BRAND.app + '-learning-' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('学习数据已导出');
+}
+
+/* 键归一化：接受带/不带 <appId>/ 前缀；其他 app 前缀落入未知 id */
+function stripPrefix(id){
+  const pre = BRAND.app + '/';
+  return id.indexOf(pre) === 0 ? id.slice(pre.length) : id;
+}
+
+function importBackup(text){
+  let p;
+  try { p = JSON.parse(text); } catch(e){
+    return {ok:false, message:'导入失败：JSON 解析错误（' + (e && e.message || e) + '）'};
+  }
+  if(!p || typeof p !== 'object' || Array.isArray(p)) return {ok:false, message:'导入失败：不是合法的 JSON 对象'};
+
+  /* 旧版离线备份 {exportedAt, learned, starred, notes(slug -> string)}：经 slug -> 路径映射导入 */
+  const isLegacy = p.schemaVersion === undefined &&
+    ('learned' in p || 'starred' in p || 'notes' in p);
+  const tomb = new Set();
+  if(isLegacy){
+    const np = {}, nf = {}, nn = {};
+    const resolve = slug => SLUG_TO_REL[slug] || stripPrefix(slug);
+    let totalSize = 0;
+    for(const [slug, v] of Object.entries(p.learned || {})){
+      const rel = resolve(slug);
+      if(!KNOWN_IDS.has(rel)){ tomb.add(slug); continue; }
+      if(v) np[rel] = 'done';
+    }
+    for(const [slug, v] of Object.entries(p.starred || {})){
+      const rel = resolve(slug);
+      if(!KNOWN_IDS.has(rel)){ tomb.add(slug); continue; }
+      if(v === true) nf[rel] = true;
+    }
+    try {
+      for(const [slug, val] of Object.entries(p.notes || {})){
+        const rel = resolve(slug);
+        if(!KNOWN_IDS.has(rel)){ tomb.add(slug); continue; }
+        const text = typeof val === 'string' ? val : (val && typeof val === 'object' ? val.text : '');
+        if(typeof text !== 'string' || !text) continue;
+        if(text.length > NOTE_MAX_LEN) throw new Error('单条笔记超过 ' + NOTE_MAX_LEN + ' 字符上限');
+        totalSize += text.length;
+        nn[rel] = {text, updatedAt: (val && val.updatedAt) || LEGACY_EPOCH};
+      }
+      if(totalSize > NOTES_TOTAL_MAX) throw new Error('笔记总大小超过 5MB 上限');
+    } catch(e){ return {ok:false, message:'导入失败：' + e.message}; }
+    state.progress = np; state.favorites = nf; state.notes = nn;
+    const saved = persist();
+    if(!saved.ok) return {ok:false, message:'导入失败：本地存储写入失败（' + (saved.error || '未知错误') + '），数据已保留在当前会话，可先「导出数据」兜底'};
+    refreshMarks(); renderNotes(); route();
+    const n = tomb.size;
+    return {ok:true, message: n ? '导入成功，' + n + ' 个未知章节已忽略' : '导入成功'};
+  }
+
+  if(p.appId !== BRAND.app) return {ok:false, message:'导入失败：appId 不匹配（文件为 ' + p.appId + '，当前为 ' + BRAND.app + '）'};
+  if(p.schemaVersion !== 1) return {ok:false, message:'导入失败：版本不兼容（需要 schemaVersion=1）'};
+
+  const np = {}, nf = {}, nn = {};
+  let totalSize = 0;
+  try {
+    if(p.progress != null && !isPlainObj(p.progress)) throw new Error('progress 字段必须是对象');
+    if(p.favorites != null && !isPlainObj(p.favorites)) throw new Error('favorites 字段必须是对象');
+    if(p.notes != null && !isPlainObj(p.notes)) throw new Error('notes 字段必须是对象');
+    for(const [id, v] of Object.entries(p.progress || {})){
+      if(v !== 'done' && v !== 'learning') throw new Error("progress[" + id + "] 必须为 'done' | 'learning'");
+      const rel = stripPrefix(id);
+      if(!KNOWN_IDS.has(rel)){ tomb.add(id); continue; }
+      np[rel] = v;
+    }
+    for(const [id, v] of Object.entries(p.favorites || {})){
+      if(typeof v !== 'boolean') throw new Error('favorites[' + id + '] 必须为 boolean');
+      const rel = stripPrefix(id);
+      if(!KNOWN_IDS.has(rel)){ tomb.add(id); continue; }
+      if(v) nf[rel] = true;
+    }
+    for(const [id, val] of Object.entries(p.notes || {})){
+      const rel = stripPrefix(id);
+      if(!KNOWN_IDS.has(rel)){ tomb.add(id); continue; }
+      if(!val || typeof val !== 'object' || typeof val.text !== 'string' || typeof val.updatedAt !== 'string')
+        throw new Error('notes[' + id + '] 格式错误');
+      if(val.text.length > NOTE_MAX_LEN) throw new Error('单条笔记超过 ' + NOTE_MAX_LEN + ' 字符上限');
+      totalSize += val.text.length;
+      nn[rel] = {text: val.text, updatedAt: val.updatedAt};
+    }
+    if(totalSize > NOTES_TOTAL_MAX) throw new Error('笔记总大小超过 5MB 上限');
+  } catch(e){ return {ok:false, message:'导入失败：' + e.message}; }
+
+  /* 默认 replace：整体替换后写新键并重渲染（与在线 HomePanel 一致） */
+  state.progress = np; state.favorites = nf; state.notes = nn;
+  const saved = persist();
+  if(!saved.ok) return {ok:false, message:'导入失败：本地存储写入失败（' + (saved.error || '未知错误') + '），数据已保留在当前会话，可先「导出数据」兜底'};
+  refreshMarks(); renderNotes(); route();
+  const n = tomb.size;
+  return {ok:true, message: n ? '导入成功（replace），' + n + ' 个未知章节已忽略' : '导入成功（replace）',
+    ...(n ? {tombstones: Array.from(tomb).sort()} : {})};
+}
+
+$('#exportBtn').onclick = exportBackup;
+$('#importBtn').onclick = () => $('#importFile').click();
+$('#importFile').addEventListener('change', e => {
+  const f = e.target.files && e.target.files[0];
+  if(!f) return;
+  const reader = new FileReader();
+  reader.onload = () => { const r = importBackup(String(reader.result || '')); toast(r.message); };
+  reader.readAsText(f);
+  e.target.value = '';
+});
 $('#menuBtn').onclick = () => $('#sidebar').classList.toggle('open');
 $('#searchInput').addEventListener('input', e => doSearch(e.target.value));
-$('#learnedBtn').onclick = () => { const id = currentId(); if(id) toggle('learned', id); };
-$('#starBtn').onclick = () => { const id = currentId(); if(id) toggle('starred', id); };
+$('#learnedBtn').onclick = () => { const id = currentId(); if(id) toggleLearned(id); };
+$('#starBtn').onclick = () => { const id = currentId(); if(id) toggleFav(id); };
 $('#dtAll').onclick = () => setDepth(false);
 $('#dtBasic').onclick = () => setDepth(true);
 window.addEventListener('hashchange', route);
@@ -830,9 +1164,14 @@ window.addEventListener('resize', () => charts.forEach(c => c.resize()));
 /* 目录点击（事件委托） */
 document.getElementById('tree').addEventListener('click', e => {
   const item = e.target.closest('.tree-item');
-  if(item){ location.hash = item.dataset.id; document.getElementById('sidebar').classList.remove('open'); }
+  if(item){
+    const c = CARDS.find(x => x.id === item.dataset.id);
+    if(c) location.hash = c.anchor;
+    document.getElementById('sidebar').classList.remove('open');
+  }
 });
 
+boot();
 renderTex(); initCharts(); bindNotes(); refreshMarks(); route();
 """
 
@@ -932,16 +1271,48 @@ def main():
     if not cards:
         print('没有可构建的章节（检查 SUMMARY.md 与文件是否存在，或去掉 --published）')
         sys.exit(1)
+
+    # ADR-0007 §4 / F07：relativePath -> 安全唯一锚点；frontmatter slug -> relativePath。
+    # 必须在渲染正文（链接改写依赖 REL_TO_ANCHOR）之前建立。
+    global REL_TO_ANCHOR, SLUG_TO_REL, KNOWN_RELS
+    REL_TO_ANCHOR = {}
+    SLUG_TO_REL = {}
+    KNOWN_RELS = set()
+    seen_anchor = {}
+    for c in cards:
+        anchor = anchor_for(c['rel'])
+        if anchor in seen_anchor:
+            k = 2
+            while (anchor + '-' + str(k)) in seen_anchor:
+                k += 1
+            anchor = anchor + '-' + str(k)
+            warn('锚点冲突已消歧: %s -> %s' % (c['rel'], anchor))
+        seen_anchor[anchor] = c['rel']
+        REL_TO_ANCHOR[c['rel']] = anchor
+        SLUG_TO_REL[c['slug']] = c['rel']
+        KNOWN_RELS.add(c['rel'])
+        c['anchor'] = anchor
+
+    # contentRevision 取 manifest 指纹，缺省 'unknown'（ADR-0007 §1）
+    revision = 'unknown'
+    if args.manifest and os.path.exists(args.manifest):
+        try:
+            with open(args.manifest, encoding='utf-8') as f:
+                revision = json.load(f).get('revision') or 'unknown'
+        except Exception:
+            revision = 'unknown'
+
     for c in cards:
         c['html'] = md_to_html(c)
     tree = build_tree(cards)
     card_html = ''.join(build_card(c, i, len(cards), cards)
                         for i, c in enumerate(cards))
-    search = [{'id': c['id'], 'title': c['title'], 'part': c['part'],
-               'tags': c['tags'], 'diff': c['difficulty'],
+    search = [{'id': c['id'], 'anchor': c['anchor'], 'title': c['title'],
+               'part': c['part'], 'tags': c['tags'], 'diff': c['difficulty'],
                'text': plain_text(c['body'])} for c in cards]
-    brand_js = json.dumps({'app': app, 'storePrefix': brand['storePrefix']},
-                          ensure_ascii=False)
+    brand_js = json.dumps({'app': app, 'storePrefix': brand['storePrefix'],
+                           'contentRevision': revision}, ensure_ascii=False)
+    slug_js = json.dumps(SLUG_TO_REL, ensure_ascii=False)
     page = (PAGE_TEMPLATE
             .replace('__HTML_TITLE__', H.escape(brand['htmlTitle']))
             .replace('__BOOK_TITLE__', H.escape(brand['book']))
@@ -953,6 +1324,7 @@ def main():
             .replace('__CARDS__', card_html)
             .replace('__SEARCH__', json.dumps(search, ensure_ascii=False))
             .replace('__BRAND__', brand_js)
+            .replace('__SLUGMAP__', slug_js)
             .replace('__RUNTIME__', RUNTIME_JS))
     os.makedirs(DIST, exist_ok=True)
     out = os.path.join(DIST, '%s.html' % app)
