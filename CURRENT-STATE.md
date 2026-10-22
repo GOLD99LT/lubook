@@ -170,10 +170,11 @@ quality job 承担。修复后重新 push（`d33b556`），部署成功。
 | 批次 7 | opamp 地基 5 章（opamp-overview、ideal-opamp、open-loop-feedback、small-signal-model、bjt-amplifiers） | ✅ 已合入并上线（`7d1bb0b`） | 6,264–7,366 | 主干章标准；术语约定统一后派工 |
 | 批次 8 | opamp 反馈四拓扑、稳定性、供电轨、CMRR/PSRR、失调（5 章） | ✅ 已合入并上线（`8821b54`） | 6,071–7,915 | 主干章标准 |
 | 批次 9 | opamp 跟随器 / 反相 / 同相 / 差分 / 仪表放大 | ✅ 已合入并上线（`370fa7b`） | 5,853–8,283 | 智能体两次纠正任务书（INA 的 CMRR 机理、噪声增益方向） |
-| 批次 10+ | opamp 其余 18 章 / digital 12 / mcu 13 / pcb 13 / power 12 / practice 12 | ⬜ 待排 | — | — |
+| 批次 10 | opamp 加法 / 微积分 / 一阶滤波 / Sallen-Key / 带通带阻 | ✅ 已合入并上线（`be0b500`） | 5,415–8,472 | 写作者纠正 7 处技术错误（含前作者的 MFB 拓扑错误） |
+| 批次 11+ | opamp 其余 13 章 / digital 12 / mcu 13 / pcb 13 / power 12 / practice 12 | ⬜ 待排 | — | — |
 | 不排期 | appendix 9 / quizbank 9 | 按"速查/附录"档，不设字数门槛 | — | — |
 
-现状：**basics 14/14 + components 13/13 + opamp 15/33 = 42 章达标**（全书 140 章）。
+现状：**basics 14/14 + components 13/13 + opamp 20/33 = 47 章达标**（全书 140 章）。
 基线：evision=sha256-b0bfc73e3ba0bc48，routes 仍 141（URL 未变）。
 
 ### 待专业复核（写作智能体无法联网核实，已在正文标注"以数据手册为准"）
