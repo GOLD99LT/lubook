@@ -16,18 +16,12 @@ import os, sys, subprocess, shutil
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from paths_util import REPO_ROOT, list_apps, app_src
+from paths_util import REPO_ROOT, list_apps, app_src, pnpm_cmd
 
 
 def find_pnpm():
-    found = shutil.which('pnpm')
-    if found:
-        return found
-    for cand in ('pnpm.CMD', 'pnpm.cmd', 'pnpm'):
-        p = shutil.which(cand)
-        if p:
-            return p
-    return 'pnpm'
+    """返回调用 pnpm 的命令前缀列表（兼容只有 corepack 的机器）。"""
+    return pnpm_cmd()
 
 
 def run(cmd, cwd, env):
@@ -53,7 +47,7 @@ def main():
 
         print('\n========== verify app=%s（内容 app=%s）==========' % (app, is_content))
 
-        rc = run([pnpm, 'run', 'build:' + app], REPO_ROOT, env)
+        rc = run(pnpm + ['run', 'build:' + app], REPO_ROOT, env)
         if rc != 0:
             failures.append('%s:build' % app)
             continue
@@ -89,7 +83,7 @@ def main():
         summary.append(app)
 
     print('\n========== 学习模块单测 ==========')
-    rc = run([pnpm, 'test:learning'], REPO_ROOT, env)
+    rc = run(pnpm + ['test:learning'], REPO_ROOT, env)
     if rc != 0:
         failures.append('learning:test')
 

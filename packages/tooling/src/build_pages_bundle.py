@@ -20,7 +20,7 @@ import os, sys, shutil, subprocess, argparse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from paths_util import REPO_ROOT, list_apps, app_dist
+from paths_util import REPO_ROOT, list_apps, app_dist, pnpm_cmd
 
 
 def normalize_base(vp):
@@ -81,20 +81,13 @@ def guard_out(out, force=False):
 
 
 def find_pnpm():
-    """定位 pnpm 可执行（Windows 下解析到 pnpm.CMD，避免 CreateProcess 找不到 .CMD）。"""
-    found = shutil.which('pnpm')
-    if found:
-        return found
-    for cand in ('pnpm.CMD', 'pnpm.cmd', 'pnpm'):
-        p = shutil.which(cand)
-        if p:
-            return p
-    return 'pnpm'
+    """返回调用 pnpm 的命令前缀列表（兼容只有 corepack 的机器）。"""
+    return pnpm_cmd()
 
 
 def run_build(pnpm, app, env):
     print('--- 构建 app=%s（VP_BASE=%s）---' % (app, env['VP_BASE']))
-    p = subprocess.run([pnpm, 'run', 'build:' + app], cwd=REPO_ROOT, env=env)
+    p = subprocess.run(pnpm + ['run', 'build:' + app], cwd=REPO_ROOT, env=env)
     return p.returncode
 
 

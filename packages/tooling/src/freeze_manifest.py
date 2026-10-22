@@ -73,6 +73,34 @@ def count_svg(src=DOCS):
     return sum(1 for _r, _d, fs in os.walk(base) for f in fs if f.endswith('.svg'))
 
 
+def assets_checksum(src=DOCS):
+    """assets/ 下所有文件的内容哈希汇总。
+
+    历史缺口：整体指纹只由章节 .md 的 checksum 组成，SVG 只计入"张数"。
+    改一张图里电阻的数值、或换掉文字，只要文件数不变，revision 与快照都不变。
+    这里按相对路径排序后逐文件求哈希，再汇总成一个 16 位指纹放进快照。
+    文本按 LF 归一后再算（与 .md 口径一致），二进制回落为原始字节哈希。
+    """
+    base = os.path.join(src, 'assets')
+    if not os.path.isdir(base):
+        return 'sha256-none'
+    rows = []
+    for root, _d, files in os.walk(base):
+        for f in files:
+            fp = os.path.join(root, f)
+            rel = os.path.relpath(fp, src).replace(os.sep, '/')
+            with open(fp, 'rb') as fh:
+                raw_b = fh.read()
+            try:
+                h = sha256_bytes(normalize_text_for_hash(raw_b).encode('utf-8'))
+            except UnicodeDecodeError:
+                h = sha256_bytes(raw_b)
+            rows.append('%s\t%s' % (rel, h))
+    rows.sort()
+    if not rows:
+        return 'sha256-empty'
+    return 'sha256-' + hashlib.sha256('\n'.join(rows).encode('utf-8')).hexdigest()[:16]
+
 def scan_grounds_count(src=DOCS):
     """子进程跑 scan_grounds.py 并解析末行接地符号总数（不重复实现扫描逻辑）。
     显式传 --src 让多 app 各自扫描。"""
@@ -167,6 +195,7 @@ def build_manifest(app=APP_ID, src=DOCS):
         'titles': [d['title'] for d in docs],
         'imageTotal': sum(len(d['images']) for d in docs),
         'svgCount': count_svg(src),
+        'assetsChecksum': assets_checksum(src),
         'groundsCount': scan_grounds_count(src),
         'overallChecksum': overall,
     }

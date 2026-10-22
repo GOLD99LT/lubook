@@ -9,6 +9,7 @@ paths_util.py — packages/tooling 共享路径默认值（纯 Python 标准库�
 未传参时默认值与硬件分册当前布局等价，保证 run_quality.py --app hardware 可跑通。
 """
 import os
+import shutil
 import argparse
 
 # packages/tooling/src
@@ -35,6 +36,23 @@ DEFAULT_SRC = os.path.join(REPO_ROOT, 'apps', 'hardware', 'docs')
 DEFAULT_VENDOR = os.path.join(TOOLING_DIR, 'vendor')
 DEFAULT_OUT_DIST = os.path.join(REPO_ROOT, 'dist')
 
+
+def pnpm_cmd():
+    """返回调用 pnpm 的命令前缀（列表）。
+
+    有的机器只装了 corepack、没有独立的 pnpm 可执行文件（Windows 上尤其常见），
+    直接 subprocess 调 'pnpm' 会抛 FileNotFoundError/ WinError 2。
+    这里按 pnpm -> pnpm.cmd -> corepack pnpm 的顺序回退。
+    """
+    for name in ('pnpm', 'pnpm.cmd', 'pnpm.CMD', 'pnpm.exe'):
+        p = shutil.which(name)
+        if p:
+            return [p]
+    for name in ('corepack', 'corepack.cmd', 'corepack.exe'):
+        p = shutil.which(name)
+        if p:
+            return [p, 'pnpm']
+    return ['pnpm']
 
 def list_apps():
     """返回 apps/ 下含 package.json 的分册 slug 列表（按目录名排序，含 portal）。"""

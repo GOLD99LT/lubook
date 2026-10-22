@@ -44,8 +44,8 @@
 | F07 | 离线死链 | ✅ 已修 | `.md` 链接 0 处 |
 | F08 | 离线备份协议分裂 | ✅ 已修 | 产物含 `schemaVersion`/`appId`/文件导入；旧三键迁移保留 |
 | F09 | 新册串入硬件数据 | ✅ 已修 | `legacyKeys` 显式声明 + `knownIds` 由 catalog 注入 |
-| F10 | 模板契约不成立 | ⬜ 未修 | 模板 `config.mts` 仍写死 `base:'/'`；模板章节过不了 `validate.py` |
-| F11 | manifest 对账造假 | ✅ 已修（本轮） | 逐章重算 checksum + 复算 revision；清单缺失即失败 |
+| F10 | 模板契约不成立 | ✅ 已修 | 去掉写死 base、注入 knownIds、模板章节补齐字段；模板 docs:build + validate 均通过 |
+| F11 | manifest 对账造假 | ✅ 已修 | 逐章重算 checksum + 复算 revision；清单缺失即失败；TS/Python 双解析器逐字段对账已真实跑通（[PARITY PASS]） |
 | F12 | 源目录错仍退出 0 | ✅ 已修（本轮） | 源目录缺失/内容 app 缺 SUMMARY 均 exit 2 |
 | F13 | LTspice 算例错 | ✅ 已修（待实跑） | 阈值改 3.1606V；作者自注"待 LTspice 实跑验证" |
 | F14 | 状态文档矛盾 | 🟡 部分（本轮） | 新增本文件；`REQUIREMENTS.md`/`CHANGELOG.md`/`ARCHITECTURE.md` 的过期表述未清理 |
@@ -85,7 +85,7 @@
 
 - `python` 在本机是微软商店的坏别名（退出码 9009）；跑项目脚本请用真实解释器全路径，或把可用的 `python` 放到 PATH 前面。
 - 本机 Node 24 / Python 3.14；CI 锁 Node 22 / Python 3.11。跨版本差异要分别记录。
-- pnpm 必须走 `corepack pnpm`（`packageManager` 锁 12.11.2）；系统 pnpm 是 11.x。
+- pnpm 必须走 `corepack pnpm`（`packageManager` 锁 12.11.2）；**本机没有 `pnpm` 命令、也没有跑过 `corepack enable`**，所以 `package.json` 里 `pnpm -F ...` 这类嵌套脚本会报"不是内部或外部命令"。解决办法二选一：`corepack enable`（可能需要管理员），或准备一个 `pnpm.cmd` 垫片（内容 `corepack pnpm %*`）并放到 PATH。
 - 本机沙箱内 `pnpm install` 会因 store 锁失败；需要在普通权限终端里手工跑一次。
 
 ## 7. 下一步（按批次）
