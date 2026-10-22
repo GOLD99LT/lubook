@@ -30,12 +30,14 @@ LTspice 可画图也可写网表（netlist）。上面电路的关键网表行�
 V1 N001 0 PULSE(0 5 0 1u 1u 5m 10m)
 R1 N001 Vout 1k
 C1 Vout 0 1u
-.tran 5m
+.tran 0 5m 0 10u
+.meas TRAN t63 WHEN V(Vout)=3.1606 RISE=1
 ```
 
 - `V1`：脉冲源（PULSE），节点 N001 与地之间。
 - `R1`/`C1`：节点间元件，后接阻值/容值。
 - 节点 `0` 固定代表地。
+- `.tran 0 5m 0 10u`：瞬态分析，起始 0、结束 5ms、最大步长 10µs；`.meas` 命令见下文"常用指令补充"。
 
 ## 3. 两类最常用仿真
 
@@ -46,7 +48,7 @@ C1 Vout 0 1u
 
 $$\tau=R\times C=1\text{k}\Omega\times1\mu\text{F}=1\text{ ms},\quad f_c=\frac{1}{2\pi RC}\approx159\text{ Hz}$$
 
-1 个 τ 充到约 63%，5 个 τ（5ms）近似充满——这就是 `.tran 5m` 设 5ms 的原因。
+1 个 τ 充到终值的约 63.2%（5V 阶跃即约 3.1606V），5 个 τ（5ms）近似充满——这就是 `.tran` 结束时间取 5ms 的原因。
 
 ### AC 扫描 .ac
 看频率响应（伯德图）。`.ac dec 100 1Hz 100kHz` 表示十倍频程、每频段 100 点、从 1Hz 扫到 100kHz。
@@ -55,7 +57,7 @@ $$\tau=R\times C=1\text{k}\Omega\times1\mu\text{F}=1\text{ ms},\quad f_c=\frac{1
 
 ### 常用指令补充
 - **`.step` 扫参**：`.step param R list 1k 10k 100k` 让一个参数取多个值，一次画出多条曲线，看参数影响。
-- **`.measure` 读数**：`.tran` 后写 `.measure t_when WHEN Vout=0.63`，自动输出 63% 时刻，直接读时间常数，不用肉眼量。
+- **`.measure` 读数**：本算例为 0→5V 阶跃、R=1kΩ、C=1µF，$\tau=RC=1\text{ ms}$；终值 5V 的 63.212% 对应阈值电压 $5\times0.63212\approx3.1606\text{ V}$（注意是 **3.1606V，不是 0.63V**：0.63V 对应的理想时刻为 $-\tau\ln(1-0.63/5)\approx0.1347\text{ ms}$，并非 1ms）。在 `.tran` 之后写 `.meas TRAN t63 WHEN V(Vout)=3.1606 RISE=1`：`TRAN` 指定瞬态分析、`V(Vout)` 引用 `Vout` 节点电压、`RISE=1` 表示在第一次上升沿触及阈值时计时，仿真结束后在 SPICE Error Log 中读出 `t63`，应落在 $\tau=1\text{ ms}$ 附近。**该命令待在 LTspice 中实际运行验证**；手算复核：$V(\tau)=5(1-e^{-1})\approx3.1606\text{ V}$，时刻 $t=\tau=1\text{ ms}$。
 - **E/F/G/H 受控源**：电压控制电压源(E)、电流控制电流源(F)、电压控制电流源(G)、电流控制电压源(H)，用来建受控模型（如压控电阻、运放开环行为）。
 
 ## 4. 仿真示例（含计算）
@@ -84,8 +86,8 @@ $$\tau=R\times C=1\text{k}\Omega\times1\mu\text{F}=1\text{ ms},\quad f_c=\frac{1
 
 ::: example 设置与判读
 - `.tran <停止时间>`：仿真多长；想看 5τ 充满就设 5ms。
-- 探针看 Vout，量 63% 点对应的时间应等于 RC。
-- 例：R=1k、C=1µF → τ=1ms；若仿真 63% 点在 1ms 附近，电路连对了。
+- 探针看 Vout，量终值 63.2% 点（本例 5V 终值对应约 3.1606V）对应的时间应等于 RC。
+- 例：R=1k、C=1µF → τ=1ms；若仿真 3.1606V 点在 1ms 附近，电路连对了。
 - 对比手算：仿真值与 $V(t)=V_{in}(1-e^{-t/RC})$ 对照，一致即正确。
 :::
 
