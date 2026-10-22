@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>4 位同步二进制计数器：所有触发器共用时钟，第 i 位在低 i 位全 1 且 EN 有效时翻转</title>
+  <rect width="760" height="400" fill="#ffffff"/>
+  <text x="24" y="28" font-size="16" fill="#222a32" text-anchor="start" font-weight="700">4 位同步二进制计数器 Synchronous Binary Counter</text>
+
+  <!-- 4 T-FFs -->
+  <g>
+    <rect x="70" y="130" width="120" height="120" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+    <text x="130" y="172" font-size="14" fill="#2b3a4a" text-anchor="middle" font-weight="700">T-FF0</text>
+    <text x="130" y="194" font-size="11" fill="#1a4f8b" text-anchor="middle">T0 = EN</text>
+    <text x="130" y="214" font-size="10" fill="#5a6672" text-anchor="middle">EN=1 时翻转</text>
+  </g>
+  <g>
+    <rect x="230" y="130" width="120" height="120" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+    <text x="290" y="172" font-size="14" fill="#2b3a4a" text-anchor="middle" font-weight="700">T-FF1</text>
+    <text x="290" y="194" font-size="11" fill="#1a4f8b" text-anchor="middle">T1 = EN·Q0</text>
+    <text x="290" y="214" font-size="10" fill="#5a6672" text-anchor="middle">Q0=1 时翻转</text>
+  </g>
+  <g>
+    <rect x="390" y="130" width="120" height="120" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+    <text x="450" y="172" font-size="14" fill="#2b3a4a" text-anchor="middle" font-weight="700">T-FF2</text>
+    <text x="450" y="194" font-size="11" fill="#1a4f8b" text-anchor="middle">T2 = EN·Q0·Q1</text>
+    <text x="450" y="214" font-size="10" fill="#5a6672" text-anchor="middle">Q0Q1=11 时翻转</text>
+  </g>
+  <g>
+    <rect x="550" y="130" width="140" height="120" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+    <text x="620" y="172" font-size="14" fill="#2b3a4a" text-anchor="middle" font-weight="700">T-FF3</text>
+    <text x="620" y="194" font-size="11" fill="#1a4f8b" text-anchor="middle">T3 = EN·Q0·Q1·Q2</text>
+    <text x="620" y="214" font-size="10" fill="#5a6672" text-anchor="middle">Q0Q1Q2=111 时翻转</text>
+  </g>
+
+  <!-- Q outputs -->
+  <line x1="130" y1="130" x2="130" y2="86" stroke="#2b3a4a" stroke-width="2.0"/>
+  <text x="130" y="78" font-size="13" fill="#1a4f8b" text-anchor="middle" font-weight="700">Q0</text>
+  <line x1="290" y1="130" x2="290" y2="86" stroke="#2b3a4a" stroke-width="2.0"/>
+  <text x="290" y="78" font-size="13" fill="#1a4f8b" text-anchor="middle" font-weight="700">Q1</text>
+  <line x1="450" y1="130" x2="450" y2="86" stroke="#2b3a4a" stroke-width="2.0"/>
+  <text x="450" y="78" font-size="13" fill="#1a4f8b" text-anchor="middle" font-weight="700">Q2</text>
+  <line x1="620" y1="130" x2="620" y2="86" stroke="#2b3a4a" stroke-width="2.0"/>
+  <text x="620" y="78" font-size="13" fill="#1a4f8b" text-anchor="middle" font-weight="700">Q3</text>
+
+  <!-- common clock rail -->
+  <text x="24" y="300" font-size="13" fill="#1a4f8b" text-anchor="start" font-weight="700">CLK</text>
+  <line x1="60" y1="296" x2="700" y2="296" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="130" y1="296" x2="130" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="290" y1="296" x2="290" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="450" y1="296" x2="450" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="620" y1="296" x2="620" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="110,230 110,270 130,250" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.0"/>
+  <polygon points="270,230 270,270 290,250" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.0"/>
+  <polygon points="430,230 430,270 450,250" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.0"/>
+  <polygon points="600,230 600,270 620,250" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.0"/>
+
+  <text x="24" y="335" font-size="12" fill="#5a6672" text-anchor="start">所有 FF 共用同一 CLK；Ti 是翻转使能，不是时钟。进位条件由低位 Q 组合产生，不逐级经过触发器。</text>
+  <text x="24" y="358" font-size="12" fill="#5a6672" text-anchor="start">计数序列：0000 → 0001 → 0010 → … → 1111 → 0000；Q0 频率 = CLK/2，Q1 = CLK/4，Q3 = CLK/16。</text>
+  <text x="24" y="381" font-size="12" fill="#5a6672" text-anchor="start">注意：不是每位都接 T=EN；只有最低位每拍翻转，高位在低位全 1 时才翻转。</text>
+</svg>

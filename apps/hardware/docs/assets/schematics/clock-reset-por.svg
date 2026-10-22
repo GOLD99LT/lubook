@@ -1,0 +1,63 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>POR 电路与复位同步器：RC 决定复位宽度，施密特整形后经两级触发器同步释放</title>
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="24" y="28" font-size="16" fill="#222a32" text-anchor="start" font-weight="700">POR 与复位同步器：异步生效、同步释放</text>
+
+  <!-- VDD and R -->
+  <text x="70" y="62" font-size="13" fill="#b5642e" text-anchor="middle" font-weight="700">VDD</text>
+  <line x1="90" y1="68" x2="90" y2="92" stroke="#b5642e" stroke-width="2.2"/>
+  <rect x="82" y="92" width="16" height="44" fill="#fbfdff" stroke="#b5642e" stroke-width="2.2"/>
+  <text x="106" y="118" font-size="12" fill="#b5642e" text-anchor="start" font-weight="700">100k</text>
+  <line x1="90" y1="136" x2="90" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="90" y1="150" x2="330" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="210" cy="150" r="4.2" fill="#2b3a4a"/>
+  <text x="118" y="142" font-size="12" fill="#1a4f8b" text-anchor="start" font-weight="700">NRST</text>
+
+  <!-- C to ground -->
+  <line x1="210" y1="150" x2="210" y2="178" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="196" y1="178" x2="224" y2="178" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="196" y1="186" x2="224" y2="186" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="232" y="176" font-size="12" fill="#2b3a4a" text-anchor="start" font-weight="700">100nF</text>
+  <line x1="210" y1="186" x2="210" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="196" y1="205" x2="224" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="201" y1="212" x2="219" y2="212" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="205" y1="219" x2="215" y2="219" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- Schmitt -->
+  <polygon points="330,135 330,165 365,150" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="347" y="128" font-size="11" fill="#1a4f8b" text-anchor="middle" font-weight="700">施密特</text>
+  <line x1="365" y1="150" x2="390" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- reset rail -->
+  <line x1="390" y1="150" x2="390" y2="80" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="390" y1="80" x2="600" y2="80" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="420" y="72" font-size="11" fill="#1a4f8b" text-anchor="start" font-weight="700">rst_n_raw：异步清零，立即生效</text>
+  <line x1="440" y1="80" x2="440" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="80" x2="560" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="440" cy="80" r="4.2" fill="#2b3a4a"/>
+  <circle cx="560" cy="80" r="4.2" fill="#2b3a4a"/>
+
+  <!-- FFs -->
+  <rect x="400" y="120" width="80" height="60" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="440" y="145" font-size="12" fill="#2b3a4a" text-anchor="middle" font-weight="700">FF1</text>
+  <text x="440" y="163" font-size="11" fill="#1a4f8b" text-anchor="middle">D = 1</text>
+  <rect x="520" y="120" width="80" height="60" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="560" y="145" font-size="12" fill="#2b3a4a" text-anchor="middle" font-weight="700">FF2</text>
+  <text x="560" y="163" font-size="11" fill="#1a4f8b" text-anchor="middle">D = 1</text>
+  <line x1="480" y1="150" x2="520" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="600" y1="150" x2="650" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="655" y="154" font-size="11" fill="#2a7a4a" text-anchor="start" font-weight="700">rst_n_sync</text>
+
+  <!-- clock rail -->
+  <line x1="440" y1="180" x2="440" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="180" x2="560" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="440" y1="205" x2="560" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="205" x2="600" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="606" y="209" font-size="11" fill="#1a4f8b" text-anchor="start" font-weight="700">CLK 100MHz</text>
+
+  <!-- notes -->
+  <text x="24" y="252" font-size="12" fill="#2b3a4a" text-anchor="start">时间常数：RC = 100k x 100nF = 10ms；释放点 VTH = 0.7VDD 时 t = 1.204RC = 12.04ms</text>
+  <text x="24" y="276" font-size="12" fill="#2b3a4a" text-anchor="start">释放延迟：2 个时钟周期 = 2 x 10ns = 20ns，对齐到时钟沿才让 rst_n_sync 变高</text>
+  <text x="24" y="300" font-size="12" fill="#5a6672" text-anchor="start">亚稳概率：p = (tsu + th) / T = 0.4ns / 10ns = 4%；FF1 若亚稳，FF2 有一个完整周期收敛</text>
+  <text x="24" y="330" font-size="12" fill="#1a4f8b" text-anchor="start" font-weight="700">要点：按下立刻清零（不等时钟），松开等两拍（不产生亚稳）</text>
+</svg>

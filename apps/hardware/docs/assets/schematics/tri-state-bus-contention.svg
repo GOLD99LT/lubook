@@ -1,0 +1,49 @@
+<svg viewBox="0 0 720 400" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>两个推挽驱动器同时使能造成总线竞争：电流从 VCC 经上管、总线、下管流到 GND</title>
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="24" y="28" font-size="16" fill="#222a32" text-anchor="start" font-weight="700">总线竞争 Bus Contention：推挽并接的短路路径</text>
+
+  <!-- VCC rail -->
+  <line x1="80" y1="80" x2="640" y2="80" stroke="#b02a2a" stroke-width="2.4"/>
+  <text x="80" y="70" font-size="14" fill="#b02a2a" text-anchor="start" font-weight="700">VCC = 3.3V</text>
+
+  <!-- Driver A -->
+  <rect x="100" y="140" width="160" height="90" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="180" y="172" font-size="14" fill="#2b3a4a" text-anchor="middle" font-weight="700">Driver A</text>
+  <text x="180" y="194" font-size="12" fill="#b02a2a" text-anchor="middle">推挽输出高（PMOS 开）</text>
+  <text x="180" y="214" font-size="11" fill="#5a6672" text-anchor="middle">NMOS 关</text>
+  <line x1="180" y1="80" x2="180" y2="140" stroke="#b02a2a" stroke-width="2.2"/>
+
+  <!-- bus -->
+  <line x1="260" y1="185" x2="460" y2="185" stroke="#2b3a4a" stroke-width="3.0"/>
+  <text x="360" y="208" font-size="12" fill="#1a4f8b" text-anchor="middle" font-weight="700">总线 Bus</text>
+  <line x1="300" y1="185" x2="420" y2="185" stroke="#b02a2a" stroke-width="2.6" marker-end="url(#arrow)"/>
+  <text x="360" y="160" font-size="12" fill="#b02a2a" text-anchor="middle" font-weight="700">I_contention</text>
+  <defs>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#b02a2a"/>
+    </marker>
+  </defs>
+
+  <!-- Driver B -->
+  <rect x="460" y="140" width="160" height="90" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="540" y="172" font-size="14" fill="#2b3a4a" text-anchor="middle" font-weight="700">Driver B</text>
+  <text x="540" y="194" font-size="12" fill="#b02a2a" text-anchor="middle">推挽输出低（NMOS 开）</text>
+  <text x="540" y="214" font-size="11" fill="#5a6672" text-anchor="middle">PMOS 关</text>
+
+  <!-- grounds -->
+  <line x1="180" y1="230" x2="180" y2="310" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="166" y1="310" x2="194" y2="310" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="171" y1="317" x2="189" y2="317" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="175" y1="324" x2="185" y2="324" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="180" y="342" font-size="11" fill="#5a6672" text-anchor="middle">GND</text>
+
+  <line x1="540" y1="230" x2="540" y2="310" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="526" y1="310" x2="554" y2="310" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="531" y1="317" x2="549" y2="317" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="535" y1="324" x2="545" y2="324" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="540" y="342" font-size="11" fill="#5a6672" text-anchor="middle">GND</text>
+
+  <text x="24" y="372" font-size="12" fill="#5a6672" text-anchor="start">I = VDD / (Ron_A + Ron_B)：3.3V、两只 20Ω 导通管给出 82.5mA，单管功耗 136mW。</text>
+  <text x="24" y="392" font-size="12" fill="#5a6672" text-anchor="start">推挽并接等于 VCC 经两个导通管短路到 GND；三态靠分时互斥，开漏靠“只能拉低”的线与。</text>
+</svg>

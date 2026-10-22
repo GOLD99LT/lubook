@@ -1,0 +1,63 @@
+<svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>NMOS 双向电平转换：源极接低压侧 A，漏极接高压侧 B，栅极接 VCCA，体二极管从 A 指向 B</title>
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="16" fill="#222a32" text-anchor="start" font-weight="700">MOSFET 双向电平转换：体二极管与栅极接法 Bidirectional Level Shifter</text>
+
+  <!-- A rail -->
+  <line x1="60" y1="70" x2="260" y2="70" stroke="#1a4f8b" stroke-width="2.4"/>
+  <text x="60" y="60" font-size="13" fill="#1a4f8b" text-anchor="start" font-weight="700">VCCA = 3.3V（低压侧）</text>
+  <line x1="120" y1="70" x2="120" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="108" y="100" width="24" height="40" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="140" y="124" font-size="12" fill="#1a4f8b" text-anchor="start" font-weight="700">R_A</text>
+  <line x1="120" y1="140" x2="120" y2="180" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- A node and bus -->
+  <line x1="120" y1="180" x2="300" y2="180" stroke="#2b3a4a" stroke-width="2.6"/>
+  <circle cx="120" cy="180" r="4.5" fill="#2b3a4a"/>
+  <text x="70" y="200" font-size="13" fill="#1a4f8b" text-anchor="start" font-weight="700">A 侧</text>
+
+  <!-- B rail -->
+  <line x1="460" y1="70" x2="680" y2="70" stroke="#b5642e" stroke-width="2.4"/>
+  <text x="460" y="60" font-size="13" fill="#b5642e" text-anchor="start" font-weight="700">VCCB = 5V（高压侧）</text>
+  <line x1="580" y1="70" x2="580" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="568" y="100" width="24" height="40" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="600" y="124" font-size="12" fill="#b5642e" text-anchor="start" font-weight="700">R_B</text>
+  <line x1="580" y1="140" x2="580" y2="180" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- B node and bus -->
+  <line x1="420" y1="180" x2="580" y2="180" stroke="#2b3a4a" stroke-width="2.6"/>
+  <circle cx="580" cy="180" r="4.5" fill="#2b3a4a"/>
+  <text x="600" y="200" font-size="13" fill="#b5642e" text-anchor="start" font-weight="700">B 侧</text>
+
+  <!-- MOSFET channel -->
+  <line x1="300" y1="180" x2="330" y2="180" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="330" y1="150" x2="330" y2="210" stroke="#2b3a4a" stroke-width="3.0"/>
+  <line x1="390" y1="150" x2="390" y2="210" stroke="#2b3a4a" stroke-width="3.0"/>
+  <line x1="390" y1="180" x2="420" y2="180" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="330" y1="165" x2="390" y2="165" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="360" y="140" font-size="12" fill="#2b3a4a" text-anchor="middle" font-weight="700">Q1 NMOS</text>
+  <text x="322" y="226" font-size="11" fill="#1a4f8b" text-anchor="end">S = A</text>
+  <text x="398" y="226" font-size="11" fill="#b5642e" text-anchor="start">D = B</text>
+
+  <!-- gate to VCCA -->
+  <line x1="360" y1="165" x2="360" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="360" y1="90" x2="260" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="260" y1="90" x2="260" y2="70" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="260" cy="70" r="4.0" fill="#2b3a4a"/>
+  <text x="310" y="82" font-size="12" fill="#1a4f8b" text-anchor="middle" font-weight="700">G = VCCA</text>
+
+  <!-- body diode A -> B -->
+  <line x1="300" y1="180" x2="300" y2="245" stroke="#b02a2a" stroke-width="2.0"/>
+  <line x1="420" y1="180" x2="420" y2="245" stroke="#b02a2a" stroke-width="2.0"/>
+  <line x1="300" y1="245" x2="346" y2="245" stroke="#b02a2a" stroke-width="2.0"/>
+  <polygon points="346,236 346,254 362,245" fill="#b02a2a" stroke="#b02a2a" stroke-width="1.5"/>
+  <line x1="362" y1="236" x2="362" y2="254" stroke="#b02a2a" stroke-width="2.4"/>
+  <line x1="362" y1="245" x2="420" y2="245" stroke="#b02a2a" stroke-width="2.0"/>
+  <text x="360" y="270" font-size="11" fill="#b02a2a" text-anchor="middle" font-weight="700">体二极管 A → B</text>
+
+  <!-- notes -->
+  <text x="24" y="330" font-size="12" fill="#5a6672" text-anchor="start">A 拉低：V_GS = VCCA - 0 = 3.3V，沟道导通，B 被拉到低；B 拉低：体二极管先把 A 拉到 Vf≈0.7V，</text>
+  <text x="24" y="352" font-size="12" fill="#5a6672" text-anchor="start">此时 V_GS = VCCA - Vf；只有 VCCA - Vf 大于 V_th,max，沟道才继续把 A 拉到 0V。</text>
+  <text x="24" y="378" font-size="12" fill="#b02a2a" text-anchor="start">1.8V 侧：1.8 - 0.7 = 1.1V；BSS138 的 V_th,max 约 1.5V，不保证导通，A 可能停在 0.7V 而读不到低。</text>
+  <text x="24" y="402" font-size="12" fill="#5a6672" text-anchor="start">3.3V 侧：3.3 - 0.7 = 2.6V，大于 1.5V，沟道能可靠导通；所以经典 BSS138 电路多用于 3.3V↔5V。</text>
+</svg>

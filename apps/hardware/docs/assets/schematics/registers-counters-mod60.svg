@@ -1,0 +1,65 @@
+<svg viewBox="0 0 780 440" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>两片 74HC160 级联构成模 60 BCD 计数器：个位 TC 同步进位，译码 59 后同步装入 0000</title>
+  <rect width="780" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="16" fill="#222a32" text-anchor="start" font-weight="700">模 60 BCD 计数器：两片 74HC160 同步级联 Mod-60 BCD Counter</text>
+
+  <!-- units -->
+  <rect x="80" y="120" width="220" height="140" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="190" y="150" font-size="14" fill="#2b3a4a" text-anchor="middle" font-weight="700">74HC160 个位</text>
+  <text x="94" y="178" font-size="11" fill="#1a4f8b" text-anchor="start">CEP = CET = 1</text>
+  <text x="94" y="200" font-size="11" fill="#1a4f8b" text-anchor="start">Q3Q2Q1Q0: 0000 ~ 1001</text>
+  <text x="94" y="222" font-size="11" fill="#1a4f8b" text-anchor="start">TC = 1 当计数 = 9 且 CET = 1</text>
+  <text x="94" y="244" font-size="11" fill="#5a6672" text-anchor="start">MR 接高，PE 由译码控制</text>
+
+  <!-- tens -->
+  <rect x="480" y="120" width="220" height="140" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="590" y="150" font-size="14" fill="#2b3a4a" text-anchor="middle" font-weight="700">74HC160 十位</text>
+  <text x="494" y="178" font-size="11" fill="#1a4f8b" text-anchor="start">CEP = CET = TC_个位</text>
+  <text x="494" y="200" font-size="11" fill="#1a4f8b" text-anchor="start">Q3Q2Q1Q0: 0000 ~ 0101</text>
+  <text x="494" y="222" font-size="11" fill="#1a4f8b" text-anchor="start">计到 5 后由译码 59 置 0</text>
+  <text x="494" y="244" font-size="11" fill="#5a6672" text-anchor="start">D3D2D1D0 = 0000</text>
+
+  <!-- TC -> CEP/CET -->
+  <line x1="300" y1="190" x2="480" y2="190" stroke="#b5642e" stroke-width="2.6"/>
+  <polygon points="480,190 466,183 466,197" fill="#b5642e"/>
+  <text x="390" y="180" font-size="12" fill="#b5642e" text-anchor="middle" font-weight="700">TC 个位 → CEP/CET 十位</text>
+
+  <!-- decode 59 -->
+  <rect x="300" y="280" width="180" height="70" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.4" stroke-dasharray="5,3"/>
+  <text x="390" y="308" font-size="13" fill="#2b3a4a" text-anchor="middle" font-weight="700">译码：十位 = 5 且 个位 = 9</text>
+  <text x="390" y="330" font-size="11" fill="#5a6672" text-anchor="middle">下一个时钟沿同步装入 0000</text>
+
+  <!-- Q buses into decode -->
+  <line x1="190" y1="260" x2="190" y2="280" stroke="#1a4f8b" stroke-width="2.0"/>
+  <line x1="190" y1="280" x2="340" y2="280" stroke="#1a4f8b" stroke-width="2.0"/>
+  <text x="238" y="274" font-size="10" fill="#1a4f8b" text-anchor="middle">Q 个位</text>
+  <line x1="590" y1="260" x2="590" y2="280" stroke="#1a4f8b" stroke-width="2.0"/>
+  <line x1="590" y1="280" x2="440" y2="280" stroke="#1a4f8b" stroke-width="2.0"/>
+  <text x="512" y="274" font-size="10" fill="#1a4f8b" text-anchor="middle">Q 十位</text>
+
+  <!-- PE lines -->
+  <line x1="300" y1="315" x2="40" y2="315" stroke="#b02a2a" stroke-width="2.2"/>
+  <line x1="40" y1="315" x2="40" y2="210" stroke="#b02a2a" stroke-width="2.2"/>
+  <line x1="40" y1="210" x2="80" y2="210" stroke="#b02a2a" stroke-width="2.2"/>
+  <text x="66" y="230" font-size="10" fill="#b02a2a" text-anchor="start">PE</text>
+  <line x1="480" y1="315" x2="720" y2="315" stroke="#b02a2a" stroke-width="2.2"/>
+  <line x1="720" y1="315" x2="720" y2="210" stroke="#b02a2a" stroke-width="2.2"/>
+  <line x1="720" y1="210" x2="700" y2="210" stroke="#b02a2a" stroke-width="2.2"/>
+  <text x="706" y="230" font-size="10" fill="#b02a2a" text-anchor="start">PE</text>
+  <text x="390" y="365" font-size="11" fill="#b02a2a" text-anchor="middle">PE 低有效：两片同时置 0，状态 59 之后回到 00</text>
+
+  <!-- clock rail -->
+  <text x="24" y="405" font-size="13" fill="#1a4f8b" text-anchor="start" font-weight="700">CLK</text>
+  <line x1="60" y1="401" x2="740" y2="401" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="150" y1="401" x2="150" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="630" y1="401" x2="630" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="130,240 130,280 150,260" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.0"/>
+  <polygon points="610,240 610,280 630,260" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.0"/>
+
+  <!-- output from decode 59 -->
+  <line x1="480" y1="335" x2="744" y2="335" stroke="#2a7a4a" stroke-width="2.4"/>
+  <polygon points="744,335 730,328 730,342" fill="#2a7a4a"/>
+  <text x="744" y="325" font-size="11" fill="#2a7a4a" text-anchor="end" font-weight="700">f_out = f_clk / 60（译码 59）</text>
+
+  <text x="24" y="430" font-size="12" fill="#5a6672" text-anchor="start">同步级联：十位在自己的时钟沿采样个位 TC，进位不经过异步行波；模 60 用同步 PE 置 0，避免异步清零毛刺。</text>
+</svg>

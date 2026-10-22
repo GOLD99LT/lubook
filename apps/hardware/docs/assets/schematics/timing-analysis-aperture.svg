@@ -1,0 +1,69 @@
+<svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>主从 D 触发器的采样窗口：建立时间、保持时间与亚稳态</title>
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="24" y="28" font-size="16" fill="#222a32" text-anchor="start" font-weight="700">主从 D 触发器：采样窗口的物理来源 Setup/Hold Aperture</text>
+
+  <!-- schematic panel -->
+  <text x="24" y="62" font-size="13" fill="#1a4f8b" text-anchor="start" font-weight="700">(a) 主从锁存器结构</text>
+  <text x="30" y="122" font-size="14" fill="#1a4f8b" text-anchor="start" font-weight="700">D</text>
+  <line x1="46" y1="118" x2="72" y2="118" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <rect x="72" y="88" width="108" height="100" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="126" y="132" font-size="13" fill="#2b3a4a" text-anchor="middle" font-weight="700">Master</text>
+  <text x="126" y="152" font-size="11" fill="#5a6672" text-anchor="middle">CLK 低时透明</text>
+
+  <rect x="180" y="113" width="26" height="50" fill="#ffffff" stroke="#b5642e" stroke-width="2.2"/>
+  <text x="193" y="105" font-size="11" fill="#b5642e" text-anchor="middle" font-weight="700">TG1</text>
+
+  <rect x="206" y="88" width="108" height="100" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="260" y="132" font-size="13" fill="#2b3a4a" text-anchor="middle" font-weight="700">Slave</text>
+  <text x="260" y="152" font-size="11" fill="#5a6672" text-anchor="middle">CLK 高时透明</text>
+
+  <rect x="314" y="113" width="26" height="50" fill="#ffffff" stroke="#b5642e" stroke-width="2.2"/>
+  <text x="327" y="105" font-size="11" fill="#b5642e" text-anchor="middle" font-weight="700">TG2</text>
+
+  <line x1="340" y1="118" x2="372" y2="118" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="378" y="122" font-size="14" fill="#1a4f8b" text-anchor="start" font-weight="700">Q</text>
+
+  <!-- clock rail -->
+  <text x="30" y="225" font-size="13" fill="#1a4f8b" text-anchor="start" font-weight="700">CLK</text>
+  <line x1="76" y1="221" x2="340" y2="221" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="193" y1="221" x2="193" y2="163" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="327" y1="221" x2="327" y2="163" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="193" cy="221" r="3.6" fill="#2b3a4a"/>
+  <circle cx="327" cy="221" r="3.6" fill="#2b3a4a"/>
+  <text x="245" y="246" font-size="11" fill="#5a6672" text-anchor="middle">内部时钟延迟与 TG 关断时间决定窗口宽度</text>
+
+  <!-- timing panel -->
+  <text x="404" y="62" font-size="13" fill="#1a4f8b" text-anchor="start" font-weight="700">(b) 采样窗口与数据边沿</text>
+  <line x1="404" y1="300" x2="700" y2="300" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="700" y="318" font-size="11" fill="#5a6672" text-anchor="end">时间</text>
+
+  <!-- aperture -->
+  <rect x="528" y="76" width="24" height="220" fill="#fbe9e7" stroke="#b02a2a" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <text x="540" y="70" font-size="11" fill="#b02a2a" text-anchor="middle" font-weight="700">采样窗口</text>
+
+  <!-- CLK -->
+  <text x="404" y="104" font-size="12" fill="#1a4f8b" text-anchor="start" font-weight="700">CLK</text>
+  <polyline points="430,92 470,92 470,132 510,132 510,92 550,92 550,132 590,132 590,92 630,92 630,132 670,132" fill="none" stroke="#1a4f8b" stroke-width="2.4"/>
+  <line x1="540" y1="76" x2="540" y2="300" stroke="#b02a2a" stroke-width="1.2" stroke-dasharray="3,3"/>
+
+  <!-- D -->
+  <text x="404" y="190" font-size="12" fill="#2a7a4a" text-anchor="start" font-weight="700">D</text>
+  <polyline points="430,214 510,214 510,174 700,174" fill="none" stroke="#2a7a4a" stroke-width="2.4"/>
+  <text x="550" y="168" font-size="11" fill="#b02a2a" text-anchor="start" font-weight="700">D 在窗口内变化，可能亚稳</text>
+
+  <!-- tsu / th annotations -->
+  <line x1="510" y1="238" x2="528" y2="238" stroke="#b5642e" stroke-width="2.0"/>
+  <line x1="510" y1="232" x2="510" y2="244" stroke="#b5642e" stroke-width="1.6"/>
+  <line x1="528" y1="232" x2="528" y2="244" stroke="#b5642e" stroke-width="1.6"/>
+  <text x="500" y="258" font-size="11" fill="#b5642e" text-anchor="middle" font-weight="700">tSU</text>
+
+  <line x1="552" y1="238" x2="572" y2="238" stroke="#b5642e" stroke-width="2.0"/>
+  <line x1="552" y1="232" x2="552" y2="244" stroke="#b5642e" stroke-width="1.6"/>
+  <line x1="572" y1="232" x2="572" y2="244" stroke="#b5642e" stroke-width="1.6"/>
+  <text x="585" y="258" font-size="11" fill="#b5642e" text-anchor="middle" font-weight="700">tH</text>
+
+  <text x="404" y="342" font-size="12" fill="#5a6672" text-anchor="start">数据在窗口外变化：可靠采样；在窗口内变化：输出可能停在阈值附近，</text>
+  <text x="404" y="362" font-size="12" fill="#5a6672" text-anchor="start">经过指数时间才收敛到 0 或 1，这就是亚稳态。</text>
+</svg>

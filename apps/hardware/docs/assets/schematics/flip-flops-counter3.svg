@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cntTitle cntDesc" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title id="cntTitle">3 位二进制计数器状态转移图</title>
+  <desc id="cntDesc">八个状态 000 到 111 顺时针排列，每个时钟上升沿走一步，111 回到 000；全部状态都在主循环内，因此任意上电状态都能自启动</desc>
+  <rect width="760" height="620" fill="#ffffff"/>
+  <text x="30" y="34" font-size="18" fill="#222a32" font-weight="700">3 位二进制计数器状态转移 Self-Starting Counter</text>
+  <text x="30" y="58" font-size="13" fill="#5a6672">每个时钟上升沿沿箭头走一步；8 个状态全部在环内，任意上电状态最多 7 拍回到 000</text>
+
+  <defs>
+    <marker id="cntArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+
+  <!-- transition arrows -->
+  <line x1="421" y1="147" x2="466" y2="166" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#cntArrow)"/>
+  <line x1="531" y1="227" x2="550" y2="272" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#cntArrow)"/>
+  <line x1="553" y1="361" x2="534" y2="406" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#cntArrow)"/>
+  <line x1="473" y1="471" x2="428" y2="490" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#cntArrow)"/>
+  <line x1="339" y1="493" x2="294" y2="474" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#cntArrow)"/>
+  <line x1="229" y1="413" x2="210" y2="368" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#cntArrow)"/>
+  <line x1="207" y1="279" x2="226" y2="234" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#cntArrow)"/>
+  <line x1="287" y1="169" x2="332" y2="150" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#cntArrow)"/>
+
+  <!-- states -->
+  <circle cx="380" cy="130" r="44" fill="#fbfdff" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="380" y="137" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">000</text>
+
+  <circle cx="514" cy="186" r="44" fill="#fbfdff" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="514" y="193" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">001</text>
+
+  <circle cx="570" cy="320" r="44" fill="#fbfdff" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="570" y="327" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">010</text>
+
+  <circle cx="514" cy="454" r="44" fill="#fbfdff" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="514" y="461" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">011</text>
+
+  <circle cx="380" cy="510" r="44" fill="#fbfdff" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="380" y="517" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">100</text>
+
+  <circle cx="246" cy="454" r="44" fill="#fbfdff" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="246" y="461" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">101</text>
+
+  <circle cx="190" cy="320" r="44" fill="#fbfdff" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="190" y="327" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">110</text>
+
+  <circle cx="246" cy="186" r="44" fill="#fbfdff" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="246" y="193" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">111</text>
+
+  <!-- center label -->
+  <text x="380" y="310" font-size="15" fill="#b5642e" text-anchor="middle" font-weight="700">Q2 Q1 Q0</text>
+  <text x="380" y="334" font-size="13" fill="#5a6672" text-anchor="middle">每个上升沿 +1</text>
+
+  <!-- equations -->
+  <rect x="30" y="562" width="700" height="44" rx="8" fill="#f7f9fb" stroke="#d8dee6"/>
+  <text x="46" y="589" font-size="14" fill="#222a32">D0 = Q0'　　D1 = Q1 ⊕ Q0　　D2 = Q2 ⊕ (Q1·Q0)</text>
+</svg>
+

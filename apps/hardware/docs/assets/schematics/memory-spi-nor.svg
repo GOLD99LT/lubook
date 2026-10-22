@@ -1,0 +1,54 @@
+<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>MCU 通过 SPI 四线连接 NOR Flash：CS、SCK、MOSI、MISO 与电源去耦</title>
+  <rect width="720" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="16" fill="#222a32" text-anchor="start" font-weight="700">MCU 外挂 SPI NOR：四线连接与电源去耦</text>
+
+  <!-- 3.3V rail -->
+  <line x1="125" y1="80" x2="650" y2="80" stroke="#b5642e" stroke-width="2.2"/>
+  <text x="360" y="70" font-size="13" fill="#b5642e" text-anchor="middle" font-weight="700">+3.3V</text>
+  <line x1="125" y1="80" x2="125" y2="150" stroke="#b5642e" stroke-width="2.2"/>
+  <line x1="545" y1="80" x2="545" y2="150" stroke="#b5642e" stroke-width="2.2"/>
+  <line x1="650" y1="80" x2="650" y2="118" stroke="#b5642e" stroke-width="2.2"/>
+  <line x1="638" y1="118" x2="662" y2="118" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="638" y1="126" x2="662" y2="126" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="666" y="126" font-size="11" fill="#2b3a4a" text-anchor="start" font-weight="700">100nF</text>
+  <line x1="650" y1="126" x2="650" y2="145" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="636" y1="145" x2="664" y2="145" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="641" y1="152" x2="659" y2="152" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="645" y1="159" x2="655" y2="159" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- MCU -->
+  <rect x="50" y="150" width="150" height="150" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="125" y="178" font-size="13" fill="#2b3a4a" text-anchor="middle" font-weight="700">MCU</text>
+  <text x="125" y="198" font-size="11" fill="#1a4f8b" text-anchor="middle" font-weight="700">SPI 主机</text>
+  <text x="125" y="285" font-size="11" fill="#1a4f8b" text-anchor="middle" font-weight="700">VSS</text>
+
+  <!-- Flash -->
+  <rect x="470" y="150" width="150" height="150" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="545" y="178" font-size="13" fill="#2b3a4a" text-anchor="middle" font-weight="700">SPI NOR</text>
+  <text x="545" y="198" font-size="11" fill="#1a4f8b" text-anchor="middle" font-weight="700">128Mbit / 4KB 扇区</text>
+  <text x="545" y="285" font-size="11" fill="#1a4f8b" text-anchor="middle" font-weight="700">VSS</text>
+
+  <!-- signals -->
+  <line x1="200" y1="210" x2="470" y2="210" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="208" y="204" font-size="12" fill="#1a4f8b" text-anchor="start" font-weight="700">CS# 片选（低有效）</text>
+  <line x1="200" y1="235" x2="470" y2="235" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="208" y="229" font-size="12" fill="#1a4f8b" text-anchor="start" font-weight="700">SCK 时钟 104MHz</text>
+  <line x1="200" y1="260" x2="470" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="208" y="254" font-size="12" fill="#1a4f8b" text-anchor="start" font-weight="700">MOSI 命令与地址</text>
+  <line x1="200" y1="285" x2="470" y2="285" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="208" y="279" font-size="12" fill="#1a4f8b" text-anchor="start" font-weight="700">MISO 数据（单线 1 bit，四线 4 bit）</text>
+
+  <!-- grounds -->
+  <line x1="125" y1="300" x2="125" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="111" y1="330" x2="139" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="116" y1="337" x2="134" y2="337" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="120" y1="344" x2="130" y2="344" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="545" y1="300" x2="545" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="531" y1="330" x2="559" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="536" y1="337" x2="554" y2="337" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="540" y1="344" x2="550" y2="344" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <text x="24" y="392" font-size="12" fill="#5a6672" text-anchor="start">带宽：单线 104MHz 为 13MB/s，四线为 52MB/s；随机读一次约 80ns，逐拍取指必须靠 Cache 或先拷到 RAM</text>
+  <text x="24" y="414" font-size="12" fill="#5a6672" text-anchor="start">可靠读写的前提：CS 未选中保持高、每颗器件 VCC 旁 100nF 去耦、两地完整共地</text>
+</svg>
