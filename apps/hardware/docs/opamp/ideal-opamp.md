@@ -10,7 +10,7 @@ status: published
 sources:
   - Op Amps for Everyone (TI SLOD006B), Ideal Op-Amp 章
   - Sergio Franco, Design with Operational Amplifiers 4e
-  - MIT Roberge, Operational Amplifiers: Theory and Practice
+  - MIT Roberge, Operational Amplifiers — Theory and Practice
 ---
 
 # 理想模型五假设与虚短、虚断 Ideal Op-Amp Model

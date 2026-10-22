@@ -9,7 +9,7 @@ difficulty: 2
 status: published
 sources:
   - https://learn.sparkfun.com/tutorials/how-to-use-a-multimeter/all
-  - David J. Agans, "Debugging: The 9 Indispensable Rules"
+  - David J. Agans, "Debugging — The 9 Indispensable Rules"
 ---
 
 # 故障排查案例库

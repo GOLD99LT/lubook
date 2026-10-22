@@ -13,7 +13,7 @@ sources:
   - Practical Electronics for Inventors, 4th ed., Chapter 2 Theory — Inductors、RL 暂态、继电器与变压器（Scherz and Monk）
   - 王兆安、刘进军《电力电子技术》「电力电子器件」一章中器件的过电压保护与缓冲电路（机械工业出版社）
   - Vishay Semiconductors, 1N4148 / 1N4448 Small-Signal Diode 数据手册（正向电流、反向耐压、反向恢复与结电容）
-  - IEC 61810-1, Electromechanical elementary relays – Part 1: General and safety requirements（吸合/释放时间与线圈参数的定义）
+  - IEC 61810-1, Electromechanical elementary relays – Part 1 — General and safety requirements（吸合/释放时间与线圈参数的定义）
   - Murata / TDK 功率电感数据手册中的 L–I 曲线与 Isat、Itemp 定义（饱和电流与温升电流）
 ---
 

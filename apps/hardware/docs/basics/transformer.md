@@ -12,8 +12,8 @@ sources:
   - Lessons In Electric Circuits, Vol. II – AC（Kuphaldt）, Chapter 9 Transformers（互感、匝比、阻抗变换、同名端与变压器损耗）
   - 《电路》（邱关源，高等教育出版社）「含有耦合电感的电路」一章（耦合电感、理想变压器、变电压/变电流/变阻抗与同名端）
   - 《电机学》（汤蕴璆等，机械工业出版社）变压器一章（空载与负载运行、励磁电流与磁化电感、铁损铜损、效率与温升）
-  - IEC 61558-1:2017《Safety of power transformers, power supplies, reactors and similar products – Part 1: General requirements and tests》— 小型电源变压器的绝缘、温升与耐压试验口径
-  - IEC 60076-1《Power transformers – Part 1: General》— 损耗、温升与额定容量的术语口径（大功率变压器）
+  - IEC 61558-1:2017《Safety of power transformers, power supplies, reactors and similar products – Part 1 — General requirements and tests》— 小型电源变压器的绝缘、温升与耐压试验口径
+  - IEC 60076-1《Power transformers – Part 1 — General》— 损耗、温升与额定容量的术语口径（大功率变压器）
   - Steinmetz, C. P., "On the Law of Hysteresis", AIEE Transactions, Vol. 9, 1892 — 磁滞损耗经验式 $P\propto fB^{1.6}$ 的来源
   - TDK, Ferrite Cores 产品目录与 PC40 材料数据 — MnZn 铁氧体的饱和磁通密度与损耗曲线；具体数值以数据手册为准
 ---

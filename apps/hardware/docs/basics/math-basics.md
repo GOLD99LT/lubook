@@ -11,10 +11,10 @@ status: published
 sources:
   - Lessons In Electric Circuits, Vol. II – AC（Kuphaldt）, Chapter 2 Complex Numbers（直角/极坐标互换、四则运算与共轭）；Chapter 8 Filters（一阶/二阶响应、截止频率与 dB）
   - 《电路》（邱关源，高等教育出版社）「相量法」与「线性动态电路的复频域分析」两章（相量法的前提、拉普拉斯变换与 s 域阻抗）
-  - IEC 60027-3:2002《Letter symbols to be used in electrical technology – Part 3: Logarithmic and related quantities, and their units》— 功率量按 10 lg、场量按 20 lg 的 dB 定义
+  - IEC 60027-3:2002《Letter symbols to be used in electrical technology – Part 3 — Logarithmic and related quantities, and their units》— 功率量按 10 lg、场量按 20 lg 的 dB 定义
   - Sedra & Smith, Microelectronic Circuits, 7th ed., Section 1.6 Frequency Response of Amplifiers（dB、伯德图、一阶极点与主极点近似）
   - Ogata, Modern Control Engineering, 5th ed., Chapter 5 Transient and Steady-State Response Analyses（一阶/二阶系统的极点、阻尼比、超调与建立时间）
-  - Analog Devices, MT-048《Op Amp Noise Relationships: 1/f Noise, RMS Noise, and Equivalent Noise Bandwidth》— 噪声密度、等效噪声带宽与 RMS 噪声的换算口径
+  - Analog Devices, MT-048《Op Amp Noise Relationships — 1/f Noise, RMS Noise, and Equivalent Noise Bandwidth》— 噪声密度、等效噪声带宽与 RMS 噪声的换算口径
 ---
 
 # 数学基础：复数、dB 与拉氏变换直觉 Math Basics: Complex Numbers, dB, Laplace

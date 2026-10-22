@@ -11,7 +11,7 @@ sources:
   - Lessons In Electric Circuits, Volume I – DC, Chapter 13 Capacitors, Chapter 16 RC and L/R Time Constants（Kuphaldt，ibiblio 公开版）
   - The Art of Electronics, 3rd ed., Chapter 1 Foundations — 电容、RC 时间常数与容抗（Horowitz and Hill）
   - Practical Electronics for Inventors, 4th ed., Chapter 2 Theory — Capacitors、RC 充放电与去耦（Scherz and Monk）
-  - IEC 60384-1:2016, Fixed capacitors for use in electronic equipment – Part 1: Generic specification（耐压、温度特性与试验分类）
+  - IEC 60384-1:2016, Fixed capacitors for use in electronic equipment – Part 1 — Generic specification（耐压、温度特性与试验分类）
   - IEC 60063:2015, Preferred number series for resistors and capacitors（E6/E12 电容标称值）
   - Texas Instruments, NE555 定时器数据手册 Monostable Operation 一节：单稳态脉宽 tw = 1.1RC（内部阈值为 2/3 VCC）
 ---

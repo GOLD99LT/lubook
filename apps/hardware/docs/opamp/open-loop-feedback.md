@@ -9,7 +9,7 @@ difficulty: 2
 status: published
 sources:
   - Op Amps for Everyone (TI SLOD006B), Feedback 章
-  - MIT Roberge, Operational Amplifiers: Theory and Practice
+  - MIT Roberge, Operational Amplifiers — Theory and Practice
   - Sergio Franco, Design with Operational Amplifiers 4e
 ---
 

@@ -10,7 +10,7 @@ status: published
 sources:
   - Sergio Franco, Design with Operational Amplifiers 4e, Feedback Topologies 章
   - Op Amps for Everyone (TI SLOD006B)
-  - MIT Roberge, Operational Amplifiers: Theory and Practice
+  - MIT Roberge, Operational Amplifiers — Theory and Practice
 ---
 
 # 反馈四拓扑与环路增益 Feedback Topologies & Loop Gain

@@ -8,7 +8,7 @@ tags: [题库, 自测, 数字电路]
 difficulty: 2
 status: published
 sources:
-  - Wakerly, Digital Design: Principles and Practices
+  - Wakerly, Digital Design — Principles and Practices
   - Brown & Vranesic, Fundamentals of Digital Logic
   - Xilinx / Intel FPGA 设计文档与时序约束指南
 ---

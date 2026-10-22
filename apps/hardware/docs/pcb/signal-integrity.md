@@ -8,7 +8,7 @@ tags: [信号完整性, 反射, 特性阻抗, 端接, 微带线, 带状线]
 difficulty: 3
 status: published
 sources:
-  - Howard Johnson, High Speed Digital Design: A Handbook of Black Magic
+  - Howard Johnson, High Speed Digital Design — A Handbook of Black Magic
   - Saturn PCB Design Toolkit
   - IPC-2141 Controlled Impedance Circuit Boards
 ---
