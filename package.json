@@ -9,7 +9,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "gen:portal": "pnpm -F @lubook/portal gen",
+    "gen:portal": "pnpm -F @lubook/portal gen:public",
     "dev:portal": "pnpm -F @lubook/portal docs:dev",
     "build:portal": "pnpm -F @lubook/portal docs:build",
     "preview:portal": "pnpm -F @lubook/portal docs:preview",

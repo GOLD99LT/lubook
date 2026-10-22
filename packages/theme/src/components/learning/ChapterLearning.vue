@@ -94,25 +94,28 @@ function exportBackup() {
         type="button"
         class="hh-ls-btn"
         :class="{ active: status === 'learning' }"
+        :aria-pressed="status === 'learning' ? 'true' : 'false'"
         @click="setStatus('learning')"
       >在学</button>
       <button
         type="button"
         class="hh-ls-btn"
         :class="{ active: status === 'done' }"
+        :aria-pressed="status === 'done' ? 'true' : 'false'"
         @click="setStatus('done')"
       >已学</button>
       <button
         type="button"
         class="hh-ls-btn hh-ls-fav"
         :class="{ active: fav }"
+        :aria-pressed="fav ? 'true' : 'false'"
         @click="toggleFav"
       >
       <svg class="hh-ls-star" viewBox="0 0 24 24" :fill="fav ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5z"/></svg>
       {{ fav ? '已收藏' : '收藏本章' }}</button>
     </div>
 
-    <div v-if="persistFailed" class="hh-ls-unsaved">
+    <div v-if="persistFailed" class="hh-ls-unsaved" role="status" aria-live="polite">
       <span class="hh-ls-unsaved-msg">
         本地保存失败（{{ learning.saveState.error || '存储不可用' }}），当前会话内数据仍保留。
       </span>
@@ -125,10 +128,11 @@ function exportBackup() {
 
     <div class="hh-learning-notes">
       <div class="hh-ln-head">
-        <span class="hh-ln-title">我的笔记</span>
-        <span class="hh-ln-hint" :class="{ 'is-error': savedHint === '未保存' }">{{ savedHint || '自动保存到本地浏览器' }}</span>
+        <label class="hh-ln-title" for="hh-note-input">我的笔记</label>
+        <span class="hh-ln-hint" :class="{ 'is-error': savedHint === '未保存' }" role="status" aria-live="polite">{{ savedHint || '自动保存到本地浏览器' }}</span>
       </div>
       <textarea
+        id="hh-note-input"
         v-model="note"
         rows="5"
         placeholder="按本章记录要点、坑、待办…（仅保存在你当前浏览器）"
