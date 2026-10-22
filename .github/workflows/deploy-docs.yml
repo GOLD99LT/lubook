@@ -11,6 +11,11 @@ permissions:
   pages: write
   id-token: write
 
+# 内容到 4.6MB 后 VitePress 默认堆不够；本工作流也会整体重构建（bundle:pages），
+# 因此在工作流级统一抬高堆上限，避免逐个 job 漏配（见 docs/adr/ADR-0011.md）。
+env:
+  NODE_OPTIONS: --max-old-space-size=6144
+
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
@@ -55,7 +60,19 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build & assemble multi-app bundle (VP_BASE=/lubook/)
-        run: pnpm bundle:pages
+        shell: bash
+        run: |
+          set +e
+          pnpm bundle:pages > /tmp/bundle.log 2>&1
+          rc=$?
+          tail -n 40 /tmp/bundle.log
+          if [ $rc -ne 0 ]; then
+            tail -n 25 /tmp/bundle.log \
+              | sed -e 's/%/%25/g' -e 's/\r//g' \
+              | tr '\n' ' ' > /tmp/msg.txt
+            echo "::error title=bundle:pages failed (rc=$rc)::$(cat /tmp/msg.txt)"
+          fi
+          exit $rc
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
