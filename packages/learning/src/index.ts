@@ -48,6 +48,13 @@ export interface SaveState {
   ok: boolean
   error: string | null
   updatedAt: string | null
+  /**
+   * 底层浏览器存储是否真的可持久化（ADR-0007 §5 补充）。
+   * false 表示已降级为内存：本次会话读写可用，但刷新即丢，UI 必须显示"仅本次会话有效"。
+   */
+  persistent: boolean
+  /** 启动期本地数据损坏：此时 persistent 仍为 true，但自动保存已停止，只有 resetLocalData 能解除。 */
+  bootFailed?: boolean
 }
 
 export interface LearningRepository {
@@ -101,6 +108,11 @@ const SCHEMA_VERSION = 1 as const
 const LEGACY_EPOCH = '1970-01-01T00:00:00.000Z'
 const NOTE_MAX_LEN = 100_000 // 单条笔记字符上限
 const NOTES_TOTAL_MAX = 5 * 1024 * 1024 // 笔记总字符上限（5MB）
+/**
+ * 持久化不可用时唯一的对外说法（ADR-0007 §5 补充）：只承诺会话内有效。
+ * 内存 Storage 的 setItem 永远成功，绝不能据此报"已保存"。
+ */
+const STORAGE_UNAVAILABLE_MESSAGE = '浏览器存储不可用，数据仅保存在当前会话'
 
 // ---- 内部持久化形态 ----
 
@@ -135,16 +147,75 @@ function warn(...args: unknown[]): void {
   }
 }
 
-/** SSR 守卫：注入优先；其次浏览器全局 localStorage；都没有则用内存 Map（不持久化，保证不崩）。 */
-function resolveStorage(injected?: Storage): Storage {
-  if (injected) return injected
+interface ResolvedStorage {
+  storage: Storage
+  /** 存储机制是否真实可用；内存 Storage 永远不满足。具体单次写入成败由 saveState.ok 表达。 */
+  persistent: boolean
+}
+
+/** SecurityError 等访问被拒绝的错误：属于"存储不可用"，不是可重试的配额问题。 */
+function isSecurityError(e: unknown): boolean {
+  const name = (e as { name?: unknown } | null)?.name
+  return name === 'SecurityError' || name === 'NotAllowedError'
+}
+
+/**
+ * 实际探测一次读写：localStorage 的 getter 能访问不代表可写（隐私模式/策略禁用常在 setItem 才抛 SecurityError）。
+ * readable=false 时必须整体降级为内存；readable=true 时保留 Storage（历史数据还能读），
+ * 把 writable/denied 交给调用方决定 persistent 与是否降级。
+ */
+function probeStorage(storage: Storage): { readable: boolean; writable: boolean; denied: boolean } {
+  // 探针键唯一化，避免与真实学习键或测试残留冲突；探测后立即删除。
+  const probe = `${NEW_KEY_PREFIX}.__probe__.${Math.random().toString(36).slice(2)}`
+  try {
+    storage.getItem(probe)
+  } catch (e) {
+    return { readable: false, writable: false, denied: isSecurityError(e) }
+  }
+  try {
+    storage.setItem(probe, '1')
+    const writable = storage.getItem(probe) === '1'
+    storage.removeItem(probe)
+    return { readable: true, writable, denied: false }
+  } catch (e) {
+    try {
+      storage.removeItem(probe)
+    } catch {
+      /* 已经不可写，清理失败无需再报 */
+    }
+    warn('存储读写探测失败', e)
+    return { readable: true, writable: false, denied: isSecurityError(e) }
+  }
+}
+
+/**
+ * SSR 守卫：注入优先；其次浏览器全局 localStorage；都不可用则用内存 Map（不持久化，保证不崩）。
+ * 返回 persistent 让调用方把"降级"如实反映到 saveState，而不是静默假装成功。
+ */
+function resolveStorage(injected?: Storage): ResolvedStorage {
+  const resolveOne = (s: Storage): ResolvedStorage => {
+    const probe = probeStorage(s)
+    if (!probe.readable) return { storage: createMemoryStorage(), persistent: false }
+    // 访问被拒（SecurityError）：保留 Storage 供读取历史数据，但本次会话不再尝试写入。
+    if (probe.denied) return { storage: s, persistent: false }
+    // 配额耗尽等可恢复的写失败：仍视为"有持久化存储"，让真实写入失败后由 retryPersist 恢复。
+    return { storage: s, persistent: true }
+  }
+  if (injected) return resolveOne(injected)
+  // 无 window（SSR/Node 测试）：只有内存实现，必须如实标记 persistent=false。
+  // UI 只在 mounted 之后展示保存状态，所以静态 HTML 不会带出误导性警告；客户端会重新创建仓储，
+  // 用真实 localStorage 重新探测并渲染准确结果。
+  if (typeof window === 'undefined') {
+    return { storage: createMemoryStorage(), persistent: false }
+  }
   try {
     const g = globalThis as { localStorage?: Storage }
-    if (g && g.localStorage) return g.localStorage
-  } catch {
-    /* ignore */
+    const s = g && g.localStorage
+    if (s) return resolveOne(s)
+  } catch (e) {
+    warn('访问 localStorage 失败，降级为内存存储', e)
   }
-  return createMemoryStorage()
+  return { storage: createMemoryStorage(), persistent: false }
 }
 
 function createMemoryStorage(): Storage {
@@ -221,7 +292,11 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
   // 迁移来源完全由 app 显式声明（ADR-0007 §2）：不再无条件前置最早全局键；新分册缺省空数组 → 不迁移。
   const legacyKeys = (opts.legacyKeys ?? []).filter((k, i, arr) => arr.indexOf(k) === i)
 
-  const storage = resolveStorage(opts.storage)
+  const resolvedStorage = resolveStorage(opts.storage)
+  // 写失败后若能确定是访问被拒（SecurityError），永久降级到内存；配额耗尽等可恢复错误不降级，
+  // 仍保留原 Storage，让 retryPersist() 在空间恢复后能重新落盘（F04 验收）。
+  let storage = resolvedStorage.storage
+  let storagePersistent = resolvedStorage.persistent
 
   const state = reactive({
     progress: {} as Record<string, ChapterStatus>,
@@ -234,11 +309,28 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
   const knownIds = new Set<string>(opts.knownIds ?? [])
 
   // 响应式保存状态（ADR-0007 §5）：写失败时内存状态仍保留，UI 据此提示"未保存"。
-  const saveState = reactive<SaveState>({ ok: true, error: null, updatedAt: null })
+  // persistent=false 时 ok 必须为 false 且给出会话级提示，不能让内存 Storage 的"写入成功"冒充满分。
+  const saveState = reactive<SaveState>({
+    ok: storagePersistent,
+    error: storagePersistent ? null : STORAGE_UNAVAILABLE_MESSAGE,
+    updatedAt: null,
+    persistent: storagePersistent,
+    bootFailed: false
+  })
 
   // 启动时若发现本地数据损坏/版本不符，禁止自动写回：否则一次普通操作就会用空状态
   // 覆盖掉用户原有数据。此时只读不写，由用户导出或显式重置。
   let bootFailed = false
+
+  /** 运行期才暴露的访问拒绝（getter 探测通过、后续被策略禁用）：降级内存并如实标注。 */
+  function degradeStorage(cause: unknown): void {
+    storagePersistent = false
+    storage = createMemoryStorage()
+    saveState.persistent = false
+    saveState.ok = false
+    saveState.error = STORAGE_UNAVAILABLE_MESSAGE
+    warn(STORAGE_UNAVAILABLE_MESSAGE, cause)
+  }
 
   function persist(): PersistResult {
     if (bootFailed) {
@@ -246,6 +338,13 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
       saveState.ok = false
       saveState.error = error
       return { ok: false, error }
+    }
+    // 内存模式下 setItem 必然"成功"，返回值不能代表持久化；直接按不可持久化上报。
+    if (!storagePersistent) {
+      saveState.ok = false
+      saveState.persistent = false
+      saveState.error = STORAGE_UNAVAILABLE_MESSAGE
+      return { ok: false, error: STORAGE_UNAVAILABLE_MESSAGE }
     }
     try {
       const payload: PersistedShape = {
@@ -261,6 +360,10 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
       saveState.updatedAt = new Date().toISOString()
       return { ok: true }
     } catch (e) {
+      if (isSecurityError(e)) {
+        degradeStorage(e)
+        return { ok: false, error: STORAGE_UNAVAILABLE_MESSAGE }
+      }
       const error = (e as Error)?.message ?? String(e)
       saveState.ok = false
       saveState.error = error
@@ -329,6 +432,8 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
       }
     } catch (e) {
       warn('启动加载失败', e)
+      // 探测时可用、启动读取却被拒绝（浏览器策略运行中收紧）：降级内存，避免后续写入继续抛错。
+      if (isSecurityError(e)) degradeStorage(e)
     }
   }
 
@@ -540,15 +645,23 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     }
 
     // 只有持久化成功才返回 ok:true；失败时内存状态已保留（会话内不丢），返回失败结果供 UI 提示。
+    // 存储不可用时不能报"导入成功"：数据只进了内存，必须把"未能持久化"说清楚。
     const saved = persist()
+    const tombstones = Array.from(tombset).sort()
     if (!saved.ok) {
+      if (!saveState.persistent) {
+        return {
+          ok: false,
+          message: `已导入到当前会话但未能持久化：${STORAGE_UNAVAILABLE_MESSAGE}，刷新后会丢失，可先「导出数据」备份`,
+          ...(tombstones.length ? { tombstones } : {})
+        }
+      }
       return {
         ok: false,
         message: `导入失败：本地存储写入失败（${saved.error ?? '未知错误'}），数据已保留在当前会话，可先「导出数据」兜底`
       }
     }
 
-    const tombstones = Array.from(tombset).sort()
     return {
       ok: true,
       message: tombstones.length

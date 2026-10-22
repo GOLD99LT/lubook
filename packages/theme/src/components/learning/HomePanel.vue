@@ -1,14 +1,22 @@
 <script setup lang="ts">
 // 首页学习面板：整体进度、我的收藏、JSON 导出/导入。
 // 持久化失败时不显示成功提示：依据仓储 saveState 给出失败横幅、重试与导出兜底（ADR-0007 §5）。
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { withBase } from 'vitepress'
 import { useLearning } from './store'
 
 const learning = useLearning()
 const s = computed(() => learning.stats())
 const saveState = computed(() => learning.saveState)
-const persistFailed = computed(() => !saveState.value.ok)
+// 静态构建期没有 localStorage，仓储会如实标记不可持久化；但那份状态不属于用户浏览器。
+// 等 mounted 后再展示，避免 SSG 产物把"仅本次会话"写进 HTML 并与客户端水合结果冲突。
+const mounted = ref(false)
+onMounted(() => {
+  mounted.value = true
+})
+const persistFailed = computed(() => mounted.value && !saveState.value.ok)
+// persistent=false：内存降级，读写仍可用，但必须显示"仅本次会话有效"（ADR-0007 §5 补充）。
+const persistUnavailable = computed(() => mounted.value && !saveState.value.persistent)
 
 // catalog 里的 link 是站点根相对路径（如 /basics/foo），不含部署 base。
 // 部署在 /lubook/hardware/ 这类子路径下时必须过 withBase，否则点收藏会 404/回首页。
@@ -53,6 +61,11 @@ function retrySave() {
 }
 
 const fileInput = ref<HTMLInputElement | null>(null)
+// 先读入文件文本但不立即导入：merge/replace 的语义差异很大，必须让用户明确选择；
+// replace 还会二次确认，避免默认整体覆盖造成不可撤销的数据丢失。
+const importText = ref('')
+const importName = ref('')
+
 function onImportClick() {
   fileInput.value?.click()
 }
@@ -61,12 +74,27 @@ function onFileChange(e: Event) {
   if (!f) return
   const reader = new FileReader()
   reader.onload = () => {
-    const r = learning.importJSON(String(reader.result || ''))
-    // 导入失败（校验不通过或持久化未成功）时按错误提示，不显示成功 toast。
-    showToast(r.message, !r.ok)
+    importText.value = String(reader.result || '')
+    importName.value = f.name
   }
   reader.readAsText(f)
   ;(e.target as HTMLInputElement).value = ''
+}
+
+function runImport(mode: 'merge' | 'replace') {
+  if (!importText.value) return
+  if (mode === 'replace' && !window.confirm('将覆盖当前全部学习数据且不可撤销。确定继续？')) return
+  const text = importText.value
+  importText.value = ''
+  importName.value = ''
+  const r = learning.importJSON(text, mode)
+  // 导入失败（校验不通过或持久化未成功）时按错误提示，不显示成功 toast。
+  showToast(r.message, !r.ok)
+}
+
+function cancelImport() {
+  importText.value = ''
+  importName.value = ''
 }
 </script>
 
@@ -91,11 +119,21 @@ function onFileChange(e: Event) {
       </div>
     </div>
 
+    <div v-if="importText" class="hh-hp-import-choice">
+      <span class="hh-hp-import-name">已选择「{{ importName }}」，请选择导入方式：</span>
+      <button type="button" @click="runImport('merge')">合并导入（保留现有数据）</button>
+      <button type="button" @click="runImport('replace')">覆盖导入（清空现有数据）</button>
+      <button type="button" class="is-plain" @click="cancelImport">取消</button>
+    </div>
+
     <div v-if="persistFailed" class="hh-hp-unsaved">
-      <span class="hh-hp-unsaved-msg">
+      <span v-if="persistUnavailable" class="hh-hp-unsaved-msg">
+        仅本次会话有效：浏览器存储不可用，学习数据刷新后会丢失，可先导出备份。
+      </span>
+      <span v-else class="hh-hp-unsaved-msg">
         本地保存失败（{{ saveState.error || '存储不可用' }}），当前会话内数据仍保留。
       </span>
-      <button type="button" @click="retrySave">重试保存</button>
+      <button v-if="!persistUnavailable" type="button" @click="retrySave">重试保存</button>
       <button type="button" @click="onExport">立即导出备份</button>
     </div>
 
@@ -109,7 +147,8 @@ function onFileChange(e: Event) {
       暂无收藏 —— 打开任意章节，点「收藏本章」即可在此快速进入。
     </div>
 
-    <div class="hh-hp-tip">数据仅保存在你当前浏览器（localStorage），换设备请先「导出数据」再到新设备「导入数据」。</div>
+    <div class="hh-hp-tip" v-if="!persistUnavailable">数据仅保存在你当前浏览器（localStorage），换设备请先「导出数据」再到新设备「导入数据」。</div>
+    <div class="hh-hp-tip" v-else>浏览器未提供可用的本地存储，本次会话的数据不会跨刷新保留，请及时「导出数据」。</div>
     <div class="hh-hp-toast" :class="{ 'is-error': toastError }" v-if="toast">{{ toast }}</div>
   </div>
 </template>

@@ -2,7 +2,7 @@
 // 章末学习工具：已学/在学切换、收藏、我的笔记（按章自动保存到 localStorage）。
 // 仅在内容页渲染（首页 index.md 不渲染）。
 // 持久化失败时不提示"已保存"：依据仓储 saveState 显示"未保存"，提供重试与导出兜底（ADR-0007 §5）。
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useData } from 'vitepress'
 import { useLearning } from './store'
 
@@ -16,7 +16,15 @@ const status = computed(() => learning.getStatus(currentPath.value))
 const fav = computed(() => learning.isFavorite(currentPath.value))
 const note = ref(learning.getNote(currentPath.value))
 const savedHint = ref('')
-const persistFailed = computed(() => !learning.saveState.ok)
+// 静态构建期没有 localStorage，仓储会如实标记不可持久化；但那份状态不属于用户浏览器。
+// 等 mounted 后再展示，避免 SSG 产物把"仅本次会话"写进 HTML 并与客户端水合结果冲突。
+const mounted = ref(false)
+onMounted(() => {
+  mounted.value = true
+})
+const persistFailed = computed(() => mounted.value && !learning.saveState.ok)
+// persistent=false：降级到内存，读写仍可用，但保存提示必须诚实显示"仅本次会话"。
+const persistUnavailable = computed(() => mounted.value && !learning.saveState.persistent)
 
 // SPA 切章时刷新笔记内容
 watch(currentPath, (p) => {
@@ -45,7 +53,8 @@ function onNoteInput() {
     flashSaved()
   } else {
     // 写入失败：内存状态仍保留，提示未保存，不自动消失（等待重试或导出兜底）。
-    savedHint.value = '未保存'
+    // 存储整体不可写时"未保存"会误导（重试也没用），直接标明本次会话有效。
+    savedHint.value = persistUnavailable.value ? '仅本次会话' : '未保存'
     clearTimeout(saveTimer)
   }
 }
@@ -53,7 +62,7 @@ function onNoteInput() {
 function retrySave() {
   const r = learning.retrySave()
   if (r.ok) flashSaved()
-  else savedHint.value = '未保存'
+  else savedHint.value = persistUnavailable.value ? '仅本次会话' : '未保存'
 }
 
 // 启动期数据损坏时的唯一出口：明确告知会丢弃本地数据，用户确认后才重置。
@@ -116,12 +125,15 @@ function exportBackup() {
     </div>
 
     <div v-if="persistFailed" class="hh-ls-unsaved" role="status" aria-live="polite">
-      <span class="hh-ls-unsaved-msg">
+      <span v-if="persistUnavailable" class="hh-ls-unsaved-msg">
+        仅本次会话有效：浏览器存储不可用，学习数据刷新后会丢失，可先导出备份。
+      </span>
+      <span v-else class="hh-ls-unsaved-msg">
         本地保存失败（{{ learning.saveState.error || '存储不可用' }}），当前会话内数据仍保留。
       </span>
-      <button v-if="!learning.saveState.bootFailed" type="button" class="hh-ls-unsaved-btn" @click="retrySave">重试保存</button>
+      <button v-if="!persistUnavailable && !learning.saveState.bootFailed" type="button" class="hh-ls-unsaved-btn" @click="retrySave">重试保存</button>
       <button type="button" class="hh-ls-unsaved-btn" @click="exportBackup">立即导出备份</button>
-      <button v-if="learning.saveState.bootFailed" type="button" class="hh-ls-unsaved-btn" @click="resetLocal">
+      <button v-if="!persistUnavailable && learning.saveState.bootFailed" type="button" class="hh-ls-unsaved-btn" @click="resetLocal">
         丢弃本地数据并重新开始
       </button>
     </div>
@@ -129,13 +141,13 @@ function exportBackup() {
     <div class="hh-learning-notes">
       <div class="hh-ln-head">
         <label class="hh-ln-title" for="hh-note-input">我的笔记</label>
-        <span class="hh-ln-hint" :class="{ 'is-error': savedHint === '未保存' }" role="status" aria-live="polite">{{ savedHint || '自动保存到本地浏览器' }}</span>
+        <span class="hh-ln-hint" :class="{ 'is-error': savedHint === '未保存' }" role="status" aria-live="polite">{{ savedHint || (persistUnavailable ? '浏览器存储不可用，仅本次会话' : '自动保存到本地浏览器') }}</span>
       </div>
       <textarea
         id="hh-note-input"
         v-model="note"
         rows="5"
-        placeholder="按本章记录要点、坑、待办…（仅保存在你当前浏览器）"
+        :placeholder="persistUnavailable ? '按本章记录要点、坑、待办…（仅本次会话，刷新即丢）' : '按本章记录要点、坑、待办…（仅保存在你当前浏览器）'"
         @input="onNoteInput"
       ></textarea>
     </div>

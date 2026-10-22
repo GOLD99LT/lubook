@@ -41,13 +41,18 @@ export interface LearningFacade {
   favorites(): FavItem[]
   /** 导出为可下载的 JSON 字符串 */
   exportJSON(): string
-  /** 导入（整体覆盖）；返回仓储的校验结果 */
-  importJSON(text: string): ImportResult
+  /**
+   * 导入：默认 merge（保留未涉及的章节）；replace 会整体覆盖，调用方必须先获得用户确认。
+   * 返回仓储的校验/持久化结果。
+   */
+  importJSON(text: string, mode?: 'merge' | 'replace'): ImportResult
   clearAll(): PersistResult
-  /** 只读响应式保存状态（ADR-0007 §5）：UI 据此显示"已保存 / 未保存"。 */
+  /** 只读响应式保存状态（ADR-0007 §5）：UI 据此显示"已保存 / 未保存 / 仅本次会话"。 */
   readonly saveState: SaveState
   /** 用当前内存状态重写一次持久化，供"重试"按钮使用。 */
   retrySave(): PersistResult
+  /** 仅用于启动期数据损坏：用户确认丢弃本地数据后解除只读。 */
+  resetLocalData(): PersistResult
 }
 
 // 模块级上下文：createBookTheme 注入一次；组件通过 useLearning() 读取。
@@ -117,8 +122,8 @@ export function createLearningFacade(
     return JSON.stringify(repository.export(), null, 2)
   }
 
-  function importJSON(text: string): ImportResult {
-    return repository.importData(text, 'replace')
+  function importJSON(text: string, mode: 'merge' | 'replace' = 'merge'): ImportResult {
+    return repository.importData(text, mode)
   }
 
   function clearAll(): PersistResult {

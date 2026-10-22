@@ -185,6 +185,47 @@
   color: #fff;
 }
 
+/* 导入方式选择（merge / replace）：replace 会清空现有数据，必须让用户显式点选 */
+.hh-hp-import-choice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border: 1px dashed var(--hh-line);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+}
+.hh-hp-import-name {
+  flex: 1 1 240px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+.hh-hp-import-choice button {
+  font: inherit;
+  font-size: 12.5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--hh-blue);
+  background: var(--vp-c-bg);
+  color: var(--hh-blue);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.hh-hp-import-choice button:hover {
+  background: var(--hh-blue);
+  color: #fff;
+}
+.hh-hp-import-choice button.is-plain {
+  border-color: var(--hh-line);
+  color: var(--vp-c-text-2);
+}
+.hh-hp-import-choice button.is-plain:hover {
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+}
+
 .hh-hp-favs {
   margin-top: 16px;
   border-top: 1px dashed var(--hh-line);

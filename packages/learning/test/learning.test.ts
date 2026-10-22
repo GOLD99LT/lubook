@@ -1,6 +1,7 @@
 // @lubook/learning 自验：node 直跑（node test/learning.test.ts），注入内存 fake Storage。
 // 覆盖 ADR-0007：§1 版本化信封与导入校验、§2 迁移来源显式声明、§3 knownIds 由 catalog 注入、
-// §5 持久化结果进入仓储接口（成功/失败可感知、重试、内存不丢）。
+// §5 持久化结果进入仓储接口（成功/失败可感知、重试、内存不丢）；
+// §8 存储不可用降级（persistent/ImportResult 如实标注）与导入 merge/replace 差异。
 import { createLearningRepository } from '../src/index.ts'
 
 class MemStorage {
@@ -35,6 +36,24 @@ class QuotaStorage extends MemStorage {
       throw e
     }
     super.setItem(k, v)
+  }
+}
+
+/** 模拟隐私模式/策略禁用：getItem/setItem 一律抛 SecurityError（存储不可用，不是配额问题）。 */
+class SecurityErrorStorage extends MemStorage {
+  private deny(): never {
+    const e = new Error('SecurityError: localStorage access denied')
+    e.name = 'SecurityError'
+    throw e
+  }
+  getItem(_k: string): string | null {
+    return this.deny()
+  }
+  setItem(_k: string, _v: string): void {
+    this.deny()
+  }
+  removeItem(_k: string): void {
+    this.deny()
   }
 }
 
@@ -445,6 +464,109 @@ console.log('[8] F09 迁移/导入未知 id 落 tombstone：不落库、不计�
     '损坏数据：重置后写入合法信封')
   const w2 = repo.setStatus('a.md', 'done')
   assert(w2.ok === true, '损坏数据：重置后写操作恢复')
+}
+
+console.log('[10] 存储不可用（SecurityError）：降级内存、persistent=false、写/导入如实标注未持久化')
+{
+  // 正常存储的基线：不能因为新增探测把所有注入存储都误判成不可持久化。
+  const normal = createLearningRepository({
+    appId: 'hardware',
+    totalChapters: 10,
+    storage: new MemStorage() as unknown as Storage,
+    knownIds: ['a/ch1.md']
+  })
+  assert(normal.saveState.persistent === true, '可用存储：saveState.persistent=true')
+  assert(normal.saveState.ok === true, '可用存储：启动时 saveState.ok=true')
+
+  // 没有 window/localStorage 的环境（SSR/Node）：只有内存，同样不得谎报可持久化。
+  const ssr = createLearningRepository({ appId: 'hardware', totalChapters: 1, knownIds: ['a.md'] })
+  assert(ssr.saveState.persistent === false, '无存储环境：saveState.persistent=false')
+  assert(ssr.saveState.ok === false, '无存储环境：saveState.ok=false')
+
+  const disabled = new SecurityErrorStorage()
+  const repo = createLearningRepository({
+    appId: 'hardware',
+    totalChapters: 10,
+    storage: disabled as unknown as Storage,
+    knownIds: ['a/ch1.md', 'b/ch2.md']
+  })
+  assert(repo.saveState.persistent === false, '存储不可用：saveState.persistent=false')
+  assert(repo.saveState.ok === false, '存储不可用：saveState.ok=false')
+  assert(
+    (repo.saveState.error ?? '').includes('浏览器存储不可用') &&
+      (repo.saveState.error ?? '').includes('当前会话'),
+    `存储不可用：error 说明数据仅保存在当前会话（${repo.saveState.error}）`
+  )
+
+  const w = repo.setStatus('a/ch1.md', 'done')
+  assert(w.ok === false, '存储不可用：写操作不谎报已持久化（ok=false）')
+  assert((w.error ?? '').includes('当前会话'), `存储不可用：写结果标注仅当前会话（${w.error}）`)
+  assert(repo.getChapter('a/ch1.md').status === 'done', '存储不可用：写操作仍可在内存生效')
+  assert(repo.export().progress['a/ch1.md'] === 'done', '存储不可用：导出仍能拿到当前会话数据')
+
+  const fav = repo.setFavorite('a/ch1.md', true)
+  assert(fav.ok === false && repo.getChapter('a/ch1.md').favorite === true,
+    '存储不可用：收藏在内存生效，但返回未持久化')
+
+  const imp = repo.importData({
+    schemaVersion: 1,
+    appId: 'hardware',
+    progress: { 'b/ch2.md': 'learning' },
+    favorites: {},
+    notes: {}
+  }, 'merge')
+  assert(imp.ok === false, '存储不可用：导入不得报成功')
+  assert(imp.message.includes('已导入到当前会话但未能持久化'),
+    `存储不可用：导入说明"已导入但未持久化"（${imp.message}）`)
+  assert(repo.getChapter('b/ch2.md').status === 'learning', '存储不可用：导入数据在会话内可用')
+
+  const retry = repo.retryPersist()
+  assert(retry.ok === false, '存储不可用：retryPersist 不谎报成功')
+  assert(repo.saveState.persistent === false, '存储不可用：重试后 persistent 仍为 false')
+}
+
+console.log('[11] 导入 merge/replace：merge 保留未涉及章节；replace 清空未涉及章节')
+{
+  const knownIds = ['a/ch1.md', 'b/ch2.md', 'c/ch3.md']
+  // 同一份基线数据各造一个仓储，避免 merge 对 replace 用例产生顺序影响。
+  const makeRepo = () => {
+    const s = new MemStorage()
+    const repo = createLearningRepository({
+      appId: 'hardware',
+      totalChapters: 10,
+      storage: s as unknown as Storage,
+      knownIds
+    })
+    repo.setStatus('a/ch1.md', 'done')
+    repo.setStatus('b/ch2.md', 'learning')
+    repo.setFavorite('b/ch2.md', true)
+    repo.setNote('c/ch3.md', '原有笔记')
+    return repo
+  }
+  const incoming = {
+    schemaVersion: 1,
+    appId: 'hardware',
+    progress: { 'a/ch1.md': 'learning' },
+    favorites: {},
+    notes: {}
+  }
+
+  const mergeRepo = makeRepo()
+  const rm = mergeRepo.importData(incoming, 'merge')
+  assert(rm.ok, 'merge: 导入成功')
+  assert(mergeRepo.getChapter('a/ch1.md').status === 'learning', 'merge: 文件中的章节覆盖原有进度')
+  assert(mergeRepo.getChapter('b/ch2.md').status === 'learning', 'merge: 未涉及章节进度保留')
+  assert(mergeRepo.getChapter('b/ch2.md').favorite === true, 'merge: 未涉及章节收藏保留')
+  assert(mergeRepo.getChapter('c/ch3.md').note?.text === '原有笔记', 'merge: 未涉及章节笔记保留')
+
+  const replaceRepo = makeRepo()
+  const rr = replaceRepo.importData(incoming, 'replace')
+  assert(rr.ok, 'replace: 导入成功')
+  assert(replaceRepo.getChapter('a/ch1.md').status === 'learning', 'replace: 文件中的章节写入')
+  assert(replaceRepo.getChapter('b/ch2.md').status === undefined, 'replace: 未涉及章节进度被清空')
+  assert(replaceRepo.getChapter('b/ch2.md').favorite === undefined, 'replace: 未涉及章节收藏被清空')
+  assert(replaceRepo.getChapter('c/ch3.md').note === undefined, 'replace: 未涉及章节笔记被清空')
+  assert(replaceRepo.export().progress['b/ch2.md'] === undefined, 'replace: 导出信封不含未涉及章节')
 }
 
 console.log(`\n结果: ${passed} passed, ${failed} failed`)
