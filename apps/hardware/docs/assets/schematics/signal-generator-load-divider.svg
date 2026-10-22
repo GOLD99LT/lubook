@@ -1,0 +1,41 @@
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Noto Sans SC',monospace" role="img">
+  <title>50 Ω 信号源接 1 kΩ 负载：按 50 Ω 标定的 100 mVpp 在负载端变成 190.5 mVpp</title>
+  <rect width="760" height="360" fill="#ffffff"/>
+  <text x="30" y="32" font-size="17" font-weight="700" fill="#1a4f8b">50 Ω 源接 1 kΩ 负载：设定 100 mVpp，实际 190.5 mVpp</text>
+  <text x="30" y="56" font-size="13" fill="#5c6772">按 50 Ω 负载标定时，内部 EMF = 200 mVpp；1 kΩ 分压后仍有 1.905 倍，不是精确的 2 倍</text>
+  <!-- 源 -->
+  <line x1="90" y1="90" x2="90" y2="135" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="90" cy="160" r="26" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="90" y="156" font-size="13" fill="#2b3a4a" text-anchor="middle" font-weight="700">+</text>
+  <text x="90" y="174" font-size="15" fill="#2b3a4a" text-anchor="middle">−</text>
+  <text x="52" y="164" font-size="14" fill="#1a4f8b" font-weight="700" text-anchor="end">Vs</text>
+  <line x1="90" y1="186" x2="90" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 上轨与 Rs -->
+  <line x1="90" y1="90" x2="200" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="200" y="78" width="90" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="245" y="68" font-size="14" fill="#1a4f8b" font-weight="700" text-anchor="middle">Rs = 50 Ω</text>
+  <line x1="290" y1="90" x2="300" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 负载 -->
+  <line x1="300" y1="90" x2="300" y2="125" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="288" y="125" width="24" height="90" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="326" y="176" font-size="14" fill="#1a4f8b" font-weight="700">R_L = 1 kΩ</text>
+  <line x1="300" y1="215" x2="300" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 下轨 -->
+  <line x1="90" y1="240" x2="300" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 接地：28/18/10，间距 7 -->
+  <line x1="286" y1="240" x2="314" y2="240" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="291" y1="247" x2="309" y2="247" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="295" y1="254" x2="305" y2="254" stroke="#2b3a4a" stroke-width="2.4"/>
+  <!-- 节点 -->
+  <circle cx="300" cy="90" r="4.5" fill="#2b3a4a"/>
+  <!-- 注释 -->
+  <text x="420" y="105" font-size="14" fill="#c0392b" font-weight="700">内部 EMF = 200 mVpp</text>
+  <text x="420" y="130" font-size="13" fill="#5c6772">面板 100 mVpp 是“接 50 Ω 负载”的值</text>
+  <text x="420" y="170" font-size="14" fill="#2e7d32" font-weight="700">负载端 V_L = 190.5 mVpp</text>
+  <text x="420" y="195" font-size="13" fill="#5c6772">2 × 100 × 1000 / (50 + 1000) = 190.5</text>
+  <text x="420" y="224" font-size="13" fill="#7a5fc0">相对设定值 +90.5%</text>
+  <!-- 底部说明 -->
+  <line x1="30" y1="286" x2="730" y2="286" stroke="#e3e0d7" stroke-width="1"/>
+  <text x="30" y="312" font-size="13" fill="#1a4f8b">若信号源切到 High-Z 标定：100 mVpp 就是 EMF，V_L = 100 × 1000 / 1050 = 95.24 mVpp（−4.76%）。</text>
+  <text x="30" y="338" font-size="13" fill="#5c6772">要得到 100 mVpp：50 Ω 标定设 52.5 mVpp；High-Z 标定设 105 mVpp；或加高阻缓冲器。</text>
+</svg>

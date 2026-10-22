@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 760 450" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>无铅 SAC305 四阶段回流曲线算例：预热 90 秒、均温 70 秒、峰值 240 度保温 35 秒、液相线以上 60.0 秒、冷却 3 度每秒</title>
+  <rect width="760" height="450" fill="#ffffff"/>
+  <text x="380" y="28" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="middle">6 层 1.0mm 板（QFN + SMD 电解）的 SAC305 回流曲线算例</text>
+
+  <!-- 坐标轴 -->
+  <line x1="80" y1="380" x2="720" y2="380" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="80" y1="380" x2="80" y2="70" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="726" y="398" font-size="12" fill="#222a32" text-anchor="end">时间 s</text>
+  <text x="72" y="64" font-size="12" fill="#222a32" text-anchor="end">温度 °C</text>
+
+  <!-- 纵轴刻度 -->
+  <line x1="74" y1="351" x2="80" y2="351" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="70" y="355" font-size="11" fill="#222a32" text-anchor="end">25</text>
+  <line x1="74" y1="207" x2="80" y2="207" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="70" y="211" font-size="11" fill="#222a32" text-anchor="end">150</text>
+  <line x1="74" y1="172" x2="80" y2="172" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="70" y="176" font-size="11" fill="#222a32" text-anchor="end">180</text>
+  <line x1="74" y1="130" x2="80" y2="130" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="70" y="134" font-size="11" fill="#c0392b" text-anchor="end">217</text>
+  <line x1="74" y1="103" x2="80" y2="103" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="70" y="107" font-size="11" fill="#b5642e" text-anchor="end">240</text>
+
+  <!-- 横轴刻度 -->
+  <line x1="80" y1="380" x2="80" y2="386" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="80" y="400" font-size="11" fill="#222a32" text-anchor="middle">0</text>
+  <line x1="260" y1="380" x2="260" y2="386" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="260" y="400" font-size="11" fill="#222a32" text-anchor="middle">90</text>
+  <line x1="400" y1="380" x2="400" y2="386" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="400" y="400" font-size="11" fill="#222a32" text-anchor="middle">160</text>
+  <line x1="490" y1="380" x2="490" y2="386" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="490" y="400" font-size="11" fill="#222a32" text-anchor="middle">205</text>
+  <line x1="560" y1="380" x2="560" y2="386" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="560" y="400" font-size="11" fill="#222a32" text-anchor="middle">240</text>
+  <line x1="704" y1="380" x2="704" y2="386" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="704" y="400" font-size="11" fill="#222a32" text-anchor="middle">312</text>
+
+  <!-- 液相线 217 -->
+  <line x1="80" y1="130" x2="720" y2="130" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="6,4"/>
+  <text x="712" y="124" font-size="11.5" fill="#c0392b" text-anchor="end">液相线 217 °C</text>
+
+  <!-- 曲线 -->
+  <polyline points="80,351 260,207 400,172 490,103 560,103 704,351" fill="none" stroke="#b5642e" stroke-width="3"/>
+
+  <!-- 分区虚线与标注 -->
+  <line x1="260" y1="207" x2="260" y2="380" stroke="#9aa5b1" stroke-width="1.2" stroke-dasharray="4,4"/>
+  <line x1="400" y1="172" x2="400" y2="380" stroke="#9aa5b1" stroke-width="1.2" stroke-dasharray="4,4"/>
+  <line x1="560" y1="103" x2="560" y2="380" stroke="#9aa5b1" stroke-width="1.2" stroke-dasharray="4,4"/>
+  <text x="165" y="250" font-size="12.5" fill="#1a4f8b" text-anchor="middle">① 预热</text>
+  <text x="165" y="268" font-size="11.5" fill="#2b3a4a" text-anchor="middle">1.39 °C/s × 90s</text>
+  <text x="330" y="215" font-size="12.5" fill="#1a4f8b" text-anchor="middle">② 均温活化</text>
+  <text x="330" y="233" font-size="11.5" fill="#2b3a4a" text-anchor="middle">0.43 °C/s × 70s</text>
+  <text x="520" y="80" font-size="12.5" fill="#b5642e" text-anchor="middle">③ 回流</text>
+  <text x="520" y="62" font-size="11.5" fill="#2b3a4a" text-anchor="middle">1.33 °C/s，峰值 240 保温 35s</text>
+  <text x="630" y="300" font-size="12.5" fill="#2f6e4f" text-anchor="middle">④ 冷却</text>
+  <text x="630" y="318" font-size="11.5" fill="#2b3a4a" text-anchor="middle">3 °C/s（上限 6）</text>
+
+  <!-- TAL 标注 -->
+  <line x1="456" y1="146" x2="575" y2="146" stroke="#c0392b" stroke-width="1.6"/>
+  <line x1="456" y1="140" x2="456" y2="152" stroke="#c0392b" stroke-width="1.6"/>
+  <line x1="575" y1="140" x2="575" y2="152" stroke="#c0392b" stroke-width="1.6"/>
+  <text x="515" y="166" font-size="12" fill="#c0392b" text-anchor="middle">TAL = 17.3 + 35 + 7.7 = 60.0 s</text>
+
+  <!-- 底部说明 -->
+  <rect x="40" y="414" width="680" height="26" rx="4" fill="#fbfdff" stroke="#2b3a4a" stroke-width="1.2"/>
+  <text x="56" y="432" font-size="12" fill="#222a32">全程 311.7 s；峰值 240 °C 比液相线高 23 °C，TAL 60.0 s 落在 45~75 s 窗口内。</text>
+</svg>

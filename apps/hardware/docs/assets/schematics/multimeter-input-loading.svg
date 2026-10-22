@@ -1,0 +1,45 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Noto Sans SC',monospace" role="img">
+  <title>10 MΩ 万用表并在 1 MΩ 分压下端：理想 5.00 V 被读成 4.76 V</title>
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="30" y="34" font-size="17" font-weight="700" fill="#1a4f8b">万用表输入阻抗的负载效应：10 MΩ 并在 1 MΩ 分压下端</text>
+  <text x="30" y="58" font-size="13" fill="#5c6772">Rth = 1 MΩ 并联 1 MΩ = 500 kΩ；读数 = 5.00 × 10 / (0.5 + 10) = 4.762 V</text>
+  <!-- 电源 -->
+  <line x1="100" y1="90" x2="100" y2="165" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="100" cy="195" r="30" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="100" y="191" font-size="16" fill="#2b3a4a" text-anchor="middle" font-weight="700">+</text>
+  <text x="100" y="209" font-size="18" fill="#2b3a4a" text-anchor="middle">−</text>
+  <text x="64" y="200" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="end">10 V</text>
+  <line x1="100" y1="225" x2="100" y2="300" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 上分压 R1 -->
+  <line x1="100" y1="90" x2="250" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="250" y="78" width="100" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="300" y="68" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="middle">R1 = 1 MΩ</text>
+  <line x1="350" y1="90" x2="430" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 下分压 R2 -->
+  <line x1="430" y1="90" x2="430" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="418" y="120" width="24" height="100" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="454" y="176" font-size="15" fill="#1a4f8b" font-weight="700">R2 = 1 MΩ</text>
+  <line x1="430" y1="220" x2="430" y2="300" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 节点 -->
+  <circle cx="430" cy="90" r="4.5" fill="#2b3a4a"/>
+  <circle cx="430" cy="300" r="4.5" fill="#2b3a4a"/>
+  <text x="430" y="116" font-size="14" fill="#b5642e" text-anchor="middle">中点</text>
+  <!-- 下轨 -->
+  <line x1="100" y1="300" x2="560" y2="300" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- DMM 并联在 R2 两端 -->
+  <line x1="430" y1="90" x2="560" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="90" x2="560" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="500" y="205" width="120" height="60" rx="6" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="560" y="231" font-size="14" fill="#1a4f8b" text-anchor="middle" font-weight="700">DMM 10 MΩ</text>
+  <text x="560" y="251" font-size="13" fill="#b5642e" text-anchor="middle">直流 V 档</text>
+  <line x1="560" y1="265" x2="560" y2="300" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 接地符号：28/18/10，间距 7 -->
+  <line x1="416" y1="300" x2="444" y2="300" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="421" y1="307" x2="439" y2="307" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="425" y1="314" x2="435" y2="314" stroke="#2b3a4a" stroke-width="2.4"/>
+  <!-- 注释 -->
+  <text x="620" y="112" font-size="13" fill="#7a5fc0" text-anchor="end">理想 5.00 V</text>
+  <text x="620" y="136" font-size="13" fill="#c0392b" text-anchor="end">实际 4.762 V</text>
+  <text x="620" y="160" font-size="13" fill="#c0392b" text-anchor="end">误差 −4.76%</text>
+  <text x="30" y="344" font-size="13" fill="#5c6772">关键：表的 10 MΩ 与下分压并联，Rth 只有 500 kΩ；不能只看单个 1 MΩ 电阻。</text>
+</svg>

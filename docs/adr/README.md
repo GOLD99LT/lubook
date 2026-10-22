@@ -16,6 +16,7 @@
 | [ADR-0008](ADR-0008.md) | 内容 frontmatter schema 以现状为准（id/status/sources 必填） | Accepted |
 | [ADR-0009](ADR-0009.md) | 内容指纹覆盖 SVG 字节 + 快照基线不被静默覆盖 | Accepted |
 | [ADR-0010](ADR-0010.md) | 客户端包体预算：ECharts 按需加载（theme chunk 1.15MB → 113KB） | Accepted |
+| [ADR-0011](ADR-0011.md) | 构建内存预算：内容 4.6MB 后必须显式抬高 Node 堆（4GB → 6GB） | Accepted |
 
 ## 规则
 

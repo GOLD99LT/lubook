@@ -1,0 +1,76 @@
+<svg viewBox="0 0 820 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Noto Sans SC',monospace" role="img">
+  <title>10 MHz 时钟用 10 MS/s 采样时每个周期采到同一相位，逻辑分析仪看到恒高；100 MS/s 才能恢复边沿</title>
+  <rect width="820" height="420" fill="#ffffff"/>
+  <text x="30" y="32" font-size="17" font-weight="700" fill="#1a4f8b">采样率与时钟相干：10 MS/s 把 10 MHz 时钟采成直流</text>
+  <text x="30" y="56" font-size="13" fill="#5c6772">CLK = 10 MHz，T = 100 ns，半周期 50 ns；采样点相位固定时，序列不再包含时钟周期</text>
+  <!-- 上：10 MS/s -->
+  <text x="30" y="92" font-size="14" font-weight="700" fill="#c0392b">10 MS/s（Ts = 100 ns）</text>
+  <line x1="70" y1="170" x2="750" y2="170" stroke="#d8d2c4" stroke-width="1.2"/>
+  <line x1="70" y1="95" x2="70" y2="170" stroke="#d8d2c4" stroke-width="1.2"/>
+  <polyline points="70,95 164,95 164,165 259,165 259,95 353,95 353,165 447,165 447,95 541,95 541,165 636,165 636,95 730,95" fill="none" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="740" y="88" font-size="12" fill="#2b3a4a">CLK</text>
+  <!-- 10MS 采样点：t=25,125,225,325，全在高电平 -->
+  <line x1="117" y1="95" x2="117" y2="170" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="306" y1="95" x2="306" y2="170" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="494" y1="95" x2="494" y2="170" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="683" y1="95" x2="683" y2="170" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,3"/>
+  <circle cx="117" cy="95" r="5" fill="#c0392b"/>
+  <circle cx="306" cy="95" r="5" fill="#c0392b"/>
+  <circle cx="494" cy="95" r="5" fill="#c0392b"/>
+  <circle cx="683" cy="95" r="5" fill="#c0392b"/>
+  <text x="400" y="192" font-size="13" fill="#c0392b" text-anchor="middle">4 个采样点全部落在高电平 → LA 记录“1 1 1 1”，解码器找不到时钟沿</text>
+  <!-- 下：100 MS/s -->
+  <line x1="30" y1="220" x2="790" y2="220" stroke="#e3e0d7" stroke-width="1"/>
+  <text x="30" y="248" font-size="14" font-weight="700" fill="#2e7d32">100 MS/s（Ts = 10 ns）</text>
+  <line x1="70" y1="340" x2="750" y2="340" stroke="#d8d2c4" stroke-width="1.2"/>
+  <line x1="70" y1="265" x2="70" y2="340" stroke="#d8d2c4" stroke-width="1.2"/>
+  <polyline points="70,265 164,265 164,335 259,335 259,265 353,265 353,335 447,335 447,265 541,265 541,335 636,335 636,265 730,265" fill="none" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="740" y="258" font-size="12" fill="#2b3a4a">CLK</text>
+  <!-- 100MS 采样点：t=5..345 每 10ns -->
+  <circle cx="79" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="98" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="117" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="136" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="155" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="174" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="193" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="211" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="230" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="249" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="268" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="287" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="306" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="325" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="344" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="362" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="381" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="400" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="419" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="438" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="457" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="476" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="494" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="513" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="532" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="551" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="570" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="589" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="608" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="627" cy="335" r="3.2" fill="#2e7d32"/>
+  <circle cx="645" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="664" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="683" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="702" cy="265" r="3.2" fill="#2e7d32"/>
+  <circle cx="721" cy="265" r="3.2" fill="#2e7d32"/>
+  <text x="400" y="368" font-size="13" fill="#2e7d32" text-anchor="middle">每半周期 5 个采样点，能分辨高/低与边沿位置，协议解码才有依据</text>
+  <!-- 时间刻度 -->
+  <text x="70" y="390" font-size="12" fill="#5c6772" text-anchor="middle">0</text>
+  <text x="164" y="390" font-size="12" fill="#5c6772" text-anchor="middle">50</text>
+  <text x="259" y="390" font-size="12" fill="#5c6772" text-anchor="middle">100</text>
+  <text x="353" y="390" font-size="12" fill="#5c6772" text-anchor="middle">150</text>
+  <text x="447" y="390" font-size="12" fill="#5c6772" text-anchor="middle">200</text>
+  <text x="541" y="390" font-size="12" fill="#5c6772" text-anchor="middle">250</text>
+  <text x="636" y="390" font-size="12" fill="#5c6772" text-anchor="middle">300</text>
+  <text x="730" y="390" font-size="12" fill="#5c6772" text-anchor="middle">350</text>
+  <text x="760" y="390" font-size="12" fill="#5c6772">t / ns</text>
+</svg>
