@@ -11,11 +11,13 @@ import type {
   LearningRepository,
   ChapterStatus,
   RepositoryStats,
-  ImportResult
+  ImportResult,
+  PersistResult,
+  SaveState
 } from '@lubook/learning'
 import type { CatalogProvider } from './catalog'
 
-export type { ChapterStatus, RepositoryStats, ImportResult } from '@lubook/learning'
+export type { ChapterStatus, RepositoryStats, ImportResult, PersistResult, SaveState } from '@lubook/learning'
 
 export interface FavItem {
   /** 章节 id（= page.relativePath） */
@@ -28,12 +30,12 @@ export interface LearningFacade {
   catalog: CatalogProvider
   repository: LearningRepository
   getStatus(id: string): ChapterStatus | undefined
-  /** 传 null 表示取消标记（回到未学） */
-  setStatus(id: string, status: ChapterStatus | null): void
+  /** 传 null 表示取消标记（回到未学）；返回持久化结果供 UI 区分成功/失败 */
+  setStatus(id: string, status: ChapterStatus | null): PersistResult
   isFavorite(id: string): boolean
-  toggleFavorite(id: string): void
+  toggleFavorite(id: string): PersistResult
   getNote(id: string): string
-  setNote(id: string, text: string): void
+  setNote(id: string, text: string): PersistResult
   stats(): RepositoryStats
   /** 全部已收藏章节（按 catalog 顺序） */
   favorites(): FavItem[]
@@ -41,7 +43,11 @@ export interface LearningFacade {
   exportJSON(): string
   /** 导入（整体覆盖）；返回仓储的校验结果 */
   importJSON(text: string): ImportResult
-  clearAll(): void
+  clearAll(): PersistResult
+  /** 只读响应式保存状态（ADR-0007 §5）：UI 据此显示"已保存 / 未保存"。 */
+  readonly saveState: SaveState
+  /** 用当前内存状态重写一次持久化，供"重试"按钮使用。 */
+  retrySave(): PersistResult
 }
 
 // 模块级上下文：createBookTheme 注入一次；组件通过 useLearning() 读取。
@@ -68,24 +74,24 @@ export function createLearningFacade(
     return repository.getChapter(id).status
   }
 
-  function setStatus(id: string, status: ChapterStatus | null): void {
-    repository.setStatus(id, status)
+  function setStatus(id: string, status: ChapterStatus | null): PersistResult {
+    return repository.setStatus(id, status)
   }
 
   function isFavorite(id: string): boolean {
     return !!repository.getChapter(id).favorite
   }
 
-  function toggleFavorite(id: string): void {
-    repository.setFavorite(id, !repository.getChapter(id).favorite)
+  function toggleFavorite(id: string): PersistResult {
+    return repository.setFavorite(id, !repository.getChapter(id).favorite)
   }
 
   function getNote(id: string): string {
     return repository.getChapter(id).note?.text ?? ''
   }
 
-  function setNote(id: string, text: string): void {
-    repository.setNote(id, text)
+  function setNote(id: string, text: string): PersistResult {
+    return repository.setNote(id, text)
   }
 
   function stats(): RepositoryStats {
@@ -115,8 +121,8 @@ export function createLearningFacade(
     return repository.importData(text, 'replace')
   }
 
-  function clearAll(): void {
-    repository.clearAll()
+  function clearAll(): PersistResult {
+    return repository.clearAll()
   }
 
   return {
@@ -132,6 +138,10 @@ export function createLearningFacade(
     favorites,
     exportJSON,
     importJSON,
-    clearAll
+    clearAll,
+    get saveState() {
+      return repository.saveState
+    },
+    retrySave: () => repository.retryPersist()
   }
 }

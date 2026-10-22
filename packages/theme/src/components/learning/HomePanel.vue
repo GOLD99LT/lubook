@@ -1,18 +1,23 @@
 <script setup lang="ts">
 // 首页学习面板：整体进度、我的收藏、JSON 导出/导入。
+// 持久化失败时不显示成功提示：依据仓储 saveState 给出失败横幅、重试与导出兜底（ADR-0007 §5）。
 import { computed, ref } from 'vue'
 import { useLearning } from './store'
 
 const learning = useLearning()
 const s = computed(() => learning.stats())
+const saveState = computed(() => learning.saveState)
+const persistFailed = computed(() => !saveState.value.ok)
 
 const favList = computed(() =>
   learning.favorites().map((f) => ({ path: f.id, title: f.title, link: f.link }))
 )
 
 const toast = ref('')
-function showToast(msg: string) {
+const toastError = ref(false)
+function showToast(msg: string, isError = false) {
   toast.value = msg
+  toastError.value = isError
   setTimeout(() => (toast.value = ''), 2600)
 }
 
@@ -39,6 +44,11 @@ function onExport() {
   showToast('已导出 JSON 备份')
 }
 
+function retrySave() {
+  const r = learning.retrySave()
+  showToast(r.ok ? '重试保存成功' : `重试保存失败：${r.error ?? '存储不可用'}`, !r.ok)
+}
+
 const fileInput = ref<HTMLInputElement | null>(null)
 function onImportClick() {
   fileInput.value?.click()
@@ -49,7 +59,8 @@ function onFileChange(e: Event) {
   const reader = new FileReader()
   reader.onload = () => {
     const r = learning.importJSON(String(reader.result || ''))
-    showToast(r.message)
+    // 导入失败（校验不通过或持久化未成功）时按错误提示，不显示成功 toast。
+    showToast(r.message, !r.ok)
   }
   reader.readAsText(f)
   ;(e.target as HTMLInputElement).value = ''
@@ -77,6 +88,14 @@ function onFileChange(e: Event) {
       </div>
     </div>
 
+    <div v-if="persistFailed" class="hh-hp-unsaved">
+      <span class="hh-hp-unsaved-msg">
+        本地保存失败（{{ saveState.error || '存储不可用' }}），当前会话内数据仍保留。
+      </span>
+      <button type="button" @click="retrySave">重试保存</button>
+      <button type="button" @click="onExport">立即导出备份</button>
+    </div>
+
     <div class="hh-hp-favs" v-if="favList.length">
       <div class="hh-hp-favs-title">我的收藏（{{ favList.length }}）</div>
       <ul>
@@ -88,6 +107,6 @@ function onFileChange(e: Event) {
     </div>
 
     <div class="hh-hp-tip">数据仅保存在你当前浏览器（localStorage），换设备请先「导出数据」再到新设备「导入数据」。</div>
-    <div class="hh-hp-toast" v-if="toast">{{ toast }}</div>
+    <div class="hh-hp-toast" :class="{ 'is-error': toastError }" v-if="toast">{{ toast }}</div>
   </div>
 </template>

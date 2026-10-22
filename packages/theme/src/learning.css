@@ -231,3 +231,85 @@
   color: var(--hh-blue);
   font-weight: 600;
 }
+
+/* ---- 持久化失败（F04）：未保存提示、失败横幅、重试/导出按钮 ---- */
+/* 复用 pitfall 警示色，深浅色自适应，避免引入新色系 */
+.hh-learning-status.is-unsaved {
+  /* 状态按钮行处于未保存态：仅做轻微提示，具体信息由下方横幅给出 */
+  border-radius: 8px;
+}
+
+.hh-ln-hint.is-error {
+  color: var(--hh-pitfall);
+  font-weight: 700;
+}
+
+.hh-ls-unsaved {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--hh-pitfall);
+  border-radius: 8px;
+  background: var(--hh-pitfall-bg);
+}
+.hh-ls-unsaved-msg {
+  flex: 1 1 240px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--hh-pitfall);
+}
+.hh-ls-unsaved-btn {
+  font: inherit;
+  font-size: 12.5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--hh-pitfall);
+  background: var(--vp-c-bg);
+  color: var(--hh-pitfall);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.hh-ls-unsaved-btn:hover {
+  background: var(--hh-pitfall);
+  color: #fff;
+}
+
+.hh-hp-unsaved {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--hh-pitfall);
+  border-radius: 10px;
+  background: var(--hh-pitfall-bg);
+}
+.hh-hp-unsaved-msg {
+  flex: 1 1 240px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--hh-pitfall);
+}
+.hh-hp-unsaved button {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--hh-pitfall);
+  background: var(--vp-c-bg);
+  color: var(--hh-pitfall);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.hh-hp-unsaved button:hover {
+  background: var(--hh-pitfall);
+  color: #fff;
+}
+
+.hh-hp-toast.is-error {
+  color: var(--hh-pitfall);
+}

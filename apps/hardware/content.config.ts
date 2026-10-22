@@ -2,7 +2,7 @@
 //
 // 本文件【不在运行时访问文件系统】：catalog / contentRevision / totalChapters 来自
 // 预构建生成的静态模块（docs/.vitepress/catalog.generated.mjs），因此浏览器端也能安全
-// import。仓储在模块加载时创建并注册全部已知章节，使导入数据时未知章节正确进入 tombstone。
+// import。仓储在模块加载时创建，knownIds 由 catalog 注入，使导入/迁移数据时未知章节正确进入 tombstone。
 import type { DefaultTheme } from 'vitepress'
 import { createLearningRepository } from '@lubook/learning'
 import type { CatalogProvider } from '@lubook/theme'
@@ -43,13 +43,13 @@ export const SOCIAL_LINKS: DefaultTheme.SocialLink[] = [
 
 export { catalog, contentRevision, totalChapters }
 
-// 学习仓储：创建后逐章注册（catalog 含全部 140 章），避免现行章被误判为 tombstone。
-// 旧键迁移：hh.v1.learning（最早全局）→ hb.v1.handbook.learning（旧 app 键）→
-// lubook.v1.hardware.learning（新键）；旧键保留，合并以最新 updatedAt。
+// 学习仓储：knownIds 由 catalog 直接注入（ADR-0007 §3），现行章不会被误判为 tombstone；
+// 旧键迁移来源由本 app 显式声明（ADR-0007 §2）：hh.v1.learning（最早全局）→
+// hb.v1.handbook.learning（旧 app 键）→ lubook.v1.hardware.learning（新键）；旧键保留，合并以最新 updatedAt。
 export const repository = createLearningRepository({
   appId: APP_ID,
   totalChapters,
   contentRevision,
+  knownIds: catalog.entries.map((e) => e.id),
   legacyKeys: ['hh.v1.learning', 'hb.v1.handbook.learning']
 })
-catalog.entries.forEach((e) => repository.getChapter(e.id))

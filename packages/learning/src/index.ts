@@ -37,17 +37,34 @@ export interface ImportResult {
   tombstones?: string[]
 }
 
+/** 单次持久化结果（ADR-0007 §5）：写方法与 importData 统一返回，UI 据此区分成功/失败。 */
+export interface PersistResult {
+  ok: boolean
+  error?: string
+}
+
+/** 响应式保存状态：UI 据此显示"已保存 / 未保存"，并提供重试与导出兜底。 */
+export interface SaveState {
+  ok: boolean
+  error: string | null
+  updatedAt: string | null
+}
+
 export interface LearningRepository {
   readonly appId: string
   getChapter(id: string): ChapterRecord
-  setChapter(id: string, rec: ChapterRecord): void
-  setStatus(id: string, status: ChapterStatus | null): void
-  setFavorite(id: string, fav: boolean): void
-  setNote(id: string, text: string): void
+  setChapter(id: string, rec: ChapterRecord): PersistResult
+  setStatus(id: string, status: ChapterStatus | null): PersistResult
+  setFavorite(id: string, fav: boolean): PersistResult
+  setNote(id: string, text: string): PersistResult
   stats(): RepositoryStats
   export(contentRevision?: string): LearningExport
   importData(data: unknown, mode: 'merge' | 'replace'): ImportResult
-  clearAll(): void
+  clearAll(): PersistResult
+  /** 只读响应式保存状态（当前会话内存状态仍保留，即使写失败）。 */
+  readonly saveState: SaveState
+  /** 用当前内存状态重写一次持久化，供"重试"按钮使用。 */
+  retryPersist(): PersistResult
 }
 
 export interface CreateLearningRepositoryOptions {
@@ -59,7 +76,14 @@ export interface CreateLearningRepositoryOptions {
   /** 可注入的存储（测试用内存 Storage）；缺省时浏览器用 localStorage，SSR/无 localStorage 用内存实现 */
   storage?: Storage
   /**
-   * 旧键列表（按从旧到新排序）：新键不存在时，依次读取并合并，迁移后保留旧键。
+   * 已知章节 id 集合（由 app 从 catalog.entries[].id 注入，ADR-0007 §3）。
+   * 迁移、导入时不在此集合内的 id 一律落 tombstone：不写入、不计完成率。
+   * 缺省为空集合（新分册不声明历史来源时，旧数据不会进入当前状态）。
+   */
+  knownIds?: string[]
+  /**
+   * 旧键列表（按从旧到新排序，完全由 app 显式声明，ADR-0007 §2）：新键不存在时，
+   * 依次读取并合并，迁移后保留旧键；缺省为空数组 → 不做任何迁移。
    * 兼容两种形态：旧全局键（OldShape：version/notes 为字符串）与
    * 旧 app 键（PersistedShape：schemaVersion/appId/notes 为对象）。
    */
@@ -194,10 +218,8 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
   const totalChapters = opts.totalChapters
   const defaultRevision = opts.contentRevision ?? 'unknown'
   const newKey = `${NEW_KEY_PREFIX}.${appId}.learning`
-  // 旧键：app 显式传入（从旧到新）；最早的全局键始终纳入最前。
-  const legacyKeys = [OLD_KEY, ...(opts.legacyKeys ?? [])].filter(
-    (k, i, arr) => arr.indexOf(k) === i
-  )
+  // 迁移来源完全由 app 显式声明（ADR-0007 §2）：不再无条件前置最早全局键；新分册缺省空数组 → 不迁移。
+  const legacyKeys = (opts.legacyKeys ?? []).filter((k, i, arr) => arr.indexOf(k) === i)
 
   const storage = resolveStorage(opts.storage)
 
@@ -207,21 +229,14 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     notes: {} as Record<string, { text: string; updatedAt: string }>
   })
 
-  // 已知章节集合：启动时从已持久化数据播种；UI 经 getChapter/写方法访问的 id 也登记。
-  // 导入时不在此集合的 id 视为未知章节（旧版已删除/改名的章）→ 进 tombstone，不落库、不计完成率。
-  const knownIds = new Set<string>()
+  // 已知章节集合：由 catalog 注入（ADR-0007 §3），不随存储历史播种、不随 UI 访问扩张。
+  // 迁移、导入时不在此集合的 id 视为未知章节（旧版已删除/改名的章）→ 进 tombstone，不落库、不计完成率。
+  const knownIds = new Set<string>(opts.knownIds ?? [])
 
-  function seedKnown(): void {
-    for (const k of Object.keys(state.progress)) knownIds.add(k)
-    for (const k of Object.keys(state.favorites)) knownIds.add(k)
-    for (const k of Object.keys(state.notes)) knownIds.add(k)
-  }
+  // 响应式保存状态（ADR-0007 §5）：写失败时内存状态仍保留，UI 据此提示"未保存"。
+  const saveState = reactive<SaveState>({ ok: true, error: null, updatedAt: null })
 
-  function registerKnown(id: string): void {
-    knownIds.add(id)
-  }
-
-  function persist(): void {
+  function persist(): PersistResult {
     try {
       const payload: PersistedShape = {
         schemaVersion: SCHEMA_VERSION,
@@ -231,28 +246,57 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
         notes: state.notes
       }
       storage.setItem(newKey, JSON.stringify(payload))
+      saveState.ok = true
+      saveState.error = null
+      saveState.updatedAt = new Date().toISOString()
+      return { ok: true }
     } catch (e) {
+      const error = (e as Error)?.message ?? String(e)
+      saveState.ok = false
+      saveState.error = error
       warn('写入本地数据失败', e)
+      return { ok: false, error }
     }
   }
 
-  // ---- 启动：加载新键；不存在则合并迁移所有旧键（保留旧键）----
+  /** 按 knownIds 过滤归一化形态：未知 id 一律不落库（tombstone，ADR-0007 §1/§2/§3）。 */
+  function filterKnown(n: Normalized): Normalized {
+    const progress: Normalized['progress'] = {}
+    const favorites: Normalized['favorites'] = {}
+    const notes: Normalized['notes'] = {}
+    for (const [id, v] of Object.entries(n.progress)) {
+      if (knownIds.has(id)) progress[id] = v
+    }
+    for (const [id, v] of Object.entries(n.favorites)) {
+      if (knownIds.has(id)) favorites[id] = v
+    }
+    for (const [id, n2] of Object.entries(n.notes)) {
+      if (knownIds.has(id)) notes[id] = { ...n2 }
+    }
+    return { progress, favorites, notes }
+  }
+
+  // ---- 启动：加载新键；不存在则合并迁移显式声明的旧键（保留旧键）----
   function boot(): void {
     try {
       const rawNew = storage.getItem(newKey)
       if (rawNew) {
         const parsed = safeParse(rawNew) as PersistedShape | null
         if (parsed && parsed.schemaVersion === SCHEMA_VERSION && parsed.appId === appId) {
-          state.progress = normalizeProgress(parsed.progress)
-          state.favorites = normalizeFavorites(parsed.favorites)
-          state.notes = normalizeNotes(parsed.notes)
-          seedKnown()
+          const loaded = filterKnown({
+            progress: normalizeProgress(parsed.progress),
+            favorites: normalizeFavorites(parsed.favorites),
+            notes: normalizeNotes(parsed.notes)
+          })
+          state.progress = loaded.progress
+          state.favorites = loaded.favorites
+          state.notes = loaded.notes
           return
         }
         warn('新格式数据缺失或损坏，按空数据启动', parsed)
         return
       }
-      // 新键不存在 → 依次读取旧键（从旧到新），归一化后合并
+      // 新键不存在 → 依次读取显式声明的旧键（从旧到新），归一化后合并；未知 id 落 tombstone。
       const sources: Normalized[] = []
       for (const key of legacyKeys) {
         const raw = storage.getItem(key)
@@ -261,11 +305,10 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
         if (n) sources.push(n)
       }
       if (sources.length) {
-        const merged = mergeSources(sources)
+        const merged = filterKnown(mergeSources(sources))
         state.progress = merged.progress
         state.favorites = merged.favorites
         state.notes = merged.notes
-        seedKnown()
         persist() // 写新键；所有旧键保留
       }
     } catch (e) {
@@ -340,7 +383,6 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
   // ---- 仓储方法 ----
 
   function getChapter(id: string): ChapterRecord {
-    registerKnown(id)
     const rec: ChapterRecord = {}
     if (id in state.progress) rec.status = state.progress[id]
     if (state.favorites[id]) rec.favorite = true
@@ -348,8 +390,7 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     return rec
   }
 
-  function setChapter(id: string, rec: ChapterRecord): void {
-    registerKnown(id)
+  function setChapter(id: string, rec: ChapterRecord): PersistResult {
     if (rec.status === undefined) delete state.progress[id]
     else state.progress[id] = rec.status
     if (rec.favorite === undefined) delete state.favorites[id]
@@ -357,29 +398,26 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     else delete state.favorites[id]
     if (rec.note === undefined) delete state.notes[id]
     else state.notes[id] = { text: rec.note.text, updatedAt: rec.note.updatedAt }
-    persist()
+    return persist()
   }
 
-  function setStatus(id: string, status: ChapterStatus | null): void {
-    registerKnown(id)
+  function setStatus(id: string, status: ChapterStatus | null): PersistResult {
     if (status === null) delete state.progress[id]
     else state.progress[id] = status
-    persist()
+    return persist()
   }
 
-  function setFavorite(id: string, fav: boolean): void {
-    registerKnown(id)
+  function setFavorite(id: string, fav: boolean): PersistResult {
     if (fav) state.favorites[id] = true
     else delete state.favorites[id]
-    persist()
+    return persist()
   }
 
-  function setNote(id: string, text: string): void {
-    registerKnown(id)
+  function setNote(id: string, text: string): PersistResult {
     const t = (text ?? '').trim()
     if (t) state.notes[id] = { text: t, updatedAt: new Date().toISOString() }
     else delete state.notes[id]
-    persist()
+    return persist()
   }
 
   function stats(): RepositoryStats {
@@ -484,7 +522,15 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     for (const [id, n] of Object.entries(notes)) {
       if (knownIds.has(id)) state.notes[id] = { text: n.text, updatedAt: n.updatedAt }
     }
-    persist()
+
+    // 只有持久化成功才返回 ok:true；失败时内存状态已保留（会话内不丢），返回失败结果供 UI 提示。
+    const saved = persist()
+    if (!saved.ok) {
+      return {
+        ok: false,
+        message: `导入失败：本地存储写入失败（${saved.error ?? '未知错误'}），数据已保留在当前会话，可先「导出数据」兜底`
+      }
+    }
 
     const tombstones = Array.from(tombset).sort()
     return {
@@ -496,11 +542,11 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     }
   }
 
-  function clearAll(): void {
+  function clearAll(): PersistResult {
     state.progress = {}
     state.favorites = {}
     state.notes = {}
-    persist()
+    return persist()
   }
 
   boot()
@@ -515,7 +561,9 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     stats,
     export: exportData,
     importData,
-    clearAll
+    clearAll,
+    saveState,
+    retryPersist: persist
   }
 }
 
