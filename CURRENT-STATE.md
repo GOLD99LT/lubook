@@ -166,10 +166,10 @@ quality job 承担。修复后重新 push（`d33b556`），部署成功。
 | 批次 3 | basics/math-basics、transformer、nodal-mesh-analysis、rlc-resonance | ✅ 已合入并上线（`aab4f66`） | 9,041 / 8,472 / 8,115 / 6,638 | 复算通过；顺带修正旧图 transformer.svg 写反的匝比公式 |
 | 批次 4 | basics/mains-three-phase、electrical-safety | ✅ 已合入并上线（`ae4edc1`） | 10,725 / 11,553 | 安规章带 13 条文末《复核清单》+ 顶部提示；接地符号已统一为标准尺寸 |
 | 批次 5 | components/resistors、diodes、mosfet、capacitors | ✅ 已合入并上线（`828c869`） | 9,086 / 8,740 / 8,037 / 7,658 | 主干章标准；复算通过 |
-| 批次 6 | components 其余 9 章（special-resistors、smd-packages、capacitor-parameters、inductors-ferrite-beads、bjt、igbt-scr-relay、zener-led-tvs、crystal-oscillator、switches-connectors-fuses） | ⬜ 待做 | 1,246–1,606 | — |
+| 批次 6 | components 其余 9 章 | ✅ 已合入并上线（`0ac5728`） | 5,506–8,421 | 支撑章标准；components 篇 13/13 达标 |
 | 批次 7+ | 运放 / 数字 / 单片机 / 电源 / PCB / 测量 各篇 | ⬜ 待排 | — | — |
 
-现状：**basics 篇 14/14 达标**；**components 篇 4/13 达标**；全书 140 章中 **18 章达标**。
+现状：**basics 14/14 + components 13/13 = 27 章达标**（全书 140 章）。
 基线：evision=sha256-b0bfc73e3ba0bc48，routes 仍 141（URL 未变）。
 
 ### 待专业复核（写作智能体无法联网核实，已在正文标注"以数据手册为准"）
