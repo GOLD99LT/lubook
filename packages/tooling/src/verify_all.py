@@ -68,7 +68,13 @@ def main():
                       os.path.join('packages', 'tooling', 'src', 'freeze_manifest.py'),
                       '--app', app], REPO_ROOT, env)
             if rc != 0:
-                failures.append('%s:freeze' % app)
+                # 退出码 2 = 内容已变更但快照基线未更新（freeze 拒绝静默覆盖基线）。
+                # 这是门禁该拦的情况，给出可执行的下一步而不是笼统失败。
+                if rc == 2:
+                    failures.append('%s:baseline' % app)
+                    print('  → 内容已变更但基线未更新；确认改动无误后运行：pnpm freeze:%s' % app)
+                else:
+                    failures.append('%s:freeze' % app)
                 continue
 
             rc = run([sys.executable,

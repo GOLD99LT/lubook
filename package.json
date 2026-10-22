@@ -18,7 +18,7 @@
     "build:hardware": "pnpm -F @lubook/hardware docs:build",
     "preview:hardware": "pnpm -F @lubook/hardware docs:preview",
     "quality:hardware": "python run_quality.py --app hardware",
-    "freeze:hardware": "python packages/tooling/src/freeze_manifest.py --app hardware",
+    "freeze:hardware": "python packages/tooling/src/freeze_manifest.py --app hardware --accept",
     "offline:hardware": "pnpm run freeze:hardware && python packages/tooling/src/build_single_html.py --app hardware --manifest .generated/hardware-content-manifest.json",
     "build:template": "pnpm -F @lubook/site-template docs:build",
     "manifest": "pnpm -F @lubook/content-core manifest",

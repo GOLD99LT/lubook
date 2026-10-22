@@ -173,23 +173,77 @@ def build_manifest(app=APP_ID, src=DOCS):
     return manifest, routes, fingerprint
 
 
-def write_outputs(manifest, routes, fingerprint, app=APP_ID):
+def _load_json(path):
+    try:
+        with open(path, encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def write_outputs(manifest, routes, fingerprint, app=APP_ID, accept=False):
+    """写产物。
+
+    `.generated/<app>-content-manifest.json` 每次都写（离线构建要用）；
+    但 **快照是门禁基线，不能自动覆盖**：新增/改写内容时，基线必须由人显式确认。
+
+    - 快照不存在 → 首次生成，直接写（新分册引导）。
+    - 快照一致   → 不写（保持工作区干净）。
+    - 快照不一致 → 默认拒绝写入并返回 False，提示加 --accept；
+                  加 --accept 才更新基线（等价于"我确认这次内容变更是有意的"）。
+    """
     os.makedirs(GEN_DIR, exist_ok=True)
     os.makedirs(TESTS_DIR, exist_ok=True)
 
     def dump(path, obj):
-        with open(path, 'w', encoding='utf-8') as f:
+        tmp = path + '.tmp'
+        with open(tmp, 'w', encoding='utf-8') as f:
             json.dump(obj, f, ensure_ascii=False, indent=2)
             f.write('\n')
+        os.replace(tmp, path)
 
     dump(os.path.join(GEN_DIR, '%s-content-manifest.json' % app), manifest)
-    dump(os.path.join(TESTS_DIR, '%s.routes.snapshot.json' % app), routes)
-    dump(os.path.join(TESTS_DIR, '%s.manifest.snapshot.json' % app), fingerprint)
+
+    targets = [
+        (os.path.join(TESTS_DIR, '%s.routes.snapshot.json' % app), routes),
+        (os.path.join(TESTS_DIR, '%s.manifest.snapshot.json' % app), fingerprint),
+    ]
+    changed = []
+    for path, obj in targets:
+        old = _load_json(path)
+        if old == obj:
+            continue
+        changed.append(path)
+        if old is None or accept:
+            dump(path, obj)
+            continue
+        # 有差异且未 --accept：保留旧基线，交给调用方决定
+        print('[baseline] 快照与当前内容不一致，未覆盖：%s' % os.path.basename(path))
+        if path.endswith('manifest.snapshot.json'):
+            if old.get('revision') != obj.get('revision'):
+                print('           revision  %s -> %s' % (old.get('revision'), obj.get('revision')))
+            if old.get('docCount') != obj.get('docCount'):
+                print('           docCount  %s -> %s' % (old.get('docCount'), obj.get('docCount')))
+        else:
+            print('           路由条数  %s -> %s' % (len(old) if isinstance(old, list) else '?',
+                                                     len(obj) if isinstance(obj, list) else '?'))
+    if changed and not accept:
+        blocked = [p for p in changed if _load_json(p) is not None]
+        if blocked:
+            print('[baseline] 内容已变更但基线未更新。确认这是有意的改动后运行：\n'
+                  '           python packages/tooling/src/freeze_manifest.py --app %s --accept' % app)
+            return False
+    return True
 
 
 if __name__ == '__main__':
+    # --app/--src 由模块顶部的 add_common_args().parse_known_args() 解析；
+    # --accept 是本脚本独有的开关，用 parse_known_args 兼容不冲突的方式读取。
+    accept = '--accept' in sys.argv
     manifest, routes, fp = build_manifest(APP_ID, DOCS)
-    write_outputs(manifest, routes, fp, APP_ID)
+    ok = write_outputs(manifest, routes, fp, APP_ID, accept=accept)
     print('manifest 已生成: %d 章 / %d 处图片引用 / svg=%d / grounds=%d / routes=%d / revision=%s'
           % (fp['docCount'], fp['imageTotal'], fp['svgCount'],
              fp['groundsCount'], len(routes), fp['revision']))
+    if not ok:
+        sys.exit(2)
