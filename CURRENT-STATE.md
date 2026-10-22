@@ -168,10 +168,11 @@ quality job 承担。修复后重新 push（`d33b556`），部署成功。
 | 批次 5 | components/resistors、diodes、mosfet、capacitors | ✅ 已合入并上线（`828c869`） | 9,086 / 8,740 / 8,037 / 7,658 | 主干章标准；复算通过 |
 | 批次 6 | components 其余 9 章 | ✅ 已合入并上线（`0ac5728`） | 5,506–8,421 | 支撑章标准；components 篇 13/13 达标 |
 | 批次 7 | opamp 地基 5 章（opamp-overview、ideal-opamp、open-loop-feedback、small-signal-model、bjt-amplifiers） | ✅ 已合入并上线（`7d1bb0b`） | 6,264–7,366 | 主干章标准；术语约定统一后派工 |
-| 批次 8+ | opamp 其余 28 章 / digital 12 / mcu 13 / pcb 13 / power 12 / practice 12 | ⬜ 待排 | — | — |
+| 批次 8 | opamp 反馈四拓扑、稳定性、供电轨、CMRR/PSRR、失调（5 章） | ✅ 已合入并上线（`8821b54`） | 6,071–7,915 | 主干章标准 |
+| 批次 9+ | opamp 其余 23 章 / digital 12 / mcu 13 / pcb 13 / power 12 / practice 12 | ⬜ 待排 | — | — |
 | 不排期 | appendix 9 / quizbank 9 | 按"速查/附录"档，不设字数门槛 | — | — |
 
-现状：**basics 14/14 + components 13/13 + opamp 5/33 = 32 章达标**（全书 140 章）。
+现状：**basics 14/14 + components 13/13 + opamp 10/33 = 37 章达标**（全书 140 章）。
 基线：evision=sha256-b0bfc73e3ba0bc48，routes 仍 141（URL 未变）。
 
 ### 待专业复核（写作智能体无法联网核实，已在正文标注"以数据手册为准"）
