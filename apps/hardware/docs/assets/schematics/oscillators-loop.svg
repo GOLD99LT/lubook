@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Noto Sans SC',monospace" role="img">
+  <title>振荡器的正反馈环路：放大器 A 与反馈网络 beta 构成环路增益 T=A beta，起振要求 |T| 大于 1，稳态要求 |T| 等于 1 且环路相位为 0 度</title>
+  <rect width="760" height="340" fill="#ffffff"/>
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#2b3a4a"/>
+    </marker>
+    <marker id="arB" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#1a4f8b"/>
+    </marker>
+  </defs>
+
+  <!-- 求和节点 -->
+  <circle cx="150" cy="150" r="26" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="138" y="145" font-size="18" fill="#2b3a4a" font-weight="700">+</text>
+  <text x="138" y="170" font-size="18" fill="#2b3a4a" font-weight="700">+</text>
+
+  <!-- 输入：噪声/上电扰动 -->
+  <line x1="46" y1="150" x2="120" y2="150" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#ar)"/>
+  <text x="46" y="138" font-size="14" fill="#5c6772">无外部输入</text>
+  <text x="46" y="180" font-size="14" fill="#5c6772">（噪声/上电扰动起振）</text>
+
+  <!-- 放大器 -->
+  <rect x="230" y="110" width="170" height="80" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="315" y="144" font-size="19" fill="#1a4f8b" text-anchor="middle" font-weight="700">A(jω)</text>
+  <text x="315" y="170" font-size="14" fill="#2b3a4a" text-anchor="middle">放大器</text>
+  <line x1="176" y1="150" x2="230" y2="150" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#ar)"/>
+
+  <!-- 输出 -->
+  <line x1="400" y1="150" x2="700" y2="150" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#ar)"/>
+  <text x="708" y="156" font-size="18" fill="#1a4f8b" font-weight="700">Vout</text>
+  <circle cx="620" cy="150" r="4.5" fill="#2b3a4a"/>
+
+  <!-- 反馈网络 -->
+  <line x1="620" y1="150" x2="620" y2="272" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="620" y1="272" x2="445" y2="272" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="330" y="242" width="115" height="60" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="387" y="268" font-size="18" fill="#1a4f8b" text-anchor="middle" font-weight="700">β(jω)</text>
+  <text x="387" y="290" font-size="14" fill="#2b3a4a" text-anchor="middle">反馈网络</text>
+  <line x1="330" y1="272" x2="150" y2="272" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="150" y1="272" x2="150" y2="178" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#ar)"/>
+
+  <!-- 结论文字 -->
+  <text x="470" y="40" font-size="16" fill="#1a4f8b" font-weight="700">环路增益 T(jω) = A(jω)β(jω)</text>
+  <text x="470" y="70" font-size="15" fill="#2b3a4a">起振：|T| &gt; 1；稳态：|T| = 1</text>
+  <text x="470" y="96" font-size="15" fill="#2b3a4a">相位：∠T = 0°（mod 360°）</text>
+
+  <!-- 正反馈标注 -->
+  <text x="108" y="318" font-size="14" fill="#b5642e" font-weight="700">两个输入都取“+”，这是正反馈</text>
+</svg>

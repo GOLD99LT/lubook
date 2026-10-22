@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Noto Sans SC',monospace" role="img">
+  <title>555 无稳态接法：VCC 经 R_A、R_B 给 C 充电，C 经 R_B 和 7 脚放电；虚线二极管 D1 跨接 7 脚与 6 脚可旁路 R_B，用于把占空比降到 50% 附近</title>
+  <rect width="860" height="520" fill="#ffffff"/>
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#2b3a4a"/>
+    </marker>
+    <marker id="arO" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#b5642e"/>
+    </marker>
+    <marker id="arG" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#4f9e63"/>
+    </marker>
+  </defs>
+
+  <!-- VCC 轨 -->
+  <line x1="120" y1="60" x2="700" y2="60" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="112" y="55" font-size="16" fill="#1a4f8b" text-anchor="end" font-weight="700">VCC</text>
+  <circle cx="200" cy="60" r="4.5" fill="#2b3a4a"/>
+  <circle cx="700" cy="60" r="4.5" fill="#2b3a4a"/>
+  <line x1="530" y1="60" x2="530" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- R_A -->
+  <line x1="200" y1="60" x2="200" y2="80" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="189" y="80" width="22" height="46" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="200" y1="126" x2="200" y2="210" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="216" y="108" font-size="16" fill="#1a4f8b" font-weight="700">R_A</text>
+
+  <!-- 7 脚节点与放电管 -->
+  <circle cx="200" cy="210" r="4.5" fill="#2b3a4a"/>
+  <line x1="200" y1="210" x2="420" y2="210" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- R_B -->
+  <line x1="200" y1="210" x2="200" y2="220" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="189" y="220" width="22" height="46" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="200" y1="266" x2="200" y2="270" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="216" y="248" font-size="16" fill="#1a4f8b" font-weight="700">R_B</text>
+
+  <!-- 6/2 脚节点 -->
+  <circle cx="200" cy="270" r="4.5" fill="#2b3a4a"/>
+  <line x1="200" y1="270" x2="420" y2="270" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="380" y1="270" x2="380" y2="310" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="380" cy="270" r="4.5" fill="#2b3a4a"/>
+  <line x1="380" y1="310" x2="420" y2="310" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- C 与地 -->
+  <line x1="200" y1="270" x2="200" y2="380" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="184" y1="380" x2="216" y2="380" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="184" y1="390" x2="216" y2="390" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="200" y1="390" x2="200" y2="450" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="222" y="390" font-size="16" fill="#1a4f8b" font-weight="700">C</text>
+  <line x1="186" y1="450" x2="214" y2="450" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="191" y1="457" x2="209" y2="457" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="195" y1="464" x2="205" y2="464" stroke="#2b3a4a" stroke-width="2.4"/>
+
+  <!-- 555 方框 -->
+  <rect x="420" y="170" width="220" height="200" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="530" y="265" font-size="19" fill="#2b3a4a" text-anchor="middle" font-weight="700">NE555</text>
+  <text x="530" y="288" font-size="13" fill="#5c6772" text-anchor="middle">阈值 2/3 VCC · 1/3 VCC</text>
+  <text x="410" y="215" font-size="14" fill="#2b3a4a" text-anchor="end">7 DIS</text>
+  <text x="410" y="275" font-size="14" fill="#2b3a4a" text-anchor="end">6 THRES</text>
+  <text x="410" y="315" font-size="14" fill="#2b3a4a" text-anchor="end">2 TRIG</text>
+  <text x="530" y="164" font-size="14" fill="#2b3a4a" text-anchor="middle">8 VCC</text>
+  <text x="530" y="386" font-size="14" fill="#2b3a4a" text-anchor="middle">1 GND</text>
+  <text x="650" y="200" font-size="14" fill="#2b3a4a">4 RESET</text>
+  <text x="650" y="275" font-size="14" fill="#2b3a4a">3 OUT</text>
+  <text x="650" y="340" font-size="14" fill="#2b3a4a">5 CONT</text>
+
+  <!-- 555 电源与地 -->
+  <line x1="530" y1="370" x2="530" y2="430" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="516" y1="430" x2="544" y2="430" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="521" y1="437" x2="539" y2="437" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="525" y1="444" x2="535" y2="444" stroke="#2b3a4a" stroke-width="2.4"/>
+
+  <!-- 4 RESET 接 VCC -->
+  <line x1="640" y1="195" x2="700" y2="195" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="700" y1="195" x2="700" y2="60" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="712" y="190" font-size="13" fill="#5c6772">接 VCC</text>
+
+  <!-- 5 CONT -->
+  <line x1="640" y1="335" x2="700" y2="335" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="712" y="340" font-size="13" fill="#5c6772">10 nF 到地</text>
+
+  <!-- 3 OUT -->
+  <line x1="640" y1="270" x2="780" y2="270" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#ar)"/>
+  <text x="790" y="276" font-size="17" fill="#1a4f8b" font-weight="700">Vout</text>
+
+  <!-- 充电路径虚线 -->
+  <line x1="178" y1="66" x2="178" y2="262" stroke="#b5642e" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arO)"/>
+  <text x="96" y="120" font-size="14" fill="#b5642e" font-weight="700">充电</text>
+  <text x="96" y="140" font-size="13" fill="#b5642e">VCC → R_A → R_B → C</text>
+
+  <!-- 放电路径虚线 -->
+  <line x1="222" y1="262" x2="222" y2="218" stroke="#4f9e63" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arG)"/>
+  <text x="238" y="250" font-size="14" fill="#4f9e63" font-weight="700">放电</text>
+  <text x="238" y="230" font-size="13" fill="#4f9e63">C → R_B → 7 脚</text>
+
+  <!-- 可选二极管 D1：7 脚到 6 脚，阳极在上 -->
+  <line x1="200" y1="210" x2="310" y2="210" stroke="#2b3a4a" stroke-width="1.8" stroke-dasharray="4 4"/>
+  <line x1="310" y1="210" x2="310" y2="225" stroke="#2b3a4a" stroke-width="1.8" stroke-dasharray="4 4"/>
+  <polygon points="300,225 320,225 310,243" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="300" y1="243" x2="320" y2="243" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="310" y1="243" x2="310" y2="270" stroke="#2b3a4a" stroke-width="1.8" stroke-dasharray="4 4"/>
+  <line x1="310" y1="270" x2="200" y2="270" stroke="#2b3a4a" stroke-width="1.8" stroke-dasharray="4 4"/>
+  <text x="326" y="228" font-size="14" fill="#1a4f8b" font-weight="700">D1（可选）</text>
+  <text x="326" y="246" font-size="12" fill="#5c6772">旁路 R_B，降低占空比</text>
+
+  <!-- 结论 -->
+  <text x="60" y="500" font-size="14" fill="#2b3a4a">无稳态：电容在 1/3 VCC 与 2/3 VCC 之间往返，输出在 3 脚交替高低</text>
+</svg>

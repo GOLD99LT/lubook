@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>同相迟滞比较器：输入 Vin 经 R1=10 kΩ 接同相端，输出经 Rf=165 kΩ 正反馈回同相端，反相端接 1.98 V 参考；输出 3.3 V 逻辑，上门限 2.10 V、下门限 1.90 V、迟滞窗口 200 mV</title>
+  <rect width="760" height="470" fill="#ffffff"/>
+  <defs>
+    <marker id="arrowR" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#2b3a4a"/>
+    </marker>
+    <marker id="arrowB" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#1a4f8b"/>
+    </marker>
+  </defs>
+
+  <text x="30" y="30" font-size="18" font-weight="700" fill="#222a32">同相迟滞比较器 Non-Inverting Comparator with Hysteresis</text>
+
+  <!-- 输入源 Vin -->
+  <circle cx="60" cy="170" r="15" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="60" y="166" font-size="12" fill="#2b3a4a" text-anchor="middle">+</text>
+  <text x="60" y="182" font-size="12" fill="#2b3a4a" text-anchor="middle">−</text>
+  <text x="18" y="176" font-size="17" fill="#2b3a4a">Vin</text>
+  <line x1="75" y1="170" x2="160" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- R1 -->
+  <rect x="160" y="158" width="80" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="200" y="148" font-size="14" fill="#1a4f8b" text-anchor="middle" font-weight="700">R1 = 10 kΩ</text>
+  <line x1="240" y1="170" x2="270" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="270" cy="170" r="4.5" fill="#2b3a4a"/>
+
+  <!-- 同相端 -->
+  <line x1="270" y1="170" x2="270" y2="190" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="270" y1="190" x2="330" y2="190" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- Rf 正反馈 -->
+  <line x1="270" y1="170" x2="270" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="270" y1="100" x2="300" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="300" y="88" width="120" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="360" y="78" font-size="14" fill="#1a4f8b" text-anchor="middle" font-weight="700">Rf = 165 kΩ（正反馈）</text>
+  <line x1="420" y1="100" x2="560" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="100" x2="560" y2="210" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 比较器 -->
+  <polygon points="330,150 330,270 480,210" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="342" y="197" font-size="20" fill="#2b3a4a" font-weight="700">+</text>
+  <text x="342" y="239" font-size="20" fill="#2b3a4a" font-weight="700">−</text>
+
+  <!-- 反相端与 Vref -->
+  <line x1="330" y1="230" x2="215" y2="230" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="200" cy="230" r="15" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="200" y="208" font-size="13" fill="#1a4f8b" text-anchor="middle" font-weight="700">Vref = 1.98 V</text>
+  <line x1="200" y1="245" x2="200" y2="290" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="186" y1="290" x2="214" y2="290" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="191" y1="297" x2="209" y2="297" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="195" y1="304" x2="205" y2="304" stroke="#2b3a4a" stroke-width="2.4"/>
+
+  <!-- Vin 接地 -->
+  <line x1="60" y1="185" x2="60" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="46" y1="250" x2="74" y2="250" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="51" y1="257" x2="69" y2="257" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="55" y1="264" x2="65" y2="264" stroke="#2b3a4a" stroke-width="2.4"/>
+
+  <!-- 输出 -->
+  <line x1="480" y1="210" x2="630" y2="210" stroke="#2b3a4a" stroke-width="2.2" marker-end="url(#arrowR)"/>
+  <circle cx="560" cy="210" r="4.5" fill="#2b3a4a"/>
+  <text x="638" y="206" font-size="14" fill="#2b3a4a" font-weight="700">Vout</text>
+  <text x="638" y="224" font-size="11.5" fill="#5c6772">3.3 V 逻辑</text>
+
+  <!-- 迟滞传输特性 -->
+  <text x="80" y="330" font-size="13.5" font-weight="700" fill="#222a32">迟滞传输特性</text>
+  <!-- 窗口带 -->
+  <rect x="165" y="342" width="130" height="78" fill="#b5642e" fill-opacity="0.10"/>
+  <!-- 坐标轴 -->
+  <line x1="80" y1="420" x2="370" y2="420" stroke="#2b3a4a" stroke-width="1.6"/>
+  <line x1="80" y1="420" x2="80" y2="340" stroke="#2b3a4a" stroke-width="1.6"/>
+  <!-- 迟滞环 -->
+  <polyline points="100,350 295,350 295,410 165,410 165,350" fill="none" stroke="#1a4f8b" stroke-width="2.4"/>
+  <line x1="295" y1="350" x2="295" y2="410" stroke="#1a4f8b" stroke-width="2.4" marker-end="url(#arrowB)"/>
+  <line x1="295" y1="410" x2="165" y2="410" stroke="#1a4f8b" stroke-width="2.4" marker-end="url(#arrowB)"/>
+  <line x1="165" y1="410" x2="165" y2="350" stroke="#1a4f8b" stroke-width="2.4" marker-end="url(#arrowB)"/>
+  <!-- 标注 -->
+  <text x="72" y="354" font-size="11.5" fill="#5c6772" text-anchor="end">VOH</text>
+  <text x="72" y="414" font-size="11.5" fill="#5c6772" text-anchor="end">VOL</text>
+  <text x="165" y="438" font-size="11.5" fill="#b03030" text-anchor="middle">1.90 V</text>
+  <text x="295" y="438" font-size="11.5" fill="#b03030" text-anchor="middle">2.10 V</text>
+  <text x="230" y="458" font-size="11" fill="#5c6772" text-anchor="middle">ΔV = 200 mV</text>
+  <text x="370" y="438" font-size="11.5" fill="#222a32" text-anchor="end">Vin</text>
+  <text x="86" y="336" font-size="11.5" fill="#222a32">Vout</text>
+
+  <!-- 文字说明 -->
+  <text x="420" y="350" font-size="12" fill="#222a32">Vin → R1 → +；Rf 从输出回 +；− 接 Vref。</text>
+  <text x="420" y="376" font-size="12" fill="#222a32">V_T+ = Vref(1+k) − VOL·k = 2.10 V</text>
+  <text x="420" y="400" font-size="12" fill="#222a32">V_T− = Vref(1+k) − VOH·k = 1.90 V</text>
+  <text x="420" y="424" font-size="12" fill="#222a32">k = 0.0606，ΔV = k(VOH − VOL) = 200 mV</text>
+  <text x="420" y="448" font-size="12" fill="#1a4f8b">R1 = 10 kΩ，Rf = 165 kΩ，Vref = 1.98 V</text>
+</svg>

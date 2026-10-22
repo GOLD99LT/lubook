@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>100 kΩ 源电阻、G=100、噪声带宽 15.708 kHz 时的输出噪声预算：源电阻热噪声 510.1 µV rms 占 88.45%，运放电压噪声与电流噪声在源阻抗上的压降各占 5.34%，反馈网络占 0.88%，RSS 合计 542.4 µV rms</title>
+  <rect width="860" height="520" fill="#ffffff"/>
+  <defs>
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#1a4f8b" stroke-width="2.4" stroke-opacity="0.55"/>
+    </pattern>
+  </defs>
+
+  <text x="30" y="32" font-size="19" font-weight="700" fill="#222a32">输出噪声预算：谁在主导 Noise Budget</text>
+  <text x="30" y="54" font-size="12.5" fill="#5c6772">R_s = 100 kΩ（300 K）｜G = 100｜f_c = 10 kHz｜BW_n = 15.708 kHz｜√BW_n = 125.33｜每项 = 输入密度 × 100 × 125.33</text>
+
+  <!-- 坐标轴 -->
+  <line x1="270" y1="90" x2="270" y2="380" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="270" y1="380" x2="770" y2="380" stroke="#2b3a4a" stroke-width="1.8"/>
+  <!-- 刻度 -->
+  <g stroke="#2b3a4a" stroke-width="1.4">
+    <line x1="270" y1="380" x2="270" y2="386"/>
+    <line x1="350" y1="380" x2="350" y2="386"/>
+    <line x1="430" y1="380" x2="430" y2="386"/>
+    <line x1="510" y1="380" x2="510" y2="386"/>
+    <line x1="590" y1="380" x2="590" y2="386"/>
+    <line x1="670" y1="380" x2="670" y2="386"/>
+    <line x1="750" y1="380" x2="750" y2="386"/>
+  </g>
+  <g font-size="12" fill="#5c6772" text-anchor="middle">
+    <text x="270" y="402">0</text>
+    <text x="350" y="402">100</text>
+    <text x="430" y="402">200</text>
+    <text x="510" y="402">300</text>
+    <text x="590" y="402">400</text>
+    <text x="670" y="402">500</text>
+    <text x="750" y="402">600</text>
+  </g>
+  <text x="770" y="422" font-size="12.5" fill="#5c6772" text-anchor="end">输出噪声 / µV rms</text>
+
+  <!-- 行 1：e_n -->
+  <text x="40" y="126" font-size="15" fill="#222a32">运放 e_n = 10.0 nV/√Hz</text>
+  <rect x="270" y="107" width="100.3" height="26" fill="#1a4f8b" fill-opacity="0.85" stroke="#1a4f8b" stroke-width="1.2"/>
+  <text x="380" y="125" font-size="13" fill="#222a32">125.3 µV（5.34%）</text>
+
+  <!-- 行 2：i_n R_s -->
+  <text x="40" y="176" font-size="15" fill="#222a32">i_n·R_s = 10.0 nV/√Hz</text>
+  <rect x="270" y="157" width="100.3" height="26" fill="#b5642e" fill-opacity="0.85" stroke="#b5642e" stroke-width="1.2"/>
+  <text x="380" y="175" font-size="13" fill="#222a32">125.3 µV（5.34%）</text>
+
+  <!-- 行 3：源电阻热噪声 -->
+  <text x="40" y="226" font-size="15" font-weight="700" fill="#b03030">源电阻 4kT·R_s = 40.70 nV/√Hz</text>
+  <rect x="270" y="207" width="408.1" height="26" fill="#b03030" fill-opacity="0.85" stroke="#b03030" stroke-width="1.2"/>
+  <text x="686" y="225" font-size="13" font-weight="700" fill="#b03030">510.1 µV（88.45%）</text>
+
+  <!-- 行 4：反馈网络 -->
+  <text x="40" y="276" font-size="15" fill="#222a32">反馈网络 4kT(R1∥Rf) = 4.05 nV/√Hz</text>
+  <rect x="270" y="257" width="40.6" height="26" fill="#4f9e63" fill-opacity="0.85" stroke="#4f9e63" stroke-width="1.2"/>
+  <text x="320" y="275" font-size="13" fill="#222a32">50.8 µV（0.88%）</text>
+
+  <!-- 行 5：RSS 合计 -->
+  <text x="40" y="336" font-size="15" font-weight="700" fill="#222a32">RSS 合计 = 43.28 nV/√Hz</text>
+  <rect x="270" y="317" width="434.0" height="26" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="270" y="317" width="434.0" height="26" fill="url(#hatch)" stroke="#2b3a4a" stroke-width="0.8" fill-opacity="0.55"/>
+  <text x="712" y="335" font-size="13" font-weight="700" fill="#222a32">542.4 µV（100%）</text>
+
+  <!-- 结论 -->
+  <line x1="30" y1="440" x2="830" y2="440" stroke="#e3e0d7"/>
+  <text x="30" y="462" font-size="13" fill="#222a32">结论一：源电阻自身的热噪声占 88.45%，换更低 e_n 的运放最多只能改善约 0.2 dB。</text>
+  <text x="30" y="484" font-size="13" fill="#222a32">结论二：BW_n = (π/2)·10 kHz = 15.708 kHz；若误用 10 kHz，总计只有 433 µV，低估 1.96 dB。</text>
+  <text x="30" y="506" font-size="13" fill="#b03030">结论三：电流噪声项已与 e_n 相等，说明 R_s 正好落在 R_opt = e_n/i_n = 100 kΩ 上；但总噪声仍随 R_s 上升。</text>
+</svg>

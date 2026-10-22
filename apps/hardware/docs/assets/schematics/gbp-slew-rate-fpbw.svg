@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 860 560" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>同一只 GBW=10 MHz、SR=10 V/µs 运放的两条频率天花板：G=10 时 GBW 限制为 1 MHz（水平线），SR 限制为 1.5915 MHz（双曲线，f=SR/(2πV_pk)）；两条线在 V_pk=1.5915 V（3.18 Vpp）处相交，低于该幅度由 GBW 主导，高于该幅度由 SR 主导</title>
+  <rect width="860" height="560" fill="#ffffff"/>
+
+  <text x="30" y="32" font-size="19" font-weight="700" fill="#222a32">小信号与大信号：两条频率天花板 Frequency Ceiling</text>
+  <text x="30" y="54" font-size="12.5" fill="#5c6772">GBW = 10 MHz｜SR = 10 V/µs｜噪声增益 1/β = 10｜可用频率 = min(GBW/(1/β), SR/(2πV_pk))</text>
+
+  <!-- 网格 -->
+  <g stroke="#e3e0d7" stroke-width="1">
+    <line x1="90" y1="373.3" x2="780" y2="373.3"/>
+    <line x1="90" y1="316.7" x2="780" y2="316.7"/>
+    <line x1="90" y1="260" x2="780" y2="260"/>
+    <line x1="90" y1="203.3" x2="780" y2="203.3"/>
+    <line x1="90" y1="146.7" x2="780" y2="146.7"/>
+    <line x1="90" y1="90" x2="780" y2="90"/>
+    <line x1="176.3" y1="90" x2="176.3" y2="430"/>
+    <line x1="262.5" y1="90" x2="262.5" y2="430"/>
+    <line x1="348.8" y1="90" x2="348.8" y2="430"/>
+    <line x1="435" y1="90" x2="435" y2="430"/>
+    <line x1="521.3" y1="90" x2="521.3" y2="430"/>
+    <line x1="607.5" y1="90" x2="607.5" y2="430"/>
+    <line x1="693.8" y1="90" x2="693.8" y2="430"/>
+  </g>
+
+  <!-- 可行域 -->
+  <polygon points="90,430 90,316.7 364.5,316.7 400.5,329.8 435,339.8 521.3,357.8 607.5,369.8 693.8,378.4 780,384.9 780,430"
+           fill="#4f9e63" fill-opacity="0.12" stroke="none"/>
+
+  <!-- 坐标轴 -->
+  <line x1="90" y1="430" x2="790" y2="430" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="90" y1="430" x2="90" y2="80" stroke="#2b3a4a" stroke-width="1.8"/>
+
+  <!-- 刻度 x -->
+  <g stroke="#2b3a4a" stroke-width="1.3">
+    <line x1="90" y1="430" x2="90" y2="436"/>
+    <line x1="176.3" y1="430" x2="176.3" y2="436"/>
+    <line x1="262.5" y1="430" x2="262.5" y2="436"/>
+    <line x1="348.8" y1="430" x2="348.8" y2="436"/>
+    <line x1="435" y1="430" x2="435" y2="436"/>
+    <line x1="521.3" y1="430" x2="521.3" y2="436"/>
+    <line x1="607.5" y1="430" x2="607.5" y2="436"/>
+    <line x1="693.8" y1="430" x2="693.8" y2="436"/>
+    <line x1="780" y1="430" x2="780" y2="436"/>
+  </g>
+  <g font-size="12" fill="#5c6772" text-anchor="middle">
+    <text x="90" y="452">0</text>
+    <text x="176.3" y="452">0.5</text>
+    <text x="262.5" y="452">1.0</text>
+    <text x="348.8" y="452">1.5</text>
+    <text x="435" y="452">2.0</text>
+    <text x="521.3" y="452">2.5</text>
+    <text x="607.5" y="452">3.0</text>
+    <text x="693.8" y="452">3.5</text>
+    <text x="780" y="452">4.0</text>
+  </g>
+  <text x="440" y="474" font-size="13" fill="#222a32" text-anchor="middle">输出峰值 V_pk / V</text>
+
+  <!-- 刻度 y -->
+  <g stroke="#2b3a4a" stroke-width="1.3">
+    <line x1="84" y1="430" x2="90" y2="430"/>
+    <line x1="84" y1="373.3" x2="90" y2="373.3"/>
+    <line x1="84" y1="316.7" x2="90" y2="316.7"/>
+    <line x1="84" y1="260" x2="90" y2="260"/>
+    <line x1="84" y1="203.3" x2="90" y2="203.3"/>
+    <line x1="84" y1="146.7" x2="90" y2="146.7"/>
+    <line x1="84" y1="90" x2="90" y2="90"/>
+  </g>
+  <g font-size="12" fill="#5c6772" text-anchor="end">
+    <text x="78" y="434">0</text>
+    <text x="78" y="377">0.5</text>
+    <text x="78" y="321">1.0</text>
+    <text x="78" y="264">1.5</text>
+    <text x="78" y="207">2.0</text>
+    <text x="78" y="151">2.5</text>
+    <text x="78" y="94">3.0</text>
+  </g>
+  <text x="34" y="260" font-size="13" fill="#222a32" text-anchor="middle" transform="rotate(-90 34 260)">可用频率 / MHz</text>
+
+  <!-- GBW 限制：水平线 -->
+  <line x1="90" y1="316.7" x2="780" y2="316.7" stroke="#1a4f8b" stroke-width="2.8"/>
+  <text x="96" y="345" font-size="13" fill="#1a4f8b" font-weight="700">GBW 限制：f = 1.0 MHz（与幅度无关）</text>
+
+  <!-- SR 限制：双曲线 -->
+  <polyline points="181.4,90 193.5,129.3 210.8,172.3 228,204.6 245.3,229.6 262.5,249.6 297,279.7 331.5,301.1 364.5,316.7 400.5,329.8 435,339.8 521.3,357.8 607.5,369.8 693.8,378.4 780,384.9"
+            fill="none" stroke="#b5642e" stroke-width="2.8"/>
+  <text x="470" y="300" font-size="13" fill="#b5642e" font-weight="700">SR 限制：f = SR / (2π·V_pk) = 1.5915 MHz / V_pk</text>
+
+  <!-- 交点 -->
+  <line x1="364.5" y1="316.7" x2="364.5" y2="430" stroke="#b03030" stroke-width="1.4" stroke-dasharray="5,4"/>
+  <circle cx="364.5" cy="316.7" r="6" fill="#ffffff" stroke="#b03030" stroke-width="2.4"/>
+  <text x="372" y="340" font-size="12.5" fill="#b03030">交点：V_pk = 1.5915 V（3.18 Vpp）</text>
+
+  <!-- 设计点 -->
+  <circle cx="262.5" cy="316.7" r="5.5" fill="#1a4f8b"/>
+  <line x1="262.5" y1="316.7" x2="262.5" y2="249.6" stroke="#1a4f8b" stroke-width="1.4" stroke-dasharray="4,3"/>
+  <circle cx="262.5" cy="249.6" r="5" fill="#ffffff" stroke="#b5642e" stroke-width="2"/>
+  <text x="270" y="252" font-size="12.5" fill="#b5642e">SR 允许 1.5915 MHz（余量 1.59×）</text>
+  <text x="150" y="290" font-size="12.5" fill="#1a4f8b">设计点：2 Vpp、1 MHz</text>
+
+  <!-- 区域标注 -->
+  <text x="120" y="410" font-size="12.5" fill="#4f9e63">可行区</text>
+  <text x="120" y="426" font-size="11" fill="#4f9e63">（取两条线的低者）</text>
+
+  <!-- 图例 -->
+  <g font-size="12.5">
+    <line x1="560" y1="70" x2="596" y2="70" stroke="#1a4f8b" stroke-width="2.8"/>
+    <text x="604" y="74" fill="#222a32">GBW 限制</text>
+    <line x1="690" y1="70" x2="726" y2="70" stroke="#b5642e" stroke-width="2.8"/>
+    <text x="734" y="74" fill="#222a32">SR 限制</text>
+  </g>
+
+  <!-- 结论 -->
+  <line x1="30" y1="500" x2="830" y2="500" stroke="#e3e0d7"/>
+  <text x="30" y="522" font-size="12.5" fill="#222a32">结论一：V_pk 低于 1.5915 V（3.18 Vpp）时 GBW 先限制；高于它时 SR 先限制。分界增益 = 2πV_pk·GBW/SR = 6.28。</text>
+  <text x="30" y="544" font-size="12.5" fill="#b03030">结论二：2 Vpp 时 SR 需要 6.283 V/µs，SR=10 V/µs 还有 1.59 倍余量；把幅度加到 3 Vpp，GBW 仍是 1 MHz，SR 却只允许 1.06 MHz。</text>
+</svg>
