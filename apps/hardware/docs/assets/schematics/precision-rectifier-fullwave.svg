@@ -1,0 +1,77 @@
+<svg viewBox="0 0 1040 560" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>精密全波整流（绝对值）：第一级精密半波，第二级反相加法，输出 |Vin|</title>
+  <rect width="1040" height="560" fill="#ffffff"/>
+  <polygon points="260,125 260,275 400,200" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="274" y="159" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="274" y="247" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <text x="337" y="269" font-size="13" fill="#222a32" text-anchor="middle" font-weight="700">A1</text>
+  <line x1="60" y1="170" x2="110" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="110" y="159" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="140" y="158" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">R1</text>
+  <line x1="170" y1="170" x2="210" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="210" y1="170" x2="260" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="210" cy="170" r="4.5" fill="#2b3a4a"/>
+  <text x="42" y="165" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vin</text>
+  <line x1="260" y1="245" x2="235" y2="245" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="235" y1="245" x2="235" y2="310" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="235" y1="310" x2="235" y2="316" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="221" y1="316" x2="249" y2="316" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="226" y1="323" x2="244" y2="323" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="230" y1="330" x2="240" y2="330" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="400" y1="200" x2="440" y2="200" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="440,186 440,214 464,200" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="464" y1="184" x2="464" y2="216" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="452" y="178" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">D1</text>
+  <line x1="464" y1="200" x2="520" y2="200" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="420" cy="200" r="4.5" fill="#2b3a4a"/>
+  <line x1="210" y1="170" x2="210" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="210" y1="100" x2="450" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="450" y="89" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="480" y="88" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">Rf1</text>
+  <line x1="510" y1="100" x2="520" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="520" y1="100" x2="520" y2="200" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="520" cy="200" r="4.5" fill="#2b3a4a"/>
+  <line x1="210" y1="170" x2="210" y2="340" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="210" y1="340" x2="300" y2="340" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="300,326 300,354 324,340" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="324" y1="324" x2="324" y2="356" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="312" y="318" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">D2</text>
+  <line x1="324" y1="340" x2="420" y2="340" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="420" y1="340" x2="420" y2="200" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="700,245 700,395 840,320" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="714" y="279" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="714" y="367" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <text x="777" y="389" font-size="13" fill="#222a32" text-anchor="middle" font-weight="700">A2</text>
+  <line x1="520" y1="200" x2="520" y2="285" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="520" y1="285" x2="560" y2="285" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="560" y="274" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="590" y="273" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">R2</text>
+  <line x1="620" y1="285" x2="660" y2="285" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="660" y1="285" x2="700" y2="285" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="60" y1="170" x2="60" y2="470" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="60" y1="470" x2="560" y2="470" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="470" x2="560" y2="360" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="360" x2="560" y2="360" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="560" y="349" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="590" y="348" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">R3</text>
+  <line x1="620" y1="360" x2="660" y2="360" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="660" y1="360" x2="660" y2="285" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="660" cy="285" r="4.5" fill="#2b3a4a"/>
+  <line x1="840" y1="320" x2="920" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="920" cy="320" r="4.5" fill="#2b3a4a"/>
+  <line x1="920" y1="320" x2="980" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="920" y1="320" x2="920" y2="210" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="920" y1="210" x2="660" y2="210" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="740" y="199" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="770" y="198" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">Rf2</text>
+  <line x1="660" y1="210" x2="660" y2="285" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="700" y1="355" x2="690" y2="355" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="690" y1="355" x2="690" y2="420" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="690" y1="420" x2="690" y2="426" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="676" y1="426" x2="704" y2="426" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="681" y1="433" x2="699" y2="433" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="685" y1="440" x2="695" y2="440" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="985" y="326" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">|Vout|</text>
+  <text x="700" y="480" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">R2 = Rf2，R3 = R2/2</text>
+  <text x="700" y="505" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">Vout = -(Vin + 2·VX) = |Vin|</text>
+</svg>

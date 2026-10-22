@@ -1,0 +1,37 @@
+<svg viewBox="0 0 920 560" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>浮地负载 V→I：Vin 接同相端，Rs 从反相端到地，负载 RL 串在输出与反相端之间，负载电流等于 Rs 上的电流</title>
+  <rect width="920" height="560" fill="#ffffff"/>
+  <polygon points="300,160 300,320 450,240" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="314" y="199" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="314" y="287" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <line x1="60" y1="460" x2="270" y2="460" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="270" y1="460" x2="270" y2="275" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="270" y1="275" x2="300" y2="275" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="42" y="455" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vin</text>
+  <line x1="220" y1="205" x2="300" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="220" cy="205" r="4.5" fill="#2b3a4a"/>
+  <line x1="220" y1="205" x2="220" y2="287" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="209" y="287" width="22" height="46" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="236" y="316" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">Rs</text>
+  <line x1="220" y1="333" x2="220" y2="380" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="220" y1="380" x2="220" y2="386" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="206" y1="386" x2="234" y2="386" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="211" y1="393" x2="229" y2="393" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="215" y1="400" x2="225" y2="400" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="450" y1="240" x2="820" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="820" y1="240" x2="820" y2="60" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="820" y1="60" x2="700" y2="60" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="700" y1="60" x2="700" y2="62" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="689" y="62" width="22" height="46" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="730" y="91" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">RL</text>
+  <line x1="700" y1="108" x2="700" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="700" y1="120" x2="220" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="220" y1="120" x2="220" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="220" cy="120" r="4.5" fill="#2b3a4a"/>
+  <line x1="770" y1="60" x2="750" y2="60" stroke="#2b3a4a" stroke-width="2"/>
+  <polygon points="750,60 757,56 757,64" fill="#2b3a4a" stroke="#2b3a4a" stroke-width="1"/>
+  <text x="760" y="45" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">IL</text>
+  <text x="830" y="235" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vout</text>
+  <text x="40" y="500" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">I_L = Vin / Rs（与 RL 无关）；运放输出必须能提供 I_L(Rs+RL)</text>
+  <text x="40" y="525" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">输出电阻量值约 A_OL·Rs：直流很大，高频随 A_OL 下降</text>
+</svg>

@@ -1,0 +1,43 @@
+<svg viewBox="0 0 920 520" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>精密半波整流（反相型）：Vin 经 R1 接反相端，D1 串在运放输出与 Vout 之间，D2 在负半周维持反馈</title>
+  <rect width="920" height="520" fill="#ffffff"/>
+  <polygon points="380,170 380,330 530,250" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="394" y="209" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="394" y="297" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <line x1="60" y1="215" x2="140" y2="215" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="140" y="204" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="170" y="203" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">R1</text>
+  <line x1="200" y1="215" x2="300" y2="215" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="300" y1="215" x2="380" y2="215" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="300" cy="215" r="4.5" fill="#2b3a4a"/>
+  <text x="42" y="210" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vin</text>
+  <line x1="380" y1="285" x2="340" y2="285" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="340" y1="285" x2="340" y2="360" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="340" y1="360" x2="340" y2="366" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="326" y1="366" x2="354" y2="366" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="331" y1="373" x2="349" y2="373" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="335" y1="380" x2="345" y2="380" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="540" y1="250" x2="610" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="610,236 610,264 634,250" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="634" y1="234" x2="634" y2="266" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="622" y="228" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">D1</text>
+  <line x1="634" y1="250" x2="770" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="580" cy="250" r="4.5" fill="#2b3a4a"/>
+  <text x="790" y="256" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vout</text>
+  <line x1="300" y1="215" x2="300" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="300" y1="90" x2="470" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="470" y="79" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="500" y="78" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">Rf</text>
+  <line x1="530" y1="90" x2="770" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="770" y1="90" x2="770" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="770" cy="250" r="4.5" fill="#2b3a4a"/>
+  <line x1="300" y1="215" x2="300" y2="430" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="300" y1="430" x2="390" y2="430" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="390,416 390,444 414,430" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="414" y1="414" x2="414" y2="446" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="402" y="408" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">D2</text>
+  <line x1="414" y1="430" x2="580" y2="430" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="580" y1="430" x2="580" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="300" y="455" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">D2 在 Vin&lt;0 时导通，把运放输出钳在约 -V_D，防止开环饱和</text>
+  <text x="300" y="475" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">D1 导通时：Vout = -(Rf/R1)·Vin，二极管压降被环路除掉</text>
+</svg>

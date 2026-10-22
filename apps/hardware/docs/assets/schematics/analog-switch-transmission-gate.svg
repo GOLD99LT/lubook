@@ -1,0 +1,31 @@
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>CMOS 传输门：NMOS 与 PMOS 并联，控制信号 A 与 /A 互补；低电平段 NMOS 强，高电平段 PMOS 强，并联后全范围低阻</title>
+  <rect width="900" height="480" fill="#ffffff"/>
+  <line x1="60" y1="240" x2="180" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="42" y="235" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">IN</text>
+  <line x1="180" y1="240" x2="180" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="180" y1="150" x2="320" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="320" cy="150" r="3.5" fill="#fff" stroke="#2b3a4a" stroke-width="2"/>
+  <circle cx="360" cy="150" r="3.5" fill="#fff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="324" y1="148" x2="358" y2="132" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="360" y1="150" x2="560" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="150" x2="560" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="180" y1="240" x2="180" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="180" y1="330" x2="320" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="320" cy="330" r="3.5" fill="#fff" stroke="#2b3a4a" stroke-width="2"/>
+  <circle cx="360" cy="330" r="3.5" fill="#fff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="324" y1="328" x2="358" y2="312" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="360" y1="330" x2="560" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="330" x2="560" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="180" cy="240" r="4.5" fill="#2b3a4a"/>
+  <circle cx="560" cy="240" r="4.5" fill="#2b3a4a"/>
+  <line x1="560" y1="240" x2="700" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="712" y="246" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">OUT</text>
+  <line x1="340" y1="150" x2="340" y2="105" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="340" y="95" font-size="16" fill="#b5642e" text-anchor="middle" font-weight="700">/A</text>
+  <line x1="340" y1="330" x2="340" y2="375" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="340" y="395" font-size="16" fill="#b5642e" text-anchor="middle" font-weight="700">A</text>
+  <text x="250" y="130" font-size="16" fill="#1a4f8b" text-anchor="middle" font-weight="700">PMOS</text>
+  <text x="250" y="355" font-size="16" fill="#1a4f8b" text-anchor="middle" font-weight="700">NMOS</text>
+  <text x="40" y="440" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">A 为高时 NMOS 导通、PMOS 关断；A 为低时相反。两管接力，0~VDD 全范围都有低阻通路</text>
+</svg>

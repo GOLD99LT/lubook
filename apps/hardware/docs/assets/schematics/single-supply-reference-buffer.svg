@@ -1,0 +1,45 @@
+<svg viewBox="0 0 820 460" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>有源虚地：Vcc 经 R1/R2 分压，跟随器缓冲后输出低阻抗 Vref，分压点加旁路电容</title>
+  <rect width="820" height="460" fill="#ffffff"/>
+  <text x="100" y="45" font-size="17" fill="#222a32" text-anchor="middle" font-weight="700">Vcc</text>
+  <line x1="100" y1="55" x2="100" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="89" y="90" width="22" height="46" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="116" y="119" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">R1</text>
+  <line x1="100" y1="136" x2="100" y2="220" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="100" cy="220" r="4.5" fill="#2b3a4a"/>
+  <line x1="100" y1="220" x2="100" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="89" y="240" width="22" height="46" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="116" y="269" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">R2</text>
+  <line x1="100" y1="286" x2="100" y2="340" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="100" y1="340" x2="100" y2="346" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="86" y1="346" x2="114" y2="346" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="91" y1="353" x2="109" y2="353" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="95" y1="360" x2="105" y2="360" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="100" y1="220" x2="240" y2="220" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="240" cy="220" r="4.5" fill="#2b3a4a"/>
+  <line x1="240" y1="220" x2="240" y2="244" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="224" y1="244" x2="256" y2="244" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="224" y1="260" x2="256" y2="260" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="266" y="257" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">C旁路</text>
+  <line x1="240" y1="260" x2="240" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="240" y1="320" x2="240" y2="326" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="226" y1="326" x2="254" y2="326" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="231" y1="333" x2="249" y2="333" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="235" y1="340" x2="245" y2="340" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="100" y1="220" x2="320" y2="220" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="320" y1="220" x2="320" y2="275" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="320" y1="275" x2="360" y2="275" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="360,160 360,320 510,240" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="374" y="199" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="374" y="287" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <line x1="360" y1="205" x2="340" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="340" y1="205" x2="340" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="340" y1="150" x2="600" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="600" y1="150" x2="600" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="510" y1="240" x2="600" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="600" cy="240" r="4.5" fill="#2b3a4a"/>
+  <line x1="600" y1="240" x2="700" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="712" y="246" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vref</text>
+  <text x="60" y="380" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">分压戴维南内阻 Rth = R1||R2 = 50kΩ</text>
+  <text x="60" y="405" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">缓冲后闭环输出电阻 R_out,OL/(1+T) ≈ 0.5mΩ</text>
+</svg>

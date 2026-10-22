@@ -1,0 +1,37 @@
+<svg viewBox="0 0 940 480" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>采样保持：模拟开关控制保持电容 Ch，缓冲器输出，开关断开时电荷注入与漏电决定精度</title>
+  <rect width="940" height="480" fill="#ffffff"/>
+  <line x1="60" y1="230" x2="190" y2="230" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="42" y="225" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vin</text>
+  <circle cx="190" cy="230" r="3.5" fill="#fff" stroke="#2b3a4a" stroke-width="2"/>
+  <circle cx="230" cy="230" r="3.5" fill="#fff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="194" y1="228" x2="228" y2="212" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="210" y="204" font-size="15" fill="#b5642e" text-anchor="middle" font-weight="700">采样脉冲</text>
+  <line x1="230" y1="230" x2="380" y2="230" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="380" cy="230" r="4.5" fill="#2b3a4a"/>
+  <line x1="380" y1="230" x2="380" y2="300" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="364" y1="300" x2="396" y2="300" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="364" y1="316" x2="396" y2="316" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="406" y="313" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">Ch</text>
+  <line x1="380" y1="316" x2="380" y2="360" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="380" y1="360" x2="380" y2="366" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="366" y1="366" x2="394" y2="366" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="371" y1="373" x2="389" y2="373" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="375" y1="380" x2="385" y2="380" stroke="#2b3a4a" stroke-width="2.4"/>
+  <polygon points="540,155 540,305 680,230" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="554" y="189" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="554" y="277" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <text x="617" y="299" font-size="13" fill="#222a32" text-anchor="middle" font-weight="700">BUF</text>
+  <line x1="380" y1="230" x2="470" y2="230" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="470" y1="230" x2="470" y2="265" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="470" y1="265" x2="540" y2="265" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="540" y1="205" x2="510" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="510" y1="205" x2="510" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="510" y1="150" x2="720" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="720" y1="150" x2="720" y2="230" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="680" y1="230" x2="720" y2="230" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="680" y1="230" x2="800" y2="230" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="815" y="236" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vhold</text>
+  <text x="60" y="390" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">开关断开：Q 注入，ΔV = Q/Ch</text>
+  <text x="60" y="415" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">保持阶段：dV/dt = I_leak / Ch</text>
+</svg>

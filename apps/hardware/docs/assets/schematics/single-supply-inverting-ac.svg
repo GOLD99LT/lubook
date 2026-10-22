@@ -1,0 +1,57 @@
+<svg viewBox="0 0 960 620" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>单电源反相交流放大：Cin 与 Rg 串联隔直，同相端接 Vref 分压并旁路，输出静态等于 Vref</title>
+  <rect width="960" height="620" fill="#ffffff"/>
+  <polygon points="440,180 440,340 590,260" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="454" y="219" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="454" y="307" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <line x1="60" y1="225" x2="142" y2="225" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="142" y1="209" x2="142" y2="241" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="158" y1="209" x2="158" y2="241" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="158" y1="225" x2="220" y2="225" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="220" y="214" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="250" y="213" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">Rg</text>
+  <line x1="280" y1="225" x2="440" y2="225" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="380" cy="225" r="4.5" fill="#2b3a4a"/>
+  <text x="42" y="220" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vin</text>
+  <text x="150" y="195" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">Cin</text>
+  <line x1="380" y1="225" x2="380" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="380" y1="120" x2="540" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="540" y="109" width="60" height="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="570" y="108" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">Rf</text>
+  <line x1="600" y1="120" x2="800" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="800" y1="120" x2="800" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="800" cy="260" r="4.5" fill="#2b3a4a"/>
+  <line x1="590" y1="260" x2="800" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="800" y1="260" x2="880" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="820" y="266" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vout</text>
+  <line x1="440" y1="295" x2="410" y2="295" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="410" y1="295" x2="410" y2="460" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="410" y1="460" x2="360" y2="460" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="360" y="350" font-size="17" fill="#222a32" text-anchor="middle" font-weight="700">Vcc</text>
+  <line x1="360" y1="360" x2="360" y2="380" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="349" y="380" width="22" height="46" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="376" y="409" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">R1</text>
+  <line x1="360" y1="426" x2="360" y2="460" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="360" cy="460" r="4.5" fill="#2b3a4a"/>
+  <line x1="360" y1="460" x2="360" y2="480" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="349" y="480" width="22" height="46" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="376" y="509" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">R2</text>
+  <line x1="360" y1="526" x2="360" y2="540" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="360" y1="540" x2="360" y2="546" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="346" y1="546" x2="374" y2="546" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="351" y1="553" x2="369" y2="553" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="355" y1="560" x2="365" y2="560" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="360" y1="460" x2="300" y2="460" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="300" y1="460" x2="300" y2="500" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="284" y1="500" x2="316" y2="500" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="284" y1="516" x2="316" y2="516" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="300" y1="516" x2="300" y2="540" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="300" y1="540" x2="300" y2="546" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="286" y1="546" x2="314" y2="546" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="291" y1="553" x2="309" y2="553" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="295" y1="560" x2="305" y2="560" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="286" y="512" font-size="17" fill="#1a4f8b" text-anchor="end" font-weight="700">C旁路</text>
+  <text x="180" y="450" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">Vref = Vcc/2</text>
+  <text x="610" y="400" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">Cin 隔直：直流增益为 0，输出静态 = Vref</text>
+  <text x="610" y="425" font-size="13" fill="#b5642e" text-anchor="start" font-weight="400">Vref 只承担同相端偏置电流，裸分压可用</text>
+</svg>

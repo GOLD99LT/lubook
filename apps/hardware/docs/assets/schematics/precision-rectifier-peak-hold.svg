@@ -1,0 +1,55 @@
+<svg viewBox="0 0 1080 540" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>有源峰值检波：运放经二极管给 Ch 充电，电压跟随器缓冲，复位开关清零</title>
+  <rect width="1080" height="540" fill="#ffffff"/>
+  <polygon points="200,160 200,320 350,240" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="214" y="199" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="214" y="287" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <text x="282.5" y="314" font-size="13" fill="#222a32" text-anchor="middle" font-weight="700">A1</text>
+  <line x1="60" y1="275" x2="200" y2="275" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="42" y="270" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vin</text>
+  <line x1="350" y1="240" x2="390" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="390,226 390,254 414,240" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="414" y1="224" x2="414" y2="256" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="402" y="218" font-size="17" fill="#1a4f8b" text-anchor="middle" font-weight="700">D1</text>
+  <line x1="414" y1="240" x2="520" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="520" cy="240" r="4.5" fill="#2b3a4a"/>
+  <line x1="520" y1="240" x2="520" y2="140" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="520" y1="140" x2="170" y2="140" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="170" y1="140" x2="170" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="170" y1="205" x2="200" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="520" y1="240" x2="520" y2="340" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="504" y1="340" x2="536" y2="340" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="504" y1="356" x2="536" y2="356" stroke="#2b3a4a" stroke-width="2.6"/>
+  <text x="546" y="353" font-size="17" fill="#1a4f8b" text-anchor="start" font-weight="700">Ch</text>
+  <line x1="520" y1="356" x2="520" y2="400" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="520" y1="400" x2="520" y2="406" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="506" y1="406" x2="534" y2="406" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="511" y1="413" x2="529" y2="413" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="515" y1="420" x2="525" y2="420" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="520" y1="240" x2="640" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="640" cy="240" r="4.5" fill="#2b3a4a"/>
+  <line x1="640" y1="240" x2="640" y2="280" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="640" cy="280" r="3.5" fill="#fff" stroke="#2b3a4a" stroke-width="2"/>
+  <circle cx="640" cy="320" r="3.5" fill="#fff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="638" y1="284" x2="656" y2="316" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="630" y="300" font-size="15" fill="#b5642e" text-anchor="end" font-weight="700">S复位</text>
+  <line x1="640" y1="320" x2="640" y2="380" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="640" y1="380" x2="640" y2="386" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="626" y1="386" x2="654" y2="386" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="631" y1="393" x2="649" y2="393" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="635" y1="400" x2="645" y2="400" stroke="#2b3a4a" stroke-width="2.4"/>
+  <polygon points="760,165 760,315 900,240" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="774" y="199" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">−</text>
+  <text x="774" y="287" font-size="22" fill="#2b3a4a" text-anchor="start" font-weight="700">+</text>
+  <text x="837" y="309" font-size="13" fill="#222a32" text-anchor="middle" font-weight="700">A2</text>
+  <line x1="690" y1="240" x2="690" y2="275" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="690" y1="275" x2="760" y2="275" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="620" y1="240" x2="690" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="760" y1="205" x2="740" y2="205" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="740" y1="205" x2="740" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="740" y1="150" x2="960" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="960" y1="150" x2="960" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="900" y1="240" x2="960" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="900" y1="240" x2="1000" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="1008" y="246" font-size="18" fill="#222a32" text-anchor="start" font-weight="400">Vpeak</text>
+</svg>
