@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 960 620" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>开环增益的幅频与相频（单极点模型）：A_OL0 为 10 的 5 次方、主极点 10Hz、GBW 1MHz，闭环 1/β 为 10 时在 100kHz 穿越，相移约 −90 度，相位裕度约 90 度</title>
+  <rect width="960" height="620" fill="#ffffff"/>
+
+  <text x="30" y="34" font-size="20" font-weight="700" fill="#222a32">开环增益的幅频与相频（单极点模型）</text>
+  <text x="30" y="58" font-size="12.5" fill="#5c6772">A_OL0 = 10^5（100 dB）、f_p = 10 Hz、GBW = 1 MHz、β = 0.1；闭环 1/β = 10（20 dB）在 f_c = 100 kHz 处与开环曲线相交</text>
+  <line x1="30" y1="72" x2="930" y2="72" stroke="#e3e0d7"/>
+
+  <!-- 边框 -->
+  <rect x="90" y="90" width="530" height="260" fill="#fdfefe" stroke="#cfd8e3"/>
+  <rect x="90" y="410" width="530" height="140" fill="#fdfefe" stroke="#cfd8e3"/>
+
+  <!-- 纵向栅格（十倍频） -->
+  <line x1="165.7" y1="90" x2="165.7" y2="550" stroke="#e8e6df"/>
+  <line x1="241.4" y1="90" x2="241.4" y2="550" stroke="#e8e6df"/>
+  <line x1="317.1" y1="90" x2="317.1" y2="550" stroke="#e8e6df"/>
+  <line x1="392.9" y1="90" x2="392.9" y2="550" stroke="#e8e6df"/>
+  <line x1="468.6" y1="90" x2="468.6" y2="550" stroke="#e8e6df"/>
+  <line x1="544.3" y1="90" x2="544.3" y2="550" stroke="#e8e6df"/>
+
+  <!-- 幅频栅格 -->
+  <line x1="90" y1="306.7" x2="620" y2="306.7" stroke="#e8e6df"/>
+  <line x1="90" y1="263.3" x2="620" y2="263.3" stroke="#e8e6df"/>
+  <line x1="90" y1="220" x2="620" y2="220" stroke="#e8e6df"/>
+  <line x1="90" y1="176.7" x2="620" y2="176.7" stroke="#e8e6df"/>
+  <line x1="90" y1="133.3" x2="620" y2="133.3" stroke="#e8e6df"/>
+
+  <!-- 相频栅格 -->
+  <line x1="90" y1="445" x2="620" y2="445" stroke="#e8e6df"/>
+  <line x1="90" y1="480" x2="620" y2="480" stroke="#e8e6df"/>
+  <line x1="90" y1="515" x2="620" y2="515" stroke="#e8e6df"/>
+  <line x1="90" y1="550" x2="620" y2="550" stroke="#e8e6df"/>
+
+  <!-- 坐标标注 -->
+  <text x="30" y="88" font-size="12" fill="#222a32">增益 |A_OL| / dB</text>
+  <text x="30" y="408" font-size="12" fill="#222a32">相位 ∠A_OL / 度</text>
+  <text x="355" y="600" font-size="12" fill="#222a32" text-anchor="middle">频率 f / Hz</text>
+
+  <text x="84" y="93" font-size="11" fill="#55616f" text-anchor="end">120</text>
+  <text x="84" y="137" font-size="11" fill="#55616f" text-anchor="end">100</text>
+  <text x="84" y="180" font-size="11" fill="#55616f" text-anchor="end">80</text>
+  <text x="84" y="224" font-size="11" fill="#55616f" text-anchor="end">60</text>
+  <text x="84" y="267" font-size="11" fill="#55616f" text-anchor="end">40</text>
+  <text x="84" y="310" font-size="11" fill="#55616f" text-anchor="end">20</text>
+  <text x="84" y="354" font-size="11" fill="#55616f" text-anchor="end">0</text>
+
+  <text x="84" y="414" font-size="11" fill="#55616f" text-anchor="end">0°</text>
+  <text x="84" y="449" font-size="11" fill="#55616f" text-anchor="end">−45°</text>
+  <text x="84" y="484" font-size="11" fill="#55616f" text-anchor="end">−90°</text>
+  <text x="84" y="519" font-size="11" fill="#55616f" text-anchor="end">−135°</text>
+  <text x="84" y="554" font-size="11" fill="#55616f" text-anchor="end">−180°</text>
+
+  <text x="90" y="380" font-size="11" fill="#55616f" text-anchor="middle">1</text>
+  <text x="165.7" y="380" font-size="11" fill="#55616f" text-anchor="middle">10</text>
+  <text x="241.4" y="380" font-size="11" fill="#55616f" text-anchor="middle">100</text>
+  <text x="317.1" y="380" font-size="11" fill="#55616f" text-anchor="middle">1k</text>
+  <text x="392.9" y="380" font-size="11" fill="#55616f" text-anchor="middle">10k</text>
+  <text x="468.6" y="380" font-size="11" fill="#55616f" text-anchor="middle">100k</text>
+  <text x="544.3" y="380" font-size="11" fill="#55616f" text-anchor="middle">1M</text>
+  <text x="620" y="380" font-size="11" fill="#55616f" text-anchor="middle">10M</text>
+
+  <!-- 开环幅频曲线 -->
+  <polyline points="90,133.3 165.7,139.9 241.4,176.7 317.1,220.0 392.9,263.3 468.6,306.7 544.3,350"
+            fill="none" stroke="#1a4f8b" stroke-width="3"/>
+
+  <!-- 闭环 1/β = 20dB -->
+  <polyline points="90,306.7 468.6,306.7 544.3,350"
+            fill="none" stroke="#b5642e" stroke-width="2.2" stroke-dasharray="7,5"/>
+
+  <!-- 开环相频曲线 -->
+  <polyline points="90,414.4 165.7,445 241.4,475.6 317.1,479.6 392.9,480.0 468.6,480 544.3,480"
+            fill="none" stroke="#2f7d4f" stroke-width="3"/>
+
+  <!-- f_p 标记 -->
+  <circle cx="165.7" cy="139.9" r="4.5" fill="#2f7d4f"/>
+  <text x="176" y="132" font-size="12" fill="#2f7d4f" font-weight="700">f_p = 10 Hz</text>
+  <text x="176" y="148" font-size="11" fill="#5c6772">−3 dB 点</text>
+
+  <!-- f_c 标记与相位投影 -->
+  <line x1="468.6" y1="306.7" x2="468.6" y2="480" stroke="#b5642e" stroke-width="1.4" stroke-dasharray="4,4"/>
+  <circle cx="468.6" cy="306.7" r="4.5" fill="#b5642e"/>
+  <circle cx="468.6" cy="480" r="4.5" fill="#2f7d4f"/>
+  <text x="478" y="300" font-size="12" fill="#b5642e" font-weight="700">f_c = 100 kHz</text>
+  <text x="478" y="316" font-size="11" fill="#5c6772">|T| = 1（0 dB）</text>
+  <text x="478" y="472" font-size="11" fill="#2f7d4f">∠A_OL = −89.99°</text>
+
+  <!-- f_T 标记 -->
+  <circle cx="544.3" cy="350" r="4.5" fill="#1a4f8b"/>
+  <text x="554" y="344" font-size="12" fill="#1a4f8b" font-weight="700">f_T ≈ 1 MHz</text>
+  <text x="554" y="360" font-size="11" fill="#5c6772">|A_OL| = 1</text>
+
+  <!-- 图例与说明 -->
+  <line x1="650" y1="118" x2="680" y2="118" stroke="#1a4f8b" stroke-width="3"/>
+  <text x="690" y="122" font-size="12.5" fill="#222a32">开环 |A_OL(f)|</text>
+  <line x1="650" y1="143" x2="680" y2="143" stroke="#b5642e" stroke-width="2.2" stroke-dasharray="7,5"/>
+  <text x="690" y="147" font-size="12.5" fill="#222a32">闭环 1/β = 10（20 dB）</text>
+  <line x1="650" y1="168" x2="680" y2="168" stroke="#2f7d4f" stroke-width="3"/>
+  <text x="690" y="172" font-size="12.5" fill="#222a32">开环相位 ∠A_OL(f)</text>
+
+  <text x="650" y="208" font-size="12" fill="#5c6772">A_OL0 = 10^5（100 dB）</text>
+  <text x="650" y="232" font-size="12" fill="#5c6772">f_p = GBW / A_OL0 = 10 Hz</text>
+  <text x="650" y="256" font-size="12" fill="#5c6772">GBW = A_OL0 × f_p = 1 MHz</text>
+  <text x="650" y="280" font-size="12" fill="#5c6772">β = 0.1，1/β = 10</text>
+  <text x="650" y="304" font-size="12" fill="#5c6772">f_c = 100 kHz（|T| = 1）</text>
+  <text x="650" y="328" font-size="12" fill="#5c6772">f_T = 1 MHz（|A_OL| = 1）</text>
+
+  <line x1="650" y1="352" x2="930" y2="352" stroke="#e3e0d7"/>
+  <text x="650" y="376" font-size="12" fill="#222a32" font-weight="700">PM = 180° + ∠T(f_c)</text>
+  <text x="650" y="400" font-size="12" fill="#222a32">　　= 180° − 89.99° = 90°</text>
+  <text x="650" y="424" font-size="12" fill="#5c6772">单极点：相位渐近 −90°，</text>
+  <text x="650" y="448" font-size="12" fill="#5c6772">永远到不了 −180°，GM = ∞</text>
+  <text x="650" y="484" font-size="12" fill="#5c6772">闭环 −3 dB 点 ≈ f_c = 100 kHz</text>
+  <text x="650" y="508" font-size="12" fill="#5c6772">= GBW / (1/β)</text>
+  <text x="650" y="544" font-size="12" fill="#5c6772">10 kHz 处：|G| = 9.949</text>
+  <text x="650" y="568" font-size="12" fill="#5c6772">幅度误差 −0.51%，相移 −5.71°</text>
+</svg>
