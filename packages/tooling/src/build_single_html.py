@@ -206,8 +206,8 @@ def render_link(label, target):
         # 同章标题锚点（正文暂无显式标题 id，保留片段供未来扩展）
         return '<a href="#%s">%s</a>' % (attr_escape(frag), inner)
     if kind == 'internal':
-        data = ' data-frag="%s"' % attr_escape(frag) if frag else ''
-        return '<a href="#%s"%s>%s</a>' % (anchor, data, inner)
+        href = '#%s!%s' % (anchor, frag) if frag else '#%s' % anchor
+        return '<a href="%s">%s</a>' % (attr_escape(href), inner)
     # 跨分册 / 不存在目标：不可点击占位，不产生死链
     return ('<span class="offline-missing" title="目标不在本离线册">%s'
             '<span class="offline-missing-note">（目标不在本离线册）</span></span>') % inner
@@ -382,6 +382,27 @@ def render_details(buf):
 def render_block_formula(tex):
     return '<div class="tex-block" data-t="%s"></div>' % attr_escape(tex.strip())
 
+_HEADING_IDS = {}
+
+
+def _slug(text):
+    """把标题文本转成锚点 id：去 Markdown 标记与 HTML 标签，保留中英文数字，空白转连字符。"""
+    s = re.sub(r'<[^>]+>', '', text)
+    s = re.sub(r'\[([^\]]*)\]\([^)]*\)', r'\1', s)   # [文字](链接) -> 文字
+    s = s.replace('**', '').replace('__', '').replace('`', '')
+    s = s.replace('&', ' ').strip().lower()
+    s = re.sub(r'[^\w\u4e00-\u9fff\- ]+', ' ', s)
+    s = re.sub(r'\s+', '-', s).strip('-')
+    return s or 'section'
+
+
+def heading_id(text):
+    """章内唯一的标题 id（重复标题自动加 -1/-2 后缀）。"""
+    base = _slug(text)
+    n = _HEADING_IDS.get(base, 0)
+    _HEADING_IDS[base] = n + 1
+    return base if n == 0 else '%s-%d' % (base, n)
+
 def parse_blocks(lines, base_dir):
     out = []
     i, n = 0, len(lines)
@@ -424,7 +445,12 @@ def parse_blocks(lines, base_dir):
         m = re.match(r'^(#{1,6})\s+(.*)$', s)
         if m:
             lvl = len(m.group(1))
-            out.append('<h%d>%s</h%d>' % (lvl, inline(m.group(2)), lvl)); i += 1; continue
+            # 生成标题 id：离线页原本没有任何标题锚点，导致 [文字](#某标题) 与
+            # 站内锚点全部失效（在线 VitePress 是有 id 的）。这里按 VitePress 的
+            # 口径做一个稳定 slug，并在章内去重。
+            htext = m.group(2)
+            hid = heading_id(htext)
+            out.append('<h%d id=%s>%s</h%d>' % (lvl, json.dumps(hid), inline(htext), lvl)); i += 1; continue
         if re.match(r'^(-{3,}|\*{3,})$', s):
             out.append('<hr>'); i += 1; continue
         # 表格
@@ -493,6 +519,7 @@ def parse_blocks(lines, base_dir):
     return '\n'.join(out)
 
 def md_to_html(card):
+    _HEADING_IDS.clear()   # 每章独立编号，避免跨章去重串味
     _INLINE_BASE[0] = card['base_dir']
     _INLINE_REL[0] = card['rel']
     return parse_blocks(card['body'].splitlines(), card['base_dir'])
@@ -979,8 +1006,18 @@ function bindNotes(){
 
 /* ---- 路由（hash 可为锚点 id，也兼容裸 relativePath）---- */
 function route(){
-  const hash = decodeURIComponent(location.hash.slice(1));
-  const c = CARDS.find(x => x.anchor === hash || x.id === hash) || CARDS[0];
+  const raw = decodeURIComponent(location.hash.slice(1));
+  /* 章节锚点 + 可选标题片段：#<anchor>!<headingId> */
+  const sep = raw.indexOf('!');
+  const cardKey = sep >= 0 ? raw.slice(0, sep) : raw;
+  const frag = sep >= 0 ? raw.slice(sep + 1) : '';
+  const target = CARDS.find(x => x.anchor === cardKey || x.id === cardKey);
+  if(!target){
+    /* 不是章节锚点：按同页标题锚点滚动，不切换章节 */
+    const el = document.getElementById(raw);
+    if(el){ el.scrollIntoView({block: 'start'}); return; }
+  }
+  const c = target || CARDS[0];
   document.querySelectorAll('.card').forEach(s =>
     s.classList.toggle('show', s.dataset.id === c.id));
   document.querySelectorAll('.tree-item').forEach(t =>
@@ -988,7 +1025,13 @@ function route(){
   $('#crumb').innerHTML = c.part + ' / <b>' + c.title + '</b>';
   $('#learnedBtn').classList.toggle('on', !!state.progress[c.id]);
   $('#starBtn').classList.toggle('on', !!state.favorites[c.id]);
-  window.scrollTo(0, 0);
+  if(frag){
+    const el = document.getElementById(frag);
+    if(el){ setTimeout(() => el.scrollIntoView({block: 'start'}), 20); }
+    else { window.scrollTo(0, 0); }
+  } else {
+    window.scrollTo(0, 0);
+  }
   setTimeout(() => charts.forEach(x => x.resize()), 60);
 }
 
