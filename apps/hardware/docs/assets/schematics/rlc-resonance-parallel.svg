@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>并联谐振回路：L 与 C 并联，r 为线圈等效串联电阻；谐振时端口阻抗最大，L、C 之间形成 Q 倍于源电流的环流</title>
+  <rect width="680" height="320" fill="#ffffff"/>
+
+  <!-- 交流源 -->
+  <circle cx="90" cy="150" r="26" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <path d="M75,150 q7.5,-12 15,0 q7.5,12 15,0" fill="none" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="90" y1="124" x2="90" y2="110" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="90" y1="176" x2="90" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="62" y="155" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="end">V</text>
+
+  <!-- 上、下轨 -->
+  <line x1="90" y1="110" x2="500" y2="110" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="90" y1="260" x2="500" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 电感支路：r 与 L 串联 -->
+  <line x1="300" y1="110" x2="300" y2="135" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="288" y="135" width="24" height="34" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="300" y1="169" x2="300" y2="182" stroke="#2b3a4a" stroke-width="2.2"/>
+  <path d="M300,182 q14,8 0,16 q-14,8 0,16 q14,8 0,16 q-14,8 0,16" fill="none" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="300" y1="246" x2="300" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="330" y="156" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="start">L</text>
+  <text x="330" y="180" font-size="14" fill="#b5642e" font-weight="700" text-anchor="start">r（线圈损耗）</text>
+
+  <!-- 电容支路 -->
+  <line x1="500" y1="110" x2="500" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="480" y1="170" x2="520" y2="170" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="480" y1="186" x2="520" y2="186" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="500" y1="186" x2="500" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="528" y="180" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="start">C</text>
+
+  <!-- 节点圆点 -->
+  <circle cx="300" cy="110" r="4.5" fill="#2b3a4a"/>
+  <circle cx="500" cy="110" r="4.5" fill="#2b3a4a"/>
+  <circle cx="300" cy="260" r="4.5" fill="#2b3a4a"/>
+  <circle cx="500" cy="260" r="4.5" fill="#2b3a4a"/>
+
+  <!-- 说明 -->
+  <text x="340" y="288" font-size="14.5" fill="#222a32" text-anchor="middle">f₀ = 1/(2π√(LC)) 处端口阻抗最大；有损时 Z_max ≈ L/(C·r) = Q²·r</text>
+  <text x="340" y="308" font-size="14.5" fill="#222a32" text-anchor="middle">源电流很小，但 L、C 之间的环流约为源电流的 Q 倍</text>
+</svg>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>超节点示例：节点 V1 与 V2 之间有一个 6V 电压源，两个节点合成为一个超节点，补一条电压约束方程</title>
+  <rect width="720" height="440" fill="#ffffff"/>
+
+  <!-- 10V 电源 -->
+  <line x1="100" y1="100" x2="100" y2="180" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="82" y1="180" x2="118" y2="180" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="90" y1="192" x2="110" y2="192" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="82" y1="204" x2="118" y2="204" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="100" y1="216" x2="100" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="70" y="198" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="end">10 V</text>
+  <text x="124" y="176" font-size="15" fill="#b5642e" font-weight="700">+</text>
+
+  <!-- 上轨、下轨 -->
+  <line x1="100" y1="100" x2="180" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="260" y1="100" x2="320" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="100" y1="320" x2="520" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- R1 -->
+  <rect x="180" y="88" width="80" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="220" y="78" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="middle">R₁ = 2 Ω</text>
+
+  <!-- 6V 电压源（水平，正端在左） -->
+  <line x1="320" y1="100" x2="400" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="400" y1="85" x2="400" y2="115" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="416" y1="92" x2="416" y2="108" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="416" y1="100" x2="520" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="408" y="78" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="middle">6 V</text>
+  <text x="388" y="124" font-size="15" fill="#b5642e" font-weight="700" text-anchor="end">+</text>
+  <text x="428" y="124" font-size="15" fill="#b5642e" font-weight="700" text-anchor="start">−</text>
+
+  <!-- 节点 -->
+  <circle cx="320" cy="100" r="5" fill="#2b3a4a"/>
+  <circle cx="520" cy="100" r="5" fill="#2b3a4a"/>
+  <text x="300" y="174" font-size="16" fill="#b5642e" font-weight="700" text-anchor="end">V₁</text>
+  <text x="576" y="138" font-size="16" fill="#b5642e" font-weight="700" text-anchor="start">V₂</text>
+
+  <!-- R3：V1 到地 -->
+  <line x1="320" y1="100" x2="320" y2="185" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="308" y="185" width="24" height="55" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="320" y1="240" x2="320" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="296" y="218" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="end">R₃ = 12 Ω</text>
+
+  <!-- R2：V2 到地 -->
+  <line x1="520" y1="100" x2="520" y2="185" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="508" y="185" width="24" height="55" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="520" y1="240" x2="520" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="544" y="218" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="start">R₂ = 4 Ω</text>
+
+  <!-- 超节点虚线框 -->
+  <rect x="290" y="62" width="270" height="94" fill="none" stroke="#b5642e" stroke-width="1.8" stroke-dasharray="7 5"/>
+  <text x="296" y="52" font-size="15" fill="#b5642e" font-weight="700" text-anchor="start">超节点</text>
+
+  <!-- 地 -->
+  <line x1="420" y1="320" x2="420" y2="342" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="400" y1="342" x2="440" y2="342" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="408" y1="350" x2="432" y2="350" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="414" y1="358" x2="426" y2="358" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="454" y="350" font-size="15" fill="#222a32">参考地 0 V</text>
+
+  <!-- 说明 -->
+  <text x="360" y="384" font-size="14" fill="#222a32" text-anchor="middle">约束 v₁ − v₂ = 6 V</text>
+  <text x="360" y="404" font-size="14" fill="#222a32" text-anchor="middle">超节点 KCL  (v₁−10)/2 + v₁/12 + v₂/4 = 0</text>
+  <text x="360" y="424" font-size="14" fill="#222a32" text-anchor="middle">→  v₁ = 7.8 V，v₂ = 1.8 V</text>
+</svg>

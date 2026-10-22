@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>三节点梯形网络：12V 经 R1 到节点 V1，再经 R2 到 V2、经 R3 到 V3；V2 经 R5 到地，V3 经 R4 到地，用来演示节点法的 G·v=i</title>
+  <rect width="720" height="420" fill="#ffffff"/>
+
+  <!-- 电源 -->
+  <line x1="100" y1="100" x2="100" y2="180" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="82" y1="180" x2="118" y2="180" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="90" y1="192" x2="110" y2="192" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="82" y1="204" x2="118" y2="204" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="100" y1="216" x2="100" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="70" y="195" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="end">12 V</text>
+  <text x="124" y="176" font-size="15" fill="#b5642e" font-weight="700">+</text>
+
+  <!-- 上轨与下轨 -->
+  <line x1="100" y1="100" x2="180" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="260" y1="100" x2="340" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="420" y1="100" x2="500" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="580" y1="100" x2="620" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="100" y1="320" x2="620" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- R1 -->
+  <rect x="180" y="88" width="80" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="220" y="78" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="middle">R₁ = 1 kΩ</text>
+  <!-- R2 -->
+  <rect x="340" y="88" width="80" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="380" y="78" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="middle">R₂ = 1 kΩ</text>
+  <!-- R3 -->
+  <rect x="500" y="88" width="80" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="540" y="78" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="middle">R₃ = 2 kΩ</text>
+
+  <!-- 节点与电压标注 -->
+  <circle cx="300" cy="100" r="5" fill="#2b3a4a"/>
+  <circle cx="460" cy="100" r="5" fill="#2b3a4a"/>
+  <circle cx="620" cy="100" r="5" fill="#2b3a4a"/>
+  <text x="300" y="128" font-size="16" fill="#b5642e" font-weight="700" text-anchor="middle">V₁</text>
+  <text x="480" y="130" font-size="16" fill="#b5642e" font-weight="700" text-anchor="start">V₂</text>
+  <text x="600" y="130" font-size="16" fill="#b5642e" font-weight="700" text-anchor="end">V₃</text>
+
+  <!-- R5 从 V2 到地 -->
+  <line x1="460" y1="100" x2="460" y2="185" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="448" y="185" width="24" height="55" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="460" y1="240" x2="460" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="436" y="218" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="end">R₅ = 4 kΩ</text>
+
+  <!-- R4 从 V3 到地 -->
+  <line x1="620" y1="100" x2="620" y2="185" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="608" y="185" width="24" height="55" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="620" y1="240" x2="620" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="596" y="218" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="end">R₄ = 2 kΩ</text>
+
+  <!-- 地 -->
+  <line x1="340" y1="320" x2="340" y2="342" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="320" y1="342" x2="360" y2="342" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="328" y1="350" x2="352" y2="350" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="334" y1="358" x2="346" y2="358" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="374" y="352" font-size="15" fill="#222a32">参考地 0 V</text>
+
+  <!-- 说明 -->
+  <text x="360" y="392" font-size="14.5" fill="#222a32" text-anchor="middle">三个未知节点；列 3 个 KCL 得 G·v = i，解出 9 V、6 V、3 V</text>
+</svg>

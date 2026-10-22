@@ -28,5 +28,5 @@
   <line x1="90" y1="250" x2="320" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
   <line x1="360" y1="250" x2="560" y2="250" stroke="#2b3a4a" stroke-width="2.2"/>
   <!-- 标注 -->
-  <text x="330" y="305" font-size="15" fill="#222a32" text-anchor="middle">铁芯耦合：Vs/Vp = Np/Ns；理想变压器功率守恒 Vp·Ip = Vs·Is</text>
+  <text x="330" y="305" font-size="15" fill="#222a32" text-anchor="middle">铁芯耦合：Vs/Vp = Ns/Np；Is/Ip = Np/Ns；理想变压器功率守恒 Vp·Ip = Vs·Is</text>
 </svg>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>含受控源的网孔法示例：网孔 1 有 10V 电源、R1 与共享的 R2；网孔 2 有 R2、R3 与电流控制电压源 v_d = 2Ω·i1，矩阵因此不对称</title>
+  <rect width="720" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="meshArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#b5642e"/>
+    </marker>
+  </defs>
+
+  <!-- 10V 电源 -->
+  <line x1="100" y1="120" x2="100" y2="200" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="82" y1="200" x2="118" y2="200" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="90" y1="212" x2="110" y2="212" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="82" y1="224" x2="118" y2="224" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="100" y1="236" x2="100" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="70" y="218" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="end">10 V</text>
+  <text x="124" y="196" font-size="15" fill="#b5642e" font-weight="700">+</text>
+
+  <!-- 上轨、下轨 -->
+  <line x1="100" y1="120" x2="180" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="260" y1="120" x2="340" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="340" y1="120" x2="560" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="100" y1="330" x2="560" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- R1 -->
+  <rect x="180" y="108" width="80" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="220" y="98" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="middle">R₁ = 2 Ω</text>
+
+  <!-- 共享 R2 -->
+  <line x1="340" y1="120" x2="340" y2="200" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="328" y="200" width="24" height="60" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="340" y1="260" x2="340" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="304" y="235" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="end">R₂ = 4 Ω</text>
+
+  <!-- R3 与 CCVS -->
+  <line x1="560" y1="120" x2="560" y2="135" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="548" y="135" width="24" height="60" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="195" x2="560" y2="230" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="560,230 592,270 560,310 528,270" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="560" y="256" font-size="16" fill="#b5642e" font-weight="700" text-anchor="middle">+</text>
+  <text x="560" y="292" font-size="16" fill="#b5642e" font-weight="700" text-anchor="middle">−</text>
+  <line x1="560" y1="310" x2="560" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="572" y="160" font-size="15" fill="#1a4f8b" font-weight="700" text-anchor="start">R₃ = 3 Ω</text>
+  <text x="606" y="252" font-size="14" fill="#1a4f8b" font-weight="700" text-anchor="start">CCVS</text>
+  <text x="606" y="274" font-size="14" fill="#b5642e" font-weight="700" text-anchor="start">v_d = 2·i₁</text>
+
+  <!-- 节点 -->
+  <circle cx="340" cy="120" r="5" fill="#2b3a4a"/>
+  <circle cx="560" cy="120" r="5" fill="#2b3a4a"/>
+
+  <!-- 网孔电流箭头 -->
+  <path d="M170,300 L280,300" fill="none" stroke="#b5642e" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#meshArrow)"/>
+  <path d="M390,300 L500,300" fill="none" stroke="#b5642e" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#meshArrow)"/>
+  <text x="225" y="288" font-size="15" fill="#b5642e" font-weight="700" text-anchor="middle">i₁ 顺时针</text>
+  <text x="445" y="288" font-size="15" fill="#b5642e" font-weight="700" text-anchor="middle">i₂ 顺时针</text>
+
+  <!-- 说明 -->
+  <text x="360" y="392" font-size="14.5" fill="#222a32" text-anchor="middle">网孔 1：6i₁ − 4i₂ = 10；网孔 2：−2i₁ + 7i₂ = 0</text>
+  <text x="360" y="416" font-size="14.5" fill="#222a32" text-anchor="middle">Z 不对称：Z₁₂ = −4 Ω，Z₂₁ = −2 Ω；差值 2 Ω 就是受控源的跨阻</text>
+</svg>
