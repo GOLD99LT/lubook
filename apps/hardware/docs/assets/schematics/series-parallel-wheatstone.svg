@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>惠斯通电桥：R1 与 R3 组成左分压支路，R2 与 R4 组成右分压支路，输出取两中点 A、B 之差</title>
+  <rect width="720" height="440" fill="#ffffff"/>
+
+  <!-- 顶部与底部横轨 -->
+  <line x1="200" y1="120" x2="520" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="200" y1="320" x2="520" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 左支路：R1 上、R3 下，中点 A -->
+  <line x1="200" y1="120" x2="200" y2="160" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="188" y="160" width="24" height="45" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="200" y1="205" x2="200" y2="235" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="188" y="235" width="24" height="45" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="200" y1="280" x2="200" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 右支路：R2 上、R4 下，中点 B -->
+  <line x1="520" y1="120" x2="520" y2="160" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="508" y="160" width="24" height="45" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="520" y1="205" x2="520" y2="235" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="508" y="235" width="24" height="45" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="520" y1="280" x2="520" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 激励源 Vex 接在左支路两端 -->
+  <line x1="200" y1="120" x2="110" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="110" y1="120" x2="110" y2="196" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="92" y1="196" x2="128" y2="196" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="98" y1="206" x2="122" y2="206" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="92" y1="216" x2="128" y2="216" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="98" y1="226" x2="122" y2="226" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="110" y1="226" x2="110" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="110" y1="320" x2="200" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="82" y="192" font-size="17" fill="#b5642e" font-weight="700" text-anchor="end">+</text>
+  <text x="82" y="232" font-size="17" fill="#2b3a4a" font-weight="700" text-anchor="end">−</text>
+  <text x="62" y="174" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="end">V_ex</text>
+
+  <!-- 输出：两中点之间的电压表（虚线连接，中间为表头） -->
+  <line x1="200" y1="220" x2="344" y2="220" stroke="#b5642e" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <line x1="376" y1="220" x2="520" y2="220" stroke="#b5642e" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <circle cx="360" cy="220" r="16" fill="#ffffff" stroke="#b5642e" stroke-width="2.2"/>
+  <text x="360" y="226" font-size="15" fill="#b5642e" font-weight="700" text-anchor="middle">V</text>
+
+  <!-- 节点 -->
+  <circle cx="200" cy="220" r="5" fill="#2b3a4a"/>
+  <circle cx="520" cy="220" r="5" fill="#2b3a4a"/>
+
+  <!-- 元件标号 -->
+  <text x="174" y="188" font-size="17" fill="#1a4f8b" font-weight="700" text-anchor="end">R₁</text>
+  <text x="174" y="264" font-size="17" fill="#1a4f8b" font-weight="700" text-anchor="end">R₃</text>
+  <text x="546" y="188" font-size="17" fill="#1a4f8b" font-weight="700" text-anchor="start">R₂</text>
+  <text x="546" y="264" font-size="17" fill="#1a4f8b" font-weight="700" text-anchor="start">R₄</text>
+  <text x="216" y="212" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="start">A</text>
+  <text x="504" y="212" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="end">B</text>
+
+  <!-- 输出标注 -->
+  <text x="360" y="176" font-size="15" fill="#b5642e" font-weight="700" text-anchor="middle">V_out = V_A − V_B</text>
+
+  <!-- 结论文字 -->
+  <text x="360" y="372" font-size="16" fill="#222a32" text-anchor="middle">平衡条件：R₁·R₄ = R₂·R₃，等价写法 R₁/R₂ = R₃/R₄（对角乘积相等）</text>
+  <text x="360" y="400" font-size="15" fill="#222a32" text-anchor="middle">V_out = V_ex · [ R₃/(R₁+R₃) − R₄/(R₂+R₄) ]</text>
+  <text x="360" y="424" font-size="15" fill="#222a32" text-anchor="middle">两中点电位相等时输出为零：比值相等，而不是阻值相等</text>
+</svg>

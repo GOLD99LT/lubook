@@ -35,6 +35,6 @@
   <circle cx="530" cy="110" r="4.5" fill="#2b3a4a"/>
   <!-- 标注 -->
   <text x="335" y="330" font-size="16" fill="#222a32" text-anchor="middle">电池提供电压 Vs → 回路中产生电流 I → 电阻发热消耗功率 P</text>
-  <text x="548" y="150" font-size="16" fill="#7a5fc0">电子实际反向流动</text>
-  <text x="548" y="170" font-size="13" fill="#5c6772">（电流方向按惯例取正值方向）</text>
+  <text x="645" y="150" font-size="16" fill="#7a5fc0" text-anchor="end">电子实际反向流动</text>
+  <text x="645" y="170" font-size="13" fill="#5c6772" text-anchor="end">（电流方向按惯例取正值方向）</text>
 </svg>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 780 420" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <title>关联参考方向与功率正负：电流从电压正端流入时，P=VI 为吸收功率</title>
+  <rect width="780" height="420" fill="#ffffff"/>
+  <defs>
+    <marker id="arrowDark" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#2b3a4a"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#b5642e"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#1a4f8b"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="38" font-size="19" font-weight="700" fill="#1a4f8b">关联参考方向（无源符号约定）</text>
+  <text x="40" y="66" font-size="15" fill="#3b4652">先标电压的 + / −，再标电流的参考箭头；两者都定好，符号才有意义。</text>
+
+  <!-- 左：负载，电流流入正端 -->
+  <rect x="42" y="96" width="326" height="260" rx="10" fill="#f7f9fc" stroke="#c9d3de" stroke-width="1.5"/>
+  <text x="60" y="124" font-size="16" font-weight="700" fill="#2b3a4a">负载（电阻）</text>
+
+  <line x1="205" y1="132" x2="205" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="205" y1="292" x2="205" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="155" y="170" width="100" height="90" rx="6" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="205" y="222" font-size="20" font-weight="700" fill="#1a4f8b" text-anchor="middle">R</text>
+
+  <text x="220" y="150" font-size="22" font-weight="700" fill="#b5642e">+</text>
+  <text x="220" y="286" font-size="22" font-weight="700" fill="#2b3a4a">−</text>
+  <text x="232" y="212" font-size="17" fill="#1a4f8b" font-weight="700">V</text>
+
+  <!-- 电流参考箭头：从上方流入 + 端 -->
+  <line x1="205" y1="86" x2="205" y2="128" stroke="#b5642e" stroke-width="2.4" marker-end="url(#arrowRed)"/>
+  <text x="218" y="106" font-size="17" fill="#b5642e" font-weight="700">I（流入 + 端）</text>
+
+  <text x="60" y="326" font-size="14" fill="#222a32">电流从 + 端流入：P = V·I 为正</text>
+  <text x="60" y="346" font-size="14" fill="#222a32">表示吸收；为负表示发出。</text>
+
+  <!-- 右：电源，电流流出正端 -->
+  <rect x="412" y="96" width="326" height="260" rx="10" fill="#fffaf5" stroke="#e2c9b4" stroke-width="1.5"/>
+  <text x="430" y="124" font-size="16" font-weight="700" fill="#2b3a4a">电源（电池）</text>
+
+  <line x1="575" y1="132" x2="575" y2="170" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="575" y1="292" x2="575" y2="260" stroke="#2b3a4a" stroke-width="2.2"/>
+  <!-- 电池符号：长短极板 -->
+  <line x1="548" y1="178" x2="602" y2="178" stroke="#2b3a4a" stroke-width="3"/>
+  <line x1="558" y1="194" x2="592" y2="194" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="548" y1="210" x2="602" y2="210" stroke="#2b3a4a" stroke-width="3"/>
+  <line x1="558" y1="226" x2="592" y2="226" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="612" y="184" font-size="22" font-weight="700" fill="#b5642e">+</text>
+  <text x="612" y="246" font-size="22" font-weight="700" fill="#2b3a4a">−</text>
+  <text x="512" y="212" font-size="17" fill="#1a4f8b" font-weight="700">E</text>
+
+  <!-- 实际电流：从 + 端流出，向上 -->
+  <line x1="575" y1="130" x2="575" y2="86" stroke="#b5642e" stroke-width="2.4" marker-end="url(#arrowRed)"/>
+  <text x="590" y="106" font-size="17" fill="#b5642e" font-weight="700">I（流出 + 端）</text>
+
+  <!-- 参考电流：仍按流入 + 端定义，虚线向下 -->
+  <line x1="535" y1="86" x2="535" y2="128" stroke="#7a8794" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arrowDark)"/>
+  <text x="430" y="106" font-size="14" fill="#5c6772">参考方向 Iref</text>
+
+  <text x="430" y="326" font-size="14" fill="#222a32">实际电流与参考方向相反</text>
+  <text x="430" y="346" font-size="14" fill="#222a32">I 取负值，P 为负表示发出。</text>
+
+  <text x="40" y="384" font-size="14" fill="#5c6772">约定：电流箭头指向元件 + 端时，V 与 I 为关联参考方向。</text>
+  <text x="40" y="404" font-size="14" fill="#5c6772">此时 P = V·I 才有“正=吸收、负=发出”的统一含义。</text>
+</svg>

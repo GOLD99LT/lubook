@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 720 480" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>两个电源并联给同一个负载：12V 经 1Ω、8V 经 2Ω 并在节点 A，再经 10Ω 到地；三条支路电流的参考方向都取离开节点 A</title>
+  <rect width="720" height="480" fill="#ffffff"/>
+  <defs>
+    <marker id="tsArrow" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M0,0 L10,5.5 L0,11 Z" fill="#b5642e"/>
+    </marker>
+  </defs>
+
+  <!-- 上轨与下轨 -->
+  <line x1="120" y1="110" x2="560" y2="110" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="120" y1="330" x2="560" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 左支路：R1 与 12V 源 -->
+  <line x1="120" y1="110" x2="120" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="108" y="150" width="24" height="45" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="120" y1="195" x2="120" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="102" y1="240" x2="138" y2="240" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="108" y1="250" x2="132" y2="250" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="102" y1="260" x2="138" y2="260" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="108" y1="270" x2="132" y2="270" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="120" y1="270" x2="120" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 右支路：R2 与 8V 源 -->
+  <line x1="560" y1="110" x2="560" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="548" y="150" width="24" height="45" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="560" y1="195" x2="560" y2="240" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="542" y1="240" x2="578" y2="240" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="548" y1="250" x2="572" y2="250" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="542" y1="260" x2="578" y2="260" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="548" y1="270" x2="572" y2="270" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="560" y1="270" x2="560" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 中间负载支路 -->
+  <line x1="350" y1="110" x2="350" y2="190" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="338" y="190" width="24" height="50" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="350" y1="240" x2="350" y2="330" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 接地 -->
+  <line x1="350" y1="330" x2="350" y2="345" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="330" y1="345" x2="370" y2="345" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="338" y1="352" x2="362" y2="352" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="344" y1="359" x2="356" y2="359" stroke="#2b3a4a" stroke-width="2.4"/>
+
+  <!-- 节点 A -->
+  <circle cx="350" cy="110" r="5" fill="#2b3a4a"/>
+  <text x="350" y="88" font-size="17" fill="#1a4f8b" font-weight="700" text-anchor="middle">节点 A（V_A）</text>
+
+  <!-- 电流箭头：全部取离开节点 A 的参考方向 -->
+  <line x1="120" y1="118" x2="120" y2="146" stroke="#b5642e" stroke-width="2.2" marker-end="url(#tsArrow)"/>
+  <text x="100" y="140" font-size="15" fill="#b5642e" font-weight="700" text-anchor="end">I₁</text>
+  <line x1="560" y1="118" x2="560" y2="146" stroke="#b5642e" stroke-width="2.2" marker-end="url(#tsArrow)"/>
+  <text x="580" y="140" font-size="15" fill="#b5642e" font-weight="700" text-anchor="start">I₂</text>
+  <line x1="350" y1="130" x2="350" y2="166" stroke="#b5642e" stroke-width="2.2" marker-end="url(#tsArrow)"/>
+  <text x="366" y="158" font-size="15" fill="#b5642e" font-weight="700" text-anchor="start">I₃</text>
+
+  <!-- 元件与电源标号 -->
+  <text x="94" y="178" font-size="17" fill="#1a4f8b" font-weight="700" text-anchor="end">R₁ = 1 Ω</text>
+  <text x="586" y="178" font-size="17" fill="#1a4f8b" font-weight="700" text-anchor="start">R₂ = 2 Ω</text>
+  <text x="312" y="220" font-size="17" fill="#1a4f8b" font-weight="700" text-anchor="end">R₃ = 10 Ω</text>
+  <text x="142" y="244" font-size="16" fill="#b5642e" font-weight="700" text-anchor="start">+</text>
+  <text x="146" y="276" font-size="16" fill="#2b3a4a" font-weight="700" text-anchor="start">−</text>
+  <text x="70" y="262" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="end">12 V</text>
+  <text x="538" y="244" font-size="16" fill="#b5642e" font-weight="700" text-anchor="end">+</text>
+  <text x="534" y="276" font-size="16" fill="#2b3a4a" font-weight="700" text-anchor="end">−</text>
+  <text x="610" y="262" font-size="16" fill="#1a4f8b" font-weight="700" text-anchor="start">8 V</text>
+
+  <!-- 结论与方程 -->
+  <text x="360" y="396" font-size="15" fill="#222a32" text-anchor="middle">参考方向：I₁、I₂、I₃ 均取离开节点 A 为正</text>
+  <text x="360" y="422" font-size="15" fill="#222a32" text-anchor="middle">KCL：(V_A − 12)/1 + (V_A − 8)/2 + V_A/10 = 0  →  16·V_A = 160  →  V_A = 10 V</text>
+  <text x="360" y="446" font-size="15" fill="#222a32" text-anchor="middle">节点 A：流入 2 A = 流出 1 A（R₃ 负载）+ 1 A（灌进 8V 源）</text>
+  <text x="360" y="470" font-size="15" fill="#222a32" text-anchor="middle">功率：12V 源发出 24 W = R₁ 4W + R₂ 2W + R₃ 10W + 8V 源吸收 8W</text>
+</svg>

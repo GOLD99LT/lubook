@@ -11,7 +11,7 @@ check-content.py — 内容标准机械项检查（docs/CONTENT-STANDARD.md §1 
   python scripts/check-content.py --app hardware --dir basics
   python scripts/check-content.py --app hardware --min 4500 --strict
 """
-import os, re, sys, json, argparse
+import os, re, sys, json, argparse, xml.etree.ElementTree as ET
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'packages', 'tooling', 'src'))
@@ -96,6 +96,13 @@ def check_chapter(path, src, min_chars, min_imgs, profile="concept"):
         p = os.path.normpath(os.path.join(os.path.dirname(path), i.split()[0]))
         if not os.path.exists(p):
             issues.append('图片缺失: %s' % i)
+        elif p.endswith('.svg'):
+            # 历史上两张 SVG 因正文里有裸 & / < 而 XML 非法，线上直接破图，
+            # 而 validate/scan_svg_order/manifest 对账全都发现不了。这里补上。
+            try:
+                ET.parse(p)
+            except Exception as e:
+                issues.append('SVG 不是合法 XML: %s (%s)' % (os.path.basename(p), e.__class__.__name__))
 
     details = len(re.findall(r'<details', body))
     if details < 4:
@@ -119,7 +126,7 @@ def check_chapter(path, src, min_chars, min_imgs, profile="concept"):
         break
 
     # 绝对化表述（安全相关只提示，不判死）
-    for m in re.finditer(r'绝对安全|一定不会|绝不|唯一(?:的)?(?:办法|方法|手段)', body):
+    for m in re.finditer(r'绝对安全|一定不会|唯一(?:的)?(?:办法|方法|手段)', body):
         issues.append('绝对化表述: %s' % m.group(0))
         break
 

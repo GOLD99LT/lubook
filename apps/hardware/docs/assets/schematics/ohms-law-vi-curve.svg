@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <title>线性电阻、二极管与灯丝的伏安特性示意：只有线性电阻的 V-I 曲线是过原点的直线</title>
+  <rect width="760" height="430" fill="#ffffff"/>
+  <defs>
+    <marker id="axisArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+
+  <text x="36" y="34" font-size="18" font-weight="700" fill="#1a4f8b">伏安特性 V-I：线性与非线性</text>
+  <text x="110" y="58" font-size="14" fill="#5c6772">示意图，用于比较曲线形状，不是具体型号的数据；实际曲线以数据手册为准。</text>
+
+  <!-- 坐标网格 -->
+  <g stroke="#e6ebf1" stroke-width="1">
+    <line x1="90" y1="340" x2="680" y2="340"/>
+    <line x1="90" y1="270" x2="680" y2="270"/>
+    <line x1="90" y1="200" x2="680" y2="200"/>
+    <line x1="90" y1="130" x2="680" y2="130"/>
+    <line x1="90" y1="60" x2="680" y2="60"/>
+    <line x1="208" y1="60" x2="208" y2="340"/>
+    <line x1="326" y1="60" x2="326" y2="340"/>
+    <line x1="444" y1="60" x2="444" y2="340"/>
+    <line x1="562" y1="60" x2="562" y2="340"/>
+    <line x1="680" y1="60" x2="680" y2="340"/>
+  </g>
+
+  <!-- 坐标轴 -->
+  <line x1="90" y1="340" x2="700" y2="340" stroke="#2b3a4a" stroke-width="2" marker-end="url(#axisArrow)"/>
+  <line x1="90" y1="340" x2="90" y2="48" stroke="#2b3a4a" stroke-width="2" marker-end="url(#axisArrow)"/>
+  <text x="692" y="366" font-size="16" fill="#2b3a4a" font-weight="700">V / V</text>
+  <text x="26" y="54" font-size="16" fill="#2b3a4a" font-weight="700">I / A</text>
+
+  <!-- 刻度 -->
+  <g font-size="13" fill="#5c6772" text-anchor="middle">
+    <text x="208" y="362">1</text>
+    <text x="326" y="362">2</text>
+    <text x="444" y="362">3</text>
+    <text x="562" y="362">4</text>
+    <text x="680" y="362">5</text>
+  </g>
+  <g font-size="13" fill="#5c6772" text-anchor="end">
+    <text x="80" y="345">0</text>
+    <text x="80" y="275">0.5</text>
+    <text x="80" y="205">1.0</text>
+    <text x="80" y="135">1.5</text>
+    <text x="80" y="65">2.0</text>
+  </g>
+
+  <!-- 线性电阻 10 欧：5V -> 0.5A -->
+  <line x1="90" y1="340" x2="680" y2="270" stroke="#1a4f8b" stroke-width="2.8"/>
+  <circle cx="680" cy="270" r="4" fill="#1a4f8b"/>
+  <text x="470" y="320" font-size="14" fill="#1a4f8b" font-weight="700">线性电阻 10Ω：斜率 1/R</text>
+
+  <!-- 线性电阻 2.5 欧：5V -> 2A -->
+  <line x1="90" y1="340" x2="680" y2="60" stroke="#3a8f6b" stroke-width="2.4" stroke-dasharray="8 4"/>
+  <circle cx="680" cy="60" r="4" fill="#3a8f6b"/>
+  <text x="500" y="96" font-size="14" fill="#3a8f6b" font-weight="700">线性电阻 2.5Ω</text>
+
+  <!-- 二极管：指数弯曲，约 0.8V 后急升 -->
+  <polyline points="90,340 130,339 152,337 174,330 196,310 218,268 240,200 262,130 284,60"
+            fill="none" stroke="#b5642e" stroke-width="2.8"/>
+  <text x="292" y="90" font-size="14" fill="#b5642e" font-weight="700">二极管：指数弯曲</text>
+  <text x="292" y="110" font-size="13" fill="#8a5a3a">V/I 不是常数，不能直接套 V=IR</text>
+
+  <!-- 灯丝：R 随温度上升，曲线向下弯 -->
+  <polyline points="90,340 208,282 326,255 444,232 562,214 680,200"
+            fill="none" stroke="#7a5fc0" stroke-width="2.6"/>
+  <text x="460" y="184" font-size="14" fill="#7a5fc0" font-weight="700">灯丝：越热 R 越大</text>
+
+</svg>
