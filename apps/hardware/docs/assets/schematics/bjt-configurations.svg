@@ -1,0 +1,81 @@
+<svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>BJT 三种组态：共射、共基、共集的输入输出端口与阻抗量级</title>
+  <rect width="900" height="420" fill="#ffffff"/>
+  <text x="30" y="32" font-size="19" font-weight="700" fill="#222a32">BJT 三种组态：输入在哪、输出在哪</text>
+
+  <rect x="30" y="52" width="260" height="348" fill="#fbfdff" stroke="#e3e0d7"/>
+  <rect x="320" y="52" width="260" height="348" fill="#fbfdff" stroke="#e3e0d7"/>
+  <rect x="610" y="52" width="260" height="348" fill="#fbfdff" stroke="#e3e0d7"/>
+
+  <!-- 共射 CE -->
+  <text x="160" y="78" font-size="15" font-weight="700" fill="#1a4f8b" text-anchor="middle">共射 CE</text>
+  <text x="50" y="214" font-size="13" fill="#2b3a4a">vin</text>
+  <line x1="50" y1="220" x2="110" y2="220" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="144" cy="220" r="30" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="110" y1="198" x2="110" y2="242" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="110" y1="206" x2="160" y2="178" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="160" y1="178" x2="160" y2="110" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="110" y1="234" x2="160" y2="262" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="160" y1="262" x2="160" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="148,252 157,259 145,265" fill="#2b3a4a"/>
+  <text x="168" y="112" font-size="13" fill="#2b3a4a">vout</text>
+  <text x="96" y="252" font-size="12" fill="#5c6772" text-anchor="end">B</text>
+  <text x="168" y="174" font-size="12" fill="#5c6772">C</text>
+  <text x="168" y="276" font-size="12" fill="#5c6772">E</text>
+  <line x1="146" y1="320" x2="174" y2="320" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="151" y1="327" x2="169" y2="327" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="155" y1="334" x2="165" y2="334" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="160" y="360" font-size="13" fill="#222a32" text-anchor="middle">Zin≈rπ  Zout≈Rc</text>
+  <text x="160" y="380" font-size="13" fill="#222a32" text-anchor="middle">Av≈-gmRc（反相）</text>
+
+  <!-- 共基 CB -->
+  <text x="450" y="78" font-size="15" font-weight="700" fill="#1a4f8b" text-anchor="middle">共基 CB</text>
+  <line x1="330" y1="300" x2="450" y2="300" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="330" y="292" font-size="13" fill="#2b3a4a">vin</text>
+  <line x1="450" y1="300" x2="450" y2="262" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="400" y1="234" x2="450" y2="262" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="434" cy="220" r="30" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="400" y1="198" x2="400" y2="242" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="400" y1="206" x2="450" y2="178" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="450" y1="178" x2="450" y2="110" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="400" y1="220" x2="360" y2="220" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="360" y1="220" x2="360" y2="320" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="438,252 447,259 435,265" fill="#2b3a4a"/>
+  <text x="458" y="112" font-size="13" fill="#2b3a4a">vout</text>
+  <text x="386" y="196" font-size="12" fill="#5c6772" text-anchor="end">B</text>
+  <text x="458" y="174" font-size="12" fill="#5c6772">C</text>
+  <text x="458" y="276" font-size="12" fill="#5c6772">E</text>
+  <text x="374" y="258" font-size="11" fill="#5c6772">接地</text>
+  <line x1="346" y1="320" x2="374" y2="320" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="351" y1="327" x2="369" y2="327" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="355" y1="334" x2="365" y2="334" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="450" y="360" font-size="13" fill="#222a32" text-anchor="middle">Zin≈re  Zout≈Rc</text>
+  <text x="450" y="380" font-size="13" fill="#222a32" text-anchor="middle">Av≈+gmRc（同相）</text>
+
+  <!-- 共集 CC -->
+  <text x="740" y="78" font-size="15" font-weight="700" fill="#1a4f8b" text-anchor="middle">共集 CC</text>
+  <text x="630" y="214" font-size="13" fill="#2b3a4a">vin</text>
+  <line x1="630" y1="220" x2="690" y2="220" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="724" cy="220" r="30" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="690" y1="198" x2="690" y2="242" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="690" y1="206" x2="740" y2="178" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="740" y1="178" x2="740" y2="90" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="690" y1="234" x2="740" y2="262" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="740" y1="262" x2="740" y2="280" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="740" y1="280" x2="820" y2="280" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="728,252 737,259 725,265" fill="#2b3a4a"/>
+  <text x="748" y="96" font-size="13" fill="#2b3a4a">+V</text>
+  <text x="830" y="284" font-size="13" fill="#2b3a4a">vout</text>
+  <text x="676" y="252" font-size="12" fill="#5c6772" text-anchor="end">B</text>
+  <text x="748" y="174" font-size="12" fill="#5c6772">C</text>
+  <text x="748" y="276" font-size="12" fill="#5c6772">E</text>
+  <line x1="740" y1="280" x2="740" y2="290" stroke="#2b3a4a" stroke-width="2.2"/>
+  <rect x="728" y="290" width="24" height="25" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="740" y1="315" x2="740" y2="325" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="726" y1="325" x2="754" y2="325" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="731" y1="332" x2="749" y2="332" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="735" y1="339" x2="745" y2="339" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="760" y="306" font-size="12" fill="#5c6772">RE</text>
+  <text x="740" y="360" font-size="13" fill="#222a32" text-anchor="middle">Zin≈hFE(re+RE)</text>
+  <text x="740" y="380" font-size="13" fill="#222a32" text-anchor="middle">Zout≈re+Rs/hFE  Av≈1</text>
+</svg>
