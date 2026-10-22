@@ -11,15 +11,8 @@ const props = defineProps({
 
 function href(card) {
   if (card.type === 'external') return card.url
-  return withBase((card.slug || '') + '/')
-}
-
-// 跨 app 边界（门户→分册）必须整页导航：门户自身的 SPA 路由清单解释不了分册路径，
-// 交给 VitePress 客户端路由会落到门户 404。外部链接保持浏览器默认新标签行为。
-function onCardClick(event, card) {
-  if (card.type === 'external') return
-  event.preventDefault()
-  window.location.assign(href(card))
+  // 前导 '/' 让 withBase 烘焙出绝对路径（含 base），避免相对路径依赖门户 URL 末尾斜杠。
+  return withBase('/' + (card.slug || '') + '/')
 }
 </script>
 
@@ -35,13 +28,18 @@ function onCardClick(event, card) {
     <nav class="cards" aria-label="手册分册">
       <template v-for="card in cards" :key="card.title">
         <!-- 可进入：内部 / 外部 -->
+        <!--
+          跨 app 边界（门户→分册）：VitePress 客户端路由的 click 拦截在 window 捕获阶段
+          （{capture:true}，早于元素自身 @click），且其路由清单解释不了分册路径。
+          内部卡用 target="_self"：路由拦截因命中 hasAttribute('target') 而跳过，
+          浏览器按同标签页做整页加载；外部卡保持 _blank + noopener 新标签。
+        -->
         <a
           v-if="card.available !== false"
           class="card"
           :href="href(card)"
-          :target="card.type === 'external' ? '_blank' : undefined"
+          :target="card.type === 'external' ? '_blank' : '_self'"
           :rel="card.type === 'external' ? 'noopener' : undefined"
-          @click="onCardClick($event, card)"
         >
           <span class="card-icon"><BookIcon :name="card.icon" /></span>
           <span class="card-body">
