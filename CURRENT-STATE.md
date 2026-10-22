@@ -164,10 +164,10 @@ quality job 承担。修复后重新 push（`d33b556`），部署成功。
 | 批次 1 | basics/voltage-current-power、ohms-law、series-parallel、kcl-kvl | ✅ 已合入并上线（c89ec5） | 7,974 / 7,842 / 5,905 / 5,951 | 数值逐条复算通过；0 公式错误；0 破图 |
 | 批次 2 | basics/dc-ac、capacitor-rc、inductor-rl、impedance | ✅ 已合入（`06adc7d`） | 7,102 / 7,763 / 7,299 / 5,705 | 数值复算通过；42 处 `°` 已改成 `^{\circ}` |
 | 批次 3 | basics/math-basics、transformer、nodal-mesh-analysis、rlc-resonance | ✅ 已合入并上线（`aab4f66`） | 9,041 / 8,472 / 8,115 / 6,638 | 复算通过；顺带修正旧图 transformer.svg 写反的匝比公式 |
-| 批次 4 | basics/mains-three-phase、electrical-safety | 🔄 智能体写作中 | 922 / 2,020 | 安规章采用两段式：定量内容 + 「待专业复核」显式标注 |
+| 批次 4 | basics/mains-three-phase、electrical-safety | ✅ 已合入并上线（`ae4edc1`） | 10,725 / 11,553 | 安规章带 13 条文末《复核清单》+ 顶部提示；接地符号已统一为标准尺寸 |
 | 批次 3+ | 元器件 / 运放 / 数字 / 单片机 / 电源 / PCB / 测量 各篇 | ⬜ 待排 | 1,411–2,177 均字 | — |
 
-现状：140 章中 **12 章达标**；basics 篇中位数 1,098 → **7,299 字**（14 章里 12 章已达标）。
+现状：**basics 篇 14/14 全部达标**（中位数 1,098 → 7,842 字）；全书 140 章中 14 章达标。
 基线：evision=sha256-b0bfc73e3ba0bc48，routes 仍 141（URL 未变）。
 
 ### 待专业复核（写作智能体无法联网核实，已在正文标注"以数据手册为准"）
