@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 430" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>1MΩ 源阻抗、增益 101 的仪表放大直流误差预算：失调电流在源阻抗上的 505mV 主导，失调电压 5.05mV、偏置电流共模项 0.01mV；温漂再叠加 303mV 与 3.03mV</title>
+  <rect width="900" height="430" fill="#ffffff"/>
+
+  <text x="30" y="30" font-size="19" font-weight="700" fill="#222a32">直流误差预算：谁在主导 1MΩ 源阻抗的误差 Error Budget</text>
+  <text x="30" y="52" font-size="12" fill="#5c6772">条件：VOS=50µV、IB=10nA、IOS=5nA、Rs=1MΩ、G=101、CMRR=100dB；温漂段为 25°C→85°C（ΔT=60°C）</text>
+  <line x1="30" y1="64" x2="870" y2="64" stroke="#e3e0d7"/>
+
+  <!-- 行标签 -->
+  <text x="30" y="104" font-size="12.5" fill="#1a4f8b" font-weight="700">VOS × G</text>
+  <text x="30" y="120" font-size="11" fill="#5c6772">50µV → 5.05mV</text>
+
+  <text x="30" y="138" font-size="12.5" fill="#cc5a47" font-weight="700">IOS × Rs × G</text>
+  <text x="30" y="154" font-size="11" fill="#5c6772">5nA×1MΩ → 505mV</text>
+
+  <text x="30" y="172" font-size="12.5" fill="#5c6772" font-weight="700">IB × Rs（共模）</text>
+  <text x="30" y="188" font-size="11" fill="#5c6772">10mV / 100dB → 0.01mV</text>
+
+  <text x="30" y="206" font-size="12.5" fill="#b5642e" font-weight="700">ΔVOS × G</text>
+  <text x="30" y="222" font-size="11" fill="#5c6772">0.5µV/°C×60 → 3.03mV</text>
+
+  <text x="30" y="240" font-size="12.5" fill="#b5642e" font-weight="700">ΔIOS × Rs × G</text>
+  <text x="30" y="256" font-size="11" fill="#5c6772">0.05nA/°C×60 → 303mV</text>
+
+  <text x="30" y="274" font-size="12.5" fill="#2f7d4f" font-weight="700">最坏合计 25°C</text>
+  <text x="30" y="290" font-size="11" fill="#5c6772">510mV（418 LSB）</text>
+
+  <text x="30" y="308" font-size="12.5" fill="#2f7d4f" font-weight="700">最坏合计 85°C</text>
+  <text x="30" y="324" font-size="11" fill="#5c6772">816mV</text>
+
+  <!-- 网格（对数刻度 0.01 ~ 1000 mV） -->
+  <g stroke="#e3e0d7">
+    <line x1="360" y1="78" x2="360" y2="330"/>
+    <line x1="470" y1="78" x2="470" y2="330"/>
+    <line x1="580" y1="78" x2="580" y2="330"/>
+    <line x1="690" y1="78" x2="690" y2="330"/>
+    <line x1="800" y1="78" x2="800" y2="330"/>
+  </g>
+
+  <!-- 条形 -->
+  <rect x="250" y="92" width="297.4" height="16" rx="4" fill="#1a4f8b" opacity="0.55"/>
+  <rect x="250" y="126" width="517.4" height="16" rx="4" fill="#cc5a47" opacity="0.55"/>
+  <rect x="250" y="160" width="0.5" height="16" rx="1" fill="#5c6772"/>
+  <rect x="250" y="194" width="273.0" height="16" rx="4" fill="#b5642e" opacity="0.55"/>
+  <rect x="250" y="228" width="493.0" height="16" rx="4" fill="#b5642e" opacity="0.55"/>
+  <rect x="250" y="262" width="517.8" height="16" rx="4" fill="#2f7d4f" opacity="0.55"/>
+  <rect x="250" y="296" width="540.3" height="16" rx="4" fill="#2f7d4f" opacity="0.35"/>
+
+  <!-- 数值标注 -->
+  <text x="554" y="104" font-size="11.5" fill="#1a4f8b">5.05 mV</text>
+  <text x="774" y="138" font-size="11.5" fill="#cc5a47" font-weight="700">505 mV（占 99%）</text>
+  <text x="258" y="172" font-size="11.5" fill="#5c6772">0.010 mV（可忽略）</text>
+  <text x="530" y="206" font-size="11.5" fill="#b5642e">3.03 mV</text>
+  <text x="750" y="240" font-size="11.5" fill="#b5642e">303 mV</text>
+  <text x="774" y="274" font-size="11.5" fill="#2f7d4f" font-weight="700">510 mV</text>
+  <text x="797" y="308" font-size="11.5" fill="#2f7d4f">816 mV</text>
+
+  <!-- 坐标轴 -->
+  <line x1="250" y1="330" x2="830" y2="330" stroke="#2b3a4a" stroke-width="1.8"/>
+  <g font-size="11.5" fill="#5c6772" text-anchor="middle">
+    <text x="250" y="348">0.01</text>
+    <text x="360" y="348">0.1</text>
+    <text x="470" y="348">1</text>
+    <text x="580" y="348">10</text>
+    <text x="690" y="348">100</text>
+    <text x="800" y="348">1000</text>
+  </g>
+  <text x="250" y="368" font-size="11" fill="#5c6772">对数刻度，单位 mV（输出端）</text>
+
+  <!-- 结论 -->
+  <text x="30" y="378" font-size="12" fill="#222a32">读法：把每一项都折算到同一单位（输出端 mV），再比较量级。本例 IOS 项比 VOS 项大 100 倍，所以</text>
+  <text x="30" y="398" font-size="12" fill="#222a32">“换更低 VOS 的运放”几乎没用，必须换低 IOS 的器件（JFET/CMOS 输入或零漂移），或降低源阻抗。</text>
+  <text x="30" y="418" font-size="11" fill="#5c6772">数值由正文 §4.1 的公式逐项算出；温漂系数为示例取值，实际以数据手册的 VOS、IOS 与温漂规格为准。</text>
+</svg>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>CMRR 与 PSRR 的频率特性：CMRR 直流 120dB、10Hz 主极点后按每十倍频 20dB 下降，1kHz 处 80dB、50Hz 处 106dB；PSRR 直流 100dB、100Hz 后下降，100kHz 处 40dB</title>
+  <rect width="900" height="500" fill="#ffffff"/>
+
+  <text x="30" y="30" font-size="19" font-weight="700" fill="#222a32">CMRR 与 PSRR 的频率特性读法 CMRR / PSRR vs Frequency</text>
+  <text x="30" y="52" font-size="12" fill="#5c6772">两条曲线都是"每十倍频 20dB"的单极点下降；直流值再高，工作频段的剩余抑制才是设计依据</text>
+
+  <!-- ================= 上图：CMRR ================= -->
+  <text x="30" y="82" font-size="14" font-weight="700" fill="#1a4f8b">CMRR（输入折算）</text>
+  <text x="150" y="82" font-size="11.5" fill="#5c6772">直流 120dB ｜ 主极点 10Hz ｜ 1kHz 80dB ｜ 100kHz 40dB</text>
+
+  <!-- 网格 -->
+  <g stroke="#e3e0d7">
+    <line x1="120" y1="95.5" x2="820" y2="95.5"/>
+    <line x1="120" y1="157.3" x2="820" y2="157.3"/>
+    <line x1="120" y1="219.1" x2="820" y2="219.1"/>
+    <line x1="236.7" y1="90" x2="236.7" y2="250"/>
+    <line x1="470" y1="90" x2="470" y2="250"/>
+    <line x1="703.3" y1="90" x2="703.3" y2="250"/>
+  </g>
+  <!-- 坐标轴 -->
+  <line x1="120" y1="250" x2="820" y2="250" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="120" y1="90" x2="120" y2="250" stroke="#2b3a4a" stroke-width="1.8"/>
+
+  <!-- CMRR 曲线 -->
+  <polyline points="120,95.5 236.7,95.5 820,250" fill="none" stroke="#1a4f8b" stroke-width="2.6"/>
+
+  <!-- 标杆点：50Hz 106dB -->
+  <line x1="318.2" y1="117.1" x2="318.2" y2="250" stroke="#b5642e" stroke-width="1.4" stroke-dasharray="5,4"/>
+  <circle cx="318.2" cy="117.1" r="5" fill="#b5642e"/>
+  <text x="326" y="112" font-size="12" fill="#b5642e" font-weight="700">50Hz：106dB</text>
+  <!-- 标杆点：1kHz 80dB -->
+  <line x1="470" y1="157.3" x2="470" y2="250" stroke="#b5642e" stroke-width="1.4" stroke-dasharray="5,4"/>
+  <circle cx="470" cy="157.3" r="5" fill="#b5642e"/>
+  <text x="478" y="152" font-size="12" fill="#b5642e" font-weight="700">1kHz：80dB</text>
+  <!-- 曲线标识 -->
+  <text x="640" y="222" font-size="11.5" fill="#1a4f8b">−20dB / 十倍频</text>
+
+  <!-- y 轴刻度 -->
+  <g font-size="11.5" fill="#5c6772" text-anchor="end">
+    <text x="112" y="99">120</text>
+    <text x="112" y="130">100</text>
+    <text x="112" y="161">80</text>
+    <text x="112" y="192">60</text>
+    <text x="112" y="223">40</text>
+    <text x="112" y="254">20</text>
+  </g>
+  <text x="60" y="175" font-size="11.5" fill="#5c6772" text-anchor="middle" transform="rotate(-90 60 175)">dB</text>
+
+  <!-- x 轴刻度 -->
+  <g font-size="11.5" fill="#5c6772" text-anchor="middle">
+    <text x="120" y="268">1</text>
+    <text x="236.7" y="268">10</text>
+    <text x="353.3" y="268">100</text>
+    <text x="470" y="268">1k</text>
+    <text x="586.7" y="268">10k</text>
+    <text x="703.3" y="268">100k</text>
+    <text x="820" y="268">1M</text>
+  </g>
+
+  <!-- ================= 下图：PSRR ================= -->
+  <text x="30" y="312" font-size="14" font-weight="700" fill="#b5642e">PSRR（电源纹波折算到输入）</text>
+  <text x="210" y="312" font-size="11.5" fill="#5c6772">直流 100dB ｜ 主极点 100Hz ｜ 100kHz 40dB ｜ 正负电源分别给值</text>
+
+  <g stroke="#e3e0d7">
+    <line x1="120" y1="322" x2="820" y2="322"/>
+    <line x1="120" y1="354" x2="820" y2="354"/>
+    <line x1="120" y1="386" x2="820" y2="386"/>
+    <line x1="353.3" y1="316" x2="353.3" y2="450"/>
+    <line x1="703.3" y1="316" x2="703.3" y2="450"/>
+  </g>
+  <line x1="120" y1="450" x2="820" y2="450" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="120" y1="316" x2="120" y2="450" stroke="#2b3a4a" stroke-width="1.8"/>
+
+  <polyline points="120,322 353.3,322 820,450" fill="none" stroke="#b5642e" stroke-width="2.6"/>
+
+  <!-- 标杆点：100kHz 40dB -->
+  <line x1="703.3" y1="418" x2="703.3" y2="450" stroke="#1a4f8b" stroke-width="1.4" stroke-dasharray="5,4"/>
+  <circle cx="703.3" cy="418" r="5" fill="#1a4f8b"/>
+  <text x="711" y="412" font-size="12" fill="#1a4f8b" font-weight="700">100kHz：40dB</text>
+  <text x="700" y="438" font-size="11" fill="#5c6772" text-anchor="end">10mV 纹波 → 100µV 输入等效</text>
+
+  <g font-size="11.5" fill="#5c6772" text-anchor="end">
+    <text x="112" y="326">100</text>
+    <text x="112" y="358">80</text>
+    <text x="112" y="390">60</text>
+    <text x="112" y="422">40</text>
+    <text x="112" y="454">20</text>
+  </g>
+  <text x="60" y="383" font-size="11.5" fill="#5c6772" text-anchor="middle" transform="rotate(-90 60 383)">dB</text>
+
+  <g font-size="11.5" fill="#5c6772" text-anchor="middle">
+    <text x="120" y="468">1</text>
+    <text x="236.7" y="468">10</text>
+    <text x="353.3" y="468">100</text>
+    <text x="470" y="468">1k</text>
+    <text x="586.7" y="468">10k</text>
+    <text x="703.3" y="468">100k</text>
+    <text x="820" y="468">1M</text>
+  </g>
+  <text x="880" y="472" font-size="11.5" fill="#2b3a4a" text-anchor="end">f / Hz</text>
+
+  <text x="30" y="490" font-size="11" fill="#5c6772">曲线形状为典型量级示意（单极点）；具体数值以数据手册 CMRR-频率、PSRR-频率曲线为准，正、负电源的 PSRR 一般不相等</text>
+</svg>
