@@ -94,3 +94,33 @@
 2. **批次 2**：渲染级验证脚手架（KaTeX 错误数、破图数、跨 app 点击、学习往返），这是"门禁绿≠页面对"的唯一解。
 3. **批次 3**：内容勘误（上表 10 处）+ 主干章深挖。
 4. **发布**：本地 6 个提交含安全勘误，至今未上线；push 需用户明确授权。
+
+## 8. 本轮整改总览（2026-10-22，分支 `fix/batch0-hardening`）
+
+| 批次 | 内容 | 状态 |
+|---|---|---|
+| 0 止血 | F15 路径守卫、F12 严格失败、F11 真对账、解析器无限循环、F05 部署前置门禁、2 张坏 SVG、`;`→`&&`、.gitignore | ✅ 完成并实测 |
+| 1 规范与模板 | F10 模板 base/knownIds/字段、ADR-0008 内容 schema、validate 与 freeze 口径对齐、boot 失败不再静默覆盖、收藏链接补 base | ✅ 完成并实测 |
+| 2 门禁 | CI 自动枚举 apps、content-gate 按矩阵展开、scaffold job、TS/Python parser parity 真正跑通、快照基线不被静默覆盖、指纹覆盖 SVG 字节（ADR-0009）、pnpm 可移植性 | ✅ 完成并实测 |
+| 3 内容 | 13 处技术勘误（含 2 处安全类）+ 安全表述去绝对化 | ✅ 完成，指纹重新冻结 |
+| 4 体验 | 学习面板无障碍（label/aria-live/aria-pressed）、对比度、死脚本 gen:portal、CI 跟随 .node-version | ✅ 完成 |
+
+### 上线前已做的产物级验证
+
+- `pnpm verify:all` 退出 0：portal/hardware 构建、质检 0 失败、离线对账、parser parity、learning 102 passed。
+- `pnpm bundle:pages`（VP_BASE=/lubook/）产物路径核对：门户卡片 `/lubook/hardware/` + `target="_self"`；
+  门户资源 `/lubook/assets/…`；分册资源 `/lubook/hardware/assets/…`；分册回门户 `/lubook/` + `target="_self"`。
+- 本地静态服务 + 无头浏览器实测：`/lubook/` 与 `/lubook/hardware/` 正常渲染、非 404；
+  章节页 `/lubook/hardware/basics/voltage-current-power.html` 标题/h1 正确、23 个公式 0 错误、186 项侧边栏。
+- 离线单文件真实浏览器：3599 个公式 0 错误、93 个 ECharts canvas、0 破图。
+
+### 仍未处理（下一轮）
+
+| 优先级 | 问题 | 位置 |
+|---|---|---|
+| P2 | ECharts 全量打进 theme chunk：门户与每章都加载约 1.1MB（gzip 364–379KB），门户根本不用图表 | `packages/theme/src/index.ts`、`EChart.vue` |
+| P2 | 导入固定 replace、无 merge 选项与二次确认；多标签页后写覆盖先写 | `store.ts`、`learning/index.ts` |
+| P2 | 存储不可用时静默降级内存 Storage，`saveState.ok` 仍为 true（界面显示"已保存"但刷新即丢） | `learning/index.ts` resolveStorage |
+| P3 | 离线单文件不生成标题 id，章内 `#锚点` 无效（当前正文 0 处使用） | `build_single_html.py` render |
+| P3 | 140 章平均 1,652 中文字，深度不足；本轮只修错，未加深 | 内容 |
+| P3 | `sources/` 生成输入永久缺失，`merge_sources.py` 停 122 章 | `sources.list.yaml` |
