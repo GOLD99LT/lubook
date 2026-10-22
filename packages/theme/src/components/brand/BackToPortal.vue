@@ -6,10 +6,16 @@ import BrandMark from './BrandMark.vue'
 // 分册 base = VP_BASE + '<slug>/'；门户在 VP_BASE。剥掉末尾的 '<slug>/' 即门户。
 const { site } = useData()
 const portalHref = computed(() => site.value.base.replace(/[^/]+\/$/, ''))
+
+// 跨 app 边界（分册→门户）整页导航：避免 VitePress 用分册自身的路由清单解释门户路径。
+function onBackClick(event) {
+  event.preventDefault()
+  window.location.assign(portalHref.value)
+}
 </script>
 
 <template>
-  <a class="back-to-portal" :href="portalHref" title="返回路书门户">
+  <a class="back-to-portal" :href="portalHref" title="返回路书门户" @click="onBackClick">
     <BrandMark :width="20" :height="20" />
     <span class="bp-text">路书</span>
   </a>

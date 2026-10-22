@@ -13,6 +13,14 @@ function href(card) {
   if (card.type === 'external') return card.url
   return withBase((card.slug || '') + '/')
 }
+
+// 跨 app 边界（门户→分册）必须整页导航：门户自身的 SPA 路由清单解释不了分册路径，
+// 交给 VitePress 客户端路由会落到门户 404。外部链接保持浏览器默认新标签行为。
+function onCardClick(event, card) {
+  if (card.type === 'external') return
+  event.preventDefault()
+  window.location.assign(href(card))
+}
 </script>
 
 <template>
@@ -33,6 +41,7 @@ function href(card) {
           :href="href(card)"
           :target="card.type === 'external' ? '_blank' : undefined"
           :rel="card.type === 'external' ? 'noopener' : undefined"
+          @click="onCardClick($event, card)"
         >
           <span class="card-icon"><BookIcon :name="card.icon" /></span>
           <span class="card-body">
