@@ -6,14 +6,14 @@ name: Quality Gate
 # workflow_call：让部署流水线把它当前置 job 调用（F05）——push main 时部署必须
 # 先等门禁跑绿，否则同一次提交会出现“门禁红、线上升”。
 #
-# 注意：push main 会触发两次门禁（一次由 on.push 独立触发，一次被 deploy-docs
-# 通过 workflow_call 调用）。这是有意的取舍——重复跑只是多花 CI 分钟，而
-# 去掉 on.push:main 会让 main 失去独立门禁记录。若将来嫌浪费，可改成
-# deploy 侧 workflow_run 触发并校验结论。
 on:
+  # 不要在这里同时监听 main：部署流水线（deploy-docs.yml）会通过 workflow_call
+  # 把本文件当前置门禁；若同时保留 push: main，同一个 commit 会起两个 run，
+  # 二者落在同一个 concurrency 组（quality-<ref>）里互相取消——2026-10-22 首次上线
+  # 就因此把部署 run 取消掉了。main 的门禁统一由部署 run 内的 quality job 承担。
   push:
-    branches:
-      - '**'
+    branches-ignore:
+      - main
   pull_request:
   workflow_dispatch:
   workflow_call:
