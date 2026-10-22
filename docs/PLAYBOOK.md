@@ -112,11 +112,11 @@ pnpm quality:hardware       # 或 python run_quality.py --app hardware
 
 聚合 5 步：① manifest 一致性 + 路由/指纹快照比对 ② validate ③ scan_grounds ④ scan_svg_order ⑤ scan_math。
 
-硬件分册冻结值：docCount **140**、imageTotal **418**、svg **411**、grounds **247**、routes **141**、revision `sha256-361225735a3a67f4`、overallChecksum `36122573…1abe0f3`。
+硬件分册冻结值（**不要在文档里写死，以入库快照为准**）：见 `tests/hardware.manifest.snapshot.json` 的 `revision`/`overallChecksum`/`docCount`/`imageTotal`/`svgCount`/`groundsCount`；路由以 `tests/hardware.routes.snapshot.json` 为准。查法：`git show HEAD:tests/hardware.manifest.snapshot.json`。
 
-- `validate` 唯一已知告警是 `index.md` 孤儿（首页不进 SUMMARY，已豁免）。
+- `validate` 的孤儿跳过清单与 `freeze_manifest.py` 对齐（`index.md`/`SUMMARY.md`/`LICENSE-docs.md`），正常应为 **0 硬错误 0 提醒**。
 - 一键全验：`pnpm verify:all`（遍历 apps：构建 + 内容 app 质检/快照/离线，最后 learning 单测）。
-- learning 单测：`pnpm test:learning`（应 43 passed）。
+- learning 单测：`pnpm test:learning`（断言数随用例增长，只需 0 failed；当前为 102 passed）。
 
 ## 7. 内容迁移 / 路由快照（强约束）
 

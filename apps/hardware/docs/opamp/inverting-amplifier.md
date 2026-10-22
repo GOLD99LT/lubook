@@ -76,7 +76,7 @@ $$V_{out}=-\frac{R_f}{R_1}\,V_{in}\qquad\Longrightarrow\qquad G(s)=\frac{V_{out}
 
 ::: advanced 进阶：环路增益与相位裕度推导
 运放开环增益为 $A(s)$，反相端为求和节点。由节点电流方程可推得闭环增益
-$G(s)=-\dfrac{Rf/R_1}{1+\dfrac{1+Rf/R_1}{A(s)\beta}}$，其中反馈系数 $\beta=R_1/(R_1+Rf)$，环路增益 $T(s)=A(s)\beta$。
+$G(s)=-\dfrac{Rf/R_1}{1+\dfrac{1+Rf/R_1}{A(s)}}$（分母是对**噪声增益** $1+Rf/R_1$ 的修正，不是对它再乘 $\beta$）。用环路增益表示时写 $G=-\dfrac{Rf/R_1}{1+1/T}$，其中 $T(s)=A(s)\beta$、$\beta=R_1/(R_1+Rf)$。
 当 $|T|\gg 1$ 时 $G\to -Rf/R_1$。画出 $T(s)$ 的伯德图，在 $|T|=1$ 处读相位 $\phi$，相位裕度 $\text{PM}=180^{\circ}+\phi$。PM<0 时电路振荡，可通过在 Rf 上并联小电容或加补偿网络改善。
 :::
 
@@ -119,7 +119,7 @@ $G(s)=-\dfrac{Rf/R_1}{1+\dfrac{1+Rf/R_1}{A(s)\beta}}$，其中反馈系数 $\bet
 - 等效反馈电阻 $R_{eq}\approx R_2+R_4+R_2R_4/R_3$，选小 R3 即可在不大的阻值下获得大等效增益。
 - 闭环增益 $G=-R_{eq}/R_1$。
 - 代价：R3 把噪声增益抬高、且引入额外噪声，精度不如单一大 Rf。
-- 例：R2=R4=100k、R3=10k，$R_{eq}\approx 310$k，等效增益大而阻值仍在百 k 级。
+- 例：R2=R4=100k、R3=10k，$R_{eq}\approx 100\text{k}+100\text{k}+100\text{k}\times100\text{k}/10\text{k}=1.2\text{M}\Omega$。注意 R3 越小等效电阻越大；若要 310k，应取 R3≈91k。
 :::
 
 取值数量级：R2/R4=100k、R3=几 k；与单 Rf=10M 对比：避免超大电阻的偏置与噪声问题。适用：高增益但输入阻抗受限、CMOS 高阻源；不适用：低噪声（T 网络自身噪声大）。

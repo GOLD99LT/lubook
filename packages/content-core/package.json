@@ -12,7 +12,7 @@
     "book-manifest": "./src/cli.ts"
   },
   "scripts": {
-    "manifest": "node src/cli.ts --src ../../docs --out ../../.generated/content-manifest.json",
-    "parity": "node src/parity.ts --src ../../docs --p0 ../../.generated/p0-reference.json --out ../../.generated/content-manifest.ts.json"
+    "manifest": "node src/cli.ts --appId hardware --src ../../apps/hardware/docs --out ../../.generated/hardware-content-manifest.ts.json --catalogOut ../../apps/hardware/docs/.vitepress/catalog.generated.mjs",
+    "parity": "node src/parity.ts --app hardware"
   }
 }

@@ -6,7 +6,7 @@
   "description": "新专项脚手架：复制到 apps/<app> 后改 appId/title/base 即可；与正式 app 同形态（@lubook/shared-config + @lubook/theme + @lubook/content-core + @lubook/learning）。",
   "scripts": {
     "gen:sidebar": "python ../../packages/tooling/src/build_vp_sidebar.py --src docs",
-    "gen:catalog": "node ../../packages/content-core/src/cli.ts --appId site-template --src docs --out ../../.generated/site-template-manifest.json --catalogOut docs/.vitepress/catalog.generated.mjs",
+    "gen:catalog": "node ../../packages/content-core/src/cli.ts --appId site-template --src docs --out ../../.generated/site-template-manifest.ts.json --catalogOut docs/.vitepress/catalog.generated.mjs",
     "gen": "pnpm run gen:sidebar && pnpm run gen:catalog",
     "predocs:dev": "pnpm run gen",
     "predocs:build": "pnpm run gen",

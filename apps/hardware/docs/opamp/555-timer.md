@@ -171,7 +171,7 @@ $$t_{high}=1.1\,RC$$
 
 在 DIS 脚并联二极管，让充电走 $R_A$、放电走 $R_B$，两条路径分开，即可得到接近 50% 甚至任意占空比的方波。
 
-![555 占空比可调：二极管旁路 RA，充放电路径分离](../assets/schematics/555-timer-duty-astable.svg)
+![555 占空比可调：二极管跨接在 RB 两端（7 脚与 6/2 脚之间）旁路 RB，充电只走 RA](../assets/schematics/555-timer-duty-astable.svg)
 
 ::: example 工作原理/静态分析
 $$t_{high}=0.693\,R_A C,\quad t_{low}=0.693\,R_B C,\quad D=\frac{R_A}{R_A+R_B}$$

@@ -60,10 +60,21 @@ def check_manifest(app, src, prefix):
     if not built:
         return None
 
-    snap_routes = json.load(open(os.path.join(ROOT, 'tests', '%s.routes.snapshot.json' % prefix),
-                                 encoding='utf-8'))
-    snap_fp = json.load(open(os.path.join(ROOT, 'tests', '%s.manifest.snapshot.json' % prefix),
-                             encoding='utf-8'))
+    routes_path = os.path.join(ROOT, 'tests', '%s.routes.snapshot.json' % prefix)
+    fp_path = os.path.join(ROOT, 'tests', '%s.manifest.snapshot.json' % prefix)
+    missing = [p for p in (routes_path, fp_path) if not os.path.exists(p)]
+    if missing:
+        # 新分册第一次跑门禁时还没有基线：给出可执行的下一步，而不是抛栈。
+        for p in missing:
+            print('[FAIL] 缺少快照基线：%s' % p)
+        print('  → 先为该 app 生成基线：pnpm freeze:%s（或 python packages/tooling/src/freeze_manifest.py --app %s）'
+              % (prefix, prefix))
+        print('    基线入库后本门禁才有比对意义。')
+        FAILURES.append('manifest/snapshot exists')
+        return None
+
+    snap_routes = json.load(open(routes_path, encoding='utf-8'))
+    snap_fp = json.load(open(fp_path, encoding='utf-8'))
     step('manifest/routes snapshot 比对', snap_routes == routes,
          '(stored=%d live=%d)' % (len(snap_routes), len(routes)))
     step('manifest/fingerprint 比对', snap_fp == fp,

@@ -14,7 +14,7 @@
 | 分册 | 状态 | 证据 |
 |---|---|---|
 | 门户 `apps/portal` | 本地验证 | 构建通过；产物 `href="/lubook/hardware/" target="_self"`（两种 base 均正确） |
-| 硬件分册 `apps/hardware` | 本地验证，**线上仍是旧版** | 140 章 / 411 SVG / 418 图 / 231,273 中文字；`revision=sha256-a426000b65cdb2da` |
+| 硬件分册 `apps/hardware` | 本地验证，**线上仍是旧版** | 140 章 / 411 SVG / 418 图 / 231,273 中文字；`revision=sha256-f199c10b304f5a89`（内容勘误后重新冻结） |
 | 嵌入式软件 `apps/embedded` | 规划 | 无目录；门户卡片 `available:false` |
 | 嵌入式 Linux `apps/embedded-linux` | 规划 | 无目录；门户卡片 `available:false` |
 

@@ -33,7 +33,7 @@ EMI 出去的两条路径：
 
 **辐射发射（Radiated）**：板子上的电流环路本身就是小天线。辐射功率近似
 
-$$P_{rad} \propto A_{loop}\cdot I^2\cdot f^2$$
+$$E \propto \frac{A_{loop}\cdot I\cdot f^2}{r},\qquad P_{rad} \propto A_{loop}^2\cdot I^2\cdot f^4$$
 
 - $A_{loop}$：电流环路面积
 - $I$：环路电流

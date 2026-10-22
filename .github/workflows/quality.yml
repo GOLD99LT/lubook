@@ -23,74 +23,143 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # 自动枚举 apps/*（带 package.json 的目录），避免每加一册都改 CI 矩阵。
+  enumerate:
+    runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.list.outputs.apps }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - id: list
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, sys
+          sys.path.insert(0, 'packages/tooling/src')
+          from paths_util import list_apps
+          print('apps=' + json.dumps(list_apps()))
+          PY
+
   build:
+    needs: enumerate
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        app: ['portal', 'hardware']
+        app: ${{ fromJSON(needs.enumerate.outputs.apps) }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: pnpm Setup
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
         with:
           run_install: false
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
+      # 直接按 workspace 包名构建，不依赖根 package.json 里逐册手写的 build:<app>
       - name: Build app (VitePress, base 由 VP_BASE 派生)
-        run: pnpm build:${{ matrix.app }}
+        run: pnpm -F "@lubook/${{ matrix.app }}" docs:build
 
   content-gate:
+    needs: [enumerate, build]
     runs-on: ubuntu-latest
-    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJSON(needs.enumerate.outputs.apps) }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: pnpm Setup
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
         with:
           run_install: false
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
+      - name: Content gate (manifest + validate + scan)
+        run: |
+          set -e
+          APP="${{ matrix.app }}"
+          if [ -f "apps/$APP/docs/SUMMARY.md" ]; then
+            python run_quality.py --app "$APP"
+          else
+            echo "app=$APP 无 SUMMARY.md（门户类），跳过内容检查"
+            python run_quality.py --app "$APP" --kind portal
+          fi
+
+      - name: Offline single-file build + manifest reconciliation
+        run: |
+          set -e
+          APP="${{ matrix.app }}"
+          if [ -f "apps/$APP/docs/SUMMARY.md" ]; then
+            python packages/tooling/src/freeze_manifest.py --app "$APP"
+            python packages/tooling/src/build_single_html.py --app "$APP" \
+              --manifest ".generated/$APP-content-manifest.json"
+          else
+            echo "app=$APP 无内容，跳过离线构建"
+          fi
+
+      # TS 与 Python 是两个独立解析器，必须逐字段对齐；历史上这个对账从未真正跑过。
+      - name: TS / Python parser parity
+        run: |
+          set -e
+          APP="${{ matrix.app }}"
+          if [ -f "apps/$APP/docs/SUMMARY.md" ]; then
+            node packages/content-core/src/parity.ts --app "$APP"
+          else
+            echo "app=$APP 无内容，跳过 parser parity"
+          fi
+
+  scaffold:
+    needs: enumerate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+
+      # 新册脚手架必须"复制即通过"：构建 + 校验器 + 学习单测
       - name: Scaffold build (empty app must pass)
         run: pnpm --filter @lubook/site-template docs:build
 
-      - name: "Quality gate (hardware: manifest + validate + scan)"
-        run: pnpm quality:hardware
-
-      - name: Offline single-file build + manifest reconciliation
-        run: pnpm offline:hardware
+      - name: Scaffold passes the content validator
+        run: python packages/tooling/src/validate.py --src templates/site-template/docs
 
       - name: learning unit tests
         run: pnpm test:learning
