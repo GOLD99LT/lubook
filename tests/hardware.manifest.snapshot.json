@@ -1,6 +1,6 @@
 {
   "appId": "hardware",
-  "revision": "sha256-b0bfc73e3ba0bc48",
+  "revision": "sha256-b67327c57d398023",
   "docCount": 140,
   "titles": [
     "电压、电流、电阻与功率 Voltage / Current / Resistance / Power",
@@ -144,9 +144,9 @@
     "面包板实验清单",
     "开源优秀硬件作品赏析"
   ],
-  "imageTotal": 423,
-  "svgCount": 416,
-  "assetsChecksum": "sha256-f36b872b440effdf",
+  "imageTotal": 428,
+  "svgCount": 418,
+  "assetsChecksum": "sha256-40b10869f421f53b",
   "groundsCount": 249,
-  "overallChecksum": "b0bfc73e3ba0bc48f215b64b92f35668187ba128f411d59b1650a6be77790a5c"
+  "overallChecksum": "b67327c57d398023eaef55faf7b724014cf0e834901bb5de7da9b3a35c397ba1"
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>正弦电压与电容电流的相位关系：电流超前电压 90 度，对应四分之一周期</title>
+  <desc>v(t)=Vp·sin(ωt) 与 i(t)=Ip·sin(ωt+90°) 两条正弦曲线，横轴为相位与时间，纵轴为幅值；标注 Δt=T/4=5ms（50Hz）</desc>
+  <rect width="660" height="340" fill="#ffffff"/>
+  <!-- 坐标轴 -->
+  <line x1="70" y1="40" x2="70" y2="300" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="70" y1="180" x2="640" y2="180" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="78" y="34" font-size="13" fill="#222a32">幅值</text>
+  <text x="596" y="172" font-size="13" fill="#222a32">相位 / 时间</text>
+  <text x="58" y="185" font-size="12" fill="#222a32" text-anchor="end">0</text>
+  <text x="58" y="96" font-size="12" fill="#222a32" text-anchor="end">+Vp</text>
+  <text x="58" y="272" font-size="12" fill="#222a32" text-anchor="end">−Vp</text>
+  <!-- 相位刻度 -->
+  <line x1="90" y1="180" x2="90" y2="304" stroke="#c9d3de" stroke-width="1.4" stroke-dasharray="4 4"/>
+  <line x1="210" y1="90" x2="210" y2="304" stroke="#c9d3de" stroke-width="1.4" stroke-dasharray="4 4"/>
+  <line x1="330" y1="180" x2="330" y2="304" stroke="#c9d3de" stroke-width="1.4" stroke-dasharray="4 4"/>
+  <line x1="450" y1="270" x2="450" y2="304" stroke="#c9d3de" stroke-width="1.4" stroke-dasharray="4 4"/>
+  <line x1="570" y1="180" x2="570" y2="304" stroke="#c9d3de" stroke-width="1.4" stroke-dasharray="4 4"/>
+  <text x="90" y="320" font-size="12" fill="#222a32" text-anchor="middle">0°</text>
+  <text x="210" y="320" font-size="12" fill="#222a32" text-anchor="middle">90°</text>
+  <text x="330" y="320" font-size="12" fill="#222a32" text-anchor="middle">180°</text>
+  <text x="450" y="320" font-size="12" fill="#222a32" text-anchor="middle">270°</text>
+  <text x="570" y="320" font-size="12" fill="#222a32" text-anchor="middle">360°</text>
+  <!-- 电压曲线 v(t) -->
+  <polyline points="90.0,180.0 103.3,164.4 116.7,149.2 130.0,135.0 143.3,122.1 156.7,111.1 170.0,102.1 183.3,95.4 196.7,91.4 210.0,90.0 223.3,91.4 236.7,95.4 250.0,102.1 263.3,111.1 276.7,122.1 290.0,135.0 303.3,149.2 316.7,164.4 330.0,180.0 343.3,195.6 356.7,210.8 370.0,225.0 383.3,237.9 396.7,248.9 410.0,257.9 423.3,264.6 436.7,268.6 450.0,270.0 463.3,268.6 476.7,264.6 490.0,257.9 503.3,248.9 516.7,237.9 530.0,225.0 543.3,210.8 556.7,195.6 570.0,180.0" fill="none" stroke="#1a4f8b" stroke-width="2.6" stroke-linejoin="round"/>
+  <!-- 电流曲线 i(t)，超前 90° -->
+  <polyline points="90.0,90.0 103.3,91.4 116.7,95.4 130.0,102.1 143.3,111.1 156.7,122.1 170.0,135.0 183.3,149.2 196.7,164.4 210.0,180.0 223.3,195.6 236.7,210.8 250.0,225.0 263.3,237.9 276.7,248.9 290.0,257.9 303.3,264.6 316.7,268.6 330.0,270.0 343.3,268.6 356.7,264.6 370.0,257.9 383.3,248.9 396.7,237.9 410.0,225.0 423.3,210.8 436.7,195.6 450.0,180.0 463.3,164.4 476.7,149.2 490.0,135.0 503.3,122.1 516.7,111.1 530.0,102.1 543.3,95.4 556.7,91.4 570.0,90.0" fill="none" stroke="#b5642e" stroke-width="2.6" stroke-linejoin="round"/>
+  <!-- 图例 -->
+  <line x1="400" y1="52" x2="436" y2="52" stroke="#1a4f8b" stroke-width="3"/>
+  <text x="444" y="57" font-size="13" fill="#1a4f8b">v(t) = Vp·sin(ωt)</text>
+  <line x1="400" y1="76" x2="436" y2="76" stroke="#b5642e" stroke-width="3"/>
+  <text x="444" y="81" font-size="13" fill="#b5642e">i(t) = Ip·sin(ωt + 90°)</text>
+  <!-- 时刻差标注 -->
+  <line x1="90" y1="298" x2="210" y2="298" stroke="#2b3a4a" stroke-width="1.4"/>
+  <line x1="90" y1="292" x2="90" y2="304" stroke="#2b3a4a" stroke-width="1.4"/>
+  <line x1="210" y1="292" x2="210" y2="304" stroke="#2b3a4a" stroke-width="1.4"/>
+  <text x="238" y="296" font-size="13" fill="#222a32">Δt = T/4 = 5 ms（50 Hz）</text>
+</svg>
