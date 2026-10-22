@@ -15,6 +15,7 @@
 | [ADR-0007](ADR-0007.md) | 学习数据与离线双形态统一协议（迁移隔离/持久化反馈/章节 id） | Accepted（阶段 A 实施完成，未 push） |
 | [ADR-0008](ADR-0008.md) | 内容 frontmatter schema 以现状为准（id/status/sources 必填） | Accepted |
 | [ADR-0009](ADR-0009.md) | 内容指纹覆盖 SVG 字节 + 快照基线不被静默覆盖 | Accepted |
+| [ADR-0010](ADR-0010.md) | 客户端包体预算：ECharts 按需加载（theme chunk 1.15MB → 113KB） | Accepted |
 
 ## 规则
 
