@@ -1,0 +1,83 @@
+<svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>N 沟道增强型 MOSFET 的剖面结构、沟道与体二极管等效电路</title>
+  <rect width="760" height="380" fill="#ffffff"/>
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#222a32">N 沟道增强型 MOSFET：结构、沟道与体二极管</text>
+
+  <!-- ============ 左：剖面 ============ -->
+  <text x="60" y="72" font-size="14" font-weight="700" fill="#1a4f8b">剖面（增强型，V_GS 大于 V_th 时形成 n 沟道）</text>
+
+  <!-- 端子 -->
+  <line x1="115" y1="112" x2="115" y2="60" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="115" y="52" font-size="14" fill="#1a4f8b" font-weight="700" text-anchor="middle">S 源极</text>
+  <line x1="200" y1="88" x2="200" y2="62" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="200" y="52" font-size="14" fill="#1a4f8b" font-weight="700" text-anchor="middle">G 栅极</text>
+  <line x1="285" y1="112" x2="285" y2="60" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="285" y="52" font-size="14" fill="#1a4f8b" font-weight="700" text-anchor="middle">D 漏极</text>
+
+  <!-- p 衬底 -->
+  <rect x="60" y="120" width="280" height="170" fill="#eef2f6" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="200" y="272" font-size="14" fill="#5c6772" text-anchor="middle">p 衬底（体）</text>
+
+  <!-- n+ 源/漏 -->
+  <rect x="80" y="120" width="70" height="52" fill="#cfe0f0" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="250" y="120" width="70" height="52" fill="#cfe0f0" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="115" y="152" font-size="13" fill="#2b3a4a" text-anchor="middle">n+ 源区</text>
+  <text x="285" y="152" font-size="13" fill="#2b3a4a" text-anchor="middle">n+ 漏区</text>
+
+  <!-- 栅氧化层与栅极 -->
+  <rect x="150" y="112" width="100" height="8" fill="#d9cff2" stroke="#6d44a0" stroke-width="1.6"/>
+  <rect x="160" y="86" width="80" height="26" fill="#f3e9f7" stroke="#6d44a0" stroke-width="1.8"/>
+  <text x="200" y="104" font-size="13" fill="#6d44a0" text-anchor="middle">多晶硅栅</text>
+
+
+  <!-- 沟道 -->
+  <line x1="150" y1="120" x2="250" y2="120" stroke="#b5642e" stroke-width="3.2" stroke-dasharray="7 4"/>
+  <text x="200" y="138" font-size="12" fill="#b5642e" text-anchor="middle">反型层（沟道）</text>
+
+  <!-- 体区到源极的短接 -->
+  <line x1="200" y1="240" x2="200" y2="290" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="115" y1="290" x2="200" y2="290" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="115" y1="172" x2="115" y2="290" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="212" y="232" font-size="12" fill="#5c6772">p 体与源短接</text>
+
+  <!-- 体二极管说明（左） -->
+  <text x="60" y="320" font-size="12.5" fill="#5c6772">紫色薄层 = 栅氧化层（SiO2，nm 级）；橙色虚线 = 反型沟道。</text>
+  <text x="60" y="338" font-size="12.5" fill="#5c6772">p 体 / n 漏之间天然形成反并联二极管，方向 S → D，</text>
+  <text x="60" y="356" font-size="12.5" fill="#5c6772">它不能单独关断，是半桥死区与同步整流的关键寄生元件。</text>
+
+  <!-- ============ 右：等效电路 ============ -->
+  <line x1="380" y1="72" x2="380" y2="348" stroke="#d9d5c9" stroke-width="1.5"/>
+  <text x="410" y="72" font-size="14" font-weight="700" fill="#1a4f8b">等效电路：沟道电阻 R_DS(on) 与体二极管</text>
+
+  <!-- 栅极 -->
+  <line x1="430" y1="180" x2="480" y2="180" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="422" y="185" font-size="14" fill="#1a4f8b" font-weight="700" text-anchor="end">G</text>
+  <line x1="480" y1="140" x2="480" y2="220" stroke="#2b3a4a" stroke-width="2.6"/>
+  <!-- 沟道 -->
+  <line x1="510" y1="140" x2="510" y2="220" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="510" y1="140" x2="510" y2="100" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="510" y1="100" x2="510" y2="88" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="522" y="103" font-size="14" fill="#1a4f8b" font-weight="700">D</text>
+  <line x1="510" y1="220" x2="510" y2="270" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="522" y="274" font-size="14" fill="#1a4f8b" font-weight="700">S</text>
+  <!-- 源极箭头（N 沟道，箭头指向沟道） -->
+  <polygon points="510,220 496,227 510,234" fill="#2b3a4a"/>
+  <text x="528" y="190" font-size="12.5" fill="#b5642e" font-weight="700">R_DS(on)</text>
+  <line x1="526" y1="186" x2="512" y2="186" stroke="#b5642e" stroke-width="1.6"/>
+
+  <!-- 体二极管支路 -->
+  <line x1="510" y1="88" x2="590" y2="88" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="590" y1="88" x2="590" y2="230" stroke="#2b3a4a" stroke-width="2"/>
+  <polygon points="574,230 606,230 590,204" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="574" y1="204" x2="606" y2="204" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="590" y1="230" x2="590" y2="270" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="510" y1="270" x2="590" y2="270" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="610" y="210" font-size="12.5" fill="#5c6772">体二极管</text>
+  <text x="610" y="228" font-size="12.5" fill="#5c6772">S → D</text>
+  <text x="610" y="246" font-size="12" fill="#5c6772">死区时导通</text>
+
+  <!-- 电容参数 -->
+  <text x="410" y="300" font-size="12.5" fill="#222a32">C_iss = C_gs + C_gd</text>
+  <text x="410" y="320" font-size="12.5" fill="#222a32">C_oss = C_ds + C_gd</text>
+  <text x="410" y="340" font-size="12.5" fill="#222a32">C_rss = C_gd（米勒电容）</text>
+</svg>
