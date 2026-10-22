@@ -45,6 +45,10 @@ jobs:
   build:
     needs: enumerate
     runs-on: ubuntu-latest
+    # 内容到 4.6MB 后默认堆不够；.npmrc 的 node-options 在个别 pnpm 版本下不传给子进程，
+    # 这里显式再设一次，保证 CI 与本地一致（见 docs/adr/ADR-0011.md）。
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
     strategy:
       fail-fast: false
       matrix:
@@ -69,8 +73,22 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       # 直接按 workspace 包名构建，不依赖根 package.json 里逐册手写的 build:<app>
+      # 失败时把日志尾部写成 ::error:: annotation —— 这样不带凭证也能从
+      # /commits/<sha>/check-runs 的 annotations 接口读到真实原因（Actions 日志需认证）。
       - name: Build app (VitePress, base 由 VP_BASE 派生)
-        run: pnpm -F "@lubook/${{ matrix.app }}" docs:build
+        shell: bash
+        run: |
+          set +e
+          pnpm -F "@lubook/${{ matrix.app }}" docs:build > /tmp/build.log 2>&1
+          rc=$?
+          tail -n 40 /tmp/build.log
+          if [ $rc -ne 0 ]; then
+            tail -n 25 /tmp/build.log \
+              | sed -e 's/%/%25/g' -e 's/\r//g' \
+              | tr '\n' ' ' > /tmp/msg.txt
+            echo "::error title=VitePress build failed (rc=$rc)::$(cat /tmp/msg.txt)"
+          fi
+          exit $rc
 
   content-gate:
     needs: [enumerate, build]
