@@ -48,7 +48,7 @@ jobs:
     # 内容到 4.6MB 后默认堆不够；.npmrc 的 node-options 在个别 pnpm 版本下不传给子进程，
     # 这里显式再设一次，保证 CI 与本地一致（见 docs/adr/ADR-0011.md）。
     env:
-      NODE_OPTIONS: --max-old-space-size=6144
+      NODE_OPTIONS: --max-old-space-size=8192
     strategy:
       fail-fast: false
       matrix:

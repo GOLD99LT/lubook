@@ -10,7 +10,7 @@
     "predocs:dev": "pnpm run gen",
     "predocs:build": "pnpm run gen",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
+    "docs:build": "node ../../packages/tooling/bin/vitepress-with-heap.mjs build docs",
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {

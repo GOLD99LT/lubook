@@ -14,7 +14,7 @@ permissions:
 # 内容到 4.6MB 后 VitePress 默认堆不够；本工作流也会整体重构建（bundle:pages），
 # 因此在工作流级统一抬高堆上限，避免逐个 job 漏配（见 docs/adr/ADR-0011.md）。
 env:
-  NODE_OPTIONS: --max-old-space-size=6144
+  NODE_OPTIONS: --max-old-space-size=8192
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
