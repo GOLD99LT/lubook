@@ -4,7 +4,7 @@
 > 状态定义：**规划**（只有文档）｜**实现**（代码存在）｜**本地验证**（本机跑过并有证据）｜**线上验证**（真实站点确认）。
 > 更新规则：每次合并进 `main` 的改动，都必须同步更新本表；证据写命令或提交号，不写"看起来正常"。
 
-- 最后更新：2026-10-22
+- 最后更新：2026-10-22（已上线）
 - 代码基线：`main` @ `5931963`（**比 `origin/main` (`c6f0002`) 领先 6 个提交，尚未 push**）
 
 ---
@@ -124,3 +124,30 @@
 | P3 | 离线单文件不生成标题 id，章内 `#锚点` 无效（当前正文 0 处使用） | `build_single_html.py` render |
 | P3 | 140 章平均 1,652 中文字，深度不足；本轮只修错，未加深 | 内容 |
 | P3 | `sources/` 生成输入永久缺失，`merge_sources.py` 停 122 章 | `sources.list.yaml` |
+---
+
+## 9. 上线记录（2026-10-22）
+
+| 项 | 值 |
+|---|---|
+| 合并方式 | `fix/batch0-hardening` → `main` 快进合并（14 个提交） |
+| 部署提交 | `d33b556` |
+| Pages 部署 run | https://github.com/GOLD99LT/lubook/actions/runs/39746343362（success） |
+| 线上入口 | https://gold99lt.github.io/lubook/ ｜ https://gold99lt.github.io/lubook/hardware/ |
+| Cloudflare 镜像 | **未更新**（deploy-cloudflare.yml 仅 workflow_dispatch，需手动触发） |
+
+### 上线时踩到并修掉的坑
+
+首次 push（`fb69742`）后 **Deploy run 显示 cancelled**：同一个 commit 起了两个 run——独立的 Quality Gate
+与被 deploy-docs 通过 `workflow_call` 调用的 quality job——两者落在同一个 concurrency 组
+`quality-<ref>` 里，`cancel-in-progress` 让它们互相取消。
+修法：`quality.yml` 的 push 触发排除 `main`（`branches-ignore`），main 的门禁统一由部署 run 内的
+quality job 承担。修复后重新 push（`d33b556`），部署成功。
+
+### 线上实测（发布后，真实浏览器 + HTTP）
+
+- `/lubook/` → 200，标题「路书」，卡片 `<a class="card" href="/lubook/hardware/" target="_self">`，非 404 页。
+- `/lubook/hardware/` → 200，标题「硬件工程师手册」。
+- `/lubook/hardware/basics/voltage-current-power`（无扩展名）→ **200**（GitHub Pages 支持该写法；本地静态服务器不支持，之前本地测试的 404 是服务器差异，不是产物问题）。
+- 章节页 `/lubook/hardware/opamp/inverting-amplifier` 真实浏览器：61 个公式 **0 错误**、1 个 ECharts canvas、186 项侧边栏、学习面板存在。
+- 内容勘误已上线：T 型网络改为 1.2MΩ（旧 310k 已消失）、`GB 4943.1-2022`、加强绝缘判定文案均在线上页面中。
