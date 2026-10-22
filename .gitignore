@@ -48,9 +48,22 @@ docs/public/
 .generated/
 
 # 多 app 合并部署目录（build_pages_bundle.py 产出）；本地预览根（不入库）
+# 注意：任何以 .bundle 开头的临时输出目录都要忽略（历史上漏过 .bundle-root/）
 .bundle/
 .bundle_test/
+.bundle-root/
+.bundle*/
 .preview_root/
+
+# 本地 pnpm store（本机把 store 放在仓库内时使用）
+.pnpm-store/
+
+# Cloudflare wrangler 本地状态
+.wrangler/
+
+# 日志
+*.log
+pnpm-debug.log*
 
 # P2 起：apps/templates 内 VitePress 生成的侧边栏/目录模块与同步的 public（不入库）
 **/.vitepress/sidebar.generated.mjs

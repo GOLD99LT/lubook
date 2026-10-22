@@ -85,16 +85,38 @@ def main():
     ap = add_common_args()
     ap.add_argument('--snapshot-prefix', default=None,
                     help='快照文件名前缀（默认 = --app）')
+    ap.add_argument('--kind', choices=['content', 'portal'], default=None,
+                    help='显式声明 app 类型；缺省时按 SUMMARY.md 与门户名单推断')
     args = ap.parse_args()
 
     app = args.app
     src = resolve_src(args)
     prefix = args.snapshot_prefix or app
 
-    is_content = os.path.exists(os.path.join(src, 'SUMMARY.md'))
+    # ---- 门禁必须能失败（F12）------------------------------------------------
+    # 旧逻辑只看 <src>/SUMMARY.md 是否存在，源目录写错/拼错时会被当成"门户"，
+    # 于是零检查、退出 0。这里改为显式判定 app 类型：源目录必须存在；
+    # 内容 app 必须有 SUMMARY.md；只有登记在案的门户 app 才允许跳过内容检查。
+    PORTAL_APPS = {'portal'}
+    if not os.path.isdir(src):
+        print('=== run_quality: app=%s src=%s ===' % (app, src))
+        print('[FAIL] 源目录不存在：%s' % src)
+        print('  （检查 --app / --src 拼写；门户也需要真实存在的目录）')
+        sys.exit(2)
+
+    has_summary = os.path.exists(os.path.join(src, 'SUMMARY.md'))
+    if args.kind == 'content' or (args.kind is None and has_summary):
+        is_content = True
+    elif args.kind == 'portal' or (args.kind is None and app in PORTAL_APPS):
+        is_content = False
+    else:
+        print('=== run_quality: app=%s src=%s ===' % (app, src))
+        print('[FAIL] 内容 app 缺少 SUMMARY.md：%s' % os.path.join(src, 'SUMMARY.md'))
+        print('  （若这是门户，请加 --kind portal；若目录写错，请修正 --src）')
+        sys.exit(2)
+
     print('=== run_quality: app=%s src=%s 快照前缀=%s（内容 app=%s）==='
           % (app, src, prefix, is_content))
-
     fp = None
     if is_content:
         print('\n==== 1/5 manifest 一致性与快照门禁 ====')

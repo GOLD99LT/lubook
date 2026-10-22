@@ -13,7 +13,7 @@ build_single_html.py — 把指定 app 的 Markdown 手册构建为单个自包�
 若传入 --manifest 且文件存在，则在构建后按其对账（章节数/标题/图片引用数）；
 manifest 缺失时维持现状自解析，不重写 Markdown（ARCHITECTURE §6）。
 """
-import os, re, sys, json, base64, html as H, posixpath
+import os, re, sys, json, base64, hashlib, html as H, posixpath
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from paths_util import (REPO_ROOT, DEFAULT_SRC, DEFAULT_VENDOR,
@@ -479,6 +479,15 @@ def parse_blocks(lines, base_dir):
         j = i; buf = []
         while j < n and lines[j].strip() and not is_block_start(lines[j]):
             buf.append(lines[j].strip()); j += 1
+        if j == i:
+            # 兜底：这一行被 is_block_start 认领，但上面的分支都不认（例如
+            # ```c++ / ````::::` / 无前导竖线的表格分隔行 / 含括号的图片路径）。
+            # 旧实现会在这里原地打转、无限追加 <p></p>，把构建挂死。
+            # 现在按普通文本输出并前进一行，保证循环一定推进。
+            warn('无法识别为块，已按普通文本输出: %s' % lines[i].strip()[:80])
+            out.append('<p>%s</p>' % inline(lines[i].strip()))
+            i += 1
+            continue
         out.append('<p>%s</p>' % inline(' '.join(buf)))
         i = j
     return '\n'.join(out)
@@ -1216,14 +1225,35 @@ def _count_images(body):
     return n
 
 
-def reconcile_with_manifest(cards, manifest_path):
-    """按 content-manifest.json 对账：章节数 / id 序列 / 标题序列 / 图片引用数。
-    文件缺失时仅告警并跳过（维持自解析口径）；对账失败以非零退出。"""
+def _norm_for_hash(raw):
+    """与 freeze_manifest.normalize_text_for_hash 同口径：CRLF/CR -> LF。"""
+    return raw.replace('\r\n', '\n').replace('\r', '\n')
+
+
+def _doc_checksum(rel):
+    """按 freeze_manifest 的口径重算单章 checksum；文件缺失返回 None。"""
+    fp = os.path.join(DOCS, rel.replace('/', os.sep))
+    if not os.path.exists(fp):
+        return None
+    with open(fp, 'rb') as f:
+        raw = f.read().decode('utf-8', errors='replace')
+    return hashlib.sha256(_norm_for_hash(raw).encode('utf-8')).hexdigest()
+
+
+def reconcile_with_manifest(cards, manifest_path, allow_missing=False):
+    """按 content-manifest.json 对账：章节数 / id 序列 / 标题序列 / 图片引用数
+    + 每章 checksum + 整体 revision。
+
+    文件缺失时默认失败（门禁不能把"没对账"当成"对账通过"）；开发期可用
+    --allow-missing-manifest 显式放宽。对账失败以非零退出。"""
     if not manifest_path:
         return
     if not os.path.exists(manifest_path):
-        print('[manifest] 未找到 %s，跳过对账（维持自解析）' % manifest_path)
-        return
+        if allow_missing:
+            print('[manifest] 未找到 %s，已按 --allow-missing-manifest 跳过对账' % manifest_path)
+            return
+        print('[manifest] 失败：显式传入了 --manifest 但文件不存在：%s' % manifest_path)
+        sys.exit(1)
     with open(manifest_path, encoding='utf-8') as f:
         man = json.load(f)
     docs = man.get('docs', [])
@@ -1238,12 +1268,37 @@ def reconcile_with_manifest(cards, manifest_path):
     man_imgs = sum(len(d.get('images', [])) for d in docs)
     if built_imgs != man_imgs:
         problems.append('图片引用数 离线=%d manifest=%d' % (built_imgs, man_imgs))
+
+    # 内容指纹：逐章重算 checksum，再由 checksum 复算 revision（F11）
+    bad_ck = []
+    for d in docs:
+        want = d.get('checksum')
+        if not want:
+            continue
+        got = _doc_checksum(d['id'])
+        if got is None:
+            bad_ck.append('%s（源文件缺失）' % d['id'])
+        elif got != want:
+            bad_ck.append('%s（manifest=%s… 实际=%s…）' % (d['id'], want[:12], got[:12]))
+    if bad_ck:
+        problems.append('章节 checksum 与 manifest 不一致 %d 处：%s'
+                        % (len(bad_ck), '; '.join(bad_ck[:5])))
+
+    if docs and all(d.get('checksum') for d in docs):
+        overall = hashlib.sha256(
+            '\n'.join('%s\t%s' % (d['id'], d['checksum']) for d in docs).encode('utf-8')
+        ).hexdigest()
+        expect_rev = 'sha256-' + overall[:16]
+        if man.get('revision') != expect_rev:
+            problems.append('revision 与内容不符 manifest=%s 复算=%s'
+                            % (man.get('revision'), expect_rev))
+
     if problems:
         print('[manifest] 对账失败:')
         for p in problems:
             print('  [MISMATCH] ' + p)
         sys.exit(1)
-    print('[manifest] 对账一致：%d 章 / %d 处图片 / revision=%s'
+    print('[manifest] 对账一致：%d 章 / %d 处图片 / checksum 逐章校验通过 / revision=%s'
           % (len(cards), built_imgs, man.get('revision')))
 
 
@@ -1252,7 +1307,10 @@ def main():
     ap.add_argument('--published', action='store_true',
                     help='只构建 status: published 的章节')
     ap.add_argument('--manifest', default='',
-                    help='可选 content-manifest.json 路径；存在则构建后对账，缺失则跳过')
+                    help='content-manifest.json 路径；传入则构建后逐章校验 checksum 与 revision，'
+                         '文件缺失即失败（门禁用）')
+    ap.add_argument('--allow-missing-manifest', action='store_true',
+                    help='开发期放宽：--manifest 指向的文件不存在时只告警、跳过对账')
     args = ap.parse_args()
 
     global DOCS, DIST, VENDOR
@@ -1302,6 +1360,9 @@ def main():
         except Exception:
             revision = 'unknown'
 
+    # 对账放在写盘之前：对账不通过就不产出成品，避免留下"看起来构建成功"的坏产物。
+    reconcile_with_manifest(cards, args.manifest, args.allow_missing_manifest)
+
     for c in cards:
         c['html'] = md_to_html(c)
     tree = build_tree(cards)
@@ -1332,7 +1393,6 @@ def main():
     print('构建完成: %s（%d 章）' % (out, len(cards)))
     if WARNINGS:
         print('共 %d 条警告' % len(WARNINGS))
-    reconcile_with_manifest(cards, args.manifest)
 
 if __name__ == '__main__':
     main()

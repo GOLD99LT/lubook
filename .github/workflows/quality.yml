@@ -2,12 +2,16 @@ name: Quality Gate
 
 # 分支与 PR 多 app 质量门禁：门户 + 各分册在线构建（矩阵）、内容分册 manifest 一致性
 # + 质检、离线单文件、learning 单测。不部署；部署见 deploy-docs.yml / deploy-cloudflare.yml。
+#
+# workflow_call：让部署流水线把它当前置 job 调用（F05）——push main 时部署必须
+# 先等门禁跑绿，否则同一次提交会出现“门禁红、线上升”。
 on:
   push:
     branches:
       - '**'
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 concurrency:
   group: quality-${{ github.ref }}
