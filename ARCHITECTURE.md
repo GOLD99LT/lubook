@@ -116,7 +116,7 @@ interface ContentDoc {
 
 **本版关键取舍**：
 - `id` 直接用相对路径（与现状等价），**不回填 140 章独立 id**；独立 id 与路径解耦列入 Backlog（B2）。
-- `status / sources / review` 字段**可选**，老内容默认 `published`，不回填；状态机/来源模型列 Backlog（B3/B4/B5）。
+- `status / sources` 为**必填**（与 `validate.py` 一致，见 ADR-0008）；`review` 字段暂不要求。状态机/来源模型列 Backlog（B3/B4/B5）。
 - checksum、统计、图片清单由生成器自动计算，**零手工内容改动**。
 
 构建时强校验（立即失败）：id/URL 重复；SUMMARY 有但磁盘无、磁盘有但未登记；文件名-id-URL 不一致；order/part 冲突；`draft` 出现在生产构建。
@@ -297,7 +297,7 @@ interface ContentDoc {
 ## 14. 本版明确不做（避免过度工程，均入 Backlog 待评审）
 
 1. **不**把 Python 离线/质检全量重写为 Node（保留零依赖；B1 仅做非阻塞 POC）。
-2. **不**回填 140 章独立 id/status/sources/review；id=路径，新字段可选（B2–B5）。
+2. **不**为重构而回填已有章节；但新章必须写全 `id/status/sources`（ADR-0008）。`review` 与新稳定 id 列 Backlog（B2–B5）。
 3. **不**引入 IndexedDB，保持 localStorage + 仓储接口（B6）。
 4. **不**建正式技术/编辑审核状态机、不建 CODEOWNERS（B5）。
 5. **不**做 embedded/embedded-linux 实际内容、不做仿真/题库/计算器/Giscus/PWA/云同步/后端/英文版/门户增强（P4/P5）；门户仅极简卡片。

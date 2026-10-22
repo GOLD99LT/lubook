@@ -56,6 +56,13 @@ function retrySave() {
   else savedHint.value = '未保存'
 }
 
+// 启动期数据损坏时的唯一出口：明确告知会丢弃本地数据，用户确认后才重置。
+function resetLocal() {
+  if (!window.confirm('将删除本浏览器中无法解析的学习数据（进度/收藏/笔记），且不可恢复。建议先"立即导出备份"。确定继续？')) return
+  const r = learning.resetLocalData()
+  savedHint.value = r.ok ? '已重置' : '未保存'
+}
+
 // 本地写不进去时的兜底：把当前会话内存数据导出成文件。
 function exportBackup() {
   const json = learning.exportJSON()
@@ -109,8 +116,11 @@ function exportBackup() {
       <span class="hh-ls-unsaved-msg">
         本地保存失败（{{ learning.saveState.error || '存储不可用' }}），当前会话内数据仍保留。
       </span>
-      <button type="button" class="hh-ls-unsaved-btn" @click="retrySave">重试保存</button>
+      <button v-if="!learning.saveState.bootFailed" type="button" class="hh-ls-unsaved-btn" @click="retrySave">重试保存</button>
       <button type="button" class="hh-ls-unsaved-btn" @click="exportBackup">立即导出备份</button>
+      <button v-if="learning.saveState.bootFailed" type="button" class="hh-ls-unsaved-btn" @click="resetLocal">
+        丢弃本地数据并重新开始
+      </button>
     </div>
 
     <div class="hh-learning-notes">

@@ -109,9 +109,10 @@ for rel in summary_paths:
         warn(rel, '二级标题过少（%s），模块可能不全' % h2)
 
 # ---- 孤儿章节（磁盘有、SUMMARY 无）----
+# 跳过清单必须与 freeze_manifest.py 的 skip 一致，否则 index.md 会恒定产生一条假告警。
 for root, _d, files in os.walk(DOCS):
     for f in files:
-        if f.endswith('.md') and f not in ('SUMMARY.md', 'LICENSE-docs.md'):
+        if f.endswith('.md') and f not in ('index.md', 'SUMMARY.md', 'LICENSE-docs.md'):
             rel = os.path.relpath(os.path.join(root, f), DOCS).replace(os.sep, '/')
             if rel not in summary_paths:
                 warn(rel, '磁盘文件未出现在 SUMMARY（孤儿章节）')

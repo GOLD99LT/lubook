@@ -1,9 +1,14 @@
 ---
+id: hello
 title: Hello · 示例章
 part: 1
 chapter: 示例分组
+order: 5
 tags: [示例, 入门]
 difficulty: 1
+status: published
+sources:
+  - templates/site-template（脚手架自带示例）
 ---
 
 # Hello · 示例章
@@ -24,7 +29,7 @@ $$
 D=\frac{V_{out}}{V_{in}}
 $$
 
-::: tip 示例
+::: example 示例
 这是一个 `tip` 容器；shared-config 还提供 motivation / analogy / example / pitfall / advanced。
 :::
 

@@ -142,6 +142,7 @@ export function createLearningFacade(
     get saveState() {
       return repository.saveState
     },
-    retrySave: () => repository.retryPersist()
+    retrySave: () => repository.retryPersist(),
+    resetLocalData: () => repository.resetLocalData()
   }
 }

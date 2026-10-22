@@ -414,5 +414,38 @@ console.log('[8] F09 迁移/导入未知 id 落 tombstone：不落库、不计�
     `导入：未知章不计完成率，已知章收藏保留（done=${st2.done} learning=${st2.learning} fav=${st2.favCount}）`)
 }
 
+// [9] 启动期数据损坏：不得静默清空、不得被后续写入覆盖
+{
+  const store = new MemStorage()
+  const KEY = 'lubook.v1.hardware.learning'
+  const corrupt = '{"schemaVersion":1,"appId":"hardware","progress":{"a.md":"done"},"favorites":{},"notes":'
+  store.setItem(KEY, corrupt)
+
+  const repo = createLearningRepository({
+    appId: 'hardware',
+    totalChapters: 1,
+    knownIds: ['a.md'],
+    storage: store
+  })
+  assert(repo.saveState.ok === false, '损坏数据：saveState.ok=false')
+  assert(repo.saveState.bootFailed === true, '损坏数据：saveState.bootFailed=true')
+  assert(repo.saveState.error != null, '损坏数据：saveState.error 给出原因')
+
+  // 关键：一次普通写操作不得把原数据覆盖掉
+  const w = repo.setStatus('a.md', 'done')
+  assert(w.ok === false, '损坏数据：写操作返回 ok:false')
+  assert(store.getItem(KEY) === corrupt, '损坏数据：原存储内容未被覆盖')
+
+  // 显式重置后才允许重新落盘
+  const r = repo.resetLocalData()
+  assert(r.ok === true, '损坏数据：resetLocalData 成功')
+  assert(repo.saveState.bootFailed === false, '损坏数据：重置后解除 bootFailed')
+  const after = JSON.parse(store.getItem(KEY) as string)
+  assert(after.schemaVersion === 1 && after.appId === 'hardware',
+    '损坏数据：重置后写入合法信封')
+  const w2 = repo.setStatus('a.md', 'done')
+  assert(w2.ok === true, '损坏数据：重置后写操作恢复')
+}
+
 console.log(`\n结果: ${passed} passed, ${failed} failed`)
 process.exit(failed ? 1 : 0)

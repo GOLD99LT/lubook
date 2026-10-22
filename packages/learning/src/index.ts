@@ -236,7 +236,17 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
   // 响应式保存状态（ADR-0007 §5）：写失败时内存状态仍保留，UI 据此提示"未保存"。
   const saveState = reactive<SaveState>({ ok: true, error: null, updatedAt: null })
 
+  // 启动时若发现本地数据损坏/版本不符，禁止自动写回：否则一次普通操作就会用空状态
+  // 覆盖掉用户原有数据。此时只读不写，由用户导出或显式重置。
+  let bootFailed = false
+
   function persist(): PersistResult {
+    if (bootFailed) {
+      const error = saveState.error ?? '本地数据无法解析，已停止自动保存以免覆盖原数据'
+      saveState.ok = false
+      saveState.error = error
+      return { ok: false, error }
+    }
     try {
       const payload: PersistedShape = {
         schemaVersion: SCHEMA_VERSION,
@@ -294,6 +304,12 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
           return
         }
         warn('新格式数据缺失或损坏，按空数据启动', parsed)
+        // 关键：不清空、不写回。置失败态，让 UI 提示"未保存"并禁用自动保存，
+        // 用户至少可以导出或人工排查，而不是被一次点击静默覆盖。
+        bootFailed = true
+        saveState.ok = false
+        saveState.bootFailed = true
+        saveState.error = '本地学习数据无法解析（可能来自旧版本或已损坏），已停止自动保存以免覆盖原数据'
         return
       }
       // 新键不存在 → 依次读取显式声明的旧键（从旧到新），归一化后合并；未知 id 落 tombstone。
@@ -549,6 +565,25 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     return persist()
   }
 
+  /**
+   * 显式重置：删除无法解析的本地键，清空内存状态，解除 bootFailed 后重新落盘。
+   * 只在用户确认要丢弃旧数据时调用。
+   */
+  function resetLocalData(): PersistResult {
+    try {
+      storage.removeItem(newKey)
+    } catch (e) {
+      warn('删除损坏的本地数据失败', e)
+    }
+    state.progress = {}
+    state.favorites = {}
+    state.notes = {}
+    bootFailed = false
+    saveState.bootFailed = false
+    saveState.error = null
+    return persist()
+  }
+
   boot()
 
   return {
@@ -563,7 +598,8 @@ export function createLearningRepository(opts: CreateLearningRepositoryOptions):
     importData,
     clearAll,
     saveState,
-    retryPersist: persist
+    retryPersist: persist,
+    resetLocalData
   }
 }
 

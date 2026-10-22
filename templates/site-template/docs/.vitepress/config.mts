@@ -17,7 +17,8 @@ export default defineBookConfig({
   appId: APP_ID,
   title: TITLE,
   description: DESCRIPTION,
-  base: '/',
+  // 不要写死 base：defineBookConfig 按 VP_BASE 派生（门户=VP_BASE，分册=VP_BASE+'<slug>/'）。
+  // 显式 base 优先级最高，写死 '/' 会让复制出的新分册部署到 /lubook/<slug>/ 时资源全 404。
   nav: NAV,
   sidebar,
   partRegistry: PART_REGISTRY,

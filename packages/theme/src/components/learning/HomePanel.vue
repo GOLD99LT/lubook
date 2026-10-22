@@ -2,6 +2,7 @@
 // 首页学习面板：整体进度、我的收藏、JSON 导出/导入。
 // 持久化失败时不显示成功提示：依据仓储 saveState 给出失败横幅、重试与导出兜底（ADR-0007 §5）。
 import { computed, ref } from 'vue'
+import { withBase } from 'vitepress'
 import { useLearning } from './store'
 
 const learning = useLearning()
@@ -9,8 +10,10 @@ const s = computed(() => learning.stats())
 const saveState = computed(() => learning.saveState)
 const persistFailed = computed(() => !saveState.value.ok)
 
+// catalog 里的 link 是站点根相对路径（如 /basics/foo），不含部署 base。
+// 部署在 /lubook/hardware/ 这类子路径下时必须过 withBase，否则点收藏会 404/回首页。
 const favList = computed(() =>
-  learning.favorites().map((f) => ({ path: f.id, title: f.title, link: f.link }))
+  learning.favorites().map((f) => ({ path: f.id, title: f.title, link: withBase(f.link) }))
 )
 
 const toast = ref('')

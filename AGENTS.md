@@ -11,7 +11,7 @@
 1. **Markdown 是唯一事实源**；内容文件只 `git mv`，Git 对内容仅见 rename，不改写 140 章正文与 411 SVG。
 2. **现有线上 URL 永不变**；路由快照（`tests/<app>.routes.snapshot.json`）必须零差异，任何 URL 变更先写 ADR。
 3. **不把 Python 离线/质检重写为 Node**；离线构建保持零第三方依赖。
-4. **不回填** 140 章 id/status/sources（id 即相对路径）；不引入 IndexedDB；不建审核状态机/CODEOWNERS。
+4. **不回填** 已有章节（不为重构而批量改写正文/frontmatter）；但**新章必须写全** `id/status/sources` 等字段（ADR-0008）。不引入 IndexedDB；不建审核状态机/CODEOWNERS。
 5. 不做 embedded/embedded-linux 实际内容、门户增强/仿真/题库/计算器/Giscus/PWA/云同步/后端/英文版（P4/P5 立项后再说）。
 6. 不部署、不合并 main、不 push、不改 GitHub 仓库设置、不碰 Cloudflare 项目、不买域名，除非用户明确授权。
 7. pnpm 无法启用时**停下反馈**，禁止擅自降级或换 npm/yarn。

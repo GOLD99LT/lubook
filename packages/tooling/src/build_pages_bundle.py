@@ -57,7 +57,7 @@ def guard_out(out, force=False):
     if rel == '.':
         sys.exit('[bundle] 拒绝：--out 不能是仓库根（会删掉整个项目）')
 
-    if rel.startswith('..'):
+    if rel == '..' or rel.startswith('..' + os.sep):
         if not force:
             sys.exit('[bundle] 拒绝：--out 落在仓库外（%s）；确需如此请加 --force-out' % out)
         if os.path.exists(out):

@@ -54,7 +54,7 @@ pnpm verify:all          # 遍历 apps 串联以上（提交前必跑）
 
 ## 不做（避免过度工程）
 
-不把 Python 离线/质检重写为 Node；不回填 140 章 id/status/sources；不引入 IndexedDB；不建审核状态机/CODEOWNERS；不做 embedded/embedded-linux 实际内容、门户增强/仿真/题库/计算器/Giscus/PWA/云同步（这些按 ARCHITECTURE §14 与 REQUIREMENTS 附录 A 立项后再做）。
+不把 Python 离线/质检重写为 Node；不为重构而批量回填已有章节（新章须按 ADR-0008 写全 frontmatter）；不引入 IndexedDB；不建审核状态机/CODEOWNERS；不做 embedded/embedded-linux 实际内容、门户增强/仿真/题库/计算器/Giscus/PWA/云同步（这些按 ARCHITECTURE §14 与 REQUIREMENTS 附录 A 立项后再做）。
 
 ## 许可证
 

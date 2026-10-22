@@ -13,7 +13,7 @@
 ## 2. 文件与命名约定
 
 - 每章一个 Markdown 文件，文件名 = 语义 id（小写英文、连字符），如 `inverting-amplifier.md`。
-- **章节 id 即相对路径**（如 `opamp/inverting-amplifier.md`），frontmatter 不再手写 `id`，也不回填 `status/sources`（见 ADR-0002）。
+- **章节 id 即相对路径**（如 `opamp/inverting-amplifier.md`）；manifest/路由/学习数据用相对路径，frontmatter 的 `id` 只是写作期一致性校验（须等于文件名），见 ADR-0002 与 ADR-0008。
 - 原理图放 `apps/<app>/docs/assets/schematics/<id>.svg`；风格遵循 `packages/tooling/templates/schematic-library.svg`。
 - 稳定路径一旦发布不可更改（改路径=URL 变更，须 ADR）；显示编号由构建时按 SUMMARY 顺序生成，正文中禁止手写"第 N 章"。
 - 交叉引用链接相对路径文件，如 `[反相放大器](../opamp/inverting-amplifier.md)`。
@@ -27,7 +27,7 @@ chapter: 运放应用电路          # 可空
 order: 45                    # 必填，篇内排序，间隔取 5
 tags: [运放, 反相放大]         # 必填，至少1个
 difficulty: 2                # 必填 1入门/2进阶/3深入
-# 不写 id（=相对路径）；status / sources 本期不要求、不回填（ARCHITECTURE §14）
+id: <文件名>                 # 必填，必须等于文件名；status / sources 也必填（ADR-0008）
 ```
 
 ## 4. Markdown 扩展语法（构建脚本支持）
