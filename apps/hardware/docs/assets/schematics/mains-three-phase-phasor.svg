@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 640 420" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>三相相量图：线电压等于相邻相电压之差，长度是相电压的根号三倍，相位超前 30 度</title>
+  <desc>以中性点 N 为原点，L1、L2、L3 三个相电压互差 120 度，长度 220 伏。L2 相电压取反后与 L1 相电压相加，得到 L1-L2 线电压，长度 380 伏，方向超前 L1 相电压 30 度。虚线画出 120 度的菱形，长对角线即线电压。</desc>
+  <defs>
+    <marker id="mtp-arrow-b" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#1a4f8b"/>
+    </marker>
+    <marker id="mtp-arrow-o" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#b5642e"/>
+    </marker>
+    <marker id="mtp-arrow-g" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#4f9e63"/>
+    </marker>
+    <marker id="mtp-arrow-k" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#2b3a4a"/>
+    </marker>
+    <marker id="mtp-arrow-d" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 z" fill="#8a97a4"/>
+    </marker>
+  </defs>
+
+  <rect width="640" height="420" fill="#ffffff"/>
+
+  <!-- 作图用的菱形：N - Va - Vab - (-Vb) -->
+  <line x1="300" y1="285" x2="204.7" y2="230" stroke="#8a97a4" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#mtp-arrow-d)"/>
+  <line x1="300" y1="175" x2="204.7" y2="120" stroke="#8a97a4" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <line x1="204.7" y1="230" x2="204.7" y2="120" stroke="#8a97a4" stroke-width="1.4" stroke-dasharray="5 4"/>
+
+  <!-- 30 度角弧（折线近似） -->
+  <polyline points="300,215 287.85,216.06 276.06,219.22 265,224.38" fill="none" stroke="#8a97a4" stroke-width="1.4"/>
+  <text x="283" y="206" font-size="12" fill="#5a6673" text-anchor="middle">30&#176;</text>
+
+  <!-- 三个相电压 -->
+  <line x1="300" y1="285" x2="300" y2="175" stroke="#1a4f8b" stroke-width="2.6" marker-end="url(#mtp-arrow-b)"/>
+  <line x1="300" y1="285" x2="395.3" y2="340" stroke="#b5642e" stroke-width="2.6" marker-end="url(#mtp-arrow-o)"/>
+  <line x1="300" y1="285" x2="204.7" y2="340" stroke="#4f9e63" stroke-width="2.6" marker-end="url(#mtp-arrow-g)"/>
+
+  <!-- 线电压 -->
+  <line x1="300" y1="285" x2="204.7" y2="120" stroke="#2b3a4a" stroke-width="3.2" marker-end="url(#mtp-arrow-k)"/>
+
+  <!-- 原点与标签 -->
+  <circle cx="300" cy="285" r="4.5" fill="#2b3a4a"/>
+  <text x="288" y="305" font-size="15" font-weight="700" fill="#222a32" text-anchor="end">N</text>
+
+  <text x="312" y="171" font-size="15" fill="#1a4f8b" font-weight="700">L1-N：220 V</text>
+  <text x="407" y="352" font-size="15" fill="#b5642e" font-weight="700">L2-N：220 V</text>
+  <text x="196" y="352" font-size="15" fill="#4f9e63" font-weight="700" text-anchor="end">L3-N：220 V</text>
+  <text x="196" y="228" font-size="13" fill="#5a6673" text-anchor="end">-L2（作图用的反向相量）</text>
+  <text x="196" y="108" font-size="15" fill="#2b3a4a" font-weight="700" text-anchor="end">L1-L2：380 V</text>
+  <text x="196" y="126" font-size="13" fill="#5a6673" text-anchor="end">= 1.732 &#215; 220 V = 381 V</text>
+
+  <text x="320" y="398" font-size="14" fill="#222a32" text-anchor="middle">线电压 = 相邻两相电压之差 = 1.732 &#215; 相电压，相位超前对应相电压 30&#176;</text>
+</svg>

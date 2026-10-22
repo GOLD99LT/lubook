@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>四种接地形式：TT、TN-C、TN-S、IT 的电源侧接地、设备外壳连接方式与故障路径差异</title>
+  <desc>TT 的设备外壳独立接地并依赖 RCD；TN-C 用 PEN 合一，断 PEN 时外壳带危险电压；TN-S 的 PE 与 N 全程分开，靠过流保护切断；IT 电源不接地，第一次故障不跳闸、依赖绝缘监测。</desc>
+  <defs>
+    <marker id="arrF" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#cc5a47"/>
+    </marker>
+  </defs>
+  <rect width="900" height="560" fill="#ffffff"/>
+
+  <!-- ================= TT ================= -->
+  <rect x="15" y="15" width="430" height="260" rx="8" fill="#fbfcfd" stroke="#d7dee6" stroke-width="1.4"/>
+  <text x="29" y="41" font-size="14" fill="#1a4f8b" font-weight="700">TT 系统（设备侧独立接地）</text>
+  <circle cx="57" cy="93" r="15" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="57" y="99" font-size="13" fill="#2b3a4a" text-anchor="middle">~</text>
+  <line x1="72" y1="73" x2="270" y2="73" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="72" y1="113" x2="270" y2="113" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="80" y="66" font-size="12" fill="#b5642e" font-weight="700">L</text>
+  <text x="80" y="106" font-size="12" fill="#2b3a4a" font-weight="700">N</text>
+  <line x1="72" y1="113" x2="72" y2="183" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="58" y1="183" x2="86" y2="183" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="63" y1="190" x2="81" y2="190" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="67" y1="197" x2="77" y2="197" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="29" y="215" font-size="10.5" fill="#6b7a88">电源中性点接地</text>
+  <line x1="270" y1="73" x2="270" y2="81" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="256" y="81" width="28" height="26" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="270" y1="107" x2="270" y2="113" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="290" y="99" font-size="11" fill="#2b3a4a">负载</text>
+  <rect x="315" y="173" width="84" height="46" rx="3" fill="#f5f8fb" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="357" y="201" font-size="11" fill="#222a32" text-anchor="middle">金属外壳</text>
+  <line x1="330" y1="73" x2="330" y2="173" stroke="#cc5a47" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrF)"/>
+  <text x="338" y="128" font-size="10" fill="#cc5a47">绝缘失效</text>
+  <line x1="357" y1="219" x2="357" y2="243" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="343" y1="243" x2="371" y2="243" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="348" y1="250" x2="366" y2="250" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="352" y1="257" x2="362" y2="257" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="374" y="239" font-size="10.5" fill="#2b3a4a" font-weight="700">R_A</text>
+  <text x="29" y="267" font-size="10.5" fill="#6b7a88">回路阻抗高，过流保护常不动作，必须配 RCD</text>
+
+  <!-- ================= TN-C ================= -->
+  <rect x="455" y="15" width="430" height="260" rx="8" fill="#fbfcfd" stroke="#d7dee6" stroke-width="1.4"/>
+  <text x="469" y="41" font-size="14" fill="#1a4f8b" font-weight="700">TN-C 系统（PEN 合一）</text>
+  <circle cx="497" cy="93" r="15" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="497" y="99" font-size="13" fill="#2b3a4a" text-anchor="middle">~</text>
+  <line x1="512" y1="73" x2="710" y2="73" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="512" y1="113" x2="710" y2="113" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="520" y="66" font-size="12" fill="#b5642e" font-weight="700">L</text>
+  <text x="520" y="106" font-size="12" fill="#2b3a4a" font-weight="700">PEN</text>
+  <line x1="512" y1="113" x2="512" y2="183" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="498" y1="183" x2="526" y2="183" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="503" y1="190" x2="521" y2="190" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="507" y1="197" x2="517" y2="197" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="469" y="215" font-size="10.5" fill="#6b7a88">电源中性点接地</text>
+  <line x1="710" y1="73" x2="710" y2="81" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="696" y="81" width="28" height="26" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="710" y1="107" x2="710" y2="113" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="730" y="99" font-size="11" fill="#2b3a4a">负载</text>
+  <rect x="755" y="173" width="84" height="46" rx="3" fill="#f5f8fb" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="797" y="201" font-size="11" fill="#222a32" text-anchor="middle">金属外壳</text>
+  <line x1="770" y1="73" x2="770" y2="173" stroke="#cc5a47" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrF)"/>
+  <text x="778" y="128" font-size="10" fill="#cc5a47">绝缘失效</text>
+  <line x1="815" y1="113" x2="815" y2="173" stroke="#2b3a4a" stroke-width="1.8"/>
+  <text x="822" y="146" font-size="10" fill="#6b7a88">接 PEN</text>
+  <text x="469" y="267" font-size="10.5" fill="#6b7a88">PEN 断线时外壳可能带相电压，且不能装 RCD</text>
+
+  <!-- ================= TN-S ================= -->
+  <rect x="15" y="285" width="430" height="260" rx="8" fill="#fbfcfd" stroke="#d7dee6" stroke-width="1.4"/>
+  <text x="29" y="311" font-size="14" fill="#1a4f8b" font-weight="700">TN-S 系统（PE / N 全程分开）</text>
+  <circle cx="57" cy="363" r="15" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="57" y="369" font-size="13" fill="#2b3a4a" text-anchor="middle">~</text>
+  <line x1="72" y1="343" x2="270" y2="343" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="72" y1="383" x2="270" y2="383" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="72" y1="423" x2="357" y2="423" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="80" y="336" font-size="12" fill="#b5642e" font-weight="700">L</text>
+  <text x="80" y="376" font-size="12" fill="#2b3a4a" font-weight="700">N</text>
+  <text x="80" y="416" font-size="12" fill="#2b3a4a" font-weight="700">PE</text>
+  <line x1="72" y1="383" x2="72" y2="453" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="58" y1="453" x2="86" y2="453" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="63" y1="460" x2="81" y2="460" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="67" y1="467" x2="77" y2="467" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="29" y="485" font-size="10.5" fill="#6b7a88">N 与 PE 在电源侧同点接地</text>
+  <line x1="270" y1="343" x2="270" y2="351" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="256" y="351" width="28" height="26" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="270" y1="377" x2="270" y2="383" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="290" y="369" font-size="11" fill="#2b3a4a">负载</text>
+  <rect x="315" y="443" width="84" height="46" rx="3" fill="#f5f8fb" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="357" y="471" font-size="11" fill="#222a32" text-anchor="middle">金属外壳</text>
+  <line x1="330" y1="343" x2="330" y2="443" stroke="#cc5a47" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrF)"/>
+  <text x="338" y="398" font-size="10" fill="#cc5a47">绝缘失效</text>
+  <line x1="357" y1="423" x2="357" y2="443" stroke="#2b3a4a" stroke-width="1.8"/>
+  <text x="29" y="537" font-size="10.5" fill="#6b7a88">回路阻抗低，过流保护按 Zs 校核后自动切断</text>
+
+  <!-- ================= IT ================= -->
+  <rect x="455" y="285" width="430" height="260" rx="8" fill="#fbfcfd" stroke="#d7dee6" stroke-width="1.4"/>
+  <text x="469" y="311" font-size="14" fill="#1a4f8b" font-weight="700">IT 系统（电源不接地）</text>
+  <circle cx="497" cy="363" r="15" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="497" y="369" font-size="13" fill="#2b3a4a" text-anchor="middle">~</text>
+  <line x1="512" y1="343" x2="710" y2="343" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="512" y1="383" x2="710" y2="383" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="520" y="336" font-size="12" fill="#b5642e" font-weight="700">L</text>
+  <text x="520" y="376" font-size="12" fill="#2b3a4a" font-weight="700">N</text>
+  <line x1="512" y1="383" x2="512" y2="436" stroke="#2b3a4a" stroke-width="1.8" stroke-dasharray="5 4"/>
+  <line x1="500" y1="436" x2="524" y2="452" stroke="#cc5a47" stroke-width="2"/>
+  <line x1="524" y1="436" x2="500" y2="452" stroke="#cc5a47" stroke-width="2"/>
+  <text x="469" y="478" font-size="10.5" fill="#6b7a88">中性点不接地或高阻接地</text>
+  <line x1="710" y1="343" x2="710" y2="351" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="696" y="351" width="28" height="26" fill="#ffffff" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="710" y1="377" x2="710" y2="383" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="730" y="369" font-size="11" fill="#2b3a4a">负载</text>
+  <rect x="755" y="443" width="84" height="46" rx="3" fill="#f5f8fb" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="797" y="471" font-size="11" fill="#222a32" text-anchor="middle">金属外壳</text>
+  <line x1="770" y1="343" x2="770" y2="443" stroke="#cc5a47" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrF)"/>
+  <text x="778" y="398" font-size="10" fill="#cc5a47">绝缘失效</text>
+  <line x1="797" y1="489" x2="797" y2="513" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="783" y1="513" x2="811" y2="513" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="788" y1="520" x2="806" y2="520" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="792" y1="527" x2="802" y2="527" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="814" y="509" font-size="10.5" fill="#2b3a4a" font-weight="700">R_A</text>
+  <text x="469" y="537" font-size="10.5" fill="#6b7a88">首次故障不跳闸，需绝缘监测；二次故障危险</text>
+</svg>

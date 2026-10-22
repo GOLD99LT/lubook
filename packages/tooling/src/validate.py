@@ -36,10 +36,32 @@ for rel in summary_paths:
         continue  # 未生产占位，构建时已 warn
     text = open(fp, encoding='utf-8').read()
     fm, body = B.split_frontmatter(text)
+    _fm_end = text.find('\n---', 3)
+    _fm_raw = text[3:_fm_end] if _fm_end > 0 else ''
+    fm_raw = B.raw_frontmatter(text) if hasattr(B, 'raw_frontmatter') else text[3:text.find(chr(10) + '---', 3)]
     fid = os.path.basename(rel)[:-3]
     md_files.append((rel, fp, fm, body, fid))
 
     # ---- frontmatter ----
+    # YAML 语法体检：本仓 frontmatter 由简单解析器读取，但 VitePress 用真正的 YAML 解析器。
+    # 一旦写成 VitePress 读不了的形式，validate 全绿而构建直接失败。2026-10-22 的实例：
+    # sources 里写了 `- [文字](url)`，`[` 被 YAML 当成 flow sequence 起点，整站构建挂掉。
+    # 这里用最小规则拦住最容易踩的几类。
+    for _lineno, _line in enumerate(_fm_raw.splitlines(), 1):
+        _m = re.match(r'^(\s*)-\s+(.+)$', _line)
+        if not _m:
+            continue
+        _item = _m.group(2).strip()
+        if _item[:1] in ('[', '{', '*', '&', '!', '|', '>', '%', '@'):
+            err(rel, 'frontmatter 第 %d 行列表项以 %r 开头，YAML 会误解析（改成纯文本或用引号包裹）: %s'
+                % (_lineno, _item[0], _item[:40]))
+        elif ': ' in _item and _item[:1] not in ('"', "'"):
+            # 只提醒不判死：`- 书名: 副标题` 会被 YAML 解析成映射而不是字符串。
+            # 这类写法不会炸构建（VitePress 静默接受），但 sources 会从字符串变成字典，
+            # 属于"解析结果与作者意图不符"，逐条改成本高，先留作可见的提醒。
+            warn(rel, 'frontmatter 第 %d 行列表项的 ": " 会被 YAML 当成映射: %s'
+                 % (_lineno, _item[:40]))
+
     for key in ('id', 'title', 'part', 'order', 'tags', 'difficulty', 'status'):
         if key not in fm or fm[key] in (None, '', []):
             err(rel, 'frontmatter 缺少或为空: %s' % key)

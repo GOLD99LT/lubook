@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 680 400" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>星形接法与三角形接法：线电压、相电压、线电流与相电流的关系</title>
+  <desc>左侧星形接法：三相绕组一端接成中性点 N，另一端分别接 L1、L2、L3，线电压是相电压的 1.732 倍，线电流等于相电流。右侧三角形接法：三相绕组首尾相接成闭合三角形，三个顶点接 L1、L2、L3，线电压等于相电压，线电流是相电流的 1.732 倍。</desc>
+  <rect width="680" height="400" fill="#ffffff"/>
+  <line x1="340" y1="58" x2="340" y2="346" stroke="#d0d7de" stroke-width="1"/>
+
+  <!-- ===== 左：星形 Y ===== -->
+  <text x="170" y="40" font-size="17" font-weight="700" fill="#222a32" text-anchor="middle">星形接法 Y（Star）</text>
+  <line x1="170" y1="210" x2="170" y2="122" stroke="#2b3a4a" stroke-width="3"/>
+  <line x1="170" y1="210" x2="92.06" y2="255" stroke="#2b3a4a" stroke-width="3"/>
+  <line x1="170" y1="210" x2="247.94" y2="255" stroke="#2b3a4a" stroke-width="3"/>
+  <circle cx="170" cy="210" r="4.5" fill="#2b3a4a"/>
+  <circle cx="170" cy="120" r="5" fill="#1a4f8b"/>
+  <circle cx="92.06" cy="255" r="5" fill="#b5642e"/>
+  <circle cx="247.94" cy="255" r="5" fill="#4f9e63"/>
+  <text x="183" y="114" font-size="15" font-weight="700" fill="#1a4f8b">L1</text>
+  <text x="72" y="262" font-size="15" font-weight="700" fill="#b5642e" text-anchor="end">L2</text>
+  <text x="262" y="262" font-size="15" font-weight="700" fill="#4f9e63">L3</text>
+  <text x="166" y="240" font-size="15" font-weight="700" fill="#222a32" text-anchor="middle">N</text>
+  <text x="170" y="302" font-size="14" fill="#222a32" text-anchor="middle">每相绕组接在相线与 N 之间</text>
+  <text x="170" y="324" font-size="14" font-weight="700" fill="#1a4f8b" text-anchor="middle">线电压 = 1.732 &#215; 相电压，线电流 = 相电流</text>
+
+  <!-- ===== 右：三角形 Δ ===== -->
+  <text x="510" y="40" font-size="17" font-weight="700" fill="#222a32" text-anchor="middle">三角形接法 Δ（Delta）</text>
+  <line x1="510" y1="120" x2="432.06" y2="255" stroke="#2b3a4a" stroke-width="3"/>
+  <line x1="432.06" y1="255" x2="587.94" y2="255" stroke="#2b3a4a" stroke-width="3"/>
+  <line x1="587.94" y1="255" x2="510" y2="120" stroke="#2b3a4a" stroke-width="3"/>
+  <circle cx="510" cy="120" r="5" fill="#1a4f8b"/>
+  <circle cx="432.06" cy="255" r="5" fill="#b5642e"/>
+  <circle cx="587.94" cy="255" r="5" fill="#4f9e63"/>
+  <text x="523" y="114" font-size="15" font-weight="700" fill="#1a4f8b">L1</text>
+  <text x="412" y="262" font-size="15" font-weight="700" fill="#b5642e" text-anchor="end">L2</text>
+  <text x="602" y="262" font-size="15" font-weight="700" fill="#4f9e63">L3</text>
+  <text x="510" y="302" font-size="14" fill="#222a32" text-anchor="middle">每相绕组接在两根相线之间</text>
+  <text x="510" y="324" font-size="14" font-weight="700" fill="#1a4f8b" text-anchor="middle">线电压 = 相电压，线电流 = 1.732 &#215; 相电流</text>
+
+  <!-- 底部说明 -->
+  <text x="340" y="368" font-size="13" fill="#5a6673" text-anchor="middle">同一台电机：Y 接时每相绕组只承受线电压的 1/1.732，Δ 接时承受整个线电压</text>
+  <text x="340" y="388" font-size="13" fill="#5a6673" text-anchor="middle">这也是 Y-Δ 启动把启动电流和启动转矩都降到 1/3 的原因</text>
+</svg>
