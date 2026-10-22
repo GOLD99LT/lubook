@@ -9,7 +9,7 @@
 |---|---|---|
 | Node | 22.x（本机 22.23.2） | 随产品内置，非系统安装 |
 | pnpm | 12.11.2 | 用 corepack 启用；`packageManager` 已锁定 |
-| Python | 3.11+（本机 3.13.13） | 核心脚本**仅标准库**；`merge_sources.py` 可选 PyYAML |
+| Python | 3.11+（本机 3.13.13） | 核心脚本**仅标准库** |
 | Git | 2.x | 跨平台行尾由 `.gitattributes` 统一 |
 
 启用 pnpm（corepack，首选）：

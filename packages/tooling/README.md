@@ -16,7 +16,7 @@
 - `src/build_single_html.py`：离线单文件构建（纯标准库、内联 vendor、零依赖）。
 - `src/freeze_manifest.py`：manifest/快照生成（`.generated/<app>-content-manifest.json`、`tests/<app>.*.snapshot.json`）。
 - `src/run_quality` 相关：`validate.py / scan_math.py / scan_grounds.py / scan_svg_order.py`（+ `fix_*`）。
-- `src/build_vp_sidebar.py / sync_public.py / fetch_vendor.py / merge_sources.py / _stats.py / test_net.py`：侧边栏/品牌资产同步/vendor 拉取/资料合并/统计/网络探测。
+- `src/build_vp_sidebar.py / sync_public.py / fetch_vendor.py / _stats.py / test_net.py`：侧边栏/品牌资产同步/vendor 拉取/资料合并/统计/网络探测。
 - `src/paths_util.py`：共享路径默认值（repo root 发现、`list_apps`、`add_common_args`）。
 - `vendor/`：离线内联资源。
 
@@ -24,4 +24,4 @@
 
 - 这是 Python 包，**不是 npm 包**：不放 `package.json`，不参与 `pnpm install`。
 - 运行方式：仓库根 `pnpm verify:all`（全量门禁）、`pnpm quality:<app>`、`pnpm bundle:pages`、`pnpm offline:<app>`。
-- 核心脚本仅依赖标准库；`merge_sources.py` 可选 PyYAML。
+- 核心脚本仅依赖标准库。

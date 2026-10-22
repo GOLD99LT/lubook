@@ -1,9 +1,12 @@
-# 参考资料清单
-# 由 tools/merge_sources.py 合并 sources/index-a.yaml|index-b.yaml|index-c.yaml 生成。
+# 参考资料清单 —— 本文件是本仓**唯一的来源索引**，手工维护，不再由脚本生成。
+#
+# 历史：原先由 merge_sources.py 合并 sources/index-{a,b,c}.yaml 生成。该生成链已不可用
+# （sources/ 从未入库、已丢失；生成器依赖 PyYAML 且硬编码 122 章），2026-10-22 删除生成器。
+# 新增方式：按下方字段手工追加到对应分桶，并在章节 frontmatter 的 sources 里引用。
 # 调研阶段只做索引、一句话摘要与本地参考缓存，不整段搬运；书籍只列书目。
 # 字段：name / url / type(repo|app-note|course|book|video|tool) /
 #   vendor 或 license / stars / last_active / rating(A|B|C) / chapters[] / summary
-# 本地缓存：cloned+clone_path（浅克隆于 sources/repos）、note_path（要点于 sources/notes）。
+# 说明：本地缓存字段（cloned/clone_path/note_path）已废弃，相关目录不入库。
 
 official:
 - name: TI Precision Labs - Op Amps

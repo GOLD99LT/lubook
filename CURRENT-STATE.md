@@ -123,7 +123,7 @@
 | P2 | 存储不可用时静默降级内存 Storage，`saveState.ok` 仍为 true（界面显示"已保存"但刷新即丢） | `learning/index.ts` resolveStorage |
 | P3 | 离线单文件不生成标题 id，章内 `#锚点` 无效（当前正文 0 处使用） | `build_single_html.py` render |
 | P3 | 140 章平均 1,652 中文字，深度不足；本轮只修错，未加深 | 内容 |
-| P3 | `sources/` 生成输入永久缺失，`merge_sources.py` 停 122 章 | `sources.list.yaml` |
+| ✅ 已处理 | 来源链：删除跑不起来的 `merge_sources.py`，`sources.list.yaml` 改为手工维护的唯一来源索引 | `sources.list.yaml` 头部 |
 ---
 
 ## 9. 上线记录（2026-10-22）
