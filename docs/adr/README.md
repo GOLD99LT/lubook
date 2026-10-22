@@ -12,6 +12,7 @@
 | [ADR-0004](ADR-0004.md) | 双形态共用 manifest 对账（Python 离线零依赖保留） | Accepted |
 | [ADR-0005](ADR-0005.md) | 发布制品与 release.json | Proposed（目标，未实施） |
 | [ADR-0006](ADR-0006.md) | 品牌重命名为「路书 Lubook」与多 app 门户拓扑 | Accepted（本地实施完成，待用户核实） |
+| [ADR-0007](ADR-0007.md) | 学习数据与离线双形态统一协议（迁移隔离/持久化反馈/章节 id） | Accepted（阶段 A 实施完成，未 push） |
 
 ## 规则
 
