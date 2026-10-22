@@ -151,3 +151,36 @@ quality job 承担。修复后重新 push（`d33b556`），部署成功。
 - `/lubook/hardware/basics/voltage-current-power`（无扩展名）→ **200**（GitHub Pages 支持该写法；本地静态服务器不支持，之前本地测试的 404 是服务器差异，不是产物问题）。
 - 章节页 `/lubook/hardware/opamp/inverting-amplifier` 真实浏览器：61 个公式 **0 错误**、1 个 ECharts canvas、186 项侧边栏、学习面板存在。
 - 内容勘误已上线：T 型网络改为 1.2MΩ（旧 310k 已消失）、`GB 4943.1-2022`、加强绝缘判定文案均在线上页面中。
+---
+
+## 10. 内容批次进度（CONTENT-STANDARD 执行中）
+
+标准：docs/CONTENT-STANDARD.md（概念章 8 模块 / 电路章 11 模块，H1 字数 ≥4,000，配图/自测题/坑/来源硬门槛）。
+机械检查：python scripts/check-content.py --app hardware --profile all --min 4000。
+审核：主审核逐章复算数值 + 官方门禁 + 真实浏览器渲染，整批通过才合入。
+
+| 批次 | 章节 | 状态 | 字数 | 审核 |
+|---|---|---|---|---|
+| 批次 1 | basics/voltage-current-power、ohms-law、series-parallel、kcl-kvl | ✅ 已合入并上线（c89ec5） | 7,974 / 7,842 / 5,905 / 5,951 | 数值逐条复算通过；0 公式错误；0 破图 |
+| 批次 2 | basics 其余 10 章（dc-ac、impedance、capacitor-rc、inductor-rl、rlc-resonance、nodal-mesh-analysis、math-basics、transformer、mains-three-phase、electrical-safety） | ⬜ 待做 | 826–2,020 | — |
+| 批次 3+ | 元器件 / 运放 / 数字 / 单片机 / 电源 / PCB / 测量 各篇 | ⬜ 待排 | 1,411–2,177 均字 | — |
+
+现状：140 章中 4 章达标（中位数 1,098 字 → 这四章 5,905–7,974 字）。
+基线：evision=sha256-b0bfc73e3ba0bc48，routes 仍 141（URL 未变）。
+
+### 待专业复核（写作智能体无法联网核实，已在正文标注"以数据手册为准"）
+
+- Vishay CRCW 降额曲线 70°C/155°C 的具体数值；GB/T 156-2017 的 220/380V 表述；
+  Kuphaldt 与 Practical Electronics 的章节/小节名；Sedra & Smith Ch2 章名。
+- AWG 电阻按标称直径几何计算，未计绞线系数（与标准表差约 3%，正文已注明）。
+
+## 11. 并行处理的遗留问题
+
+| 项 | 状态 | 说明 |
+|---|---|---|
+| ECharts 全量进 theme chunk | ⬜ 待做 | 门户与每章各约 1.1MB（gzip ~370KB），门户不用图表 |
+| 导入 merge/确认 | ✅ 已修 | 见 c704cfa，130 单测覆盖 |
+| 存储降级假成功 | ✅ 已修 | 见 c704cfa，persistent 标志 + 会话级提示 |
+| 离线标题锚点 | ✅ 已修 | 1,755 个标题 id；#章锚点!标题 路由 |
+| 内容深度 | 🔄 进行中 | 批次 1 完成（4/140） |
+| 来源链 | ✅ 已处理 | 删除 merge_sources.py，sources.list.yaml 改手工维护 |
