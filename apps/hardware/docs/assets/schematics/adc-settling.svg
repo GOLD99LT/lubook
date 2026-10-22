@@ -1,0 +1,72 @@
+<svg viewBox="0 0 820 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Noto Sans SC',monospace" role="img">
+  <title>SAR 采样网络与指数建立：Rs 经采样开关给 Csh 充电，12 位 0.5 LSB 需要 9.01 个时间常数</title>
+  <rect width="820" height="420" fill="#ffffff"/>
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#222a32">SAR 采样网络与建立时间</text>
+  <text x="30" y="54" font-size="12" fill="#5c6772">Rs = 10 kΩ · Csh = 8 pF · τ = 80 ns · 采样窗口 1 µs · 0.5 LSB 误差带在图上放大示意</text>
+  <line x1="30" y1="66" x2="790" y2="66" stroke="#e3e0d7"/>
+
+  <!-- 外部源 -->
+  <text x="40" y="150" font-size="13" fill="#b5642e">Vin</text>
+  <circle cx="70" cy="190" r="22" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="70" y="196" font-size="12" fill="#222a32" text-anchor="middle">源</text>
+  <line x1="92" y1="190" x2="130" y2="190" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 源阻抗 -->
+  <rect x="130" y="178" width="80" height="24" fill="#ffffff" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="170" y="170" font-size="12" fill="#1a4f8b" text-anchor="middle" font-weight="700">Rs = 10 kΩ</text>
+  <line x1="210" y1="190" x2="260" y2="190" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 采样开关 -->
+  <circle cx="260" cy="190" r="3.5" fill="#2b3a4a"/>
+  <line x1="260" y1="190" x2="290" y2="176" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="295" cy="190" r="3.5" fill="#2b3a4a"/>
+  <text x="245" y="164" font-size="11" fill="#7a5fc0">采样开关</text>
+  <line x1="295" y1="190" x2="350" y2="190" stroke="#2b3a4a" stroke-width="2.2"/>
+  <circle cx="350" cy="190" r="4.5" fill="#2b3a4a"/>
+
+  <!-- 采样保持电容 -->
+  <line x1="350" y1="190" x2="350" y2="232" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="332" y1="232" x2="368" y2="232" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="332" y1="248" x2="368" y2="248" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="350" y1="248" x2="350" y2="272" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="380" y="236" font-size="12" fill="#1a4f8b" font-weight="700">Csh = 8 pF</text>
+  <text x="380" y="254" font-size="11" fill="#5c6772">保持期断开</text>
+
+  <!-- 接地：28 / 18 / 10，间距 7 -->
+  <line x1="350" y1="272" x2="350" y2="280" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="336" y1="280" x2="364" y2="280" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="341" y1="287" x2="359" y2="287" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="345" y1="294" x2="355" y2="294" stroke="#2b3a4a" stroke-width="2.4"/>
+
+  <!-- 坐标轴 -->
+  <line x1="480" y1="340" x2="790" y2="340" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="480" y1="340" x2="480" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="476" y1="340" x2="484" y2="340" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="476" y1="230" x2="484" y2="230" stroke="#2b3a4a" stroke-width="1.8"/>
+  <line x1="476" y1="120" x2="484" y2="120" stroke="#2b3a4a" stroke-width="2.2"/>
+  <text x="470" y="344" font-size="11" fill="#5c6772" text-anchor="end">0</text>
+  <text x="470" y="234" font-size="11" fill="#5c6772" text-anchor="end">1.65</text>
+  <text x="470" y="124" font-size="11" fill="#5c6772" text-anchor="end">3.3</text>
+  <text x="635" y="372" font-size="12" fill="#5c6772" text-anchor="middle">t / µs</text>
+  <text x="635" y="390" font-size="11" fill="#5c6772" text-anchor="middle">0</text>
+  <text x="790" y="362" font-size="11" fill="#5c6772" text-anchor="middle">1.0</text>
+  <text x="635" y="362" font-size="11" fill="#5c6772" text-anchor="middle">0.5</text>
+  <text x="462" y="230" font-size="12" fill="#5c6772" text-anchor="middle" transform="rotate(-90 462 230)">V_C / V</text>
+
+  <!-- 0.5 LSB 误差带（放大） -->
+  <rect x="480" y="118" width="310" height="6" fill="#e8f3ec"/>
+  <line x1="480" y1="121" x2="790" y2="121" stroke="#2e7d4f" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="492" y="112" font-size="10.5" fill="#2e7d4f">0.5 LSB 误差带（放大）</text>
+
+  <!-- 指数建立曲线 -->
+  <polyline fill="none" stroke="#b5642e" stroke-width="2.6"
+    points="480,340 504.8,200.9 529.6,149.7 554.4,131.0 579.2,124.8 604,122.7 628.8,122.0 653.6,121.6 678.4,121.4 703.2,121.3 728,121.3 790,121.3"/>
+  <circle cx="703.2" cy="121.3" r="4.5" fill="#ffffff" stroke="#b5642e" stroke-width="2.2"/>
+  <text x="700" y="108" font-size="11" fill="#b5642e">9.01τ = 721 ns</text>
+
+  <!-- 结果框 -->
+  <rect x="500" y="252" width="270" height="66" fill="#f7f9fb" stroke="#d7dde5" stroke-width="1.4"/>
+  <text x="512" y="272" font-size="11.5" fill="#222a32">τ = Rs · Csh = 10 kΩ × 8 pF = 80 ns</text>
+  <text x="512" y="290" font-size="11.5" fill="#222a32">t_acq / τ = 1000 ns / 80 ns = 12.5</text>
+  <text x="512" y="308" font-size="11.5" fill="#2e7d4f">误差 = 3.3 V × e^(-12.5) = 12.3 µV = 0.015 LSB</text>
+</svg>

@@ -1,0 +1,59 @@
+<svg viewBox="0 0 820 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Noto Sans SC',monospace" role="img">
+  <title>DAC 重建：零阶保持台阶经低通滤成 1 kHz 正弦，镜像位于 99 kHz 与 101 kHz，ZOH 已衰减约 39.9 dB</title>
+  <rect width="820" height="420" fill="#ffffff"/>
+  <text x="30" y="32" font-size="18" font-weight="700" fill="#222a32">DAC 重建：台阶、镜像与重建滤波</text>
+  <text x="30" y="54" font-size="12" fill="#5c6772">12 位 · fs = 100 kSPS · f = 1 kHz · 每周期 100 点（台阶图按 10 点/周期示意）</text>
+  <line x1="30" y1="66" x2="790" y2="66" stroke="#e3e0d7"/>
+
+  <!-- 台阶波形 -->
+  <text x="60" y="92" font-size="12" fill="#1a4f8b">DAC 码流 → 零阶保持台阶</text>
+  <line x1="60" y1="100" x2="60" y2="220" stroke="#c9d2dc" stroke-width="1"/>
+  <line x1="60" y1="150" x2="365" y2="150" stroke="#c9d2dc" stroke-width="1" stroke-dasharray="4 5"/>
+  <path d="M60,150 H90 V120.6 H120 V102.45 H150 V102.45 H180 V120.6 H210 V150 H240 V179.4 H270 V197.55 H300 V197.55 H330 V179.4 H360 V150"
+        fill="none" stroke="#1a4f8b" stroke-width="2.4"/>
+  <text x="70" y="238" font-size="11" fill="#5c6772">保持值每个采样周期变一次</text>
+
+  <!-- 滤波框 -->
+  <line x1="360" y1="150" x2="392" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="392,146 400,150 392,154" fill="#2b3a4a"/>
+  <rect x="402" y="118" width="86" height="64" fill="#f7f9fb" stroke="#2b3a4a" stroke-width="2.4"/>
+  <text x="445" y="144" font-size="12" fill="#1a4f8b" text-anchor="middle" font-weight="700">重建滤波</text>
+  <text x="445" y="162" font-size="10.5" fill="#5c6772" text-anchor="middle">二阶 fc=10 kHz</text>
+  <line x1="488" y1="150" x2="510" y2="150" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="510,146 518,150 510,154" fill="#2b3a4a"/>
+
+  <!-- 平滑正弦 -->
+  <polyline fill="none" stroke="#b5642e" stroke-width="2.6"
+    points="518,150 541.3,125 564.7,106.7 588,100 611.3,106.7 634.7,125 658,150 681.3,175 704.7,193.3 728,200 751.3,193.3 774.7,175 798,150"/>
+  <text x="658" y="238" font-size="11" fill="#b5642e" text-anchor="middle">≈ 1 kHz 正弦</text>
+
+  <!-- 频谱 -->
+  <text x="60" y="278" font-size="12" fill="#1a4f8b">频谱示意（纵轴 dBc，横轴非线性）</text>
+  <line x1="80" y1="380" x2="790" y2="380" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="80" y1="380" x2="80" y2="280" stroke="#2b3a4a" stroke-width="2"/>
+  <text x="72" y="384" font-size="10" fill="#5c6772" text-anchor="end">0</text>
+  <text x="72" y="334" font-size="10" fill="#5c6772" text-anchor="end">-40</text>
+  <text x="72" y="294" font-size="10" fill="#5c6772" text-anchor="end">-72</text>
+  <text x="56" y="336" font-size="10" fill="#5c6772" text-anchor="middle" transform="rotate(-90 56 336)">dBc</text>
+
+  <!-- 基波（0 dBc 参考点） -->
+  <circle cx="130" cy="378" r="5" fill="#2e7d4f"/>
+  <text x="130" y="366" font-size="10.5" fill="#2e7d4f" text-anchor="middle">0 dBc</text>
+  <text x="130" y="396" font-size="10.5" fill="#5c6772" text-anchor="middle">1 k</text>
+
+  <!-- 镜像柱：-39.9 dB -->
+  <line x1="650" y1="380" x2="650" y2="330" stroke="#b5642e" stroke-width="9"/>
+  <text x="650" y="322" font-size="10.5" fill="#b5642e" text-anchor="middle">-39.9</text>
+  <text x="650" y="396" font-size="10.5" fill="#5c6772" text-anchor="middle">99 k</text>
+  <line x1="700" y1="380" x2="700" y2="330" stroke="#b5642e" stroke-width="9"/>
+  <text x="700" y="322" font-size="10.5" fill="#b5642e" text-anchor="middle">-40.1</text>
+  <text x="700" y="396" font-size="10.5" fill="#5c6772" text-anchor="middle">101 k</text>
+
+  <!-- 0.5 LSB 要求线 -->
+  <line x1="80" y1="290" x2="790" y2="290" stroke="#7a5fc0" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <text x="560" y="284" font-size="10.5" fill="#7a5fc0">0.5 LSB 要求（-72.2 dBc）</text>
+
+  <!-- 说明 -->
+  <text x="160" y="350" font-size="10.5" fill="#5c6772">镜像比基波低 39.9 dB</text>
+  <text x="160" y="366" font-size="10.5" fill="#5c6772">二阶滤波再压 39.8 dB → 总 -79.7 dB</text>
+</svg>
