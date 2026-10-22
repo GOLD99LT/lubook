@@ -118,7 +118,7 @@
 
 | 优先级 | 问题 | 位置 |
 |---|---|---|
-| P2 | ECharts 全量打进 theme chunk：门户与每章都加载约 1.1MB（gzip 364–379KB），门户根本不用图表 | `packages/theme/src/index.ts`、`EChart.vue` |
+| ✅ 已修 | ~~ECharts 全量打进 theme chunk~~ → 按需加载，theme 1.15MB→113KB（ADR-0010） | `EChart.vue` |
 | P2 | 导入固定 replace、无 merge 选项与二次确认；多标签页后写覆盖先写 | `store.ts`、`learning/index.ts` |
 | P2 | 存储不可用时静默降级内存 Storage，`saveState.ok` 仍为 true（界面显示"已保存"但刷新即丢） | `learning/index.ts` resolveStorage |
 | P3 | 离线单文件不生成标题 id，章内 `#锚点` 无效（当前正文 0 处使用） | `build_single_html.py` render |
@@ -162,10 +162,11 @@ quality job 承担。修复后重新 push（`d33b556`），部署成功。
 | 批次 | 章节 | 状态 | 字数 | 审核 |
 |---|---|---|---|---|
 | 批次 1 | basics/voltage-current-power、ohms-law、series-parallel、kcl-kvl | ✅ 已合入并上线（c89ec5） | 7,974 / 7,842 / 5,905 / 5,951 | 数值逐条复算通过；0 公式错误；0 破图 |
-| 批次 2 | basics 其余 10 章（dc-ac、impedance、capacitor-rc、inductor-rl、rlc-resonance、nodal-mesh-analysis、math-basics、transformer、mains-three-phase、electrical-safety） | ⬜ 待做 | 826–2,020 | — |
+| 批次 2 | basics/dc-ac、capacitor-rc、inductor-rl、impedance | ✅ 已合入（`06adc7d`） | 7,102 / 7,763 / 7,299 / 5,705 | 数值复算通过；42 处 `°` 已改成 `^{\circ}` |
+| 批次 2 余 | basics 其余 6 章（rlc-resonance、nodal-mesh-analysis、math-basics、transformer、mains-three-phase、electrical-safety） | ⬜ 待做 | 826–2,020 | — |
 | 批次 3+ | 元器件 / 运放 / 数字 / 单片机 / 电源 / PCB / 测量 各篇 | ⬜ 待排 | 1,411–2,177 均字 | — |
 
-现状：140 章中 4 章达标（中位数 1,098 字 → 这四章 5,905–7,974 字）。
+现状：140 章中 **8 章达标**；basics 篇中位数 1,098 → **5,905 字**。
 基线：evision=sha256-b0bfc73e3ba0bc48，routes 仍 141（URL 未变）。
 
 ### 待专业复核（写作智能体无法联网核实，已在正文标注"以数据手册为准"）
@@ -178,7 +179,7 @@ quality job 承担。修复后重新 push（`d33b556`），部署成功。
 
 | 项 | 状态 | 说明 |
 |---|---|---|
-| ECharts 全量进 theme chunk | ⬜ 待做 | 门户与每章各约 1.1MB（gzip ~370KB），门户不用图表 |
+| ECharts 全量进 theme chunk | ✅ 已修 | 改为按需加载：theme chunk 1.15MB → 113KB，门户 58.7KB 且不再产出图表 chunk（ADR-0010） |
 | 导入 merge/确认 | ✅ 已修 | 见 c704cfa，130 单测覆盖 |
 | 存储降级假成功 | ✅ 已修 | 见 c704cfa，persistent 标志 + 会话级提示 |
 | 离线标题锚点 | ✅ 已修 | 1,755 个标题 id；#章锚点!标题 路由 |
