@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 860 440" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>共地阻抗模型：数字回流在公共地段上产生压降，叠加到模拟前端的参考地</title>
+  <rect width="860" height="440" fill="#ffffff"/>
+  <text x="30" y="34" font-size="20" font-weight="700" fill="#222a32">共地阻抗模型：0.5A 数字电流如何变成模拟噪声</text>
+  <text x="30" y="56" font-size="12.5" fill="#5c6772">数字回流与模拟回流共用一段地，压降 Vn = Id × (Rg + jωLg) 直接串进模拟前端</text>
+
+  <!-- 数字负载 -->
+  <rect x="60" y="96" width="140" height="72" fill="#eef4fb" stroke="#1a4f8b" stroke-width="2.2"/>
+  <text x="130" y="124" font-size="12.5" fill="#1a4f8b" text-anchor="middle" font-weight="700">数字负载</text>
+  <text x="130" y="144" font-size="11.5" fill="#3a5a80" text-anchor="middle">0.5A，边沿 2ns</text>
+
+  <!-- 模拟前端 -->
+  <rect x="330" y="96" width="150" height="72" fill="#eef7ee" stroke="#2f6e4f" stroke-width="2.2"/>
+  <text x="405" y="124" font-size="12.5" fill="#2f6e4f" text-anchor="middle" font-weight="700">模拟前端</text>
+  <text x="405" y="144" font-size="11.5" fill="#2f5a3f" text-anchor="middle">1mV 传感器信号</text>
+
+  <!-- 数字回流注入 -->
+  <line x1="130" y1="168" x2="130" y2="242" stroke="#b03a3a" stroke-width="2.6"/>
+  <polygon points="124,238 136,238 130,250" fill="#b03a3a"/>
+  <text x="142" y="196" font-size="12" fill="#b03a3a">Id = 0.5A</text>
+  <text x="142" y="214" font-size="11" fill="#b03a3a">（2ns 跳变）</text>
+
+  <!-- 模拟前端接地 -->
+  <line x1="405" y1="168" x2="405" y2="242" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 共用地段（铜皮） -->
+  <rect x="60" y="246" width="420" height="9" fill="#b5642e"/>
+  <text x="60" y="278" font-size="12" fill="#b5642e">共用地段：Rg = 1mΩ，Lg = 1nH（平面/短宽铜皮量级）</text>
+
+  <!-- 地符号：28 / 18 / 10，间距 7 -->
+  <line x1="480" y1="255" x2="480" y2="292" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="466" y1="292" x2="494" y2="292" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="471" y1="299" x2="489" y2="299" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="475" y1="306" x2="485" y2="306" stroke="#2b3a4a" stroke-width="2.4"/>
+
+  <!-- 噪声电压标注 -->
+  <line x1="230" y1="210" x2="230" y2="244" stroke="#1a4f8b" stroke-width="1.4" stroke-dasharray="4,3"/>
+  <line x1="330" y1="210" x2="330" y2="244" stroke="#1a4f8b" stroke-width="1.4" stroke-dasharray="4,3"/>
+  <line x1="230" y1="210" x2="330" y2="210" stroke="#1a4f8b" stroke-width="1.6"/>
+  <polygon points="230,210 240,206 240,214" fill="#1a4f8b"/>
+  <polygon points="330,210 320,206 320,214" fill="#1a4f8b"/>
+  <text x="280" y="200" font-size="12" fill="#1a4f8b" text-anchor="middle" font-weight="700">Vn</text>
+
+  <!-- 右侧数值面板 -->
+  <rect x="540" y="86" width="290" height="254" fill="#fbfdff" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="556" y="112" font-size="13" fill="#1a4f8b" font-weight="700">同一个 1mΩ，两种算法</text>
+
+  <text x="556" y="140" font-size="12" fill="#222a32">DC：Vn = 0.5A × 1mΩ</text>
+  <text x="572" y="160" font-size="12" fill="#2f6e4f">= 0.5mV</text>
+
+  <text x="556" y="188" font-size="12" fill="#222a32">2ns：di/dt = 0.5A / 2ns</text>
+  <text x="572" y="208" font-size="12" fill="#2f6e4f">= 2.5 × 10<tspan baseline-shift="super" font-size="9">8</tspan> A/s</text>
+  <text x="556" y="232" font-size="12" fill="#222a32">Vn = 1nH × 2.5 × 10<tspan baseline-shift="super" font-size="9">8</tspan></text>
+  <text x="572" y="252" font-size="12" fill="#b03a3a">= 250mV（500 倍）</text>
+
+  <text x="556" y="280" font-size="11.5" fill="#3a5a80">对 1mV 信号：0.5mV = 50%</text>
+  <text x="556" y="299" font-size="11.5" fill="#3a5a80">12 位 3.3V：0.62 LSB</text>
+  <text x="556" y="317" font-size="11.5" fill="#3a5a80">16 位 5V：6.6 LSB</text>
+  <text x="556" y="335" font-size="11.5" fill="#b5642e">0.1 LSB → Z ≤ 161µΩ</text>
+
+  <!-- 结论 -->
+  <rect x="30" y="352" width="800" height="70" fill="#fdf7f0" stroke="#b5642e" stroke-width="1.6"/>
+  <text x="50" y="378" font-size="12.5" fill="#222a32">结论：同一个 1mΩ 地，在 DC 与 2ns 边沿下相差 500 倍；只算直流电阻会严重低估地噪声。</text>
+  <text x="50" y="400" font-size="12.5" fill="#222a32">方法是先按边沿算 L·di/dt，再用分区、完整平面、差分输入和滤波分级把噪声压到预算内。</text>
+</svg>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 860 480" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'JetBrains Mono','Noto Sans SC',monospace">
+  <title>ESD 放电路径对比：TVS 在连接器处把 30A 导入接口地，再单点连信号地；抄近路会让电流穿过 IC 下方的信号地平面</title>
+  <rect width="860" height="480" fill="#ffffff"/>
+  <text x="30" y="32" font-size="20" font-weight="700" fill="#222a32">ESD 放电路径：让 30A 在连接器处入地，而不是穿过 IC</text>
+  <text x="30" y="54" font-size="12.5" fill="#5c6772">同一颗 TVS，路径电感 2.0nH 与 16.7nH，板上共模电压分别是 60V 与 501V</text>
+
+  <!-- 板框 -->
+  <rect x="30" y="72" width="800" height="270" fill="#fbfdff" stroke="#2b3a4a" stroke-width="2"/>
+
+  <!-- 连接器 -->
+  <rect x="50" y="110" width="90" height="80" fill="#f4eefb" stroke="#7a5fc0" stroke-width="2.2"/>
+  <text x="95" y="144" font-size="12.5" fill="#7a5fc0" text-anchor="middle" font-weight="700">连接器</text>
+  <text x="95" y="166" font-size="11" fill="#5a4a80" text-anchor="middle">ESD 入口</text>
+
+  <!-- 信号线到 IC -->
+  <line x1="140" y1="150" x2="640" y2="150" stroke="#2b3a4a" stroke-width="2.4"/>
+  <circle cx="200" cy="150" r="4" fill="#2b3a4a"/>
+  <text x="300" y="142" font-size="11" fill="#5c6772">D+ / D-</text>
+
+  <!-- TVS -->
+  <line x1="200" y1="150" x2="200" y2="176" stroke="#2b3a4a" stroke-width="2.2"/>
+  <polygon points="186,176 214,176 200,198" fill="#fff" stroke="#b03a3a" stroke-width="2.2"/>
+  <line x1="186" y1="198" x2="214" y2="198" stroke="#b03a3a" stroke-width="2.6"/>
+  <text x="222" y="192" font-size="12.5" fill="#b03a3a" font-weight="700">TVS</text>
+
+  <!-- 正确路径：TVS 地到接口地 -->
+  <line x1="200" y1="198" x2="200" y2="274" stroke="#2f6e4f" stroke-width="3.2"/>
+  <polygon points="194,268 206,268 200,282" fill="#2f6e4f"/>
+  <text x="216" y="232" font-size="11.5" fill="#2f6e4f" font-weight="700">✓ 30A 就近入接口地</text>
+  <text x="216" y="250" font-size="11" fill="#2f6e4f">约 2.0nH → 60V</text>
+
+  <!-- 接口地条 -->
+  <rect x="150" y="280" width="220" height="12" fill="#2b3a4a"/>
+  <text x="260" y="312" font-size="11.5" fill="#222a32" text-anchor="middle">接口地 / 机壳地</text>
+
+  <!-- 单点连接 -->
+  <rect x="370" y="282" width="40" height="8" fill="#b5642e"/>
+  <text x="390" y="272" font-size="10.5" fill="#b5642e" text-anchor="middle">单点连接</text>
+
+  <!-- 信号地平面 -->
+  <rect x="410" y="280" width="400" height="12" fill="#2b3a4a"/>
+  <text x="610" y="312" font-size="11.5" fill="#222a32" text-anchor="middle">信号地平面（敏感电路回流路径）</text>
+
+  <!-- 地符号：28 / 18 / 10，间距 7 -->
+  <line x1="780" y1="292" x2="780" y2="306" stroke="#2b3a4a" stroke-width="2.2"/>
+  <line x1="766" y1="306" x2="794" y2="306" stroke="#2b3a4a" stroke-width="2.6"/>
+  <line x1="771" y1="313" x2="789" y2="313" stroke="#2b3a4a" stroke-width="2.4"/>
+  <line x1="775" y1="320" x2="785" y2="320" stroke="#2b3a4a" stroke-width="2.4"/>
+
+  <!-- IC -->
+  <rect x="640" y="110" width="120" height="80" fill="#eef4fb" stroke="#1a4f8b" stroke-width="2.2"/>
+  <text x="700" y="144" font-size="12.5" fill="#1a4f8b" text-anchor="middle" font-weight="700">被保护 IC</text>
+  <text x="700" y="166" font-size="11" fill="#3a5a80" text-anchor="middle">USB PHY</text>
+  <line x1="700" y1="190" x2="700" y2="280" stroke="#2b3a4a" stroke-width="2.2"/>
+
+  <!-- 错误路径：经信号地平面 -->
+  <path d="M120,190 L120,240 L690,240 L690,276" fill="none" stroke="#b03a3a" stroke-width="1.8" stroke-dasharray="6,4"/>
+  <polygon points="684,270 696,270 690,282" fill="#b03a3a"/>
+  <text x="300" y="232" font-size="11.5" fill="#b03a3a">✗ 抄近路：30A 借信号地平面，从 IC 脚下流过</text>
+  <text x="300" y="262" font-size="11" fill="#b03a3a">20mm + 过孔 ≈ 16.7nH → 501V 共模电压</text>
+
+  <!-- 底部数值 -->
+  <rect x="30" y="356" width="800" height="106" fill="#fbfdff" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="50" y="382" font-size="12.5" fill="#222a32">路径 A：TVS 地就近到接口地，约 2.0nH；30A/ns × 2.0nH = 60V，电流不经过敏感区。</text>
+  <text x="50" y="404" font-size="12.5" fill="#222a32">路径 B：TVS 地绕 20mm 到 IC 下方，约 16.7nH；30A/ns × 16.7nH = 501V，整块板地被抬起。</text>
+  <text x="50" y="426" font-size="12.5" fill="#b5642e">单点连接只保证直流等电位，不让 30A 穿过信号地平面；连接点放在连接器附近。</text>
+  <text x="50" y="448" font-size="12.5" fill="#222a32">电感按 0.7nH/过孔、1nH/mm 走线估算；实际以叠层、过孔数量和回流路径为准。</text>
+</svg>

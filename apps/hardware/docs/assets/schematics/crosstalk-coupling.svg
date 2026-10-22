@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Noto Sans SC',monospace" role="img">
+  <title>串扰机理与近端远端串扰：攻击线通过容性和感性耦合在受害线上感应噪声，间距越大耦合越弱</title>
+  <rect width="860" height="520" fill="#ffffff"/>
+  <text x="30" y="34" font-size="20" font-weight="700" fill="#222a32">串扰：容性/感性耦合、近端 NEXT 与远端 FEXT</text>
+  <text x="30" y="56" font-size="12.5" fill="#5c6772">攻击线跳变 → 通过互容 Cm 与互感 Lm 在受害线上感应噪声；耦合随间距增大而减弱</text>
+
+  <!-- 攻击线 -->
+  <line x1="80" y1="140" x2="760" y2="140" stroke="#b03a3a" stroke-width="4"/>
+  <text x="80" y="126" font-size="13" fill="#b03a3a" font-weight="700">攻击线 Aggressor（跳变）</text>
+  <text x="700" y="126" font-size="12" fill="#b03a3a">驱动端 →</text>
+
+  <!-- 受害线 -->
+  <line x1="80" y1="240" x2="760" y2="240" stroke="#1a4f8b" stroke-width="4"/>
+  <text x="80" y="266" font-size="13" fill="#1a4f8b" font-weight="700">受害线 Victim（原本安静）</text>
+
+  <!-- 参考平面 -->
+  <line x1="80" y1="320" x2="760" y2="320" stroke="#9aa5b0" stroke-width="2" stroke-dasharray="5,4"/>
+  <text x="80" y="342" font-size="12" fill="#9aa5b0">参考平面（回流路径，必须连续）</text>
+
+  <!-- 耦合箭头 -->
+  <path d="M210,150 Q250,190 210,230" fill="none" stroke="#b5642e" stroke-width="1.9" stroke-dasharray="5,4"/>
+  <path d="M410,150 Q450,190 410,230" fill="none" stroke="#b5642e" stroke-width="1.9" stroke-dasharray="5,4"/>
+  <path d="M610,150 Q650,190 610,230" fill="none" stroke="#b5642e" stroke-width="1.9" stroke-dasharray="5,4"/>
+  <text x="455" y="196" font-size="12" fill="#b5642e">Cm、Lm</text>
+
+  <!-- 近端/远端 -->
+  <text x="80" y="300" font-size="12.5" fill="#2f6e4f">← 近端 NEXT（与驱动端同侧）</text>
+  <text x="560" y="300" font-size="12.5" fill="#7a5fc0">远端 FEXT →</text>
+
+  <!-- 间距标注 -->
+  <line x1="790" y1="140" x2="790" y2="240" stroke="#2b3a4a" stroke-width="1.4"/>
+  <line x1="784" y1="140" x2="796" y2="140" stroke="#2b3a4a" stroke-width="1.4"/>
+  <line x1="784" y1="240" x2="796" y2="240" stroke="#2b3a4a" stroke-width="1.4"/>
+  <text x="800" y="195" font-size="13" fill="#222a32">间距 S</text>
+
+  <!-- 公式与定量框 -->
+  <rect x="60" y="368" width="740" height="126" fill="#fbfdff" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="80" y="394" font-size="13.5" fill="#1a4f8b" font-weight="700">一阶估算（经验模型，用于比较趋势）：</text>
+  <text x="80" y="418" font-size="13" fill="#222a32">NEXT(S) ≈ 50% / [1 + (S/W)²]；S=3W → 5.0%（−26.0 dB），S=2W → 10%（−20.0 dB）</text>
+  <text x="80" y="442" font-size="13" fill="#222a32">远端：均匀介质带状线的奇偶模速度相同，FEXT 近似抵消；微带线因 εr,eff 不同而累积 FEXT。</text>
+  <text x="80" y="466" font-size="12.5" fill="#b5642e">NEXT 在长线上会饱和；短线按耦合长度折减。3W 是经验规则，不是精确公式。</text>
+</svg>

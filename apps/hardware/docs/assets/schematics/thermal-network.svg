@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" role="img" aria-labelledby="thermalNetworkTitle">
+  <title id="thermalNetworkTitle">热阻网络：结到环境的两条并联路径，以及带散热器的串联链</title>
+  <rect width="900" height="560" fill="#ffffff"/>
+  <text x="30" y="34" font-size="20" font-weight="700" fill="#222a32">热阻网络 — 先分清串联与并联</text>
+
+  <rect x="40" y="58" width="820" height="250" fill="#fbfdff" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="58" y="84" font-size="14" font-weight="700" fill="#1a4f8b">无散热器：结到壳、结到板是两条并联路径</text>
+
+  <circle cx="120" cy="185" r="30" fill="#fde2e2" stroke="#b03a3a" stroke-width="2.2"/>
+  <text x="120" y="181" font-size="13" font-weight="700" fill="#b03a3a" text-anchor="middle">结</text>
+  <text x="120" y="199" font-size="11" fill="#b03a3a" text-anchor="middle">Tj</text>
+
+  <rect x="210" y="105" width="110" height="42" fill="#eef4fb" stroke="#1a4f8b" stroke-width="1.8"/>
+  <text x="265" y="131" font-size="12.5" fill="#1a4f8b" text-anchor="middle">RθJC</text>
+  <line x1="150" y1="170" x2="208" y2="132" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="320" y1="126" x2="378" y2="126" stroke="#2b3a4a" stroke-width="2"/>
+  <circle cx="410" cy="126" r="24" fill="#fdf3e7" stroke="#b5642e" stroke-width="2"/>
+  <text x="410" y="123" font-size="12" font-weight="700" fill="#b5642e" text-anchor="middle">壳</text>
+  <text x="410" y="139" font-size="10.5" fill="#b5642e" text-anchor="middle">Tc</text>
+
+  <rect x="470" y="105" width="110" height="42" fill="#eef4fb" stroke="#1a4f8b" stroke-width="1.8"/>
+  <text x="525" y="131" font-size="12.5" fill="#1a4f8b" text-anchor="middle">RθCA</text>
+  <line x1="434" y1="126" x2="468" y2="126" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="580" y1="126" x2="650" y2="168" stroke="#2b3a4a" stroke-width="2"/>
+
+  <rect x="210" y="238" width="110" height="42" fill="#eef4fb" stroke="#1a4f8b" stroke-width="1.8"/>
+  <text x="265" y="264" font-size="12.5" fill="#1a4f8b" text-anchor="middle">RθJB</text>
+  <line x1="146" y1="207" x2="208" y2="252" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="320" y1="259" x2="378" y2="259" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="378" y="237" width="64" height="44" fill="#f3efe6" stroke="#7a6a3a" stroke-width="2"/>
+  <text x="410" y="256" font-size="12" font-weight="700" fill="#7a6a3a" text-anchor="middle">板</text>
+  <text x="410" y="271" font-size="10.5" fill="#7a6a3a" text-anchor="middle">Tb</text>
+
+  <rect x="470" y="238" width="110" height="42" fill="#eef4fb" stroke="#1a4f8b" stroke-width="1.8"/>
+  <text x="525" y="264" font-size="12.5" fill="#1a4f8b" text-anchor="middle">RθBA</text>
+  <line x1="442" y1="259" x2="468" y2="259" stroke="#2b3a4a" stroke-width="2"/>
+  <line x1="580" y1="259" x2="650" y2="207" stroke="#2b3a4a" stroke-width="2"/>
+
+  <circle cx="680" cy="187" r="30" fill="#eef4fb" stroke="#1a4f8b" stroke-width="2.2"/>
+  <text x="680" y="183" font-size="12.5" font-weight="700" fill="#1a4f8b" text-anchor="middle">环境</text>
+  <text x="680" y="200" font-size="11" fill="#1a4f8b" text-anchor="middle">Ta</text>
+
+  <text x="58" y="292" font-size="12.5" fill="#222a32">两条路径在结与环境的两个节点之间并联，不是三段首尾串联：</text>
+  <text x="58" y="314" font-size="13" fill="#1a4f8b">1 / RθJA = 1 / (RθJC + RθCA) + 1 / (RθJB + RθBA)</text>
+  <text x="58" y="336" font-size="11.5" fill="#b5642e">RθJC 与 RθJB 都从结出发；把三者直接相加会得到不存在的“第四条路”。</text>
+
+  <rect x="40" y="328" width="820" height="200" fill="#fbfdff" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="58" y="356" font-size="14" font-weight="700" fill="#1a4f8b">有散热器：只看壳这一条路，内部才是串联</text>
+
+  <rect x="80" y="402" width="76" height="40" fill="#fde2e2" stroke="#b03a3a" stroke-width="1.8"/>
+  <text x="118" y="427" font-size="12" fill="#b03a3a" text-anchor="middle">Tj</text>
+  <line x1="156" y1="422" x2="204" y2="422" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="204" y="400" width="86" height="44" fill="#eef4fb" stroke="#1a4f8b" stroke-width="1.8"/>
+  <text x="247" y="427" font-size="12" fill="#1a4f8b" text-anchor="middle">RθJC</text>
+  <line x1="290" y1="422" x2="338" y2="422" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="338" y="400" width="76" height="44" fill="#fdf3e7" stroke="#b5642e" stroke-width="1.8"/>
+  <text x="376" y="427" font-size="12" fill="#b5642e" text-anchor="middle">Tc</text>
+  <line x1="414" y1="422" x2="462" y2="422" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="462" y="400" width="86" height="44" fill="#eef4fb" stroke="#1a4f8b" stroke-width="1.8"/>
+  <text x="505" y="427" font-size="12" fill="#1a4f8b" text-anchor="middle">RθCS</text>
+  <line x1="548" y1="422" x2="596" y2="422" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="596" y="400" width="86" height="44" fill="#eef4fb" stroke="#1a4f8b" stroke-width="1.8"/>
+  <text x="639" y="427" font-size="12" fill="#1a4f8b" text-anchor="middle">RθSA</text>
+  <line x1="682" y1="422" x2="730" y2="422" stroke="#2b3a4a" stroke-width="2"/>
+  <rect x="730" y="400" width="90" height="44" fill="#eef4fb" stroke="#1a4f8b" stroke-width="1.8"/>
+  <text x="775" y="427" font-size="12" fill="#1a4f8b" text-anchor="middle">Ta</text>
+
+  <text x="80" y="478" font-size="12.5" fill="#222a32">壳路径串联：RθJA,case = RθJC + RθCS + RθSA（RθCS 是硅脂/导热垫）。</text>
+  <text x="80" y="502" font-size="12" fill="#b5642e">板路径仍然与壳路径并联；加散热器后它通常不再主导，但不能当作不存在。</text>
+</svg>
