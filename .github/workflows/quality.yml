@@ -72,6 +72,14 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # 先算内存预算：峰值 ≈ 1.16 GB + 33 MB × 页面数（见 docs/adr/ADR-0011.md）。
+      # 预计超出就在 OOM 之前失败，并直接给出处置建议，避免"神秘 OOM + 读不到日志"。
+      - name: Build memory budget
+        continue-on-error: true
+        run: |
+          python packages/tooling/src/build_memory_budget.py \
+            --src "apps/${{ matrix.app }}/docs" --heap-mb 8192
+
       # 直接按 workspace 包名构建，不依赖根 package.json 里逐册手写的 build:<app>
       # 失败时把日志尾部写成 ::error:: annotation —— 这样不带凭证也能从
       # /commits/<sha>/check-runs 的 annotations 接口读到真实原因（Actions 日志需认证）。
