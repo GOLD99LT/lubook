@@ -8,7 +8,7 @@ tags: [理想运放, 虚短, 虚断, 无限增益, 输入阻抗]
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations、Chapter 6 Development of the Non-Ideal Op Amp Equations https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations、Chapter 6 Development of the Non-Ideal Op Amp Equations
   - Analog Devices, MT-032 Ideal Voltage Feedback (VFB) Op Amp Model（Mini Tutorial）— 理想模型、开环增益与闭环框图 https://www.analog.com/media/en/training-seminars/tutorials/MT-032.pdf
   - Analog Devices, MT-042 Op Amp Common-Mode Rejection Ratio (CMRR)（Mini Tutorial）— 共模/差模定义与 CMRR 的输入折算 https://www.analog.com/media/en/training-seminars/tutorials/MT-042.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems（4th ed.）— Chapter 1 Operational Amplifier Fundamentals、Chapter 2 Circuits with Resistive Feedback（输入/输出电阻推导）
@@ -542,7 +542,7 @@ CMRR 下降 20dB，输出误差放大 10 倍。对 5V/12 位 ADC（1LSB=1.22mV�
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给理想模型、虚短虚断与三种基本组态的推导；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限增益、有限输入/输出阻抗的修正。本章 §2、§3 的推导顺序与该书一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给理想模型、虚短虚断与三种基本组态的推导；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限增益、有限输入/输出阻抗的修正。本章 §2、§3 的推导顺序与该书一致。
 - **Analog Devices, MT-032 *Ideal Voltage Feedback (VFB) Op Amp Model***：理想电压反馈运放模型、开环增益与闭环框图；本章 §2.1、§2.2 的"假设 → 结论"表格参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-032.pdf>
 - **Analog Devices, MT-042 *Op Amp Common-Mode Rejection Ratio (CMRR)***：共模/差模定义、CMRR 的输入折算与测试方法；本章 §2.6、§3.6 的 CMRR 口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-042.pdf>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：Chapter 1 *Operational Amplifier Fundamentals* 与 Chapter 2 *Circuits with Resistive Feedback* 给输入电阻、输出电阻的完整推导；本章 §3.3、§3.4 的 $Z_{in}$、$R_{out,CL}$ 公式与该书一致。

@@ -8,7 +8,7 @@ tags: [运放电路, 比例放大, 虚地, 核心电路]
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations、Chapter 6 Development of the Non-Ideal Op Amp Equations https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations、Chapter 6 Development of the Non-Ideal Op Amp Equations
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 噪声增益、闭环带宽与增益带宽积 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Analog Devices, MT-044 Op Amp Open-Loop Gain and Open-Loop Gain Nonlinearity（Mini Tutorial）— 开环增益的测试条件与有限增益误差 https://www.analog.com/media/en/training-seminars/tutorials/MT-044.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems（4th ed.）— Chapter 2 Circuits with Resistive Feedback，反相组态的输入电阻、输出电阻与虚地
@@ -489,7 +489,7 @@ $$V_{OUT}=A_{OL}V_+=\frac{A_{OL}}{1-A_{OL}\beta}V_{IN}$$
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给反相组态的虚地、KCL 推导与理想增益；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 的修正式。本章 §3.1、§3.2 的推导顺序与该书一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给反相组态的虚地、KCL 推导与理想增益；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 的修正式。本章 §3.1、§3.2 的推导顺序与该书一致。
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益、闭环带宽与增益带宽积；本章 §3.5、§4.1 的 $f_{cl}=GBW/11$ 按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf>
 - **Analog Devices, MT-044 *Op Amp Open-Loop Gain and Open-Loop Gain Nonlinearity***：开环增益的测试条件、非线性与温度漂移；本章 §3.2、§4.1 的有限增益误差按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-044.pdf>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：Chapter 2 *Circuits with Resistive Feedback* 给反相组态的输入电阻、输出电阻与虚地推导；本章 §3.3 的 $Z_{in}=R_1+R_f/(1+A_{OL})$ 与该书一致。

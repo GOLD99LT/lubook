@@ -9,7 +9,7 @@ difficulty: 2
 status: published
 sources:
   - Analog Devices, MT-035 Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues（Mini Tutorial）— 输入共模范围、输出摆幅与 RRI/RRO 的真实边界 https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，Output Voltage Swing 与 Input Common-Mode Voltage Range 的测试条件 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，Output Voltage Swing 与 Input Common-Mode Voltage Range 的测试条件
   - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源交流耦合、虚地偏置与摆幅预算
   - TI, LM358 数据手册 — Output Voltage Swing 表（V+ 与 R_L 测试条件）与 Input Voltage Range 表 https://www.ti.com/lit/ds/symlink/lm358.pdf
   - TI, OPA340 数据手册 — Output Voltage Swing vs Output Current 曲线与轨到轨输入共模范围 https://www.ti.com/lit/ds/symlink/opa340.pdf
@@ -453,7 +453,7 @@ $$5(V_{bias}+0.30)\le4.9\ \Rightarrow\ V_{bias}\le0.68\ \text{V}$$
 ## 8. 参考资料
 
 - **Analog Devices, MT-035 *Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues***：输入共模范围、输出摆幅与"轨到轨"的真实边界，本章 §2.2 的 RRI/RRO 区分与 §3.1 的不等式按该文口径整理。<https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf>
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 11 *Understanding Op Amp Parameters* 给 Output Voltage Swing、Input Common-Mode Voltage Range 的定义与测试条件；本章 §3.1、§3.4 的"参数必带条件"来自该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 11 *Understanding Op Amp Parameters* 给 Output Voltage Swing、Input Common-Mode Voltage Range 的定义与测试条件；本章 §3.1、§3.4 的"参数必带条件"来自该章。
 - **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源交流耦合、虚地偏置与电平搬移的成套电路；本章 §5.3 的四个落地选择按该文整理。
 - **TI, LM358 数据手册**：*Output Voltage Swing* 表给出 $V_+$ 与 $R_L$ 测试条件下的摆幅，*Input Voltage Range* 表给出共模范围；本章 §2.1、§2.3 的"非轨到轨"量级参照该手册。<https://www.ti.com/lit/ds/symlink/lm358.pdf>
 - **TI, OPA340 数据手册**：*Output Voltage Swing vs Output Current* 曲线与轨到轨输入共模范围，是本章 §3.4 曲线读法的实例。<https://www.ti.com/lit/ds/symlink/opa340.pdf>

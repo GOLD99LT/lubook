@@ -10,7 +10,7 @@ status: published
 sources:
   - Horowitz & Hill, The Art of Electronics（3rd ed.）— Chapter 2 Bipolar Transistors 与 Chapter 9 Voltage Regulation and Power Conversion 中的功率输出级、推挽、偏置与散热
   - Sedra & Smith, Microelectronic Circuits（8th ed.）— Output Stages 一章，A/B/AB 类输出级、效率、交越失真与功率管 SOA
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations，大环路反馈对输出级失真的抑制与容性负载稳定性 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations，大环路反馈对输出级失真的抑制与容性负载稳定性
   - onsemi, 2N3904 Small Signal NPN Transistor 数据手册 — Electrical Characteristics 表中的 $V_{BE}$、$h_{FE}$ 与热阻量级，用于偏置/热耦合的示例假设 https://www.onsemi.com/pdf/datasheet/2n3904-d.pdf
   - TI, LM340/LM78xx 系列三端稳压器数据手册 — Electrical Characteristics 表中的 Dropout Voltage 与 Output Voltage，用于功放 ±15V 稳压轨的压差核算
   - JEDEC JESD51-1 与 JESD51-14 — 结到环境、结到壳热阻与瞬态热阻抗的测试与定义，用于散热器选型 https://www.jedec.org/standards-documents/docs/jesd-51
@@ -546,7 +546,7 @@ $$\eta_{max}=\frac{V_{cc}^2/(2R_L)}{2V_{cc}^2/R_L}=25\%$$
 
 - **Horowitz & Hill, *The Art of Electronics*（3rd ed.）Chapter 2 *Bipolar Transistors* 与 Chapter 9 *Voltage Regulation and Power Conversion***：功率输出级、推挽、偏置、散热与电源的工程讲法；本章 2.2、2.3、5.5 节的电路口径与该书一致。
 - **Sedra & Smith, *Microelectronic Circuits*（8th ed.）Output Stages 一章**：A/B/AB 类输出级、效率推导、交越失真与功率管 SOA；本章 3.2、3.3、3.4 节的公式与该章一致。
-- **TI, *Op Amps for Everyone*（SLOD006B）Chapter 5 *Feedback and Stability Theory*、Chapter 6 *Development of the Non-Ideal Op Amp Equations***：大环路反馈对输出级失真的抑制、容性负载的稳定性；本章 3.4、5.3 节的反馈/稳定性讨论按该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）Chapter 5 *Feedback and Stability Theory*、Chapter 6 *Development of the Non-Ideal Op Amp Equations***：大环路反馈对输出级失真的抑制、容性负载的稳定性；本章 3.4、5.3 节的反馈/稳定性讨论按该章。
 - **onsemi, 2N3904 数据手册**：*Electrical Characteristics* 表给出 $V_{BE}$、$h_{FE}$ 的测试条件与量级；本章 3.5 节偏置/热耦合的示例假设参考该类手册（具体型号以数据手册为准）。<https://www.onsemi.com/pdf/datasheet/2n3904-d.pdf>
 - **TI, LM340/LM78xx 系列三端稳压器数据手册**：*Electrical Characteristics* 表给出 Dropout Voltage 与 Output Voltage；本章 5.5 节 ±15V 稳压轨的压差/功耗核算按该表。
 - **JEDEC JESD51-1 与 JESD51-14**：结到环境、结到壳热阻与瞬态热阻抗的测试与定义；本章 3.6、5.4 节的 $R_{\theta}$ 与 $Z_{\theta}(t)$ 口径按该系列标准。<https://www.jedec.org/standards-documents/docs/jesd-51>

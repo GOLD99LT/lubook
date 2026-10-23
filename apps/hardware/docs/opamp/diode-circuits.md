@@ -14,7 +14,7 @@ sources:
   - Vishay, 1N4001–1N4007 General Purpose Plastic Rectifier 数据手册 — Maximum Ratings 与 Electrical Characteristics 表中的 V_F、I_FSM 与降额 https://www.vishay.com/docs/88503/1n4001.pdf
   - Vishay, 1N4148 Small Signal Diode 数据手册 — Electrical Characteristics 表中的 V_F 与 C_d，用于小信号限幅管的动态电阻与结电容 https://www.vishay.com/docs/81857/1n4148.pdf
   - TI, LM340/LM78xx 系列三端稳压器数据手册 — Electrical Characteristics 表中的 Dropout Voltage、Output Voltage 与 Line/Load Regulation，用于核对 7805 的输入门限
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，V_OS、A_OL 与有限环路增益对精密限幅阈值的修正 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，V_OS、A_OL 与有限环路增益对精密限幅阈值的修正
 ---
 
 # 二极管电路：整流、滤波、限幅、钳位 Diode Circuits
@@ -580,4 +580,4 @@ $$V_{drop}=\frac{1\times10^{-3}}{50\times10\times10^{-6}}+\frac{1\times10^{-3}}{
 - **Vishay, 1N4001–1N4007 数据手册**：*Maximum Ratings and Electrical Characteristics* 表给出 $V_F$、$I_{FSM}$、$t_{rr}$ 的测试条件；本章 4.1 节的二极管电流/浪涌核对按该表。<https://www.vishay.com/docs/88503/1n4001.pdf>
 - **Vishay, 1N4148 数据手册**：小信号二极管的 $V_F$ 与 $C_d$；本章 3.4 节限幅管动态电阻与结电容的量级参考该手册。<https://www.vishay.com/docs/81857/1n4148.pdf>
 - **TI, LM340/LM78xx 系列三端稳压器数据手册**：*Electrical Characteristics* 表给出 Dropout Voltage、Output Voltage 与 Line/Load Regulation；本章 4.1 节的 7805 输入门限按该表（具体型号以数据手册为准）。
-- **TI, *Op Amps for Everyone*（SLOD006B）Chapter 11 *Understanding Op Amp Parameters***：$V_{OS}$、$A_{OL}$ 的定义与测试条件；本章 3.4、4.2 节精密限幅的误差预算按该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）Chapter 11 *Understanding Op Amp Parameters***：$V_{OS}$、$A_{OL}$ 的定义与测试条件；本章 3.4、4.2 节精密限幅的误差预算按该章。

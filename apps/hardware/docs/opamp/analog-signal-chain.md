@@ -8,7 +8,7 @@ tags: [模拟信号, 信号链, 概述, 模数转换]
 difficulty: 1
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 10 Op Amp Noise Theory and Applications、Chapter 11 Understanding Op Amp Parameters，噪声模型、噪声增益与参数测试条件 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 10 Op Amp Noise Theory and Applications、Chapter 11 Understanding Op Amp Parameters，噪声模型、噪声增益与参数测试条件
   - TI, Noise Analysis in Operational Amplifier Circuits（SLVA043B）— 分项噪声预算、源阻抗与噪声系数、$R_{s,opt}$ 的推导 https://www.ti.com/lit/an/slva043b/slva043b.pdf
   - Analog Devices, MT-047 Op Amp Noise — 噪声来源、输入参考噪声模型与谱密度曲线读法 https://www.analog.com/media/en/training-seminars/tutorials/MT-047.pdf
   - Analog Devices, MT-048 Op Amp Noise Relationships（1/f Noise, RMS Noise, and Equivalent Noise Bandwidth）— 1/f 积分、RMS 换算与 π/2 噪声带宽 https://www.analog.com/media/en/training-seminars/tutorials/MT-048.pdf
@@ -697,7 +697,7 @@ $$\tau=200\text{ns},\qquad t=1.80\,\mu\text{s}>1\,\mu\text{s}$$
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）Chapter 10 *Op Amp Noise Theory and Applications*、Chapter 11 *Understanding Op Amp Parameters***：噪声模型、噪声增益、带宽与参数测试条件；本章 3.2、3.4 节的口径按该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）Chapter 10 *Op Amp Noise Theory and Applications*、Chapter 11 *Understanding Op Amp Parameters***：噪声模型、噪声增益、带宽与参数测试条件；本章 3.2、3.4 节的口径按该章。
 - **TI, *Noise Analysis in Operational Amplifier Circuits*（SLVA043B）**：分项噪声预算、源阻抗与噪声系数、$R_{s,opt}$ 的推导；本章 3.2、3.3 节的 NF 与级联算法按该文。<https://www.ti.com/lit/an/slva043b/slva043b.pdf>
 - **Analog Devices, MT-047 *Op Amp Noise***：噪声来源、输入参考噪声模型、$e_n$/$i_n$ 谱密度曲线读法；本章 2.2、3.2 节的噪声模型按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-047.pdf>
 - **Analog Devices, MT-048 *Op Amp Noise Relationships（1/f Noise, RMS Noise, and Equivalent Noise Bandwidth）***：1/f 积分、RMS 换算与噪声带宽系数；本章 3.2 节的 $E_{1/f}$ 与 $BW_n$ 按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-048.pdf>

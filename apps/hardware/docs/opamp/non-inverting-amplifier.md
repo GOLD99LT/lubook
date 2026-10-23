@@ -8,7 +8,7 @@ tags: [运放电路, 同相放大, 高输入阻抗, 比例放大]
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations、Chapter 6 Development of the Non-Ideal Op Amp Equations https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations、Chapter 6 Development of the Non-Ideal Op Amp Equations
   - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源同相放大、偏置与交流耦合
   - Analog Devices, MT-035 Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues（Mini Tutorial）— 输入共模范围、输出摆幅与轨到轨边界 https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 噪声增益、闭环带宽与增益带宽积 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
@@ -543,7 +543,7 @@ $$PM=90^{\circ}-\arctan1.549=32.8^{\circ}$$
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给同相组态的虚短、分压推导与理想增益；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 的修正式。本章 §3.1、§3.2 的推导顺序与该书一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给同相组态的虚短、分压推导与理想增益；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 的修正式。本章 §3.1、§3.2 的推导顺序与该书一致。
 - **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源同相放大、偏置与交流耦合的成套电路；本章 §3.5、§5.2 的 $V_{ref}$ 偏置与参考缓冲按该文口径。
 - **Analog Devices, MT-035 *Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues***：输入共模范围、输出摆幅与轨到轨的真实边界；本章 §3.6、§4.4 的 ICMR 与摆幅预算参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf>
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益、闭环带宽与增益带宽积；本章 §3.4、§4.2 的 $f_{cl}=GBW/G$ 按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf>

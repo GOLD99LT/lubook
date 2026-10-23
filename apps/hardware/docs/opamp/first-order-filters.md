@@ -8,8 +8,8 @@ tags: [运放电路, 有源滤波, 低通, 高通, -3dB截止]
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 16 Active Filter Design Techniques 给出一阶/二阶节、巴特沃斯/切比雪夫/贝塞尔三种响应的定义与设计流程，以及 Sallen-Key 结构 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 6 Development of the Non-Ideal Op Amp Equations 给出有限开环增益与环路增益对闭环频率响应的修正，本章的 GBW 预算按该章口径 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 16 Active Filter Design Techniques 给出一阶/二阶节、巴特沃斯/切比雪夫/贝塞尔三种响应的定义与设计流程，以及 Sallen-Key 结构
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 6 Development of the Non-Ideal Op Amp Equations 给出有限开环增益与环路增益对闭环频率响应的修正，本章的 GBW 预算按该章口径
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 噪声增益、闭环带宽与增益带宽积，本章"滤波器也受 GBW 约束"的推导按该文 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源滤波器的偏置与交流耦合
   - 童诗白、华成英《模拟电子技术基础》—「信号的运算和处理」，有源滤波电路、一阶低通/高通与二阶低通的教材讲法
@@ -608,7 +608,7 @@ $$GBW\ge\frac{100f_c}{0.6325}=1.6\ \text{MHz}$$
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 16 *Active Filter Design Techniques* 给出一阶/二阶节、巴特沃斯/切比雪夫/贝塞尔三种响应的定义与设计流程；本章 3.4、3.5 节的阶数与响应类型口径与该章一致。Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 对闭环响应的修正，本章 3.6 节的 GBW 预算按该章。https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 16 *Active Filter Design Techniques* 给出一阶/二阶节、巴特沃斯/切比雪夫/贝塞尔三种响应的定义与设计流程；本章 3.4、3.5 节的阶数与响应类型口径与该章一致。Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 对闭环响应的修正，本章 3.6 节的 GBW 预算按该章。
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益、闭环带宽与增益带宽积；本章 3.6 节的 $|T(f_c)|=GBW/(Nf_c)$ 与该文的 $f_c=GBW/(1/\beta)$ 口径一致。https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
 - **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源滤波器的偏置与交流耦合；本章 5.4 节的 $V_{CC}/2$ 偏置与耦合电容取值按该文。
 - **童诗白、华成英《模拟电子技术基础》**：「信号的运算和处理」给有源滤波电路、一阶低通/高通与二阶低通的教材讲法；本章 3.1~3.3 的推导顺序与该书一致。

@@ -8,7 +8,7 @@ tags: [运放电路, 精密整流, 绝对值电路, 峰值检测, 采样保持]
 difficulty: 3
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 6 Development of the Non-Ideal Op Amp Equations 给有限 A_OL 下的闭环误差，Chapter 11 Understanding Op Amp Parameters 给 V_OS、I_B 与压摆率的测试条件 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 6 Development of the Non-Ideal Op Amp Equations 给有限 A_OL 下的闭环误差，Chapter 11 Understanding Op Amp Parameters 给 V_OS、I_B 与压摆率的测试条件
   - National Semiconductor（现 TI）, AN-31 Op Amp Circuit Collection — 精密整流器、峰值检波器与采样保持电路一节
   - Linear Technology, AN-47 High Speed Amplifier Techniques（Jim Williams）— 高速精密整流与峰值检波的实现与布局
   - Horowitz & Hill, The Art of Electronics（3rd ed.）— 精密整流、峰值检测与采样保持相关小节
@@ -429,7 +429,7 @@ $RC=10^4\times100\times10^{-9}=1\text{ms}$，$\Delta V\approx V_{pk}/(fRC)=0.5/(
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 下闭环误差的推导，Chapter 11 *Understanding Op Amp Parameters* 给 $V_{OS}$、$I_B$、压摆率的定义与测试条件；本章 §3.1 的 $V_D/(1+T)$ 与 §3.2 的 SR 判据按该口径整理。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 下闭环误差的推导，Chapter 11 *Understanding Op Amp Parameters* 给 $V_{OS}$、$I_B$、压摆率的定义与测试条件；本章 §3.1 的 $V_D/(1+T)$ 与 §3.2 的 SR 判据按该口径整理。
 - **National Semiconductor（现 TI）, AN-31 *Op Amp Circuit Collection***：精密整流器、峰值检波器与采样保持电路的经典集合，本章 §2.2~§2.4 的三种拓扑与该文一致（二极管方向与 D2 的作用按本章图重新标注）。
 - **Linear Technology, AN-47 *High Speed Amplifier Techniques*（Jim Williams）**：高速精密整流与峰值检波的实现、二极管选型与布局要点；本章 §5.2 的保护环与清洗建议参照该文的实测经验。
 - **Horowitz & Hill, *The Art of Electronics*（3rd ed.）**：精密整流、峰值检测与采样保持的电路演进与失效模式；本章 §2.3 的过零畸变与 §5.3 的模型边界与该书口径一致。

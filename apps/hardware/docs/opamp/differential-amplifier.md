@@ -10,7 +10,7 @@ status: published
 sources:
   - Analog Devices, Analog Dialogue《A Deeper Look into Difference Amplifiers》(Harry Holt) — 四电阻差分网络的共模增益、电阻失配与最坏情况误差分析 https://www.analog.com/en/resources/analog-dialogue/articles/deeper-look-into-difference-amplifiers.html
   - Analog Devices, MT-042 Op Amp Common-Mode Rejection Ratio (CMRR) — CMRR 的输入折算、器件级与电路级定义、测试方法 https://www.analog.com/media/en/training-seminars/tutorials/MT-042.pdf
-  - TI, Op Amps for Everyone (SLOD006B), Chapter 11 Understanding Op Amp Parameters — CMRR 与输入共模范围的测试条件 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone (SLOD006B), Chapter 11 Understanding Op Amp Parameters — CMRR 与输入共模范围的测试条件
   - TI, INA128 数据手册 — 仪表放大器的 CMRR vs Gain 表与输入偏置电流规格，用作与分立四电阻网络的对照 https://www.ti.com/lit/ds/symlink/ina128.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems (4th ed.), Chapter 2 Circuits with Resistive Feedback — 差分放大器、输入电阻与共模增益的推导
   - Sedra & Smith, Microelectronic Circuits (8th ed.), Chapter 2 Operational Amplifiers — 差模/共模分解与 CMRR 定义
@@ -577,7 +577,7 @@ $$f_{cl}=\frac{GBW}{1/\beta}=\frac{1\text{MHz}}{11}=90.9\ \text{kHz}$$
 
 - **Analog Devices, Analog Dialogue《A Deeper Look into Difference Amplifiers》（Harry Holt）**：四电阻差分网络的共模增益、电阻失配与最坏情况误差分析；本章 §3.2 的 $(1+G)/(4\delta)$ 与该文的最坏情况分析一致。<https://www.analog.com/en/resources/analog-dialogue/articles/deeper-look-into-difference-amplifiers.html>
 - **Analog Devices, MT-042 *Op Amp Common-Mode Rejection Ratio (CMRR)***：CMRR 的输入折算、器件级与电路级定义、测试方法；本章 §2.3、§3.5 的口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-042.pdf>
-- **TI, *Op Amps for Everyone*（SLOD006B），Chapter 11 *Understanding Op Amp Parameters***：CMRR、输入共模范围与测试条件；本章 §3.6、§3.7 的"参数带条件"来自该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B），Chapter 11 *Understanding Op Amp Parameters***：CMRR、输入共模范围与测试条件；本章 §3.6、§3.7 的"参数带条件"来自该章。
 - **TI, INA128 数据手册**：*CMRR vs Gain* 表、增益公式 $G=1+50\ \text{k}\Omega/R_G$ 与输入偏置电流规格；本章 §4.5、§5.4 的 INA 对照按该手册。<https://www.ti.com/lit/ds/symlink/ina128.pdf>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.），Chapter 2 *Circuits with Resistive Feedback***：差分放大器、输入电阻与共模增益的推导；本章 §2.2、§2.4 的推导顺序与该章一致。
 - **Sedra & Smith, *Microelectronic Circuits*（8th ed.），Chapter 2 *Operational Amplifiers***：差模/共模分解、CMRR 定义与差分放大器；本章 §2.3、§3.1 的符号与该章一致。

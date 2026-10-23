@@ -11,7 +11,7 @@ sources:
   - Analog Devices, MT-037 Op Amp Input Offset Voltage（Mini Tutorial）— VOS 定义、温漂与误差预算 https://www.analog.com/media/en/training-seminars/tutorials/MT-037.pdf
   - Analog Devices, MT-038 Op Amp Input Bias Current（Mini Tutorial）— IB、IOS 定义与高源阻抗误差 https://www.analog.com/media/en/training-seminars/tutorials/MT-038.pdf
   - Analog Devices, MT-055 Chopper Stabilized (Auto-Zero) Precision Op Amps（Mini Tutorial）— 斩波/自稳零的噪声、带宽与电荷注入取舍 https://www.analog.com/media/en/training-seminars/tutorials/MT-055.pdf
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，VOS、IB、IOS 的定义与测试条件 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，VOS、IB、IOS 的定义与测试条件
   - TI, INA128 数据手册 — 增益公式 G=1+50kΩ/RG、输入偏置电流与失调规格、CMRR vs Gain 表 https://www.ti.com/lit/ds/symlink/ina128.pdf
   - TI, OPA333 数据手册 — 零漂移运放的 VOS、温漂与静态电流规格（作为低失调方案的对照） https://www.ti.com/lit/ds/symlink/opa333.pdf
 ---
@@ -569,6 +569,6 @@ $$\frac{89.1}{19.8}=4.5\ \text{倍},\qquad \text{残余}=22.2\%$$
 - **Analog Devices, MT-037 *Op Amp Input Offset Voltage***：$V_{OS}$ 的定义、温漂、分布与误差预算；本章 §2.1、§3.3 的口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-037.pdf>
 - **Analog Devices, MT-038 *Op Amp Input Bias Current***：$I_B$、$I_{OS}$ 的定义、方向、温度行为与高源阻抗误差；本章 §2.2、§2.3 的误差模型与该文一致。<https://www.analog.com/media/en/training-seminars/tutorials/MT-038.pdf>
 - **Analog Devices, MT-055 *Chopper Stabilized (Auto-Zero) Precision Op Amps***：斩波/自稳零的原理、噪声与带宽取舍、电荷注入；本章 §2.5、§4.4 的讨论参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-055.pdf>
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 11 *Understanding Op Amp Parameters* 给 $V_{OS}$、$I_B$、$I_{OS}$ 的定义与测试条件；本章 §3.1、§5.5 的测试方法来自该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 11 *Understanding Op Amp Parameters* 给 $V_{OS}$、$I_B$、$I_{OS}$ 的定义与测试条件；本章 §3.1、§5.5 的测试方法来自该章。
 - **TI, INA128 数据手册**：增益公式 $G=1+50\ \text{k}\Omega/R_G$、输入偏置电流与失调规格、CMRR vs Gain 表；本章 §2.4、§4.1 的仪表放大参数按该手册。<https://www.ti.com/lit/ds/symlink/ina128.pdf>
 - **TI, OPA333 数据手册**：零漂移运放的 $V_{OS}$、温漂与静态电流规格，是 §4.4 的对照器件（具体数值以手册为准）。<https://www.ti.com/lit/ds/symlink/opa333.pdf>

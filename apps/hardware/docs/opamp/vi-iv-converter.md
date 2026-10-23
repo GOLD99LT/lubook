@@ -8,7 +8,7 @@ tags: [运放电路, 压控电流源, I/V转换, 光电二极管, 传感器接�
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 6 Development of the Non-Ideal Op Amp Equations 给有限 A_OL 下输出阻抗与闭环误差的推导 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 6 Development of the Non-Ideal Op Amp Equations 给有限 A_OL 下输出阻抗与闭环误差的推导
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth — 噪声增益、环路增益与穿越频率 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Analog Devices, MT-058 Effects of Feedback Capacitance on VFB and CFB Op Amps — 反馈电容对跨阻级稳定性与带宽的影响 https://www.analog.com/media/en/training-seminars/tutorials/MT-058.pdf
   - Jerald Graeme, Photodiode Amplifiers — Op Amp Solutions（McGraw-Hill）— 光电二极管跨阻放大器的噪声、带宽与稳定性设计
@@ -429,7 +429,7 @@ GBW=1MHz、$R_s=156\Omega$、10kHz 时 $A_{OL}=100$，$R_{out}=15.6\text{k}\Omeg
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 下闭环增益、输出阻抗与误差的推导；本章 §3.1 的 $R_{out}\approx A_{OL}R_s$ 与 §3.5 的误差分解按该章口径整理。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 下闭环增益、输出阻抗与误差的推导；本章 §3.1 的 $R_{out}\approx A_{OL}R_s$ 与 §3.5 的误差分解按该章口径整理。
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益、环路增益与穿越频率的关系；本章 §3.3、§3.4 的 $1/\beta$ 与 $f_c$ 计算与该文一致。<https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf>
 - **Analog Devices, MT-058 *Effects of Feedback Capacitance on VFB and CFB Op Amps***：反馈电容对跨阻级稳定性、带宽与噪声增益的影响，本章 §3.4 的零极点模型与补偿公式按该文整理。<https://www.analog.com/media/en/training-seminars/tutorials/MT-058.pdf>
 - **Jerald Graeme, *Photodiode Amplifiers: Op Amp Solutions*（McGraw-Hill）**：光电二极管跨阻放大器的噪声、带宽、稳定性与布局，本章 §2.4、§5.3 的零偏/反偏权衡与保护环做法参照该书。

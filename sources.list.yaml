@@ -10,20 +10,19 @@
 
 official:
 - name: TI Precision Labs - Op Amps
-  url: https://ti.com/precisionlabs-opamps
+  url: https://www.ti.com/video/series/precision-labs.html
   type: course
   license: vendor
   rating: A
   chapters: [opamp-overview, ideal-opamp, feedback-topologies, stability-bode, supply-rails, cmrr-psrr, offset-bias, gbp-slew-rate, noise]
   summary: TI 官方运放系统课程，含视频、实验、测验，公认最佳运放教材
 - name: TI Precision Labs - Other (ADC, Power, etc.)
-  url: https://ti.com/precisionlabs
+  url: https://www.ti.com/video/series/precision-labs.html
   type: course
   rating: A
   chapters: [adc, power-specs]
   summary: 同一课程体系，覆盖 ADC、电源、接口等
 - name: TI Application Notes (SLOA/SBOA series)
-  url: https://www.ti.com/lit/apindex.html
   type: app-note
   rating: A
   chapters: []
@@ -47,15 +46,15 @@ official:
   chapters: [ltspice]
   summary: 免费 SPICE 仿真工具与官方案例
 - name: Op Amps for Everyone (Ron Mancini, TI, SLOD006B)
-  url: https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  url: https://archive.org/details/opampsforeveryon0000unse
   type: app-note
   vendor: Texas Instruments
   rating: A
   chapters: [opamp-overview, ideal-opamp, open-loop-feedback, feedback-topologies, offset-bias, gbp-slew-rate, voltage-follower, inverting-amplifier, non-inverting-amplifier, summing-amplifier, integrator-differentiator, first-order-filters, comparator-hysteresis, oscillators, precision-rectifier-peak-samplehold]
-  summary: TI 官方运放设计参考全书（免费 PDF），从理想假设到各类实用电路与参数，运放章最常用工具书
+  summary: TI 官方运放设计参考全书（TI 原 PDF 已下架；archive.org 存档副本需借阅），从理想假设到各类实用电路与参数，运放章最常用工具书
   note_path: null
+# TI 已下架（sloa058/a/b 全 404，无替代）：本条在联网复核里会显示 DEAD，属预期
 - name: Single-Supply Op-Amp Circuit Collection (TI, SLOA058)
-  url: https://www.ti.com/lit/an/sloa058/sloa058.pdf
   type: app-note
   vendor: Texas Instruments
   rating: A
@@ -71,7 +70,7 @@ official:
   summary: 基于量产案例讲四电阻差分对：电阻失配对 CMRR 的定量限制、噪声增益放大失调、开尔文检测、输入间接电容致振荡
   note_path: sources/notes/adi-difference-amplifier.md
 - name: MT-035 Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues (ADI Mini Tutorial)
-  url: https://www.analog.com/en/technical-articles.html
+  url: https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
   type: app-note
   vendor: Analog Devices
   rating: A
@@ -79,7 +78,7 @@ official:
   summary: ADI 小教程：输入共模范围、输出摆幅/轨到轨真相、单供电与 VOL/VOH 边界
   note_path: null
 - name: MT-049 Op Amp Total Output Noise Calculations for Single-Pole System (ADI Mini Tutorial)
-  url: https://www.analog.com/en/technical-articles.html
+  url: https://www.analog.com/media/en/training-seminars/tutorials/MT-049.pdf
   type: app-note
   vendor: Analog Devices
   rating: A
@@ -87,7 +86,7 @@ official:
   summary: ADI 小教程：把电压/电流噪声谱密度在噪声增益与带宽下积分成总输出噪声的方法
   note_path: null
 - name: A Designer's Guide to Instrumentation Amplifiers (Kitchin & Counts, ADI)
-  url: https://www.analog.com/en/products/precision-instrumentation-amplifier.html
+  url: https://www.analog.com/media/en/training-seminars/design-handbooks/designers-guide-instrument-amps-complete.pdf
   type: app-note
   vendor: Analog Devices
   rating: A
@@ -135,7 +134,7 @@ official:
   summary: 免费电源设计工具，按规格五步完成选型→功率级→效率损耗→环路波特图/负载瞬态，可导出 LTspice 做完整仿真验证
   note_path: null
 - name: TI WEBENCH Power Designer
-  url: https://www.ti.com/design-resources/technologies/analog-power-management/webench.html
+  url: https://www.ti.com/tool/WEBENCH-POWER-DESIGNER
   type: tool
   vendor: Texas Instruments
   rating: A
@@ -263,7 +262,7 @@ official:
   summary: I2C 硬件层详解：开漏线 + 上拉（经验 4.7kΩ）、开始/停止条件、ACK/NACK、时钟拉伸、多电压电平对接
   note_path: null
 - name: SPI（SparkFun Learn）
-  url: https://learn.sparkfun.com/tutorials/spi
+  url: https://learn.sparkfun.com/tutorials/serial-peripheral-interface-spi
   type: course
   vendor: SparkFun
   rating: A
@@ -443,7 +442,7 @@ books:
   summary: 经典器件教材，二极管整流与 BJT/FET 工作区讲解细致
 - name: The Circuit Designer's Companion (3rd Edition)
   author: Peter Wilson (Tim Williams 原著)
-  isbn: 9780750687843
+  isbn: 9780080971384
   year: 2012
   rating: B
   chapters: [capacitor-parameters, inductors-ferrite-beads, supply-rails, linear-regulator-reference, analog-switch-mux]
@@ -457,7 +456,7 @@ books:
   summary: Bob Pease 模拟排障经验集，常见怪问题与根因分析，经典老资料
 - name: The Art and Science of Analog Circuit Design
   author: Jim Williams
-  isbn: 9780750670845
+  isbn: 9780750670623
   year: 1995
   rating: B
   chapters: [precision-rectifier-peak-samplehold, linear-regulator-reference, oscillators, noise, power-amplifiers]

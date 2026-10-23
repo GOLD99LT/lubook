@@ -8,7 +8,7 @@ tags: [反馈拓扑, 电压采样, 电流采样, 串联并联, 环路增益, 阻
 difficulty: 3
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations，四种反馈组态、环路增益与有限增益对输入/输出电阻的修正 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations，四种反馈组态、环路增益与有限增益对输入/输出电阻的修正
   - Analog Devices, MT-032 Ideal Voltage Feedback (VFB) Op Amp Model（Mini Tutorial）— 反馈框图、开环增益与闭环传递函数 https://www.analog.com/media/en/training-seminars/tutorials/MT-032.pdf
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 噪声增益 1/β、闭环带宽与增益带宽积 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems（4th ed.）— Chapter 2 Circuits with Resistive Feedback，输入电阻与输出电阻的完整推导
@@ -516,7 +516,7 @@ $$f_{p\beta}=\frac{1}{2\pi\times(10\ \text{M}\Omega\parallel100\ \text{k}\Omega)
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：*Feedback and Stability Theory* 一节给四种反馈组态、环路增益与闭环增益公式；*Development of the Non-Ideal Op Amp Equations* 一节给有限增益、有限输入/输出阻抗的修正。本章 §3.1~§3.4 的符号与推导顺序按该书整理。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：*Feedback and Stability Theory* 一节给四种反馈组态、环路增益与闭环增益公式；*Development of the Non-Ideal Op Amp Equations* 一节给有限增益、有限输入/输出阻抗的修正。本章 §3.1~§3.4 的符号与推导顺序按该书整理。
 - **Analog Devices, MT-032 *Ideal Voltage Feedback (VFB) Op Amp Model***：反馈框图、开环增益与闭环传递函数；本章 §3.1 的 $A_{CL}=A/(1+A\beta)$ 与 §3.2 的两套 $\beta$ 口径参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-032.pdf>
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益 $1/\beta$、闭环带宽与增益带宽积的关系；本章 §4.3 的带宽账本与 §4.4 的 VFB 对照按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：*Circuits with Resistive Feedback* 一章给输入电阻、输出电阻的完整推导与 (1+T) 规则的适用前提；本章 §3.3 的四个复算与该章一致。

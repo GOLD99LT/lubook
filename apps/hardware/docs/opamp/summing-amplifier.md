@@ -8,7 +8,7 @@ tags: [运放电路, 加法器, 减法器, 求和, 运算电路]
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations 给出反相组态与多路输入求和的 KCL 推导，Chapter 6 Development of the Non-Ideal Op Amp Equations 给出有限开环增益对闭环增益的修正，Chapter 17 Circuit Board Layout Techniques 给出求和节点与地回流处理 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations 给出反相组态与多路输入求和的 KCL 推导，Chapter 6 Development of the Non-Ideal Op Amp Equations 给出有限开环增益对闭环增益的修正，Chapter 17 Circuit Board Layout Techniques 给出求和节点与地回流处理
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 噪声增益、闭环带宽与增益带宽积，本章把多路并联后的 $1/\beta$ 代入该口径 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Analog Devices, MT-035 Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues（Mini Tutorial）— 输入共模范围、输出摆幅与单电源边界，本章讨论同相加法器的共模限制与单电源偏置时按此口径 https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
   - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源下的求和、偏置注入与交流耦合电路
@@ -573,7 +573,7 @@ $$\frac{1}{333}=\frac{1}{3333}+\frac{1}{R_g}\ \Rightarrow\ R_g=370\ \Omega$$
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给反相组态的一般 KCL 推导与多路输入求和；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 的修正式（本章 3.1 节的分母形式与该书一致）；Chapter 17 *Circuit Board Layout Techniques* 讲求和节点与地回流。https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给反相组态的一般 KCL 推导与多路输入求和；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 的修正式（本章 3.1 节的分母形式与该书一致）；Chapter 17 *Circuit Board Layout Techniques* 讲求和节点与地回流。
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益 $1/\beta$、闭环带宽与增益带宽积。本章 3.3 节把"多路并联后的 $R_{eq}$"代入该口径，得到 $f_{cl}=GBW/(1/\beta)$。https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
 - **Analog Devices, MT-035 *Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues***：输入共模范围、输出摆幅与单电源边界。本章 3.6 节与 5.3 节的 ICMR、偏置讨论按该文。https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
 - **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源求和、偏置注入与交流耦合的成套电路；本章 5.3 节的 $V_{ref}$ 注入法与输入输出耦合按该文口径。

@@ -10,7 +10,7 @@ status: published
 sources:
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth — 开环增益、噪声增益、闭环带宽与增益带宽积 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Analog Devices, MT-046 Op Amp Settling Time — 建立时间的定义、误差带、测试条件与压摆/振铃的区分 https://www.analog.com/media/en/training-seminars/tutorials/MT-046.pdf
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations，闭环带宽、压摆率与非线性 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations，闭环带宽、压摆率与非线性
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems（4th ed.）— Chapter 1 Operational Amplifier Fundamentals、Chapter 8 Stability，带宽、压摆率与建立时间
   - Sedra & Smith, Microelectronic Circuits（8th ed.）— Frequency Response 一章，主极点、单位增益频率、压摆率与全功率带宽
 ---
@@ -506,6 +506,6 @@ CFA 的反馈是电流模式，闭环带宽主要由**反馈电阻 $R_f$** 与�
 
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：开环增益、噪声增益、闭环带宽与 GBW 的关系，以及"增益×带宽"的适用条件。本章 §2.1、§2.2、§3.2 的口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf>
 - **Analog Devices, MT-046 *Op Amp Settling Time***：建立时间的定义、误差带、压摆与线性段的区分、测试条件。本章 §2.7、§3.4、§4.1 的三段拆解参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-046.pdf>
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 5 *Feedback and Stability Theory* 给环路增益与闭环带宽；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限带宽、压摆率与非线性修正。本章 §2.3、§3.5 的边界条件与该书一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 5 *Feedback and Stability Theory* 给环路增益与闭环带宽；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限带宽、压摆率与非线性修正。本章 §2.3、§3.5 的边界条件与该书一致。
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：Chapter 1 *Operational Amplifier Fundamentals* 与 Chapter 8 *Stability* 给带宽、压摆率、建立时间与相位裕度的完整推导；本章 §3.4 的振铃估计与该书一致。
 - **Sedra & Smith, *Microelectronic Circuits*（8th ed.）**：*Frequency Response* 一章讲主极点、单位增益频率、压摆率与全功率带宽；本章 §2.4、§2.5 的物理来源与该章一致。

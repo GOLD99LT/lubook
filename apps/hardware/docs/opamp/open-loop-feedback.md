@@ -8,7 +8,7 @@ tags: [开环增益, 闭环增益, 负反馈, 环路增益, 灵敏度]
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 开环增益、闭环带宽与增益带宽积 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Analog Devices, MT-044 Op Amp Open-Loop Gain and Open-Loop Gain Nonlinearity（Mini Tutorial）— 开环增益的测试条件与非线性 https://www.analog.com/media/en/training-seminars/tutorials/MT-044.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems（4th ed.）— Chapter 1 Operational Amplifier Fundamentals、Chapter 8 Stability（环路增益、相位裕度与伯德判据）
@@ -554,7 +554,7 @@ $$f_{cl}=GBW\cdot\beta=\frac{1\text{MHz}}{11}=90.9\ \text{kHz}$$
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 5 *Feedback and Stability Theory* 给环路增益、闭环增益、稳定性与伯德判据；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限增益、有限带宽的修正。本章 §3.1~§3.5 的公式与该书一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 5 *Feedback and Stability Theory* 给环路增益、闭环增益、稳定性与伯德判据；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限增益、有限带宽的修正。本章 §3.1~§3.5 的公式与该书一致。
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：开环增益、闭环带宽、增益带宽积与噪声增益的关系；本章 §3.3、§4.1 的带宽口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf>
 - **Analog Devices, MT-044 *Op Amp Open-Loop Gain and Open-Loop Gain Nonlinearity***：开环增益的测试条件、非线性与温度漂移；本章 §3.1、§5.1 的误差预算参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-044.pdf>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：Chapter 1 *Operational Amplifier Fundamentals* 与 Chapter 8 *Stability* 给环路增益、相位裕度、增益裕度与补偿的完整推导；本章 §3.5、§4.3 的 PM/GM 口径与该书一致。
