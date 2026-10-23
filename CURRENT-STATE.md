@@ -214,3 +214,24 @@ python packages/tooling/src/build_memory_budget.py --src apps/hardware/docs --he
 
 历史上两次 OOM 的处置与教训见 ADR-0011（含"`.npmrc` 的 node-options 实测无效"这一条），
 渲染策略的取舍见 ADR-0012。任何回归由 `scan_math_render.py` 在构建后拦截（CI 已接）。
+
+## 13. 上线体检与旧错回归（批次 20）
+
+三个新增工具，把"部署之后"和"别把错话写回来"也纳入常规：
+
+```bash
+# 按路由快照逐页体检线上站点（状态码、标题、同源资源 200）
+python packages/tooling/src/check_live_site.py --base https://gold99lt.github.io/lubook/hardware --app hardware --check-assets
+python packages/tooling/src/check_live_site.py --base https://lubook.pages.dev/hardware --app hardware --check-assets
+
+# 旧错误说法回归扫描（报告用；--strict 才非零退出）
+python packages/tooling/src/scan_legacy_errors.py --app hardware
+
+# 孤儿图清点
+python packages/tooling/src/scan_orphan_assets.py --app hardware
+```
+
+2026-10-23 实测：GitHub Pages 与 Cloudflare 镜像各 **141 路由 + 1238 资源，0 失败**；
+旧错扫描命中 0（另有 5 处是正文在纠正这些说法，已按引号/否定语境排除）。
+
+Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配置）。
