@@ -12,7 +12,7 @@ sources:
   - Vishay Semiconductors, 1N4148 Small Signal Diode 数据手册 — Electrical Characteristics 表中的 V_F、t_rr 与 C_d https://www.vishay.com/docs/81857/1n4148.pdf
   - STMicroelectronics, STPS340 3A 40V Schottky Rectifier 数据手册 — Electrical Characteristics 与 Thermal Resistance 表（V_F、I_R、R_th(j-c)）https://www.st.com/resource/en/datasheet/stps340.pdf
   - onsemi, MBRS340 3A 40V Schottky Power Rectifier 数据手册 — 正向压降、反向漏电、结电容与热阻 https://www.onsemi.com/pdf/datasheet/mbr340-d.pdf
-  - Infineon, CoolSiC Schottky Diode 产品页与数据手册（650V/1200V 系列）— 无反向恢复、Q_c 与 V_F 温度特性 https://www.infineon.com/cms/en/product/power/diodes-thyristors/sic-schottky-diode/
+  - Infineon, CoolSiC Schottky Diode 产品页与数据手册（650V/1200V 系列）— 无反向恢复、Q_c 与 V_F 温度特性 https://www.infineon.com/cms/en/product/power/diodes-thyristors/
   - IEC 60747-2:2016 Semiconductor devices – Part 2 Discrete devices – Rectifier diodes — V_RRM、I_FSM、t_rr 的定义与测试条件
   - JEDEC JESD51-1 与 JESD51-14 — 结到环境、结到壳热阻与瞬态热阻抗的测试与定义 https://www.jedec.org/standards-documents/docs/jesd-51
   - 王兆安、刘进军《电力电子技术》（机械工业出版社）「电力电子器件」一章 — 快恢复二极管、肖特基二极管与反向恢复损耗的工程口径
@@ -576,7 +576,7 @@ I_{D,rms}=\sqrt{(1-D)\left(I_{out}^2+\frac{\Delta I^2}{12}\right)}
 =\sqrt{0.7917\times9.052}=2.677\ \text{A}
 $$
 
-**第 4 步：导通损耗。** 
+**第 4 步：导通损耗。**
 
 $$
 P_{cond}=V_0I_{D,avg}+R_sI_{D,rms}^2
@@ -606,7 +606,7 @@ $$
 
 两者数值几乎相同，因为反压和占空比的乘积近似不变。
 
-**第 7 步：总损耗与结温（24V 标称）。** 
+**第 7 步：总损耗与结温（24V 标称）。**
 
 $$
 P_D=1.046+0.024+0.015=1.085\ \text{W}
@@ -921,7 +921,7 @@ $0.48>0.289$，所以没有稳定热平衡点，存在热失控风险。解决�
 - **Vishay, 1N4148 数据手册**：小信号二极管的 $V_F$、$t_{rr}$、$C_d$ 与开关特性；本章"小信号管可以到 ns 级恢复"的量级参考该手册。<https://www.vishay.com/docs/81857/1n4148.pdf>
 - **STMicroelectronics, STPS340 数据手册**：40V/3A 肖特基的 $V_F$、$I_R$、$R_{th(j-c)}$ 与热阻测试条件；本章肖特基的量级与热阻口径参考该手册。<https://www.st.com/resource/en/datasheet/stps340.pdf>
 - **onsemi, MBRS340 数据手册**：肖特基的正向压降、反向漏电、结电容与热阻；本章 3.1~3.3 节的典型值范围按该手册与同类器件整理。<https://www.onsemi.com/pdf/datasheet/mbr340-d.pdf>
-- **Infineon, CoolSiC Schottky Diode 产品页与数据手册**：650V/1200V SiC 肖特基的 $V_F$、$Q_c$、无反向恢复特性与高温漏电；本章 2.3、3.4 节的 SiC 口径参考该资料。<https://www.infineon.com/cms/en/product/power/diodes-thyristors/sic-schottky-diode/>
+- **Infineon, CoolSiC Schottky Diode 产品页与数据手册**：650V/1200V SiC 肖特基的 $V_F$、$Q_c$、无反向恢复特性与高温漏电；本章 2.3、3.4 节的 SiC 口径参考该资料。<https://www.infineon.com/cms/en/product/power/diodes-thyristors/>
 - **IEC 60747-2:2016** *Semiconductor devices – Part 2: Discrete devices – Rectifier diodes*：$V_{RRM}$、$I_{FSM}$、$t_{rr}$ 的定义与测试条件；本章 3.4、3.5 节的术语按该标准。
 - **JEDEC JESD51-1 与 JESD51-14**：结到环境热阻与结到壳瞬态热阻抗的测试方法；本章 3.6 节的 $R_{\theta ja}$、$Z_{\theta}$ 口径按该系列标准。<https://www.jedec.org/standards-documents/docs/jesd-51>
 - **王兆安、刘进军《电力电子技术》**（机械工业出版社）「电力电子器件」一章：快恢复二极管、肖特基二极管、反向恢复损耗与缓冲电路的工程讲法；本章 3.4、4.5 节的损耗口径与该章一致。

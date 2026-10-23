@@ -11,7 +11,7 @@ sources:
   - Analog Devices, MT-047 Op Amp Noise — 噪声来源、输入参考噪声模型与谱密度曲线读法 https://www.analog.com/media/en/training-seminars/tutorials/MT-047.pdf
   - Analog Devices, MT-048 Op Amp Noise Relationships（1/f Noise, RMS Noise, and Equivalent Noise Bandwidth）— 1/f 积分、RMS 换算与 π/2 噪声带宽 https://www.analog.com/media/en/training-seminars/tutorials/MT-048.pdf
   - Analog Devices, MT-049 Op Amp Total Output Noise Calculations for Single-Pole System — 单极点系统总输出噪声的分项算法与噪声增益 https://www.analog.com/media/en/training-seminars/tutorials/MT-049.pdf
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 10 Op Amp Noise Theory and Applications，噪声模型、噪声增益与带宽口径 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 10 Op Amp Noise Theory and Applications，噪声模型、噪声增益与带宽口径 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - TI, Noise Analysis in Operational Amplifier Circuits（SLVA043B）— 分项噪声预算、源阻抗与噪声系数 https://www.ti.com/lit/an/slva043b/slva043b.pdf
 ---
 
@@ -587,6 +587,6 @@ $$E_{1/f}=10\times10^{-9}\times\sqrt{100\times\ln100}=10^{-8}\times21.46=214.6\ 
 - **Analog Devices, MT-047 *Op Amp Noise***：噪声的物理来源、输入参考噪声模型、$e_n$/$i_n$ 谱密度曲线的读法。本章 §2.1、§2.4 的分类与读图口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-047.pdf>
 - **Analog Devices, MT-048 *Op Amp Noise Relationships（1/f Noise, RMS Noise, and Equivalent Noise Bandwidth）***：1/f 噪声的积分、RMS 换算与单极点噪声带宽 $\pi/2$ 因子。本章 §3.2、§3.3 的公式与 §4.3 的算例按该文口径。<https://www.analog.com/media/en/training-seminars/tutorials/MT-048.pdf>
 - **Analog Devices, MT-049 *Op Amp Total Output Noise Calculations for Single-Pole System***：把 $e_n$、$i_n$、源阻抗、反馈网络逐项折算到输出再 RSS 的标准算法。本章 §3.4、§4.1 的分项表与该方法一致。<https://www.analog.com/media/en/training-seminars/tutorials/MT-049.pdf>
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 10 *Op Amp Noise Theory and Applications* 给噪声模型、噪声增益、带宽与信噪比的工程口径；本章 §2.5、§3.5 的"源阻抗三项竞争"参考该章。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 10 *Op Amp Noise Theory and Applications* 给噪声模型、噪声增益、带宽与信噪比的工程口径；本章 §2.5、§3.5 的"源阻抗三项竞争"参考该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - **TI, *Noise Analysis in Operational Amplifier Circuits*（SLVA043B）**：分项噪声预算、源阻抗匹配、噪声系数与 $R_{s,opt}$ 的推导；本章 §3.5 的 $NF$ 与 $R_{s,opt}$ 公式按该文，并纠正了"$R_{s,opt}$ 使总噪声最小"的常见误读。<https://www.ti.com/lit/an/slva043b/slva043b.pdf>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：*Noise* 一章给噪声谱密度、等效噪声带宽与多源合成的严格推导；本章 §3.1~§3.3 的符号与量纲与该书一致。

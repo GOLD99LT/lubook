@@ -9,7 +9,7 @@ difficulty: 2
 status: published
 sources:
   - Infineon, OptiMOS 5 与 StrongIRFET 数据手册 — Electrical Characteristics 表中的 R_DS(on)@V_GS=10V/4.5V、Q_g、Q_oss、R_th(jc) 以及 SOA 图 https://www.infineon.com/cms/en/product/power/mosfet/
-  - Vishay, Application Note AN608 Power MOSFET Basics — Understanding Gate Charge and Using It to Assess Switching Performance — 栅极电荷、米勒平台与开关损耗 https://www.vishay.com/docs/73217/an608.pdf
+  - Vishay, Application Note AN608 Power MOSFET Basics — Understanding Gate Charge and Using It to Assess Switching Performance — 栅极电荷、米勒平台与开关损耗
   - Texas Instruments, Gate Driver 产品与设计资料 — 低边/高边驱动、自举与栅极电阻取值 https://www.ti.com/power-management/gate-drivers/overview
   - JEDEC JESD51-14 — 结到壳瞬态热阻抗的测试与定义 https://www.jedec.org/standards-documents/docs/jesd51-14
   - IEC 60747-8:2010 Semiconductor devices – Discrete devices – Part 8 Field-effect transistors — V_GS(th)、R_DS(on)、SOA 的定义与测试条件
@@ -394,7 +394,7 @@ $$
 
 **需求**：$C_{iss}=3$nF、$C_{rss}=100$pF、栅极回路电感 $L_g=5$nH、驱动电压 10V。分别取 $R_g=10\ \Omega$ 和 $R_g=1\ \Omega$，看栅极振铃；再算半桥 $dV/dt=24\text{V}/20\text{ns}$ 时，$C_{rss}$ 通过 $R_g$ 注入的栅压。
 
-**第一步，栅极回路谐振。** 
+**第一步，栅极回路谐振。**
 
 $$
 f_r=\frac{1}{2\pi\sqrt{L_gC_{iss}}}=\frac{1}{2\pi\sqrt{5\times10^{-9}\times3\times10^{-9}}}=41.1\ \text{MHz}
@@ -445,7 +445,7 @@ $R_g=10\ \Omega$ 时 $V_{gs}=1.2$V，低于阈值 2.5V，安全；$R_g=100\ \Ome
 | 结温上限 | 降额后 125°C |
 | 封装 | DFN3×3，$R_{\theta ja}=50$°C/W（示例，以数据手册为准） |
 
-**第 1 步：占空比与电流。** 
+**第 1 步：占空比与电流。**
 
 $$
 D=\frac{V_{out}}{V_{in}}=\frac{5}{24}=0.2083
@@ -479,19 +479,19 @@ $$
 P_{cond}=I_{rms}^2R_{DS(on)}(100)=4.459^2\times0.012=19.88\times0.012=0.239\ \text{W}
 $$
 
-**第 3 步：栅极驱动损耗。** 
+**第 3 步：栅极驱动损耗。**
 
 $$
 P_g=Q_gV_{GS}f_{sw}=18\times10^{-9}\times10\times5\times10^5=0.090\ \text{W}
 $$
 
-**第 4 步：$Q_{oss}$ 损耗。** 
+**第 4 步：$Q_{oss}$ 损耗。**
 
 $$
 P_{oss}=\frac{1}{2}Q_{oss}V_{DS}f_{sw}=0.5\times12\times10^{-9}\times24\times5\times10^5=0.072\ \text{W}
 $$
 
-**第 5 步：死区体二极管损耗。** 
+**第 5 步：死区体二极管损耗。**
 
 $$
 P_{dead}=2V_FI_Dt_{dead}f_{sw}=2\times0.8\times5\times20\times10^{-9}\times5\times10^5=0.080\ \text{W}
@@ -505,7 +505,7 @@ $$
 
 若错误地按 24V 硬开关算，这一项会得到 1.2W，是实际值的 30 倍；总损耗会从 0.521W 变成 $0.239+0.090+0.072+0.080+1.2=1.681$W，高估约 3.2 倍。**这就是"公式要用对工况"的典型例子。**
 
-**第 7 步：低边总损耗。** 
+**第 7 步：低边总损耗。**
 
 $$
 P_{LS}=0.239+0.090+0.072+0.080+0.040=0.521\ \text{W}
@@ -513,7 +513,7 @@ $$
 
 体二极管反向恢复损耗 $P_{rr}=Q_{rr}V_{DS}f=20\times10^{-9}\times24\times5\times10^5=0.24$W，主要落在高边开通瞬间，不计入低边热设计（保守可把一半算给低边，见第 8 步）。
 
-**第 8 步：结温。** 
+**第 8 步：结温。**
 
 $$
 T_j=60+0.521\times50=86.1^\circ\text{C}
@@ -535,7 +535,7 @@ $$
 
 刚好压在 125°C 线上。如果环境温度到 85°C，$T_j=85+0.641\times100=149.1^\circ\text{C}$，超过降额线、逼近绝对上限。**同样的损耗，封装和铜箔决定成败。**
 
-**第 10 步：要不要加散热片？** 
+**第 10 步：要不要加散热片？**
 
 - 在 60°C 环境、DFN3×3、$R_{\theta ja}=50$°C/W 的条件下，$T_j=86\sim92$°C，**不需要独立散热片**，但必须按数据手册的推荐焊盘铺铜、打热过孔。
 - 如果实测 $R_{\theta ja}$ 超过 100°C/W，或环境温度超过 85°C，就需要换更大封装（如 TO-252/TO-220）、加散热片或并联。
@@ -807,7 +807,7 @@ $$
 ## 8. 参考资料
 
 - **Infineon, OptiMOS 5 与 StrongIRFET 数据手册**：*Electrical Characteristics* 表给出 $R_{DS(on)}$ 在 $V_{GS}=10$V/4.5V 下的值、$Q_g$、$Q_{oss}$、$R_{th(jc)}$，并附 SOA 图；本章 3.1~3.7 节的参数口径按该手册与同类器件整理。<https://www.infineon.com/cms/en/product/power/mosfet/>
-- **Vishay, Application Note AN608** *Power MOSFET Basics: Understanding Gate Charge and Using It to Assess Switching Performance*：栅极电荷、米勒平台、开关损耗的推导；本章 3.2~3.4 节的 $Q_g$、$V_{pl}$、$t_{pl}$ 口径参考该文。<https://www.vishay.com/docs/73217/an608.pdf>
+- **Vishay, Application Note AN608** *Power MOSFET Basics: Understanding Gate Charge and Using It to Assess Switching Performance*：栅极电荷、米勒平台、开关损耗的推导；本章 3.2~3.4 节的 $Q_g$、$V_{pl}$、$t_{pl}$ 口径参考该文。
 - **Texas Instruments, Gate Driver 产品与设计资料**：低边/高边驱动、自举电容、栅极电阻与死区设计；本章 5.3 节的自举方案与 $C_{boot}$ 计算按该资料的口径。<https://www.ti.com/power-management/gate-drivers/overview>
 - **JEDEC JESD51-14**：结到壳瞬态热阻抗的测试与定义；本章 3.7 节的 $R_{\theta jc}$、$Z_{th}(t)$ 用法按该标准。<https://www.jedec.org/standards-documents/docs/jesd51-14>
 - **IEC 60747-8:2010** *Semiconductor devices – Discrete devices – Part 8: Field-effect transistors*：$V_{GS(th)}$、$R_{DS(on)}$、SOA 的定义与测试条件；本章 3.6 节的 SOA 边界按该标准。

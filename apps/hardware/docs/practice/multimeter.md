@@ -129,7 +129,7 @@ $$V_{\text{read}}=V_{\text{mains}}\frac{R_{in}}{\sqrt{R_{in}^2+X_C^2}}$$
 
 当 $R_{in}\ll X_C$ 时近似为 $V_{\text{mains}}R_{in}/X_C$。
 
-**算例：230 V、50 Hz、30 pF。** 
+**算例：230 V、50 Hz、30 pF。**
 
 $$X_C=\frac{1}{2\pi\times50\times30\times10^{-12}}=1.061\times10^{8}\ \Omega=106.1\ \text{M}\Omega$$
 
@@ -202,7 +202,7 @@ $$I_{\text{meas}}=\frac{24}{240+1}=99.585\ \text{mA},\qquad V_{burden}=99.585\ \
 
 电流误差 $-0.415\%$，负载电压从 24.000 V 降到 $99.585\ \text{mA}\times240=23.900\ \text{V}$。对 24 V 继电器、LED 驱动这类负载，0.1 V 通常可接受。
 
-**算例二：3.3 V、33 Ω、100 mA。** 
+**算例二：3.3 V、33 Ω、100 mA。**
 
 $$I_{\text{meas}}=\frac{3.3}{33+1}=97.06\ \text{mA},\qquad V_{burden}=97.06\ \text{mV}$$
 
@@ -324,7 +324,7 @@ $$X_C=\frac{1}{2\pi\times50\times30\times10^{-12}}=106.1\ \text{M}\Omega$$
 
 $$V_{\text{read}}=230\times\frac{10}{\sqrt{10^2+106.1^2}}=21.6\ \text{V}$$
 
-**第三步：并 10 kΩ。** 
+**第三步：并 10 kΩ。**
 
 $$V_{\text{read}}=230\times\frac{0.01}{\sqrt{0.01^2+106.1^2}}=21.7\ \text{mV}$$
 

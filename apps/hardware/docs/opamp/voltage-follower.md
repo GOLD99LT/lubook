@@ -8,12 +8,12 @@ tags: [运放电路, 缓冲器, 电压跟随器, 单位增益, 高输入阻抗]
 difficulty: 1
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations、Chapter 6 Development of the Non-Ideal Op Amp Equations https://www.ti.com/lit/an/slod006b/slod006b.pdf
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory，环路增益、相位裕度与容性负载 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 3 Development of the Ideal Op Amp Equations、Chapter 6 Development of the Non-Ideal Op Amp Equations https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory，环路增益、相位裕度与容性负载 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 噪声增益、闭环带宽与增益带宽积 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Analog Devices, MT-035 Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues（Mini Tutorial）— 输入共模范围、输出摆幅与轨到轨边界 https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems（4th ed.）— Chapter 2 Circuits with Resistive Feedback、Chapter 8 Stability，输入/输出电阻与相位裕度
-  - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源缓冲、偏置与交流耦合 https://www.ti.com/lit/an/sloa058/sloa058.pdf
+  - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源缓冲、偏置与交流耦合
 ---
 
 # 电压跟随器 Buffer Voltage Follower
@@ -517,9 +517,9 @@ $$f_{FPBW}=\frac{SR}{2\pi V_{pk}}=\frac{10^7}{2\pi\times2.5}=637\ \text{kHz}$$
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给跟随器的理想闭环推导与虚短虚断前提；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$、有限输出阻抗的修正。本章 §3.1、§3.3 的公式与该书一致。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 5 *Feedback and Stability Theory* 给环路增益、相位裕度与容性负载的稳定性判据；本章 §3.4 的 $u^2(1+u^2)$ 方程与 PM 定义按该章口径。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 3 *Development of the Ideal Op Amp Equations* 给跟随器的理想闭环推导与虚短虚断前提；Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$、有限输出阻抗的修正。本章 §3.1、§3.3 的公式与该书一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 5 *Feedback and Stability Theory* 给环路增益、相位裕度与容性负载的稳定性判据；本章 §3.4 的 $u^2(1+u^2)$ 方程与 PM 定义按该章口径。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益 $1/\beta$、闭环带宽与增益带宽积；本章 §3.1 的 $f_{cl}=GBW$ 与 §4.1 的 0.1 dB 反算按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf>
 - **Analog Devices, MT-035 *Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues***：输入共模范围、输出摆幅与轨到轨的真实边界；本章 §3.5、§6 的 ICMR 与摆幅判据参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：Chapter 2 *Circuits with Resistive Feedback* 给输入/输出电阻的完整推导，Chapter 8 *Stability* 给相位裕度与容性负载补偿；本章 §3.3、§3.4 的推导顺序与该书一致。
-- **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源缓冲、偏置与交流耦合的成套电路；本章 §5.2、§5.3 的单电源落地检查按该文口径。<https://www.ti.com/lit/an/sloa058/sloa058.pdf>
+- **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源缓冲、偏置与交流耦合的成套电路；本章 §5.2、§5.3 的单电源落地检查按该文口径。

@@ -8,8 +8,8 @@ tags: [运放电路, 有源滤波, 带通, 带阻, 陷波, Q值]
 difficulty: 3
 status: published
 sources:
-  - TI, Op Amps for Everyone (SLOD006B), Chapter 16 Active Filter Design Techniques, multiple-feedback band-pass and twin-T notch https://www.ti.com/lit/an/slod006b/slod006b.pdf
-  - TI, Active Filter Design Techniques (SLOA088), multiple-feedback band-pass design equations https://www.ti.com/lit/an/sloa088/sloa088.pdf
+  - TI, Op Amps for Everyone (SLOD006B), Chapter 16 Active Filter Design Techniques, multiple-feedback band-pass and twin-T notch https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Active Filter Design Techniques (SLOA088), multiple-feedback band-pass design equations
   - Analog Devices, MT-210 Analog Filters (Mini Tutorial), band-pass and notch topologies https://www.analog.com/media/en/training-seminars/tutorials/MT-210.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems (4th ed.), Filter Circuits chapter, band-pass, band-stop and twin-T networks
   - 邱关源《电路》，电路的频率响应一章，谐振、品质因数与通频带
@@ -482,8 +482,8 @@ $$\tau=\frac{2Q}{\omega_0}=\frac{20}{2\pi\times1000}=3.18\ \text{ms}$$
 
 ## 8. 参考资料
 
-- TI, *Op Amps for Everyone*（SLOD006B），Chapter 16 *Active Filter Design Techniques*：多路反馈带通、双 T 陷波、Sallen-Key 带通的结构与设计表。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
-- TI, *Active Filter Design Techniques*（SLOA088）：MFB 带通的 $R_1$、$R_2$、$R_3$ 设计式与中心增益、Q 的对应关系。<https://www.ti.com/lit/an/sloa088/sloa088.pdf>
+- TI, *Op Amps for Everyone*（SLOD006B），Chapter 16 *Active Filter Design Techniques*：多路反馈带通、双 T 陷波、Sallen-Key 带通的结构与设计表。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- TI, *Active Filter Design Techniques*（SLOA088）：MFB 带通的 $R_1$、$R_2$、$R_3$ 设计式与中心增益、Q 的对应关系。
 - Analog Devices, MT-210 *Analog Filters*（Mini Tutorial）：带通/带阻的频响、Q 与带宽、双 T 网络的数量级讨论。<https://www.analog.com/media/en/training-seminars/tutorials/MT-210.pdf>
 - Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.），*Filter Circuits* 一章：带通、带阻、双 T 与状态变量滤波器的传递函数和设计方法。
 - 邱关源《电路》，电路的频率响应一章：谐振、品质因数、通频带与半功率点的定义；本章的 $Q=f_0/BW$ 与几何对称口径与该书一致。

@@ -512,7 +512,7 @@ PCB 铜箔同样如此。1oz 铜每方块约 0.48mΩ，10 个方块 4.8mΩ；5A 
 
 - [Lessons In Electric Circuits, Volume I – DC（Kuphaldt）](https://www.ibiblio.org/kuphaldt/electricCircuits/)：Chapter 1《Basic Concepts of Electricity》讲电荷、电流、电压、电阻的基本定义；Chapter 2《Ohm's Law》讲功率、能量与非线性导电（non-ohmic conduction）。
 - The Art of Electronics, 3rd ed.（Horowitz and Hill），Chapter 1《Foundations》：电压、电流、电阻、功率、电源内阻与戴维南等效的工程讲法。
-- [NIST Special Publication 811, Guide for the Use of the International System of Units (SI), 2008](https://www.nist.gov/pubs/sp/811/final)：SI 词头、单位换算与有效数字的权威依据。
+- [NIST Special Publication 811, Guide for the Use of the International System of Units (SI), 2008](https://www.nist.gov/publications/guide-use-international-system-units-si)：SI 词头、单位换算与有效数字的权威依据。
 - GB/T 156-2017《标准电压》（对应 IEC 60038）：我国低压配电 220/380 V、50 Hz 的标称值来源；本章电水壶算例按 220V 计。
 - IPC-2152, Standard for Determining Current Carrying Capacity in Printed Board Design, 2009：PCB 铜箔载流—温升的计算依据；本章只给数量级，具体走线宽度按该标准或制造商数据核对。
 - Vishay CRCW 系列厚膜贴片电阻数据手册：Power Derating 曲线给出 70°C 以上线性降额、155°C 降为零的典型做法；本章 0.125W/0.25W 的降额算例即按此曲线演示，具体型号以各自数据手册为准。

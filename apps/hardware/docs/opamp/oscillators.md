@@ -9,7 +9,7 @@ tags: [运放电路, 振荡器, 文氏桥, 晶体振荡, Barkhausen]
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone (SLOD006B), Chapter 15 Sine Wave Oscillators — 文氏桥的 beta=1/3、起振增益 3、灯泡与二极管稳幅 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone (SLOD006B), Chapter 15 Sine Wave Oscillators — 文氏桥的 beta=1/3、起振增益 3、灯泡与二极管稳幅 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - TI, SLOA060 Sine Wave Oscillators (Jim Karki) — 文氏桥、移相与正交振荡器的推导，幅度稳定方法 https://www.ti.com/lit/an/sloa060/sloa060.pdf
   - Horowitz & Hill, The Art of Electronics (3rd ed.), Chapter 7 Oscillators and Timers — 文氏桥起振、灯泡/热敏电阻稳幅、晶体振荡与 ppm 量级
   - Epson, Crystal Device Technical Handbook — 石英晶体的 Q 值、AT 切温度特性、频率容差与老化
@@ -550,7 +550,7 @@ PTC 灯泡的电阻随温度升高而增大。放在下臂时，幅度↑ → �
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B），Chapter 15 *Sine Wave Oscillators***：文氏桥的 $\beta=1/3$、起振增益 3、灯泡稳幅与二极管限幅的工程做法；本章 §3.1、§3.2 的判据与该章一致。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B），Chapter 15 *Sine Wave Oscillators***：文氏桥的 $\beta=1/3$、起振增益 3、灯泡稳幅与二极管限幅的工程做法；本章 §3.1、§3.2 的判据与该章一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - **TI, SLOA060 *Sine Wave Oscillators*（Jim Karki）**：文氏桥、移相、正交振荡器的推导与幅度稳定方法；本章 §3.1 的 $\beta(s)$ 与 §3.5 的移相公式按该文口径。<https://www.ti.com/lit/an/sloa060/sloa060.pdf>
 - **Horowitz & Hill, *The Art of Electronics*（3rd ed.），Chapter 7 *Oscillators and Timers***：文氏桥的起振、灯泡/热敏电阻稳幅、晶体振荡与 ppm 量级；本章 §3.2 的稳幅方法与 §3.3 的 ppm 对比参考该书。
 - **Epson, *Crystal Device Technical Handbook***：石英晶体的 $Q$ 值、AT 切温度特性、频率容差与老化；本章 §3.3 的晶体 ppm 预算按该手册的术语与量级。

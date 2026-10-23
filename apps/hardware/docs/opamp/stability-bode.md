@@ -8,7 +8,7 @@ tags: [稳定性, 伯德图, 相位裕度, 增益裕度, 频率补偿, 自激]
 difficulty: 3
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations，伯德判据、相位裕度与增益裕度 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 5 Feedback and Stability Theory、Chapter 6 Development of the Non-Ideal Op Amp Equations，伯德判据、相位裕度与增益裕度 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 噪声增益、闭环带宽与增益带宽积 https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems（4th ed.）— Chapter 8 Stability，环路增益、相位裕度、增益裕度与频率补偿的完整推导
   - Robert A. Pease, Troubleshooting Analog Circuits — 振荡的现场排查、容性负载与布局引起的自激
@@ -556,7 +556,7 @@ $$C_f=C_{in}\frac{R_1}{R_1+R_f}=10\ \text{pF}\times\frac{100}{1100}=0.909\ \text
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：*Feedback and Stability Theory* 一节给伯德判据、环路增益与相位/增益裕度；*Development of the Non-Ideal Op Amp Equations* 一节给多极点环路与容性负载的建模。本章 §2、§3.1 的判据口径与该书一致。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：*Feedback and Stability Theory* 一节给伯德判据、环路增益与相位/增益裕度；*Development of the Non-Ideal Op Amp Equations* 一节给多极点环路与容性负载的建模。本章 §2、§3.1 的判据口径与该书一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益与闭环带宽、增益带宽积的关系；本章 §3.1 的 $f_c=GBW/N$ 与 §3.4.3 的噪声增益讨论按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：*Stability* 一章给环路增益、相位裕度、增益裕度、主极点补偿与超前补偿的完整推导；本章 §3.2、§3.4 的补偿分类与该章一致。
 - **Robert A. Pease, *Troubleshooting Analog Circuits***：振荡的现场排查方法、容性负载与布局引起自激的案例；本章 §5.3、§6 的排查顺序参考该书的实作经验。

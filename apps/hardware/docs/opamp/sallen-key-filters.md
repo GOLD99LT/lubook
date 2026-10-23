@@ -8,7 +8,7 @@ tags: [运放电路, 有源滤波, 二阶滤波, Sallen-Key, Q值, Butterworth]
 difficulty: 3
 status: published
 sources:
-  - TI, Op Amps for Everyone (SLOD006B), Chapter 16 Active Filter Design Techniques, Sallen-Key low-pass and high-pass design equations https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone (SLOD006B), Chapter 16 Active Filter Design Techniques, Sallen-Key low-pass and high-pass design equations https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - TI, Active Low-Pass Filter Design (SLOA049B), equal-component and gain-set-Q design tables https://www.ti.com/lit/an/sloa049b/sloa049b.pdf
   - Analog Devices, MT-210 Analog Filters (Mini Tutorial), Sallen-Key and multiple-feedback topologies https://www.analog.com/media/en/training-seminars/tutorials/MT-210.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems (4th ed.), Filter Circuits chapter, Sallen-Key derivations and Q sensitivity
@@ -479,7 +479,7 @@ $$M_p=e^{-\pi\zeta/\sqrt{1-\zeta^2}}=e^{-0.7854/\sqrt{0.9375}}=e^{-0.8112}=44.4\
 
 ## 8. 参考资料
 
-- TI, *Op Amps for Everyone*（SLOD006B），Chapter 16 *Active Filter Design Techniques*：Sallen-Key 低通/高通的节点方程、等值与增益设定 Q 的设计表。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- TI, *Op Amps for Everyone*（SLOD006B），Chapter 16 *Active Filter Design Techniques*：Sallen-Key 低通/高通的节点方程、等值与增益设定 Q 的设计表。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - TI, *Active Low-Pass Filter Design*（SLOA049B）：等元件与增益设定 Q 的取值步骤、Q 与元件比值的对照表。<https://www.ti.com/lit/an/sloa049b/sloa049b.pdf>
 - Analog Devices, MT-210 *Analog Filters*（Mini Tutorial）：Sallen-Key 与多路反馈拓扑的频响、Q 与元件灵敏度的数量级。<https://www.analog.com/media/en/training-seminars/tutorials/MT-210.pdf>
 - Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.），*Filter Circuits* 一章：Sallen-Key 传递函数、Q 灵敏度与高阶滤波器的级联设计。

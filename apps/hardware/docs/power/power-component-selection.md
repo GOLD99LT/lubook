@@ -567,7 +567,7 @@ $\mathrm{d}i/\mathrm{d}t=5.72/12\text{ns}=4.77\times10^8$ A/s，$V_{ring}=25\tex
 - **onsemi AND9596** *Thermal Calculation for Power Devices*：结温、热阻与 SOA 的核算方法；本章 §4.3、§5.3 的热设计口径按该文整理。<https://www.onsemi.com/pub/Collateral/AND9596-D.PDF>
 - **Sanjaya Maniktala** *Switching Power Supplies A–Z*（2nd ed.）：降额规则、损耗分项与电感/电容的失效机理；本章 §3.6 的失效模式表按该书整理。
 - **Erickson & Maksimovic** *Fundamentals of Power Electronics*（2nd ed.）：电感伏秒平衡、电容电荷平衡与器件应力；本章 §3.1 反推链的每一步都来自该书的稳态分析。
-- **Vishay AN608** *Power MOSFET Basics — Understanding Gate Charge and Using It to Assess Switching Performance*：栅极电荷、米勒平台与交叠损耗；本章 §3.4 的 $P_{sw}$、$P_g$ 口径取自该文。<https://www.vishay.com/docs/73217/an608.pdf>
+- **Vishay AN608** *Power MOSFET Basics — Understanding Gate Charge and Using It to Assess Switching Performance*：栅极电荷、米勒平台与交叠损耗；本章 §3.4 的 $P_{sw}$、$P_g$ 口径取自该文。
 - **Murata 与 TDK 功率电感产品资料**：`Characteristics` 表中的 $I_{sat}$、$I_{rms,rated}$ 定义差异、L–I 曲线；本章 §3.2 的降额规则按该类资料整理。
 - **KEMET 与 TDK MLCC 产品资料**：Class II 介质的直流偏置曲线、纹波电流额定与温度特性；本章 §3.3、§6 的容量取值方法按该类资料整理。
 - **Infineon OptiMOS 与 StrongIRFET 数据手册**：*Electrical Characteristics* 表中的 $R_{DS(on)}$@$V_{GS}$=10V/4.5V、$Q_g$、$Q_{oss}$、$Q_{rr}$、$R_{th(jc)}$ 与 SOA 图；本章 §4.1、§4.3 的参数取用方式与该类手册一致。<https://www.infineon.com/cms/en/product/power/mosfet/>

@@ -8,8 +8,8 @@ tags: [运算放大器, 运放符号, DIP-8, 引脚, 封装]
 difficulty: 1
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 1 The Op Amp's Place in the World、Chapter 3 Development of the Ideal Op Amp Equations、Chapter 11 Understanding Op Amp Parameters https://www.ti.com/lit/an/slod006b/slod006b.pdf
-  - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源偏置、交流耦合与输出摆幅设计 https://www.ti.com/lit/an/sloa058/sloa058.pdf
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 1 The Op Amp's Place in the World、Chapter 3 Development of the Ideal Op Amp Equations、Chapter 11 Understanding Op Amp Parameters https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
+  - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源偏置、交流耦合与输出摆幅设计
   - Analog Devices, MT-035 Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues（Mini Tutorial）— 输入共模范围与输出摆幅的真实边界 https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
   - TI, LM358 数据手册 — Pin Configurations、Input Bias Current、Output Voltage Swing 表与曲线 https://www.ti.com/lit/ds/symlink/lm358.pdf
   - Sedra & Smith, Microelectronic Circuits（8th ed.）— Chapter 2 Operational Amplifiers，运放符号、五个端子与理想模型
@@ -435,8 +435,8 @@ $$SR_{req}=2\pi fV_{pk}=2\pi\times10^5\times2=1.257\times10^6\ \text{V/s}=1.26\ 
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 1 *The Op Amp's Place in the World* 给运放的地位与五端口模型；Chapter 3 *Development of the Ideal Op Amp Equations* 给理想模型与虚短虚断的推导；Chapter 11 *Understanding Op Amp Parameters* 给 $A_{OL}$、GBW、摆幅等参数的定义与测试条件。本章 §2、§3 的符号口径与该书一致。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
-- **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源偏置、交流耦合与电平搬移的成套电路；本章 §2.4、§4.2 的单电源摆幅讨论按该文口径。<https://www.ti.com/lit/an/sloa058/sloa058.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 1 *The Op Amp's Place in the World* 给运放的地位与五端口模型；Chapter 3 *Development of the Ideal Op Amp Equations* 给理想模型与虚短虚断的推导；Chapter 11 *Understanding Op Amp Parameters* 给 $A_{OL}$、GBW、摆幅等参数的定义与测试条件。本章 §2、§3 的符号口径与该书一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
+- **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源偏置、交流耦合与电平搬移的成套电路；本章 §2.4、§4.2 的单电源摆幅讨论按该文口径。
 - **Analog Devices, MT-035 *Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues***：输入共模范围、输出摆幅与"轨到轨"的真实边界；本章 §2.4 的 RRI/RRO 区分参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf>
 - **TI, LM358 数据手册**：*Pin Configurations* 给双运放 SO-8/DIP-8 的标准引脚排列，*Output Voltage Swing* 与 *Input Bias Current* 表给出摆幅与偏置电流的测试条件；本章 §2.2、§2.3 的双运放引脚表按该手册整理。<https://www.ti.com/lit/ds/symlink/lm358.pdf>
 - **Sedra & Smith, *Microelectronic Circuits*（8th ed.）**：Chapter 2 *Operational Amplifiers* 讲运放符号、五个端子、理想模型与基本组态；本章 §2.1、§2.2 的符号与端口定义与该章一致。

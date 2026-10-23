@@ -25,6 +25,8 @@
     "manifest:parity": "pnpm -F @lubook/content-core parity",
     "test:learning": "node packages/learning/test/learning.test.ts",
     "verify:all": "python packages/tooling/src/verify_all.py",
+    "check:sources": "python packages/tooling/src/check_sources_online.py",
+    "check:sources:selftest": "python packages/tooling/src/check_sources_online.py --self-test",
     "bundle": "python packages/tooling/src/build_pages_bundle.py",
     "bundle:pages": "python packages/tooling/src/build_pages_bundle.py --vp-base /lubook/",
     "bundle:cloudflare": "python packages/tooling/src/build_pages_bundle.py --vp-base /"

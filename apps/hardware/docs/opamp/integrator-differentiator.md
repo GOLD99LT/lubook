@@ -8,10 +8,10 @@ tags: [运放电路, 积分器, 微分器, 信号处理, 核心电路]
 difficulty: 2
 status: published
 sources:
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 6 Development of the Non-Ideal Op Amp Equations 给出有限开环增益与环路增益对闭环传递函数的修正，Chapter 16 Active Filter Design Techniques 把积分器当作"原点极点低通"处理并给出有损积分器的设计口径 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 6 Development of the Non-Ideal Op Amp Equations 给出有限开环增益与环路增益对闭环传递函数的修正，Chapter 16 Active Filter Design Techniques 把积分器当作"原点极点低通"处理并给出有损积分器的设计口径 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - Sedra & Smith, Microelectronic Circuits（8th ed.）— Chapter 2 Operational Amplifiers，The Inverting Configuration with General Impedances 一节把 $Z_1$、$Z_2$ 换成电容即得积分器与微分器
   - 童诗白、华成英《模拟电子技术基础》—「信号的运算和处理」，积分运算电路、微分运算电路与"实用微分电路"的教材讲法
-  - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源积分器与微分器的偏置、交流耦合和复位电路 https://www.ti.com/lit/an/sloa058/sloa058.pdf
+  - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源积分器与微分器的偏置、交流耦合和复位电路
   - Analog Devices, MT-033 Voltage Feedback Op Amp Gain and Bandwidth（Mini Tutorial）— 噪声增益 $1/\beta$ 与闭环带宽，本章用它解释积分器高频"退化为跟随器" https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems（4th ed.）— 有源滤波器部分对"有损积分器（lossy integrator）"、微分器噪声增益与稳定性的讨论
 ---
@@ -596,9 +596,9 @@ $1\ \text{pA}$ 漏电流（$R_f$ 或 PCB 表面）：$V_{OUT}=1\ \text{pA}\times
 
 ## 8. 参考资料
 
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 与 $|T|$ 对闭环传递函数的修正；Chapter 16 *Active Filter Design Techniques* 把积分器作为"原点极点低通"处理，并给出有损积分器（lossy integrator）的设计口径。本章 3.2、3.3 节的讲法与该书一致。https://www.ti.com/lit/an/slod006b/slod006b.pdf
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 6 *Development of the Non-Ideal Op Amp Equations* 给有限 $A_{OL}$ 与 $|T|$ 对闭环传递函数的修正；Chapter 16 *Active Filter Design Techniques* 把积分器作为"原点极点低通"处理，并给出有损积分器（lossy integrator）的设计口径。本章 3.2、3.3 节的讲法与该书一致。https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
 - **Sedra & Smith, *Microelectronic Circuits*（8th ed.）**：Chapter 2 *Operational Amplifiers*，*The Inverting Configuration with General Impedances* 一节把 $Z_1$、$Z_2$ 换成电容即得积分器与微分器；本章 3.1、3.4 的推导顺序与该节一致。
 - **童诗白、华成英《模拟电子技术基础》**：「信号的运算和处理」给积分运算电路、微分运算电路与"实用微分电路"的教材讲法；本章 3.3 节的三条修正与 3.5 节的 $R_1$ 作用与该书口径一致。
-- **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源积分器、微分器的偏置与交流耦合电路；本章 5.6 节与常见坑里的单电源处理按该文。https://www.ti.com/lit/an/sloa058/sloa058.pdf
+- **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源积分器、微分器的偏置与交流耦合电路；本章 5.6 节与常见坑里的单电源处理按该文。
 - **Analog Devices, MT-033 *Voltage Feedback Op Amp Gain and Bandwidth***：噪声增益 $1/\beta$、环路增益与闭环带宽；本章 3.6 节"积分器高频退化为跟随器"的论证按该文的 $f_c=GBW/(1/\beta)$ 口径。https://www.analog.com/media/en/training-seminars/tutorials/MT-033.pdf
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.）**：有源滤波器部分对"有损积分器"、微分器噪声增益与稳定性的讨论；本章 3.6 节的相位分析与该书"稳定性只在环路增益上判断"的口径一致。

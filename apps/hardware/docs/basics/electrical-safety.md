@@ -21,7 +21,7 @@ sources:
   - GB 26860《电力安全工作规程 发电厂和变电站电气部分》— 停电、验电、接地、上锁挂牌的作业顺序
   - Practical Electronics for Inventors (Scherz & Monk) — Safety chapter（工程经验与器件级做法）
   - HSE 电气安全 FAQ（英国健康与安全执行局）https://www.hse.gov.uk/electricity/faq.htm — RCD 不能防护所有类型触电；检修前隔离、释放储能并证明无电
-  - OSHA 1910.333（美国法规，仅作 LOTO 工程原则参考，不是中国法规）https://www.osha.gov/laws-regs/standardnumber/1910/1910.333 — 上锁挂牌、验电、反送电与电容放电
+  - OSHA 1910.333（美国法规，仅作 LOTO 工程原则参考，不是中国法规）https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.333 — 上锁挂牌、验电、反送电与电容放电
 ---
 
 # 安全用电与触电防护 Electrical Safety & Shock Protection
@@ -561,7 +561,7 @@ $\tau=RC=100\times10^3\times470\times10^{-6}=47$ s；放到 50V 的时间 $t=47\
 - **GB 26860《电力安全工作规程 发电厂和变电站电气部分》**：停电、验电、接地、上锁挂牌的作业顺序。本章 §5.2 的五步流程参照该规程的工程原则，具体作业票与许可制度按现场适用规程执行。
 - **Practical Electronics for Inventors（Scherz & Monk）**：Safety 一章的器件级做法与工程经验，用于交叉核对本章的实践建议。
 - **HSE 电气安全 FAQ（英国健康与安全执行局）**：RCD 不能防护所有类型触电；检修前须可靠隔离所有能量源、释放储能，并使用合适检测设备证明无电。<https://www.hse.gov.uk/electricity/faq.htm>
-- **OSHA 1910.333（美国法规，仅作 LOTO 工程原则参考，不是中国法规）**：上锁挂牌、由合格人员验电、排查反送电与电容储能。<https://www.osha.gov/laws-regs/standardnumber/1910/1910.333>
+- **OSHA 1910.333（美国法规，仅作 LOTO 工程原则参考，不是中国法规）**：上锁挂牌、由合格人员验电、排查反送电与电容储能。<https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.333>
 
 ## 9. 复核清单（给持证电气人员）
 

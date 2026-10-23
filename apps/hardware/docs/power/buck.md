@@ -541,6 +541,6 @@ $I_{pk}=3+0.913/2=3.46$A；$I_{L,rms}=\sqrt{3^2+0.913^2/12}=3.01$A。按 20% 降
 - **Sanjaya Maniktala** *Switching Power Supplies A–Z*（2nd ed.）：纹波比取值、损耗分项与轻载模式的工程讲法；本章 §3.5、§5.1 的口径与它一致。
 - **ADI AN-149** *Modeling and Loop Compensation Design of Switching-Mode Power Supplies*：电压模式 Buck 的控制-输出传递函数与 LC 双极点；本章 §5.2 引用的环路结论见该文。<https://www.analog.com/media/en/technical-documentation/application-notes/an149fa.pdf>
 - **TI SLVA630A** *Loop Response Considerations in Peak Current Mode Buck Converter Design*：峰值电流模式的功率级简化、穿越频率经验值与补偿网络取值。
-- **Vishay AN608** *Power MOSFET Basics — Understanding Gate Charge and Using It to Assess Switching Performance*：栅极电荷、米勒平台与交叠损耗的推导；本章 §3.5 的 $P_{sw}$、$P_g$ 口径取自该文。<https://www.vishay.com/docs/73217/an608.pdf>
+- **Vishay AN608** *Power MOSFET Basics — Understanding Gate Charge and Using It to Assess Switching Performance*：栅极电荷、米勒平台与交叠损耗的推导；本章 §3.5 的 $P_{sw}$、$P_g$ 口径取自该文。
 - **Murata 与 TDK 功率电感产品资料**：`Characteristics` 表中的 $I_{sat}$、$I_{rms,rated}$ 定义差异与 L–I 曲线；本章 §3.2 的降额规则按该类资料整理。
 - **TI SNVA021（AN-1149）** *Layout Guidelines for Switching Power Supplies*：高 di/dt 环路面积、输入电容摆放与地平面处理；本章 §5.4 的布局要点与它一致。

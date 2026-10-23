@@ -8,10 +8,10 @@ tags: [单电源, Vcc/2, 虚地, 交流耦合, 电平搬移]
 difficulty: 2
 status: published
 sources:
-  - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源交流耦合、虚地偏置与电平搬移的成套电路 https://www.ti.com/lit/an/sloa058/sloa058.pdf
+  - TI, Single-Supply Op-Amp Circuit Collection（SLOA058）— 单电源交流耦合、虚地偏置与电平搬移的成套电路
   - Analog Devices, MT-035 Op Amp Inputs, Outputs, Single-Supply, and Rail-to-Rail Issues — 输入共模范围、输出摆幅与单电源边界 https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
   - Analog Devices, MT-087 Voltage References — 基准源的输出阻抗、噪声与去耦 https://www.analog.com/media/en/training-seminars/tutorials/MT-087.pdf
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 4 Single-Supply Op Amp Design Techniques 给单电源偏置与交流耦合的设计流程 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 4 Single-Supply Op Amp Design Techniques 给单电源偏置与交流耦合的设计流程 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - TI, LM358 数据手册 — Input Common-Mode Voltage Range 与 Output Voltage Swing 表的测试条件，本章非轨到轨示例按该手册量级 https://www.ti.com/lit/ds/symlink/lm358.pdf
 ---
 
@@ -397,8 +397,8 @@ $$G_{max}=\frac{4.9-0.1}{2\times0.5}=4.8$$
 
 ## 8. 参考资料
 
-- **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源交流耦合、虚地偏置与电平搬移的成套电路；本章 §2.3 的三种接法与 §5.2 的虚地产生方式按该文整理。<https://www.ti.com/lit/an/sloa058/sloa058.pdf>
+- **TI, *Single-Supply Op-Amp Circuit Collection*（SLOA058）**：单电源交流耦合、虚地偏置与电平搬移的成套电路；本章 §2.3 的三种接法与 §5.2 的虚地产生方式按该文整理。
 - **Analog Devices, MT-035 *Op Amp Inputs, Outputs, Single-Supply, and Rail-to-Rail Issues***：输入共模范围、输出摆幅与单电源边界；本章 §3.2 的 $G_{max}$ 与 §5.5 的模型边界按该文口径。<https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf>
 - **Analog Devices, MT-087 *Voltage References***：基准源的输出阻抗、噪声、去耦与负载调整率；本章 §2.2、§3.3 的参考阻抗判据参照该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-087.pdf>
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 4 *Single-Supply Op Amp Design Techniques* 给单电源偏置、交流耦合与摆幅预算的设计流程；本章 §3.1、§5.4 的检查顺序与该章一致。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 4 *Single-Supply Op Amp Design Techniques* 给单电源偏置、交流耦合与摆幅预算的设计流程；本章 §3.1、§5.4 的检查顺序与该章一致。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - **TI, LM358 数据手册**：*Input Common-Mode Voltage Range* 与 *Output Voltage Swing* 表给出非轨到轨器件的典型边界；本章 §5.3 的非对称摆幅示例按该手册量级整理。<https://www.ti.com/lit/ds/symlink/lm358.pdf>

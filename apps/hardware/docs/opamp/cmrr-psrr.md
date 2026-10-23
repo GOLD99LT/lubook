@@ -12,7 +12,7 @@ sources:
   - Analog Devices, MT-043 Op Amp Power Supply Rejection Ratio (PSRR) and Supply Voltages（Mini Tutorial）— PSRR 定义、正负电源分别给值与频率特性 https://www.analog.com/media/en/training-seminars/tutorials/MT-043.pdf
   - Analog Devices, MT-035 Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues（Mini Tutorial）— 输入共模范围的边界与越界失效 https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
   - Analog Devices, Analog Dialogue《A Deeper Look into Difference Amplifiers》— 四电阻差分网络的 CMRR 与电阻匹配 https://www.analog.com/en/resources/analog-dialogue/articles/deeper-look-into-difference-amplifiers.html
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，CMRR 与 PSRR 的定义与测试条件 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，CMRR 与 PSRR 的定义与测试条件 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - TI, INA128 数据手册 — CMRR 随增益的变化、增益公式与输入偏置电流规格 https://www.ti.com/lit/ds/symlink/ina128.pdf
 ---
 
@@ -477,5 +477,5 @@ $$120\ \text{dB}=10^{120/20}=10^{6}$$
 - **Analog Devices, MT-043 *Op Amp Power Supply Rejection Ratio (PSRR) and Supply Voltages***：PSRR 定义、正负电源分别给值与频率特性；本章 §2.3、§3.5 的 PSRR 口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-043.pdf>
 - **Analog Devices, MT-035 *Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues***：输入共模范围的边界与越界失效；本章 §2.4、§4.4 的 ICMR 讨论参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf>
 - **Analog Devices, Analog Dialogue《A Deeper Look into Difference Amplifiers》**：四电阻差分网络的 CMRR 与电阻匹配的关系；本章 §3.2 的 $(1+G)/(4\delta)$ 与该文的最坏情况分析一致。<https://www.analog.com/en/resources/analog-dialogue/articles/deeper-look-into-difference-amplifiers.html>
-- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 11 *Understanding Op Amp Parameters* 给 CMRR、PSRR 的定义与测试条件；本章 §2.2、§3.6 的"参数带条件"来自该章。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B）**：Chapter 11 *Understanding Op Amp Parameters* 给 CMRR、PSRR 的定义与测试条件；本章 §2.2、§3.6 的"参数带条件"来自该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - **TI, INA128 数据手册**：*CMRR vs Gain* 表与增益公式 $G=1+50\ \text{k}\Omega/R_G$，说明仪表放大器的 CMRR 随增益提高；本章 §5.2 的选型规律参考该手册。<https://www.ti.com/lit/ds/symlink/ina128.pdf>

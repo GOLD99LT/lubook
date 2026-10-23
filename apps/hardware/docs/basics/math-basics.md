@@ -578,11 +578,11 @@ $$L_{fs}=20\log_{10}\frac{4\pi d}{\lambda}=20\log_{10}\frac{4\pi\times100}{0.125
 
 接收端功率 $P=-44.25$ dBm。
 
-**第三步，换算成功率。** 
+**第三步，换算成功率。**
 
 $$P=10^{-44.25/10}\ \text{mW}=10^{-4.425}\ \text{mW}=3.758\times10^{-5}\ \text{mW}=3.758\times10^{-8}\ \text{W}$$
 
-**第四步，换算成 50Ω 上的电压。** 
+**第四步，换算成 50Ω 上的电压。**
 
 $$V_{rms}=\sqrt{PR}=\sqrt{3.758\times10^{-8}\times50}=\sqrt{1.879\times10^{-6}}=1.371\times10^{-3}\ \text{V}=1.371\ \text{mV}$$
 
@@ -604,11 +604,11 @@ $$e_n=\sqrt{1.6568\times10^{-14}}=1.287\times10^{-7}\ \text{V}/\sqrt{\text{Hz}}=
 
 $$BW_n=\frac{\pi}{2}\times200\times10^3=314159\ \text{Hz},\qquad \sqrt{BW_n}=560.5\ \sqrt{\text{Hz}}$$
 
-**第三步，算 RMS 噪声。** 
+**第三步，算 RMS 噪声。**
 
 $$V_{n,\text{rms}}=128.7\ \text{nV}/\sqrt{\text{Hz}}\times560.5\ \sqrt{\text{Hz}}=72.1\ \mu\text{V}$$
 
-**第四步，算信噪比。** 
+**第四步，算信噪比。**
 
 $$SNR=20\log_{10}\frac{1\ \text{mV}}{72.1\ \mu\text{V}}=20\log_{10}13.87=22.8\ \text{dB}$$
 
@@ -640,13 +640,13 @@ $$BW_n=\left(\frac{31.6\ \mu\text{V}}{128.7\ \text{nV}}\right)^2=6.03\times10^4\
 
 $$v(t)=\frac{4A}{\pi}\left(\sin\omega t+\frac{1}{3}\sin3\omega t+\frac{1}{5}\sin5\omega t+\cdots\right)$$
 
-**第二步，各次谐波幅度。** 
+**第二步，各次谐波幅度。**
 
 $$A_1=\frac{4\times1}{\pi}=1.273\ \text{V},\qquad A_3=\frac{1.273}{3}=0.4244\ \text{V},\qquad A_5=\frac{1.273}{5}=0.2546\ \text{V},\qquad A_7=\frac{1.273}{7}=0.1819\ \text{V}$$
 
 对应的 RMS 是幅度除以 $\sqrt2$：基波 0.900V，三次 0.300V，五次 0.180V。
 
-**第三步，相对基波的 dB。** 
+**第三步，相对基波的 dB。**
 
 $$L_3=20\log_{10}\frac{1}{3}=-9.54\ \text{dB},\qquad L_5=20\log_{10}\frac{1}{5}=-13.98\ \text{dB},\qquad L_7=20\log_{10}\frac{1}{7}=-16.90\ \text{dB}$$
 

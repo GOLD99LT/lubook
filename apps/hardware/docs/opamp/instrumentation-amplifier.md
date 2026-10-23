@@ -12,7 +12,7 @@ sources:
   - Analog Devices, MT-042 Op Amp Common-Mode Rejection Ratio (CMRR) — CMRR 的输入折算、器件级与电路级定义、测试方法 https://www.analog.com/media/en/training-seminars/tutorials/MT-042.pdf
   - Analog Devices, MT-035 Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues — 输入共模范围、输出摆幅与单电源边界 https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf
   - TI, INA128 数据手册 — 增益公式 G=1+50kΩ/R_G、CMRR vs Gain 表、输入共模范围与输入偏置电流 https://www.ti.com/lit/ds/symlink/ina128.pdf
-  - TI, Op Amps for Everyone (SLOD006B), Chapter 11 Understanding Op Amp Parameters — CMRR 与共模范围的测试条件 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone (SLOD006B), Chapter 11 Understanding Op Amp Parameters — CMRR 与共模范围的测试条件 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - Sergio Franco, Design with Operational Amplifiers and Analog Integrated Systems (4th ed.), Chapter 2 Circuits with Resistive Feedback — 差分放大器、输入电阻与共模增益
   - Sedra & Smith, Microelectronic Circuits (8th ed.), Chapter 2 Operational Amplifiers — 差分与共模输入、CMRR 定义
 ---
@@ -658,6 +658,6 @@ $$\frac{1}{CMRR}=\frac{1}{375000}+\frac{1}{10^5}=1.267\times10^{-5}\ \Rightarrow
 - **Analog Devices, MT-042 *Op Amp Common-Mode Rejection Ratio (CMRR)***：CMRR 的输入折算、器件级与电路级定义；本章 §3.2、§3.6 的口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-042.pdf>
 - **Analog Devices, MT-035 *Op Amp Inputs, Outputs, Single-Supply & Rail-to-Rail Issues***：输入共模范围、输出摆幅与单电源边界；本章 §3.4、§5.4 的共模范围讨论参考该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-035.pdf>
 - **TI, INA128 数据手册**：增益公式 $G=1+50\ \text{k}\Omega/R_G$、*CMRR vs Gain* 表、输入共模范围与输入偏置电流；本章 §3.1、§3.2、§4.1 的集成 INA 对照按该手册。<https://www.ti.com/lit/ds/symlink/ina128.pdf>
-- **TI, *Op Amps for Everyone*（SLOD006B），Chapter 11 *Understanding Op Amp Parameters***：CMRR 与共模范围的测试条件；本章 §3.2、§3.7 的"参数带条件"来自该章。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B），Chapter 11 *Understanding Op Amp Parameters***：CMRR 与共模范围的测试条件；本章 §3.2、§3.7 的"参数带条件"来自该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - **Sergio Franco, *Design with Operational Amplifiers and Analog Integrated Systems*（4th ed.），Chapter 2 *Circuits with Resistive Feedback***：差分放大器、输入电阻与共模增益；本章 §2.2、§3.3 的推导顺序与该章一致。
 - **Sedra & Smith, *Microelectronic Circuits*（8th ed.），Chapter 2 *Operational Amplifiers***：差分与共模输入、CMRR 定义；本章 §2.2、§3.2 的符号与该章一致。

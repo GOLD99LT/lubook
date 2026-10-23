@@ -14,7 +14,7 @@ sources:
   - Infineon, IGBT Discretes 数据手册 — Electrical Characteristics 与 Switching Characteristics 表（VCE(sat)、Eon、Eoff、Qg） https://www.infineon.com/cms/en/product/power/igbt/igbt-discretes/
   - Infineon, MOSFET 数据手册 — Electrical Characteristics 表中的 RDS(on) 与温度曲线 https://www.infineon.com/cms/en/product/power/mosfet/
   - STMicroelectronics, BTA16 数据手册 — Electrical Characteristics 表中的 VTM、IH、IL 与 dv/dt https://www.st.com/resource/en/datasheet/bta16.pdf
-  - Sharp, PC817 数据手册 — Electro-optical Characteristics 表中的 CTR、VF、tr/tf 与 Rise Time vs. Load Resistance 曲线 https://www.sharpsde.com/products/optoelectronics/
+  - Sharp, PC817 数据手册 — Electro-optical Characteristics 表中的 CTR、VF、tr/tf 与 Rise Time vs. Load Resistance 曲线 https://global.sharp/products/device/lineup/selection/opto/
   - IEC 60747-9, Semiconductor devices — Discrete devices — Part 9 — Insulated-gate bipolar transistors（IGBT 额定值与测试条件） https://webstore.iec.ch
   - IEC 60747-6:2016, Semiconductor devices — Part 6 — Thyristors（擎住电流、维持电流与关断定义） https://webstore.iec.ch
   - IEC 61810-1:2015, Electromechanical elementary relays — Part 1 — General and safety requirements（线圈与触点额定值） https://webstore.iec.ch
@@ -741,7 +741,7 @@ $$
 - **Infineon, IGBT Discretes 数据手册**：*Electrical Characteristics* 表给出 $V_{CE(sat)}$、$Q_g$，*Switching Characteristics* 表给出 $E_{on}$、$E_{off}$；本章 3.1、4.1 节的量级按该类手册。<https://www.infineon.com/cms/en/product/power/igbt/igbt-discretes/>
 - **Infineon, MOSFET 数据手册**：*Electrical Characteristics* 表中的 $R_{DS(on)}$ 与温度曲线；本章 4.1 节的 MOSFET 损耗对比按该类手册的量级。<https://www.infineon.com/cms/en/product/power/mosfet/>
 - **STMicroelectronics, BTA16 数据手册**：*Electrical Characteristics* 表给出 $V_{TM}$、$I_H$、$I_L$、$dv/dt$；本章 4.2 节的 TRIAC 计算按该手册的量级。<https://www.st.com/resource/en/datasheet/bta16.pdf>
-- **Sharp, PC817 数据手册**：*Electro-optical Characteristics* 表给出 CTR、$V_F$、$t_r/t_f$，并有 *Rise Time vs. Load Resistance* 曲线；本章 4.3 节的光耦设计按该手册。<https://www.sharpsde.com/products/optoelectronics/>
+- **Sharp, PC817 数据手册**：*Electro-optical Characteristics* 表给出 CTR、$V_F$、$t_r/t_f$，并有 *Rise Time vs. Load Resistance* 曲线；本章 4.3 节的光耦设计按该手册。<https://global.sharp/products/device/lineup/selection/opto/>
 - **IEC 60747-9** *Semiconductor devices — Discrete devices — Part 9 — Insulated-gate bipolar transistors*：IGBT 的额定值与测试条件；本章 3.1 节的参数口径按该标准。<https://webstore.iec.ch>
 - **IEC 60747-6:2016** *Semiconductor devices — Part 6 — Thyristors*：擎住电流、维持电流与关断的定义；本章 3.2 节按该标准。<https://webstore.iec.ch>
 - **IEC 61810-1:2015** *Electromechanical elementary relays — Part 1 — General and safety requirements*：线圈与触点额定值、试验条件；本章 3.3、5.4 节的继电器口径按该标准。<https://webstore.iec.ch>

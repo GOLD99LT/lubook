@@ -11,7 +11,7 @@ sources:
   - Analog Devices, Low-Dropout Linear Regulator (LDO) Application Tutorial — 压差、调整管结构、环路补偿与 PSRR 的工程讲法 https://www.analog.com/en/resources/technical-articles/lowdropout-linear-regulator-ldo-application-tutorial.html
   - Texas Instruments, LDO 产品与应用笔记索引 — 线性稳压器拓扑、输出电容稳定性与热设计资料入口 https://www.ti.com/product-category/power-management/linear-ldo-regulators/overview.html
   - Horowitz & Hill, The Art of Electronics（3rd ed.）— Chapter 9 Voltage Regulation and Power Conversion，线性稳压、基准源、开关电源与热设计
-  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，V_OS、A_OL 与 PSRR 的定义、测试条件 https://www.ti.com/lit/an/slod006b/slod006b.pdf
+  - TI, Op Amps for Everyone（SLOD006B）— Chapter 11 Understanding Op Amp Parameters，V_OS、A_OL 与 PSRR 的定义、测试条件 https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR
   - Analog Devices, MT-043 Op Amp Power Supply Rejection Ratio (PSRR) and Supply Voltages — PSRR 的定义、正负电源分别给值与频率特性 https://www.analog.com/media/en/training-seminars/tutorials/MT-043.pdf
   - TI, LM340/LM78xx 系列三端稳压器数据手册 — Electrical Characteristics 表中的 Dropout Voltage、Line/Load Regulation 与 Output Voltage，用于 78xx 压差与功耗核算
   - Analog Devices, MT-087 Voltage References（Mini Tutorial）— 齐纳、带隙与埋层齐纳基准的精度、温漂、噪声与长期稳定性对比
@@ -324,7 +324,7 @@ $$\Delta V_Z=r_z\Delta I_Z+\alpha_Z\Delta T$$
 | 环境 | 50°C，目标 $T_j\le125^{\circ}\text{C}$ |
 | ADC | 12 位、3.3V，1 LSB=0.806mV |
 
-**第 1 步：功耗。** 
+**第 1 步：功耗。**
 
 $$P_d=(5-3.3)\times0.3+5\times0.001=0.510+0.005=0.515\text{W}$$
 
@@ -637,7 +637,7 @@ $$\frac{136}{0.806}=169\text{LSB}$$
 - **Analog Devices, *Low-Dropout Linear Regulator (LDO) Application Tutorial***：压差、调整管结构、环路补偿、PSRR 与热设计的工程讲法；本章 2.2、2.3、3.3 节的结构与 ESR 窗口按该文。<https://www.analog.com/en/resources/technical-articles/lowdropout-linear-regulator-ldo-application-tutorial.html>
 - **Texas Instruments, LDO 产品与应用笔记索引**：线性稳压器拓扑、输出电容稳定性、热设计与 PSRR 资料的入口；本章 5.2 节的选型顺序参考该索引。<https://www.ti.com/product-category/power-management/linear-ldo-regulators/overview.html>
 - **Horowitz & Hill, *The Art of Electronics*（3rd ed.）Chapter 9 *Voltage Regulation and Power Conversion***：线性稳压、基准源、开关电源与热设计的讲法；本章 2.1、2.4 节的分类与该书一致。
-- **TI, *Op Amps for Everyone*（SLOD006B）Chapter 11 *Understanding Op Amp Parameters***：$V_{OS}$、$A_{OL}$、PSRR 的定义与测试条件；本章 3.1、3.4 节的误差预算按该章。<https://www.ti.com/lit/an/slod006b/slod006b.pdf>
+- **TI, *Op Amps for Everyone*（SLOD006B）Chapter 11 *Understanding Op Amp Parameters***：$V_{OS}$、$A_{OL}$、PSRR 的定义与测试条件；本章 3.1、3.4 节的误差预算按该章。<https://archive.org/details/TexasInstruments-TI-ApplicationsandSeminars-OpAmpsForEveryoneDesignReference2000OCR>
 - **Analog Devices, MT-043 *Op Amp Power Supply Rejection Ratio (PSRR) and Supply Voltages***：PSRR 的定义、正负电源分别给值与频率特性；本章 2.5、3.4 节的 $20\lg$ 口径按该文。<https://www.analog.com/media/en/training-seminars/tutorials/MT-043.pdf>
 - **TI, LM340/LM78xx 系列三端稳压器数据手册**：*Electrical Characteristics* 表给出 Dropout Voltage、Line/Load Regulation 与 Output Voltage；本章 2.2、4.1 节的 78xx 压差与功耗核算按该表（具体型号以数据手册为准）。
 - **Analog Devices, MT-087 *Voltage References*（Mini Tutorial）**：齐纳、带隙、埋层齐纳的初始精度、温漂、噪声与长期稳定性对比；本章 2.4、3.5 节的量级按该文（具体数值以数据手册为准）。
