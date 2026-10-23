@@ -235,6 +235,28 @@ function renderDetailsBlock(block: string, md: any, env: any): string {
   return `<details><summary>${qHtml}</summary>${aHtml}</details>`.replace(/\s*\n\s*/g, '')
 }
 
+// ---- 运行期数学渲染（ADR-0012）----
+// 构建期不产出 KaTeX 的 DOM，只留一个带 TeX 源码的占位；浏览器加载主题后
+// 由 packages/theme 里的渲染器填充。占位内保留源码，作为"JS 未执行/失败"时的降级显示。
+
+function escapeHtmlAttr(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+function installRuntimeMathRenderers(md: any): void {
+  const make = (block: boolean) => (tokens: any[], idx: number) => {
+    const tex = (tokens[idx].content || '').trim()
+    const cls = block ? 'math-tex math-tex--block' : 'math-tex math-tex--inline'
+    return `<span class="${cls}" data-math="${escapeHtmlAttr(tex)}">${md.utils.escapeHtml(tex)}</span>`
+  }
+  md.renderer.rules.math_inline = make(false)
+  md.renderer.rules.math_block = make(true)
+}
+
 // 放宽的行内数学规则：开 $ 前不能是单词字符（保持严格，防货币误配），
 // 闭 $ 后允许紧跟单位字母（\mu$s、$...$V 等）。产出 math_inline token，
 // 渲染器由 @vscode/markdown-it-katex 注册。
@@ -458,6 +480,14 @@ export function defineBookConfig(options: BookConfigOptions): UserConfig {
       config(md) {
         // KaTeX（本地字体）
         md.use(katex as any, { throwOnError: false })
+        // 数学渲染策略（ADR-0012）：默认**构建期不渲染**，只输出携带 TeX 的占位，
+        // 由主题在浏览器里用 katex 渲染。
+        // 原因见 ADR-0011/0012：全站 4 万个公式片段在构建期渲染，占峰值内存的 64%
+        // （实测 5.94 GB → 2.14 GB，构建 110 s → 41 s，HTML 77 MB → 22 MB）。
+        // 设 LUBOOK_MATH=build 可退回构建期渲染（仅用于对照测量）。
+        if (process.env.LUBOOK_MATH !== 'build') {
+          installRuntimeMathRenderers(md)
+        }
         // 放宽 math_inline 闭分隔符：原插件要求闭 $ 后不能紧跟单词字符，
         // 导致 $\mu$s、$...$V 这类「公式后紧跟单位字母」不渲染。本书无货币 $，
         // 开分隔符仍保持严格（$ 前不能是单词字符），仅放宽闭侧，安全。

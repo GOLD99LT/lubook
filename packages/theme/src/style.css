@@ -383,3 +383,21 @@ body {
   height: 15px;
   vertical-align: -0.15em;
 }
+
+/* 运行期数学（ADR-0012）：构建期只输出占位，浏览器里再渲染成 KaTeX。
+   占位期间用等宽字体显示 TeX 源码，避免「空白闪烁」；渲染完成后 data-rendered=1，
+   本段样式自动失效（内部已是 .katex 结构）。 */
+.math-tex[data-math]:not([data-rendered]) {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.9em;
+  color: var(--vp-c-text-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.math-tex--block {
+  display: block;
+  margin: 1em 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+}

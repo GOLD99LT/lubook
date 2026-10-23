@@ -84,6 +84,79 @@ function setupFigureZoom(): void {
 }
 
 /**
+ * 运行期数学渲染（ADR-0012）。
+ *
+ * 构建期只输出 `<span class="math-tex" data-math="TeX">源码</span>` 占位
+ * （见 @lubook/shared-config 的 installRuntimeMathRenderers）；这里在浏览器里
+ * 懒加载 katex，把占位替换成真正的排版结果。
+ *
+ * 这样做的原因：构建期渲染 4 万个公式片段占构建峰值内存的 64%，
+ * 改成运行期后 5.94 GB → 2.14 GB、构建 110 s → 41 s、HTML 77 MB → 22 MB。
+ *
+ * 降级：脚本未执行或渲染抛错时，占位里保留的 TeX 源码仍然可读。
+ */
+let mathInited = false
+function setupMathRuntime(): void {
+  if (mathInited || typeof document === 'undefined') return
+  mathInited = true
+
+  let rendering = false
+
+  async function renderPending(): Promise<void> {
+    if (rendering) return
+    const pending = Array.from(
+      document.querySelectorAll<HTMLElement>('.math-tex[data-math]:not([data-rendered])')
+    )
+    if (pending.length === 0) return
+    rendering = true
+    try {
+      const mod: any = await import('katex')
+      const katex = mod.default || mod
+      for (const el of pending) {
+        if (el.dataset.rendered) continue
+        const tex = el.getAttribute('data-math') || ''
+        const display = el.classList.contains('math-tex--block')
+        try {
+          el.innerHTML = katex.renderToString(tex, {
+            displayMode: display,
+            throwOnError: false
+          })
+          el.dataset.rendered = '1'
+        } catch {
+          // 渲染失败就保留源码文本，不吞掉内容
+        }
+      }
+    } finally {
+      rendering = false
+    }
+  }
+
+  let queued = false
+  const schedule = (): void => {
+    if (queued) return
+    queued = true
+    requestAnimationFrame(() => {
+      queued = false
+      void renderPending()
+    })
+  }
+
+  const start = (): void => {
+    schedule()
+    // 客户端路由切换会替换掉整块内容，用 MutationObserver 兜住而不是依赖路由钩子
+    const root = document.getElementById('app') || document.body
+    const observer = new MutationObserver(() => schedule())
+    observer.observe(root, { childList: true, subtree: true })
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start)
+  } else {
+    start()
+  }
+}
+
+/**
  * 构造硬件手册 VitePress 主题。app 侧用法：
  *
  * ```ts
@@ -111,6 +184,7 @@ export function createBookTheme(opts: BookThemeOptions): Theme {
       app.component('Logo', (opts.logo as any) || Logo)
       app.component('LearningPanel', LearningPanel)
       setupFigureZoom()
+      setupMathRuntime()
     }
   } satisfies Theme
 }

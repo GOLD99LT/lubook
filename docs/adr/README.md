@@ -17,6 +17,7 @@
 | [ADR-0009](ADR-0009.md) | 内容指纹覆盖 SVG 字节 + 快照基线不被静默覆盖 | Accepted |
 | [ADR-0010](ADR-0010.md) | 客户端包体预算：ECharts 按需加载（theme chunk 1.15MB → 113KB） | Accepted |
 | [ADR-0011](ADR-0011.md) | 构建内存预算：内容 4.6MB 后必须显式抬高 Node 堆（4GB → 6GB） | Accepted |
+| [ADR-0012](ADR-0012.md) | 数学渲染改为运行期：构建内存 −61%、HTML −71%，容量 ×4.3 | Accepted |
 
 ## 规则
 
