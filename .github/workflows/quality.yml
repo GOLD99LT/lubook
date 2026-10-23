@@ -98,6 +98,11 @@ jobs:
           fi
           exit $rc
 
+      # 数学渲染契约（ADR-0012）：产物必须是占位而不是构建期 katex，
+      # 且客户端渲染器与 katex chunk 都在（否则读者看到的会是原始 TeX）。
+      - name: Math render contract
+        run: python packages/tooling/src/scan_math_render.py --app "${{ matrix.app }}"
+
   content-gate:
     needs: [enumerate, build]
     runs-on: ubuntu-latest

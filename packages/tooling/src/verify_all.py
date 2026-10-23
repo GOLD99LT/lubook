@@ -53,6 +53,16 @@ def main():
             continue
 
         if is_content:
+            # 数学渲染契约（ADR-0012）：构建产物里必须只有占位、没有构建期 katex，
+            # 且客户端渲染器与 katex chunk 都在。这条能拦住"公式悄悄退回构建期渲染"
+            # 或"公式在页面上消失"两类回归。
+            rc = run([sys.executable,
+                      os.path.join('packages', 'tooling', 'src', 'scan_math_render.py'),
+                      '--app', app], REPO_ROOT, env)
+            if rc != 0:
+                failures.append('%s:math-render' % app)
+                continue
+
             rc = run([sys.executable, 'run_quality.py', '--app', app], REPO_ROOT, env)
             if rc != 0:
                 failures.append('%s:quality' % app)

@@ -62,35 +62,44 @@ def first_value(fm, key):
     return m.group(1).strip() if m else ''
 
 
+QUICK = 'quick'
+
+
 def check_chapter(path, src, min_chars, min_imgs, profile="concept"):
     rel = os.path.relpath(path, src).replace(os.sep, '/')
     text = open(path, encoding='utf-8-sig').read()
     fm, body = split_fm(text)
     issues = []
+    # quick = 速查/题库档（docs/CONTENT-STANDARD.md §0.5）：
+    # 不查字数、模块顺序、配图数量、折叠题数量、常见坑——
+    # 这几项是"正文主干章"的指标，套到附录/题库上只会产出永远为红的假告警。
+    # 但**图片存在性、SVG 合法性、来源条数、手写章号、绝对化表述**照查，这些与章型无关。
+    quick = (profile == QUICK)
 
     chars = cjk_count(body)
-    if chars < min_chars:
+    if not quick and chars < min_chars:
         issues.append('字数 %d < %d' % (chars, min_chars))
 
     # 模块顺序
     heads = [h.strip() for h in re.findall(r'^#{2,3}\s+(.+)$', body, re.M)]
     pos, missing = -1, []
-    for name, keys in PROFILES[profile]:
-        found = -1
-        for i, h in enumerate(heads):
-            if i > pos and any(k in h for k in keys):
-                found = i
-                break
-        if found < 0:
-            missing.append(name)
-        else:
-            pos = found
+    if not quick:
+        for name, keys in PROFILES[profile]:
+            found = -1
+            for i, h in enumerate(heads):
+                if i > pos and any(k in h for k in keys):
+                    found = i
+                    break
+            if found < 0:
+                missing.append(name)
+            else:
+                pos = found
     if missing:
         issues.append('缺模块: ' + '、'.join(missing))
 
     imgs = re.findall(r'!\[[^\]]*\]\(([^)]+)\)', body)
     local_imgs = [i for i in imgs if not i.startswith(('http', 'data:'))]
-    if len(local_imgs) < min_imgs:
+    if not quick and len(local_imgs) < min_imgs:
         issues.append('配图 %d < %d' % (len(local_imgs), min_imgs))
     for i in local_imgs:
         p = os.path.normpath(os.path.join(os.path.dirname(path), i.split()[0]))
@@ -105,13 +114,13 @@ def check_chapter(path, src, min_chars, min_imgs, profile="concept"):
                 issues.append('SVG 不是合法 XML: %s (%s)' % (os.path.basename(p), e.__class__.__name__))
 
     details = len(re.findall(r'<details', body))
-    if details < 4:
+    if not quick and details < 4:
         issues.append('自测题 %d < 4' % details)
 
     # 常见坑：pitfall 容器 + 「现象/原因/解决」关键词
     pits = len(re.findall(r':::\s*pitfall', body))
     triad = len(re.findall(r'现象', body))
-    if pits == 0 and triad < 3:
+    if not quick and pits == 0 and triad < 3:
         issues.append('常见坑不足（pitfall=%d，现象=%d）' % (pits, triad))
 
     sources = re.findall(r'^\s*-\s+(.+)$', fm, re.M) if 'sources:' in fm else []
@@ -143,8 +152,10 @@ def main():
     ap.add_argument('--min', type=int, default=4500,
                     help='最小中文字数（默认按内容标准 H1=4500）')
     ap.add_argument('--min-imgs', type=int, default=1)
-    ap.add_argument('--profile', choices=['concept', 'circuit', 'all'], default='concept',
-                    help='章型标准：concept=概念/原理章，circuit=电路/器件章，all=两套都试取通过者')
+    ap.add_argument('--profile', choices=['concept', 'circuit', 'all', 'quick'], default='concept',
+                    help='章型标准：concept=概念/原理章，circuit=电路/器件章，'
+                         'all=两套都试取通过者，quick=速查/题库档（不查字数与模块结构，'
+                         '只查图片/SVG/来源/章号/绝对化表述）')
     ap.add_argument('--strict', action='store_true', help='有任何 issue 即非零退出')
     ap.add_argument('--json', default='', help='把结果写成 JSON')
     args = ap.parse_args()
