@@ -17,10 +17,11 @@ name: Deploy to Cloudflare Pages (mirror)
 
 on:
   workflow_dispatch:
-  # 配置好 Secrets、创建好 Pages 项目后，取消下方注释即可随 main 自动镜像：
-  # push:
-  #   branches:
-  #     - main
+  # 已配置 Secrets 与 Pages 项目，随 main 自动镜像（2026-10-23 启用）。
+  # 代价：每次合并会额外跑一遍完整质量门禁 + 一次 bundle 构建。
+  push:
+    branches:
+      - main
 
 # 同一镜像只跑最新一次，进行中的部署不打断
 concurrency:
