@@ -1,6 +1,6 @@
 {
   "appId": "hardware",
-  "revision": "sha256-e1bd1d08412d7e94",
+  "revision": "sha256-187b7fc5091b007e",
   "docCount": 140,
   "titles": [
     "电压、电流、电阻与功率 Voltage / Current / Resistance / Power",
@@ -148,5 +148,5 @@
   "svgCount": 491,
   "assetsChecksum": "sha256-2ba171f0af428f53",
   "groundsCount": 322,
-  "overallChecksum": "e1bd1d08412d7e948d223f66573ef616c2ec3af77ae4767483dd090af60f5266"
+  "overallChecksum": "187b7fc5091b007e8c874b51529b6c6a4363ec1c7b247c8f362be723fba3c2b4"
 }

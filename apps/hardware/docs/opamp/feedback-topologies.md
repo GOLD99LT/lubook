@@ -337,7 +337,7 @@ $$R_{out}=R_s(1+A_{OL})+R_{out,OL}=100\ \Omega\times(1+10^5)+50\ \Omega=1.000015
 | 同相放大 10× | 电压串联 | $10.0\ \text{T}\Omega$ | $5.0\ \text{m}\Omega$ | 10.0 | 100.0 kHz |
 | 反相放大 −10× | 电压并联 | $\approx R_1=10\ \text{k}\Omega$ | $5.5\ \text{m}\Omega$ | 11.0 | 90.9 kHz |
 | 跨阻放大 | 电压并联 | $\approx0$（虚地） | $0.505\ \text{m}\Omega$ | 1.01 | 990.1 kHz |
-| 压控电流源 | 电流串联 | $10.0\ \text{T}\Omega$ | $10.0\ \text{M}\Omega$ | 2.0 | 500.0 kHz |
+| 压控电流源 | 电流串联 | $50.0\ \text{T}\Omega$ | $10.0\ \text{M}\Omega$ | 2.0 | 500.0 kHz |
 
 复算：$10^6/10=100.0\ \text{kHz}$；$10^6/11=90.9\ \text{kHz}$；$10^6/1.01=990.1\ \text{kHz}$；$10^6/2=500.0\ \text{kHz}$。
 

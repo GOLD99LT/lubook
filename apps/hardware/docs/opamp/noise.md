@@ -148,12 +148,12 @@ $$i_{n,R}=\sqrt{\frac{4kT}{R}}\quad\left[\text{A}/\sqrt{\text{Hz}}\right]$$
 
 | $R$ | $e_{n,R}$（300 K） | $i_{n,R}$（300 K） |
 |---|---|---|
-| $10\ \Omega$ | $0.407\ \text{nV}/\sqrt{\text{Hz}}$ | $4.07\ \text{pA}/\sqrt{\text{Hz}}$ |
-| $100\ \Omega$ | $1.29\ \text{nV}/\sqrt{\text{Hz}}$ | $1.29\ \text{pA}/\sqrt{\text{Hz}}$ |
-| $1\ \text{k}\Omega$ | $4.07\ \text{nV}/\sqrt{\text{Hz}}$ | $0.407\ \text{pA}/\sqrt{\text{Hz}}$ |
-| $10\ \text{k}\Omega$ | $12.87\ \text{nV}/\sqrt{\text{Hz}}$ | $0.129\ \text{pA}/\sqrt{\text{Hz}}$ |
-| $100\ \text{k}\Omega$ | $40.70\ \text{nV}/\sqrt{\text{Hz}}$ | $0.0407\ \text{pA}/\sqrt{\text{Hz}}$ |
-| $1\ \text{M}\Omega$ | $128.7\ \text{nV}/\sqrt{\text{Hz}}$ | $0.00407\ \text{pA}/\sqrt{\text{Hz}}$ |
+| $10\ \Omega$ | $0.407\ \text{nV}/\sqrt{\text{Hz}}$ | $40.7\ \text{pA}/\sqrt{\text{Hz}}$ |
+| $100\ \Omega$ | $1.29\ \text{nV}/\sqrt{\text{Hz}}$ | $12.87\ \text{pA}/\sqrt{\text{Hz}}$ |
+| $1\ \text{k}\Omega$ | $4.07\ \text{nV}/\sqrt{\text{Hz}}$ | $4.07\ \text{pA}/\sqrt{\text{Hz}}$ |
+| $10\ \text{k}\Omega$ | $12.87\ \text{nV}/\sqrt{\text{Hz}}$ | $1.287\ \text{pA}/\sqrt{\text{Hz}}$ |
+| $100\ \text{k}\Omega$ | $40.70\ \text{nV}/\sqrt{\text{Hz}}$ | $0.407\ \text{pA}/\sqrt{\text{Hz}}$ |
+| $1\ \text{M}\Omega$ | $128.7\ \text{nV}/\sqrt{\text{Hz}}$ | $0.1287\ \text{pA}/\sqrt{\text{Hz}}$ |
 
 复算一行：$R=100\ \text{k}\Omega$，
 
@@ -356,7 +356,7 @@ $$\frac{542.4\ \mu\text{V}}{805.7\ \mu\text{V}}=0.673\ \text{LSB}$$
 
 $$43.28\times10^{-9}\times100\times\sqrt{10^4}=432.8\ \mu\text{V rms}$$
 
-比本章的 542.4 µV 低 1.96 dB。**同一句"带宽 10 kHz"，两种口径差一倍多（542/433=1.253），所以规格书必须写清是 $f_c$ 还是 $BW_n$。**
+比本章的 542.4 µV 低 1.96 dB。**同一句"带宽 10 kHz"，两种口径差约 25%（542/433=1.253，即 1.96 dB），所以规格书必须写清是 $f_c$ 还是 $BW_n$。**
 
 **第 10 步：换器件能改善多少？** 把 $e_n$ 从 10 nV 换成 3 nV（$i_n$ 不变）：
 
@@ -424,7 +424,7 @@ $$E_w=10^{-8}\times\sqrt{1.5708\times10^4}=1.253\ \mu\text{V rms}$$
 
 $$E_{total}=\sqrt{1253^2+262.8^2}=1.281\ \mu\text{V rms}$$
 
-1/f 只占 4.4% 的功率——**同样是 1/f 噪声，频段不同，重要性差 22 倍（96.7% 对 4.4%）**。这解释了为什么"音频/直流精密测量"和"宽带放大器"要用两套完全不同的选型逻辑。
+1/f 只占 4.2% 的功率——**同样是 1/f 噪声，频段不同，重要性差约 23 倍（95.8% 对 4.2%）**。这解释了为什么"音频/直流精密测量"和"宽带放大器"要用两套完全不同的选型逻辑。
 
 **代回 §4.1 的总额**：$e_n$ 的积分从 $1.253\ \mu\text{V rms}$ 变成 $\sqrt{1253^2+262.8^2}=1.281\ \mu\text{V rms}$，输出贡献从 $125.3\ \mu\text{V}$ 变成 $128.1\ \mu\text{V}$；在 $542.4\ \mu\text{V}$ 的总噪声里只增加约 0.01 dB，所以主算例按白噪声处理是合理的。但如果源阻抗降到 $1\ \text{k}\Omega$，$e_n$ 项在总噪声里的占比上升，1/f 就必须计入——**同一个 1/f 拐点，在不同的源阻抗下重要性完全不同。**
 

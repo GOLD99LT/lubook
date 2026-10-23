@@ -130,7 +130,7 @@ $$\varepsilon(t)=V_{in}e^{-t/\tau}$$
 
 $$e^{-t_{acq}/\tau}\leq2^{-(N+1)}\quad\Rightarrow\quad t_{acq}\geq(N+1)\ln2\cdot\tau$$
 
-**纠正一处现稿写法**：现稿写的是 $t_{sample}\geq R_sC_{sh}\ln(2^n)=n\ln2\cdot\tau$，那是"建立到 1 LSB"的判据；本章按 0.5 LSB 判据，指数项是 $2^{-(N+1)}$，所以是 $(N+1)\ln2$。12 位下两者差 $\ln2\cdot\tau=0.693\tau$，本算例是 55 ns，正好是"刚好够"和"差一点"的分界。
+**纠正一处常见写法**一些资料写的是 $t_{sample}\geq R_sC_{sh}\ln(2^n)=n\ln2\cdot\tau$，那是"建立到 1 LSB"的判据；本章按 0.5 LSB 判据，指数项是 $2^{-(N+1)}$，所以是 $(N+1)\ln2$。12 位下两者差 $\ln2\cdot\tau=0.693\tau$，本算例是 55 ns，正好是"刚好够"和"差一点"的分界。
 
 $(N+1)\ln2$ 的数值：
 
