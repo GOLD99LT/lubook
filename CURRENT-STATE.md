@@ -235,3 +235,13 @@ python packages/tooling/src/scan_orphan_assets.py --app hardware
 旧错扫描命中 0（另有 5 处是正文在纠正这些说法，已按引号/否定语境排除）。
 
 Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配置）。
+
+### 13.1 双站部署（ADR-0013）
+
+| 站点 | 地址 | base | 触发 |
+|---|---|---|---|
+| 主站 | https://gold99lt.github.io/lubook/ | `/lubook/` | push main（deploy-docs） |
+| 镜像 | https://lubook.pages.dev/ | `/` | push main（deploy-cloudflare，2026-10-23 起自动） |
+
+两条流水线都跑完整质量门禁。**并发组必须带调用方**（`quality-${{ github.workflow }}-${{ github.ref }}`），
+否则两条流水线的门禁会互相取消——2026-10-22 与 2026-10-23 各踩过一次，详见 ADR-0013。
