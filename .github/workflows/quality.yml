@@ -19,7 +19,13 @@ on:
   workflow_call:
 
 concurrency:
-  group: quality-${{ github.ref }}
+  # 组名必须带上**调用方**（github.workflow 在可复用工作流里是顶层调用者）。
+  # 否则 deploy-docs 与 deploy-cloudflare 都会把本文件当前置门禁调用，
+  # 两次调用落在同一个 quality-<ref> 组里互相取消：
+  # 2026-10-22 首上线时取消过一次；2026-10-23 启用 Cloudflare 自动镜像后又复发了一次
+  # （Pages 部署被 cancelled）。带上调用方后，同一次 push 的两条流水线各跑各的门禁，
+  # 同一条流水线的重复推送仍然会互相取消（这是我们想要的去重）。
+  group: quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
