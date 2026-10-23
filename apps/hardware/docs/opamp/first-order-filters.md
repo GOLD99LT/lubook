@@ -167,7 +167,7 @@ $$Z_{in}=R_1+\frac{1}{sC},\qquad H(s)=-\frac{R_f}{R_1+\dfrac{1}{sC}}=-\frac{R_f}
 
 $$H_0(\text{高频})=-\frac{R_f}{R_1},\qquad f_c=\frac{1}{2\pi R_1C},\qquad H(0)=0$$
 
-- $f\ll f_c$：$C$ 近似开路，信号进不来，$|H|\approx2\pi fR_1C$，以 $+20\ \text{dB}/$十倍频程上升；
+- $f\ll f_c$：$C$ 近似开路，信号进不来，$|H|\approx2\pi fR_fC$（$R_f=R_1$ 时才等于 $2\pi fR_1C$），以 $+20\ \text{dB}/$十倍频程上升；
 - $f\gg f_c$：$C$ 近似短路，$H\approx-R_f/R_1$；
 - $f=f_c$：$-3\ \text{dB}$，相位 $+45^{\circ}$（相对反相）。
 

@@ -157,27 +157,28 @@ $$G_{max}=\frac{4.9-0.1}{2\times0.5}=\frac{4.8}{1}=4.8$$
 
 ### 3.3 参考源阻抗：把电流误差折算回输出
 
-接法 B 中，$R_g$ 上的交流电流峰值是
+接法 B 中，$R_g$ 的下端不是接地而是接 $V_{ref}$，所以信号电流必须**穿过 $R_{th}$ 回到参考源**。$R_{th}$ 因此与 $R_g$ 串联，交流电流峰值是
 
-$$i_{Rg}=\frac{V_{in,pk}}{R_g}$$
+$$i_{Rg}=\frac{V_{in,pk}}{R_g+R_{th}}$$
 
-这个电流全部流入 $V_{ref}$，在 $R_{th}$ 上产生误差电压
+它在 $R_{th}$ 上的压降是
 
-$$\Delta V_{ref}=i_{Rg}R_{th}=\frac{V_{in,pk}R_{th}}{R_g}$$
+$$\Delta V_{ref}=i_{Rg}R_{th}=\frac{V_{in,pk}R_{th}}{R_g+R_{th}}$$
 
-这个误差出现在同相端，被噪声增益 $1+R_f/R_g=G$ 放大到输出：
+关键在于：**不能把这个压降当成"额外误差再乘一遍 G"**——它就是 $R_g$ 支路的一部分，直接改变闭环增益。有效增益变成
 
-$$\Delta V_{out}=G\frac{V_{in,pk}R_{th}}{R_g}$$
+$$G'=1+\frac{R_f}{R_g+R_{th}}$$
 
 符号与单位：$i_{Rg}$ 是 $R_g$ 上的交流电流峰值（A）；$V_{in,pk}$ 是输入峰值（V）；$R_{th}$ 是参考源内阻（$\Omega$）；$G$ 是闭环增益（无量纲）；$\Delta V_{out}$ 是输出误差峰值（V）。
 
-代入 $V_{in,pk}=0.2\text{V}$、$R_g=10\text{k}\Omega$、$R_{th}=50\text{k}\Omega$、$G=11$：
+代入 $V_{in,pk}=0.2\text{V}$、$R_g=10\text{k}\Omega$、$R_f=100\text{k}\Omega$（$G=11$）、$R_{th}=50\text{k}\Omega$：
 
-$$i_{Rg}=\frac{0.2}{10^4}=20\mu\text{A},\qquad \Delta V_{ref}=20\mu\text{A}\times5\times10^4=1.0\text{V}$$
+$$i_{Rg}=\frac{0.2}{6\times10^4}=3.33\mu\text{A},\qquad \Delta V_{ref}=3.33\mu\text{A}\times5\times10^4=0.167\text{V}$$
 
-$$\Delta V_{out}=11\times1.0=11\text{V}$$
+$$G'=1+\frac{100\text{k}}{60\text{k}}=2.67,\qquad V_{out,pk}=2.67\times0.2=0.53\text{V}$$
 
-**误差比信号还大 11 倍，电路完全不能工作。** 这与[同相比例放大器](non-inverting-amplifier.md)里的算例完全一致（那里用同样的 20µA、50kΩ 算出 1V 误差）。
+**期望输出是 $11\times0.2=2.2$ V，实际只有 0.53 V——增益从 11 塌到 2.67，掉了 76%。** 注意这不是"多了一个 11 V 的误差"（那已经超过 5 V 电源，物理上不可能），而是**信号通路本身被 $R_{th}$ 改掉了**。
+**判断方法**：看 $R_{th}$ 与 $R_g$ 的比例。$R_{th}\ll R_g$ 时 $G'\approx G$，可以忽略；$R_{th}$ 与 $R_g$ 同量级时增益明显塌陷，必须缓冲。
 
 把参考换成缓冲器后，闭环输出电阻 $R_{out,CL}=R_{out,OL}/(1+T)$。$R_{out,OL}=50\Omega$、$T=10^5$：
 
@@ -266,11 +267,13 @@ $$C_{in}=\frac{1}{2\pi\times10^4\times20}=796\text{nF}$$
 
 **需求**：同相拓扑、$R_g=10\text{k}\Omega$、$R_f=100\text{k}\Omega$（$G=11$）、输入 ±0.2V；比较裸分压器（$R_{th}=50\text{k}\Omega$）和缓冲器（$R_{out,CL}=0.5\text{m}\Omega$）两种参考。
 
-**第 1 步：裸分压器。** $i_{Rg}=0.2/10\text{k}=20\mu\text{A}$：
+**第 1 步：裸分压器。** $R_{th}$ 与 $R_g$ 串联，信号电流 $i_{Rg}=0.2/(10\text{k}+50\text{k})=3.33\mu\text{A}$：
 
-$$\Delta V_{ref}=20\mu\text{A}\times50\text{k}\Omega=1.0\text{V},\qquad \Delta V_{out}=11\times1.0=11\text{V}$$
+$$\Delta V_{ref}=3.33\mu\text{A}\times50\text{k}\Omega=0.167\text{V},\qquad G'=1+\frac{100\text{k}}{60\text{k}}=2.67$$
 
-**第 2 步：缓冲器。** $\Delta V_{ref}=20\mu\text{A}\times0.5\text{m}\Omega=10\text{nV}$，$\Delta V_{out}=11\times10\text{nV}=110\text{nV}$——可以忽略。
+输出只有 $2.67\times0.2=0.53$ V，而设计值是 $11\times0.2=2.2$ V——**增益塌陷 76%**。
+
+**第 2 步：缓冲器。** $R_{th}=0.5\text{m}\Omega\ll R_g$，$G'\approx G=11$；$R_{th}$ 上的压降 $3.33\mu\text{A}\times0.5\text{m}\Omega\approx2\text{nV}$，可以忽略。
 
 **第 3 步：结论。** 同相单电源电路的参考**必须**缓冲；反相拓扑（接法 A）的参考只承担 $I_B$，裸分压器就够。**"参考要不要缓冲"取决于拓扑，不取决于"精度要求高不高"。**
 
@@ -349,9 +352,9 @@ $$\Delta V_{ref}=20\mu\text{A}\times50\text{k}\Omega=1.0\text{V},\qquad \Delta V
 
 <details><summary>接法 B 中，$R_g=10\text{k}\Omega$、$R_{th}=50\text{k}\Omega$、输入 ±0.2V、$G=11$，参考上的交流误差是多少？换成缓冲器后呢？</summary>
 
-$i_{Rg}=0.2/10\text{k}=20\mu\text{A}$；$\Delta V_{ref}=20\mu\text{A}\times50\text{k}\Omega=1.0\text{V}$；折算到输出 $11\times1.0=11\text{V}$——电路完全不能工作。
+$R_{th}$ 与 $R_g$ 串联，所以信号电流是 $0.2/(10\text{k}+50\text{k})=3.33\mu\text{A}$，闭环增益从 $1+100\text{k}/10\text{k}=11$ 掉到 $1+100\text{k}/60\text{k}=2.67$；输出 0.53 V，而设计值是 2.2 V——**增益塌陷 76%，电路按设计增益工作不了**。（注意：不是"多出 11 V 误差"，那已超过 5 V 电源，物理上不可能。）
 
-缓冲器闭环输出电阻 $R_{out,OL}/(1+T)=50/10^5=0.5\text{m}\Omega$；$\Delta V_{ref}=20\mu\text{A}\times0.5\text{m}\Omega=10\text{nV}$，折算到输出 110nV，可以忽略。
+缓冲器闭环输出电阻 $R_{out,OL}/(1+T)=50/10^5=0.5\text{m}\Omega$，串进 $R_g$ 支路可忽略，增益回到 11。
 
 判据：$R_{th}\le R_g/100$，否则加缓冲。
 
