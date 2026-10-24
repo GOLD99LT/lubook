@@ -53,6 +53,14 @@ def main():
             continue
 
         if is_content:
+            # 构建内存预算（ADR-0012）：预计超预算就在真正 OOM 之前失败并给处置建议。
+            rc = run([sys.executable,
+                      os.path.join('packages', 'tooling', 'src', 'build_memory_budget.py'),
+                      '--src', app_src(app), '--heap-mb', '8192'], REPO_ROOT, env)
+            if rc != 0:
+                failures.append('%s:memory-budget' % app)
+                continue
+
             # 数学渲染契约（ADR-0012）：构建产物里必须只有占位、没有构建期 katex，
             # 且客户端渲染器与 katex chunk 都在。这条能拦住"公式悄悄退回构建期渲染"
             # 或"公式在页面上消失"两类回归。
@@ -61,6 +69,22 @@ def main():
                       '--app', app], REPO_ROOT, env)
             if rc != 0:
                 failures.append('%s:math-render' % app)
+                continue
+
+            # 内容档位与模块（速查/题库目录自动走 quick 口径）
+            rc = run([sys.executable, os.path.join('scripts', 'check-content.py'),
+                      '--app', app, '--profile', 'all', '--by-dir', '--strict'],
+                     REPO_ROOT, env)
+            if rc != 0:
+                failures.append('%s:content-check' % app)
+                continue
+
+            # 旧错误说法回归（报告 0 命中才过；纠错语境已在工具内排除）
+            rc = run([sys.executable,
+                      os.path.join('packages', 'tooling', 'src', 'scan_legacy_errors.py'),
+                      '--app', app, '--strict'], REPO_ROOT, env)
+            if rc != 0:
+                failures.append('%s:legacy-errors' % app)
                 continue
 
             rc = run([sys.executable, 'run_quality.py', '--app', app], REPO_ROOT, env)

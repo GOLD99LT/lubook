@@ -157,6 +157,11 @@ def main():
                          'all=两套都试取通过者，quick=速查/题库档（不查字数与模块结构，'
                          '只查图片/SVG/来源/章号/绝对化表述）')
     ap.add_argument('--strict', action='store_true', help='有任何 issue 即非零退出')
+    ap.add_argument('--by-dir', action='store_true',
+                    help='按目录自动选口径：--quick-dirs 里的子目录走 quick（不查字数/模块），'
+                         '其余按 --profile 检查。用于门禁：一本分册一条命令跑完，速查档不再恒红。')
+    ap.add_argument('--quick-dirs', default='appendix,quizbank',
+                    help='--by-dir 模式下按速查档口径检查的子目录，逗号分隔')
     ap.add_argument('--json', default='', help='把结果写成 JSON')
     args = ap.parse_args()
 
@@ -168,12 +173,18 @@ def main():
         return 2
 
     base = os.path.join(ROOT, 'apps', args.app, 'docs')
+    quick_dirs = [d.strip() for d in args.quick_dirs.split(',') if d.strip()]
     rows = []
     for root, _d, files in os.walk(src):
         for f in sorted(files):
             if not f.endswith('.md') or f in SKIP_FILES:
                 continue
             p = os.path.join(root, f)
+            rel = os.path.relpath(p, base).replace(os.sep, '/')
+            # --by-dir：速查/题库走 quick，其余按 --profile
+            if args.by_dir and any(rel.startswith(d + '/') for d in quick_dirs):
+                rows.append(check_chapter(p, base, args.min, args.min_imgs, QUICK))
+                continue
             if args.profile == 'all':
                 a = check_chapter(p, base, args.min, args.min_imgs, 'concept')
                 b = check_chapter(p, base, args.min, args.min_imgs, 'circuit')
