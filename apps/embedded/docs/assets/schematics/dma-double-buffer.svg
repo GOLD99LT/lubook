@@ -1,0 +1,71 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">DMA 循环模式的双半缓冲：半满与全满中断时序</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">1 Msps、16 位、半缓冲 256 个样本：半满间隔 = 256 × 2 B / 2 MB/s = 256 µs</text>
+  <line x1="20" y1="64" x2="740" y2="64" stroke="#e2e8f0"/>
+
+  <rect x="20" y="84" width="130" height="58" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="85" y="110" font-size="13" fill="#2d3748" text-anchor="middle">外设请求</text>
+  <text x="85" y="130" font-size="13" fill="#4a5568" text-anchor="middle">ADC / UART</text>
+
+  <line x1="150" y1="113" x2="188" y2="113" stroke="#4a5568" stroke-width="1.8"/>
+  <polygon points="196,113 186,108 186,118" fill="#4a5568"/>
+
+  <rect x="196" y="84" width="140" height="58" rx="4" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="266" y="110" font-size="13" fill="#1a365d" text-anchor="middle">DMA 流</text>
+  <text x="266" y="130" font-size="13" fill="#1a365d" text-anchor="middle">NDTR 递减</text>
+
+  <line x1="336" y1="113" x2="366" y2="113" stroke="#4a5568" stroke-width="1.8"/>
+  <line x1="366" y1="96" x2="366" y2="180" stroke="#4a5568" stroke-width="1.8"/>
+  <line x1="366" y1="96" x2="386" y2="96" stroke="#4a5568" stroke-width="1.8"/>
+  <polygon points="392,96 382,91 382,101" fill="#4a5568"/>
+  <line x1="366" y1="180" x2="386" y2="180" stroke="#4a5568" stroke-width="1.8"/>
+  <polygon points="392,180 382,175 382,185" fill="#4a5568"/>
+
+  <rect x="392" y="68" width="170" height="56" rx="4" fill="#d9f0e0" stroke="#2f855a" stroke-width="1.5"/>
+  <text x="477" y="92" font-size="13" fill="#22543d" text-anchor="middle">缓冲区 0（前半区）</text>
+  <text x="477" y="112" font-size="13" fill="#22543d" text-anchor="middle">半满 HT 中断</text>
+
+  <rect x="392" y="152" width="170" height="56" rx="4" fill="#d9f0e0" stroke="#2f855a" stroke-width="1.5"/>
+  <text x="477" y="176" font-size="13" fill="#22543d" text-anchor="middle">缓冲区 1（后半区）</text>
+  <text x="477" y="196" font-size="13" fill="#22543d" text-anchor="middle">全满 TC 中断</text>
+
+  <text x="580" y="96" font-size="13" fill="#4a5568">从 M0AR 开始递增</text>
+  <text x="580" y="180" font-size="13" fill="#4a5568">写满回到 M0AR</text>
+
+  <text x="20" y="248" font-size="13" fill="#4a5568">循环模式：NDTR 归零自动重装，半满与全满各触发一次中断；DBM 模式则在 TC 时硬件切换缓冲区</text>
+
+  <line x1="90" y1="272" x2="720" y2="272" stroke="#cbd5e0" stroke-dasharray="4 3"/>
+  <line x1="247" y1="272" x2="247" y2="366" stroke="#cbd5e0" stroke-dasharray="4 3"/>
+  <line x1="405" y1="272" x2="405" y2="366" stroke="#cbd5e0" stroke-dasharray="4 3"/>
+  <line x1="562" y1="272" x2="562" y2="366" stroke="#cbd5e0" stroke-dasharray="4 3"/>
+  <line x1="720" y1="272" x2="720" y2="366" stroke="#cbd5e0" stroke-dasharray="4 3"/>
+
+  <text x="20" y="304" font-size="13" fill="#2d3748">DMA 写</text>
+  <rect x="90" y="282" width="157" height="34" rx="3" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="168" y="304" font-size="13" fill="#1a365d" text-anchor="middle">写 B0</text>
+  <rect x="247" y="282" width="158" height="34" rx="3" fill="#cfe3f4" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="326" y="304" font-size="13" fill="#1a365d" text-anchor="middle">写 B1</text>
+  <rect x="405" y="282" width="157" height="34" rx="3" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="483" y="304" font-size="13" fill="#1a365d" text-anchor="middle">写 B0</text>
+  <rect x="562" y="282" width="158" height="34" rx="3" fill="#cfe3f4" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="641" y="304" font-size="13" fill="#1a365d" text-anchor="middle">写 B1</text>
+
+  <text x="20" y="350" font-size="13" fill="#2d3748">CPU 读</text>
+  <rect x="90" y="328" width="157" height="34" rx="3" fill="#ffffff" stroke="#a0aec0" stroke-width="1.4" stroke-dasharray="5 3"/>
+  <text x="168" y="350" font-size="13" fill="#718096" text-anchor="middle">空闲</text>
+  <rect x="247" y="328" width="158" height="34" rx="3" fill="#fde7c7" stroke="#c05621" stroke-width="1.5"/>
+  <text x="326" y="350" font-size="13" fill="#7b341e" text-anchor="middle">处理 B0</text>
+  <rect x="405" y="328" width="157" height="34" rx="3" fill="#fde7c7" stroke="#c05621" stroke-width="1.5"/>
+  <text x="483" y="350" font-size="13" fill="#7b341e" text-anchor="middle">处理 B1</text>
+  <rect x="562" y="328" width="158" height="34" rx="3" fill="#fde7c7" stroke="#c05621" stroke-width="1.5"/>
+  <text x="641" y="350" font-size="13" fill="#7b341e" text-anchor="middle">处理 B0</text>
+
+  <text x="247" y="380" font-size="13" fill="#9c4221" text-anchor="middle">HT</text>
+  <text x="405" y="380" font-size="13" fill="#2f855a" text-anchor="middle">TC</text>
+  <text x="562" y="380" font-size="13" fill="#9c4221" text-anchor="middle">HT</text>
+  <text x="718" y="380" font-size="13" fill="#2f855a" text-anchor="end">TC</text>
+
+  <text x="20" y="404" font-size="13" fill="#4a5568">消费者必须满足：半缓冲时间大于中断进入、处理与抖动的总和，否则 DMA 会覆盖尚未读走的数据</text>
+  <text x="20" y="424" font-size="13" fill="#4a5568">宽度不匹配时，每个样本占用的内存成倍上升，同样的半缓冲样本数对应的时间反而缩短</text>
+</svg>

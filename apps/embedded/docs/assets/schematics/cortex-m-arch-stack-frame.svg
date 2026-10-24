@@ -1,0 +1,82 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cmTitle cmDesc" font-family="'Segoe UI','Noto Sans SC','Microsoft YaHei',sans-serif">
+  <title id="cmTitle">Cortex-M 寄存器组与异常入口栈帧</title>
+  <desc id="cmDesc">左侧为 R0 到 R12、银行化的 MSP/PSP、LR、PC、xPSR 与 CONTROL；右侧为异常入口硬件压栈的八个字，SP 指向最低地址的 R0。</desc>
+  <rect x="0" y="0" width="760" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#2b4c6f"/>
+    </marker>
+  </defs>
+
+  <text x="28" y="34" font-size="20" fill="#102a43" font-weight="700">Cortex-M 寄存器组与异常入口</text>
+  <text x="28" y="56" font-size="13" fill="#486581">特权级切换改变的是 CONTROL，异常入口改变的是栈与 xPSR</text>
+
+  <rect x="24" y="72" width="300" height="336" rx="10" fill="#f8fafc" stroke="#bcccdc" stroke-width="1.5"/>
+  <text x="44" y="98" font-size="16" fill="#243b53" font-weight="600">寄存器组与执行状态</text>
+
+  <rect x="44" y="112" width="260" height="44" rx="6" fill="#e8f1ff" stroke="#3e7cb1" stroke-width="1.6"/>
+  <text x="56" y="139" font-size="15" fill="#173f5f" font-weight="600">R0–R12 通用寄存器</text>
+  <text x="292" y="139" font-size="13" fill="#486581" text-anchor="end">13 × 32 bit</text>
+
+  <rect x="44" y="168" width="124" height="52" rx="6" fill="#e6f6f0" stroke="#2f855a" stroke-width="1.6"/>
+  <text x="106" y="191" font-size="16" fill="#1f5c41" text-anchor="middle" font-weight="700">MSP</text>
+  <text x="106" y="210" font-size="13" fill="#1f5c41" text-anchor="middle">主栈指针</text>
+  <rect x="180" y="168" width="124" height="52" rx="6" fill="#fff4e6" stroke="#b7791f" stroke-width="1.6"/>
+  <text x="242" y="191" font-size="16" fill="#7b4b12" text-anchor="middle" font-weight="700">PSP</text>
+  <text x="242" y="210" font-size="13" fill="#7b4b12" text-anchor="middle">进程栈指针</text>
+  <text x="44" y="234" font-size="13" fill="#486581">R13 由硬件银行化，同一时刻只能看到一个</text>
+
+  <rect x="44" y="248" width="260" height="32" rx="5" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="54" y="270" font-size="14" fill="#243b53">R14 LR：异常返回令牌或调用返回地址</text>
+  <rect x="44" y="286" width="260" height="32" rx="5" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="54" y="308" font-size="14" fill="#243b53">R15 PC：下一条指令地址</text>
+  <rect x="44" y="324" width="260" height="32" rx="5" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="54" y="346" font-size="14" fill="#243b53">xPSR：APSR + IPSR + EPSR</text>
+  <rect x="44" y="362" width="260" height="32" rx="5" fill="#ffffff" stroke="#9fb3c8"/>
+  <text x="54" y="384" font-size="14" fill="#243b53">CONTROL：nPRIV / SPSEL / FPCA</text>
+
+  <rect x="344" y="72" width="392" height="336" rx="10" fill="#fffdf7" stroke="#d9b382" stroke-width="1.5"/>
+  <text x="364" y="98" font-size="16" fill="#5c3d0e" font-weight="600">异常入口：硬件栈帧（向下增长）</text>
+  <text x="604" y="116" font-size="13" fill="#7b4b12" text-anchor="middle">高地址</text>
+
+  <rect x="380" y="124" width="220" height="24" rx="4" fill="#fdf2e2" stroke="#c98a2e"/>
+  <text x="392" y="141" font-size="14" fill="#5c3d0e">xPSR</text>
+  <text x="612" y="141" font-size="13" fill="#486581">SP + 28</text>
+
+  <rect x="380" y="153" width="220" height="24" rx="4" fill="#fdf2e2" stroke="#c98a2e"/>
+  <text x="392" y="170" font-size="14" fill="#5c3d0e">PC</text>
+  <text x="612" y="170" font-size="13" fill="#486581">SP + 24</text>
+
+  <rect x="380" y="182" width="220" height="24" rx="4" fill="#fdf2e2" stroke="#c98a2e"/>
+  <text x="392" y="199" font-size="14" fill="#5c3d0e">LR</text>
+  <text x="612" y="199" font-size="13" fill="#486581">SP + 20</text>
+
+  <rect x="380" y="211" width="220" height="24" rx="4" fill="#fdf2e2" stroke="#c98a2e"/>
+  <text x="392" y="228" font-size="14" fill="#5c3d0e">R12</text>
+  <text x="612" y="228" font-size="13" fill="#486581">SP + 16</text>
+
+  <rect x="380" y="240" width="220" height="24" rx="4" fill="#fdf2e2" stroke="#c98a2e"/>
+  <text x="392" y="257" font-size="14" fill="#5c3d0e">R3</text>
+  <text x="612" y="257" font-size="13" fill="#486581">SP + 12</text>
+
+  <rect x="380" y="269" width="220" height="24" rx="4" fill="#fdf2e2" stroke="#c98a2e"/>
+  <text x="392" y="286" font-size="14" fill="#5c3d0e">R2</text>
+  <text x="612" y="286" font-size="13" fill="#486581">SP + 8</text>
+
+  <rect x="380" y="298" width="220" height="24" rx="4" fill="#fdf2e2" stroke="#c98a2e"/>
+  <text x="392" y="315" font-size="14" fill="#5c3d0e">R1</text>
+  <text x="612" y="315" font-size="13" fill="#486581">SP + 4</text>
+
+  <rect x="380" y="327" width="220" height="24" rx="4" fill="#ffe8cc" stroke="#b7791f" stroke-width="1.5"/>
+  <text x="392" y="344" font-size="14" fill="#5c3d0e" font-weight="600">R0</text>
+  <text x="612" y="344" font-size="13" fill="#7b4b12">SP + 0</text>
+
+  <line x1="692" y1="351" x2="626" y2="338" stroke="#2b4c6f" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="702" y="369" font-size="15" fill="#2b4c6f" text-anchor="middle" font-weight="700">SP</text>
+  <text x="612" y="367" font-size="13" fill="#7b4b12" text-anchor="middle">低地址</text>
+
+  <text x="364" y="383" font-size="13" fill="#486581">8 个字 = 32 B；启用 FPU 时栈帧扩展到 104 B。</text>
+  <text x="364" y="401" font-size="13" fill="#486581">若线程使用 PSP，帧落在 PSP 上。</text>
+
+  <text x="24" y="427" font-size="13" fill="#486581">Handler 恒用 MSP；Thread 由 CONTROL.SPSEL 选栈；EXC_RETURN 决定返回现场。</text>
+</svg>

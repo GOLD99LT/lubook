@@ -1,0 +1,61 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif" role="img">
+  <title>嵌入式软件五层模型：从芯片与外设到应用与协议，逐层抽象、逐层定位</title>
+  <defs>
+    <marker id="oar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#5c6772"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="24" y="28" font-size="18" font-weight="700" fill="#222a32">嵌入式软件的五层模型</text>
+  <text x="24" y="50" font-size="13" fill="#5c6772">同一现象可能来自任意一层；分层的作用是把"猜"变成"逐层排除"</text>
+  <line x1="24" y1="62" x2="736" y2="62" stroke="#e3e0d7"/>
+
+  <!-- L4 -->
+  <rect x="96" y="78" width="524" height="56" rx="4" fill="#f3effa" stroke="#7a5fc0" stroke-width="1.6"/>
+  <circle cx="56" cy="106" r="20" fill="#ffffff" stroke="#7a5fc0" stroke-width="1.6"/>
+  <text x="56" y="112" font-size="15" fill="#7a5fc0" text-anchor="middle">L4</text>
+  <text x="108" y="100" font-size="15" font-weight="700" fill="#222a32">应用与协议</text>
+  <text x="108" y="118" font-size="13" fill="#4a5560">业务状态机、Modbus / CAN 应用层、升级与日志</text>
+  <text x="108" y="134" font-size="13" fill="#b5642e">现象：功能正确但偶发丢帧、超时、升级失败</text>
+
+  <!-- L3 -->
+  <rect x="96" y="140" width="524" height="56" rx="4" fill="#eef3fa" stroke="#1a4f8b" stroke-width="1.6"/>
+  <circle cx="56" cy="168" r="20" fill="#ffffff" stroke="#1a4f8b" stroke-width="1.6"/>
+  <text x="56" y="174" font-size="15" fill="#1a4f8b" text-anchor="middle">L3</text>
+  <text x="108" y="162" font-size="15" font-weight="700" fill="#222a32">RTOS 与调度</text>
+  <text x="108" y="180" font-size="13" fill="#4a5560">任务划分、优先级、队列与信号量、临界区</text>
+  <text x="108" y="196" font-size="13" fill="#b5642e">现象：优先级反转、偶发超时、栈溢出</text>
+
+  <!-- L2 -->
+  <rect x="96" y="202" width="524" height="56" rx="4" fill="#f7f9fb" stroke="#2b3a4a" stroke-width="1.6"/>
+  <circle cx="56" cy="230" r="20" fill="#ffffff" stroke="#2b3a4a" stroke-width="1.6"/>
+  <text x="56" y="236" font-size="15" fill="#2b3a4a" text-anchor="middle">L2</text>
+  <text x="108" y="224" font-size="15" font-weight="700" fill="#222a32">驱动与寄存器</text>
+  <text x="108" y="242" font-size="13" fill="#4a5560">GPIO / USART / DMA 配置，中断服务程序，volatile</text>
+  <text x="108" y="258" font-size="13" fill="#b5642e">现象：寄存器读回 0、时序不对、数据搬错</text>
+
+  <!-- L1 -->
+  <rect x="96" y="264" width="524" height="56" rx="4" fill="#fdf6ef" stroke="#b5642e" stroke-width="1.6"/>
+  <circle cx="56" cy="292" r="20" fill="#ffffff" stroke="#b5642e" stroke-width="1.6"/>
+  <text x="56" y="298" font-size="15" fill="#b5642e" text-anchor="middle">L1</text>
+  <text x="108" y="286" font-size="15" font-weight="700" fill="#222a32">内核、启动与内存</text>
+  <text x="108" y="304" font-size="13" fill="#4a5560">向量表、栈、链接脚本、时钟树、Flash 等待周期</text>
+  <text x="108" y="320" font-size="13" fill="#b5642e">现象：上电跑飞、HardFault、变量初值随机</text>
+
+  <!-- L0 -->
+  <rect x="96" y="326" width="524" height="56" rx="4" fill="#e8f3ec" stroke="#2e7d4f" stroke-width="1.6"/>
+  <circle cx="56" cy="354" r="20" fill="#ffffff" stroke="#2e7d4f" stroke-width="1.6"/>
+  <text x="56" y="360" font-size="15" fill="#2e7d4f" text-anchor="middle">L0</text>
+  <text x="108" y="348" font-size="15" font-weight="700" fill="#222a32">芯片与外设</text>
+  <text x="108" y="366" font-size="13" fill="#4a5560">供电、时钟源、引脚复用、总线与外部器件</text>
+  <text x="108" y="382" font-size="13" fill="#b5642e">现象：波形异常、器件不响应、批量不一致</text>
+
+  <!-- 学习顺序箭头 -->
+  <line x1="668" y1="380" x2="668" y2="92" stroke="#5c6772" stroke-width="2" marker-end="url(#oar)"/>
+  <text x="684" y="300" font-size="13" fill="#5c6772" text-anchor="middle" transform="rotate(-90 684 300)">学习顺序：自下而上</text>
+  <text x="684" y="150" font-size="13" fill="#2e7d4f" text-anchor="middle" transform="rotate(-90 684 150)">排查顺序：自上而下</text>
+
+  <line x1="24" y1="394" x2="736" y2="394" stroke="#e3e0d7"/>
+  <text x="24" y="414" font-size="13" fill="#222a32">L0–L2 的判据在波形与寄存器：示波器、逻辑分析仪、调试器内存窗口。</text>
+  <text x="24" y="432" font-size="13" fill="#222a32">L3–L4 的判据在时间线：trace、周期计数器、临界区长度与队列深度。</text>
+</svg>

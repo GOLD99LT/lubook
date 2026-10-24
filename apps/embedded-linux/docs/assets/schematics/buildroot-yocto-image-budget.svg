@@ -1,0 +1,74 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>构建流水线与 16 MiB SPI NOR 镜像预算：五步产出镜像，分区按 20 px/MiB 等比绘制</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2b3a4a"/>
+    </marker>
+    <marker id="arO" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#b5642e"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">构建流水线与 16 MiB 镜像预算</text>
+  <text x="24" y="52" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">左侧五步产出镜像，右侧为 16 MiB SPI NOR 分区布局（20 px/MiB）</text>
+
+  <rect x="24" y="64" width="330" height="342" rx="10" fill="#f7fafc" stroke="#9fb3c8" stroke-width="1.4" stroke-dasharray="7 5"/>
+  <text x="40" y="86" font-size="14" font-weight="700" fill="#1a4f8b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">构建流水线</text>
+
+  <rect x="40" y="100" width="298" height="44" rx="7" fill="#ffffff" stroke="#2b3a4a" stroke-width="1.5"/>
+  <text x="189" y="127" font-size="13" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">1  配置：defconfig 或 layer 组合</text>
+
+  <line x1="189" y1="144" x2="189" y2="154" stroke="#2b3a4a" stroke-width="1.7" marker-end="url(#ar)"/>
+
+  <rect x="40" y="156" width="298" height="44" rx="7" fill="#ffffff" stroke="#2b3a4a" stroke-width="1.5"/>
+  <text x="189" y="183" font-size="13" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">2  取源码：DL_DIR 缓存 + 校验和</text>
+
+  <line x1="189" y1="200" x2="189" y2="210" stroke="#2b3a4a" stroke-width="1.7" marker-end="url(#ar)"/>
+
+  <rect x="40" y="212" width="298" height="44" rx="7" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.7"/>
+  <text x="189" y="239" font-size="13" text-anchor="middle" fill="#1a4f8b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">3  构建：任务图 + sstate 复用</text>
+
+  <line x1="189" y1="256" x2="189" y2="266" stroke="#2b3a4a" stroke-width="1.7" marker-end="url(#ar)"/>
+
+  <rect x="40" y="268" width="298" height="44" rx="7" fill="#ffffff" stroke="#2b3a4a" stroke-width="1.5"/>
+  <text x="189" y="295" font-size="13" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">4  打包：strip、裁剪、去重</text>
+
+  <line x1="189" y1="312" x2="189" y2="322" stroke="#2b3a4a" stroke-width="1.7" marker-end="url(#ar)"/>
+
+  <rect x="40" y="324" width="298" height="44" rx="7" fill="#ffffff" stroke="#2b3a4a" stroke-width="1.5"/>
+  <text x="189" y="351" font-size="13" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">5  出镜像：分区布局 + 签名</text>
+
+  <text x="40" y="392" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">镜像生成后断言大小与分区上限，超出即失败</text>
+
+  <line x1="342" y1="346" x2="458" y2="346" stroke="#b5642e" stroke-width="2" marker-end="url(#arO)"/>
+  <text x="400" y="338" font-size="13" text-anchor="middle" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">镜像</text>
+
+  <text x="470" y="64" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">kernel + rootfs = 8.5 MiB（53.1%）</text>
+
+  <rect x="470" y="80" width="90" height="20" fill="#1a4f8b" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="470" y="100" width="90" height="2.5" fill="#8fa8c0" stroke="#ffffff" stroke-width="0.8"/>
+  <rect x="470" y="102.5" width="90" height="80" fill="#b5642e" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="470" y="182.5" width="90" height="1.25" fill="#d9a066" stroke="#ffffff" stroke-width="0.6"/>
+  <rect x="470" y="183.75" width="90" height="90" fill="#4f9e63" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="470" y="273.75" width="90" height="40" fill="#79b98a" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="470" y="313.75" width="90" height="20" fill="#a8cfb3" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="470" y="333.75" width="90" height="60" fill="#d9dde3" stroke="#ffffff" stroke-width="1.2"/>
+  <rect x="470" y="393.75" width="90" height="6.25" fill="#f2c14e" stroke="#ffffff" stroke-width="0.8"/>
+
+  <text x="575" y="94" font-size="13" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">bootloader 1.0 MiB</text>
+  <line x1="560" y1="101" x2="568" y2="107" stroke="#8fa8c0" stroke-width="1.2"/>
+  <text x="575" y="112" font-size="13" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">env 0.125 MiB（双份）</text>
+  <text x="575" y="146" font-size="13" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">kernel 4.0 MiB</text>
+  <line x1="560" y1="183" x2="568" y2="190" stroke="#d9a066" stroke-width="1.2"/>
+  <text x="575" y="194" font-size="13" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">DTB 0.0625 MiB</text>
+  <text x="575" y="232" font-size="13" font-weight="700" fill="#2f6b40" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">rootfs 4.5 MiB</text>
+  <text x="575" y="250" font-size="13" fill="#2f6b40" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">squashfs 3.6 MiB</text>
+  <text x="575" y="268" font-size="13" fill="#2f6b40" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">压缩比 2.7:1</text>
+  <text x="575" y="298" font-size="13" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">overlay 2.0 MiB</text>
+  <text x="575" y="326" font-size="13" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">data 1.0 MiB</text>
+  <text x="575" y="366" font-size="13" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">reserve 3.0 MiB</text>
+  <text x="575" y="404" font-size="13" fill="#8a6a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">slack 0.3125 MiB</text>
+
+  <text x="24" y="424" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">已分配 15.6875 MiB（98.05%），尾部余量 0.3125 MiB；A/B 双镜像还需再复制 8.5 MiB，16 MiB 不够</text>
+</svg>

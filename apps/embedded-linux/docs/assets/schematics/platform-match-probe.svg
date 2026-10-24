@@ -1,0 +1,80 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>platform 总线的匹配规则与 probe 时序</title>
+  <desc>上半部分是 platform_device 与 platform_driver 通过 platform_match 匹配；下半部分是 probe 的资源获取、成功绑定与 -EPROBE_DEFER 进入延迟队列后重试的路径。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b3a4a"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5c6772"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+
+  <text x="24" y="32" font-size="20" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">platform 总线的匹配与 probe 时序</text>
+  <text x="24" y="55" font-size="13.5" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">匹配成功才调用 probe；资源没就绪时返回 -EPROBE_DEFER，进入延迟队列重试</text>
+  <line x1="24" y1="68" x2="736" y2="68" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="88" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">1 匹配：compatible 优先，其次是 name 与 id_table</text>
+
+  <rect x="24" y="98" width="196" height="76" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="36" y="120" font-size="14" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">platform_device</text>
+  <text x="36" y="140" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">name / compatible</text>
+  <text x="36" y="160" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">reg / interrupts</text>
+
+  <rect x="300" y="106" width="170" height="60" rx="4" fill="#ffffff" stroke="#1a4f8b" stroke-width="1.6"/>
+  <text x="312" y="128" font-size="14" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">platform_match()</text>
+  <text x="312" y="147" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">compatible</text>
+  <text x="312" y="162" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">name / id_table</text>
+
+  <rect x="540" y="98" width="196" height="76" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="552" y="120" font-size="14" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">platform_driver</text>
+  <text x="552" y="140" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">of_match_table</text>
+  <text x="552" y="160" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">id_table / probe</text>
+
+  <line x1="220" y1="136" x2="296" y2="136" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="540" y1="136" x2="474" y2="136" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="300" y="190" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">返回 1 表示匹配，返回 0 表示跳过</text>
+
+  <line x1="24" y1="204" x2="736" y2="204" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="224" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">2 probe：只有 -EPROBE_DEFER 会进入重试队列</text>
+
+  <rect x="24" y="236" width="120" height="60" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="34" y="258" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif" textLength="104" lengthAdjust="spacingAndGlyphs">driver_register</text>
+  <text x="34" y="278" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">device_attach</text>
+
+  <rect x="180" y="236" width="120" height="60" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="190" y="258" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">really_probe</text>
+  <text x="190" y="278" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">pinctrl 绑定</text>
+
+  <rect x="336" y="236" width="120" height="60" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="346" y="258" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">devm_clk_get</text>
+  <text x="346" y="278" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">clk/regmap/irq</text>
+
+  <rect x="492" y="236" width="120" height="60" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="502" y="258" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">probe()</text>
+  <text x="502" y="278" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">0 或负 errno</text>
+
+  <rect x="648" y="236" width="88" height="60" rx="4" fill="#ffffff" stroke="#1a4f8b"/>
+  <text x="658" y="258" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">bound</text>
+  <text x="658" y="278" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">或 defer</text>
+
+  <line x1="144" y1="266" x2="176" y2="266" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="300" y1="266" x2="332" y2="266" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="456" y1="266" x2="488" y2="266" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="612" y1="266" x2="644" y2="266" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <rect x="420" y="326" width="316" height="44" rx="4" fill="#fbfdff" stroke="#1a4f8b" stroke-dasharray="5 3"/>
+  <text x="432" y="353" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">deferred_probe_list + 重试工作队列</text>
+
+  <line x1="552" y1="296" x2="552" y2="322" stroke="#5c6772" stroke-width="1.6" marker-end="url(#arrow-gray)"/>
+  <text x="560" y="314" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">-EPROBE_DEFER</text>
+
+  <polyline points="420,348 240,348 240,300" fill="none" stroke="#5c6772" stroke-width="1.6" marker-end="url(#arrow-gray)"/>
+  <text x="252" y="342" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">依赖就绪后重试</text>
+
+  <rect x="24" y="386" width="712" height="46" rx="4" fill="#f7f9fb" stroke="#d5dde5"/>
+  <text x="36" y="406" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">超时：deferred_probe_timeout 默认 0 表示不设超时；fw_devlink 用设备链接强制顺序</text>
+  <text x="36" y="424" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">async probe 可以并行，但受 device_link 与共享总线约束</text>
+</svg>

@@ -1,0 +1,110 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>内核模块从 insmod 到 rmmod 的五个阶段</title>
+  <desc>左侧为触发方式，中间为内核加载与卸载阶段，右侧为对应的数据结构和检查点。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b3a4a"/>
+    </marker>
+    <marker id="arrow-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5c6772"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+
+  <text x="24" y="32" font-size="20" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">内核模块加载与卸载的五个阶段</text>
+  <text x="24" y="55" font-size="13.5" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">insmod 或 modprobe 进入内核后，模块先校验、再重定位，最后才调用 init</text>
+  <line x1="24" y1="68" x2="736" y2="68" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="28" y="90" font-size="13" font-weight="700" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">触发方式</text>
+  <text x="224" y="90" font-size="13" font-weight="700" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">内核阶段</text>
+  <text x="550" y="90" font-size="13" font-weight="700" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">产物与检查点</text>
+
+  <!-- 第 1 行 -->
+  <rect x="24" y="104" width="160" height="46" rx="4" fill="#ffffff" stroke="#b9c6d2"/>
+  <text x="32" y="123" font-size="13.5" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">insmod demo.ko</text>
+  <text x="32" y="141" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">直接给 .ko 路径</text>
+
+  <rect x="220" y="104" width="290" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="232" y="123" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">load_module：复制与校验</text>
+  <text x="232" y="141" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">vermagic、签名、许可证</text>
+
+  <rect x="546" y="104" width="190" height="46" rx="4" fill="#fbfdff" stroke="#b9c6d2"/>
+  <text x="556" y="123" font-size="13" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">.ko 仍在用户空间</text>
+  <text x="556" y="141" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">modinfo 可读</text>
+
+  <!-- 第 2 行 -->
+  <rect x="24" y="164" width="160" height="46" rx="4" fill="#ffffff" stroke="#b9c6d2"/>
+  <text x="32" y="183" font-size="13.5" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">modprobe demo</text>
+  <text x="32" y="201" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">解析 modules.dep</text>
+
+  <rect x="220" y="164" width="290" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="232" y="183" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">布局、符号解析、重定位</text>
+  <text x="232" y="201" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">simplify_symbols + relocations</text>
+
+  <rect x="546" y="164" width="190" height="46" rx="4" fill="#fbfdff" stroke="#b9c6d2"/>
+  <text x="556" y="183" font-size="13" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Module.symvers</text>
+  <text x="556" y="201" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">/proc/kallsyms</text>
+
+  <!-- 第 3 行 -->
+  <rect x="24" y="224" width="160" height="46" rx="4" fill="#ffffff" stroke="#b9c6d2"/>
+  <text x="32" y="243" font-size="13.5" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">内核内部</text>
+  <text x="32" y="261" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">无需用户动作</text>
+
+  <rect x="220" y="224" width="290" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="232" y="243" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">do_init_module：调用 init</text>
+  <text x="232" y="261" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">返回 0 成功，负 errno 失败</text>
+
+  <rect x="546" y="224" width="190" height="46" rx="4" fill="#fbfdff" stroke="#b9c6d2"/>
+  <text x="556" y="243" font-size="13" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">失败则 module_put</text>
+  <text x="556" y="261" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">不调用 exit</text>
+
+  <!-- 第 4 行 -->
+  <rect x="24" y="284" width="160" height="46" rx="4" fill="#ffffff" stroke="#b9c6d2"/>
+  <text x="32" y="303" font-size="13.5" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">sysfs / procfs</text>
+  <text x="32" y="321" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">观察状态与参数</text>
+
+  <rect x="220" y="284" width="290" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="232" y="303" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">MODULE_STATE_LIVE</text>
+  <text x="232" y="321" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">notifier、sysfs、参数节点</text>
+
+  <rect x="546" y="284" width="190" height="46" rx="4" fill="#fbfdff" stroke="#b9c6d2"/>
+  <text x="556" y="303" font-size="13" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">/sys/module/demo/</text>
+  <text x="556" y="321" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">refcnt / holders</text>
+
+  <!-- 第 5 行 -->
+  <rect x="24" y="344" width="160" height="46" rx="4" fill="#ffffff" stroke="#b9c6d2"/>
+  <text x="32" y="363" font-size="13.5" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">rmmod demo</text>
+  <text x="32" y="381" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">refcnt 必须为 0</text>
+
+  <rect x="220" y="344" width="290" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="232" y="363" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">delete_module：调用 exit</text>
+  <text x="232" y="381" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">MODULE_STATE_GOING，等待 refcnt</text>
+
+  <rect x="546" y="344" width="190" height="46" rx="4" fill="#fbfdff" stroke="#b9c6d2"/>
+  <text x="556" y="363" font-size="13" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">RCU 宽限期后释放</text>
+  <text x="556" y="381" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">内存归还 buddy</text>
+
+  <!-- 左侧到中间的触发箭头 -->
+  <line x1="184" y1="127" x2="214" y2="127" stroke="#5c6772" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-gray)"/>
+  <line x1="184" y1="187" x2="214" y2="187" stroke="#5c6772" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-gray)"/>
+  <line x1="184" y1="247" x2="214" y2="247" stroke="#5c6772" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-gray)"/>
+  <line x1="184" y1="307" x2="214" y2="307" stroke="#5c6772" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-gray)"/>
+  <line x1="184" y1="367" x2="214" y2="367" stroke="#5c6772" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow-gray)"/>
+
+  <!-- 中间阶段之间的向下箭头 -->
+  <line x1="365" y1="150" x2="365" y2="160" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="365" y1="210" x2="365" y2="220" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="365" y1="270" x2="365" y2="280" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="365" y1="330" x2="365" y2="340" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <!-- 中间到右侧的产物箭头 -->
+  <line x1="510" y1="127" x2="542" y2="127" stroke="#5c6772" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <line x1="510" y1="187" x2="542" y2="187" stroke="#5c6772" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <line x1="510" y1="247" x2="542" y2="247" stroke="#5c6772" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <line x1="510" y1="307" x2="542" y2="307" stroke="#5c6772" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+  <line x1="510" y1="367" x2="542" y2="367" stroke="#5c6772" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+
+  <!-- 状态机说明 -->
+  <rect x="24" y="400" width="712" height="26" rx="4" fill="#f7f9fb" stroke="#d5dde5"/>
+  <text x="36" y="418" font-size="13.5" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">状态机：COMING → LIVE → GOING；加载失败直接释放，不会进入 LIVE</text>
+</svg>

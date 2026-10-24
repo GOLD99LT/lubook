@@ -81,7 +81,8 @@ for rel in summary_paths:
     else:
         seen_ids[_id] = rel
     top = rel.split('/')[0]
-    exp = DIR_PART.get(top) or summary_part.get(rel)
+    # 优先用 SUMMARY 的篇序：新分册可能与硬件的目录约定不同（如 embedded 的 mcu 是第 2 篇，不是第 5 篇）
+    exp = summary_part.get(rel) or DIR_PART.get(top)
     if exp and 'part' in fm and fm['part'] != exp:
         err(rel, 'part=%s 与 SUMMARY 中的篇序/目录 %s（应为 %s）不一致' % (fm['part'], top, exp))
     if 'difficulty' in fm and fm['difficulty'] not in (1, 2, 3):

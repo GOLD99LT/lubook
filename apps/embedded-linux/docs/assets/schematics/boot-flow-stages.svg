@@ -1,0 +1,76 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>启动链五阶段与交接参数：ROM、SPL/TF-A、U-Boot、内核、init 的接力与时间拆解</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">启动链五阶段与交接参数</text>
+  <text x="24" y="52" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">每一级只做三件事：把自己搬进内存、初始化下一级需要的硬件、把控制权连同参数交出去</text>
+
+  <rect x="22" y="70" width="132" height="74" rx="8" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.6"/>
+  <text x="88" y="96" font-size="15" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ROM Code</text>
+  <text x="88" y="119" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">片内 BootROM</text>
+  <text x="88" y="137" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">SRAM 加载</text>
+
+  <line x1="154" y1="107" x2="164" y2="107" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="168" y="70" width="132" height="74" rx="8" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.6"/>
+  <text x="234" y="96" font-size="15" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">SPL / TF-A</text>
+  <text x="234" y="119" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">初始化 DDR</text>
+  <text x="234" y="137" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">SRAM 运行</text>
+
+  <line x1="300" y1="107" x2="310" y2="107" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="314" y="70" width="132" height="74" rx="8" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.6"/>
+  <text x="380" y="96" font-size="15" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">U-Boot</text>
+  <text x="380" y="119" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">驱动 + 环境</text>
+  <text x="380" y="137" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">DDR 运行</text>
+
+  <line x1="446" y1="107" x2="456" y2="107" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="460" y="70" width="132" height="74" rx="8" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.6"/>
+  <text x="526" y="96" font-size="15" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">Linux 内核</text>
+  <text x="526" y="119" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">解压 + probe</text>
+  <text x="526" y="137" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">DDR 运行</text>
+
+  <line x1="592" y1="107" x2="602" y2="107" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="606" y="70" width="132" height="74" rx="8" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.6"/>
+  <text x="672" y="96" font-size="15" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">init</text>
+  <text x="672" y="119" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">systemd/BusyBox</text>
+  <text x="672" y="137" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">rootfs</text>
+
+  <text x="161" y="162" font-size="13" text-anchor="middle" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">头部校验</text>
+  <text x="307" y="162" font-size="13" text-anchor="middle" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">DDR 就绪</text>
+  <text x="453" y="162" font-size="13" text-anchor="middle" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">bootargs + DTB</text>
+  <text x="599" y="162" font-size="13" text-anchor="middle" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">root= + init=</text>
+
+  <rect x="16" y="176" width="728" height="84" rx="8" fill="#f7fafc" stroke="#9fb3c8" stroke-width="1.4" stroke-dasharray="7 5"/>
+  <text x="32" y="199" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ARM32：r0=0，r1=machine type，r2=DTB 物理地址；MMU 关、D-cache 关</text>
+  <text x="32" y="223" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ARM64：x0=DTB 物理地址；MMU 关；EL2/EL1；从核停在 spin-table 或由 PSCI 管理</text>
+  <text x="32" y="247" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">内核交接：rdinit= 或 init=；console= 决定 /dev/console，earlycon= 决定早期日志</text>
+
+  <text x="24" y="288" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">启动时间拆解：总 3,850 ms（115200 8N1，32 KiB 日志）</text>
+
+  <rect x="30" y="306" width="4.55" height="28" fill="#6b7f95" stroke="#ffffff" stroke-width="0.6"/>
+  <rect x="34.55" y="306" width="13.64" height="28" fill="#8fa8c0" stroke="#ffffff" stroke-width="0.6"/>
+  <rect x="48.19" y="306" width="81.81" height="28" fill="#b5642e" stroke="#ffffff" stroke-width="0.8"/>
+  <rect x="130" y="306" width="472.73" height="28" fill="#1a4f8b" stroke="#ffffff" stroke-width="0.8"/>
+  <rect x="602.73" y="306" width="127.27" height="28" fill="#4f9e63" stroke="#ffffff" stroke-width="0.8"/>
+
+  <text x="366" y="325" font-size="13" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">kernel 2,600 ms</text>
+  <text x="666" y="325" font-size="13" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">init 700 ms</text>
+
+  <text x="24" y="352" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ROM 25 + SPL 75 + U-Boot 450 + kernel 2,600 + init 700 = 3,850 ms</text>
+
+  <rect x="30" y="378" width="517.1" height="18" fill="#b5642e" stroke="#ffffff" stroke-width="0.8"/>
+  <rect x="547.1" y="378" width="182.9" height="18" fill="#8fa8c0" stroke="#ffffff" stroke-width="0.8"/>
+  <text x="42" y="391" font-size="13" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">串口 2,844 ms（73.9%）</text>
+  <text x="558" y="391" font-size="13" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">计算 1,006 ms</text>
+
+  <text x="24" y="416" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">115200 8N1 = 11,520 B/s：1 KiB 日志 88.9 ms，32 KiB 日志 2,844 ms</text>
+  <text x="24" y="432" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">优化顺序：先降日志量，再提波特率，最后才动内核裁剪；921600 可把串口段压到 356 ms</text>
+</svg>
