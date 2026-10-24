@@ -281,7 +281,7 @@ coredumpctl dump 812 --output /tmp/core.812
 - `core_pattern`：可以是文件路径，也可以是管道（`|/usr/lib/systemd/systemd-coredump ...`）。管道程序不存在或失败，core 就丢了。
 - `coredump_filter`：默认 `0x33`，只包含匿名私有/共享页、ELF 头和私有大页；文件-backed 的代码段不写入。这解释了“VSZ 180 MiB，core 只有 35 MiB”。
 - 只读根文件系统：core 写不到 `/`，要导到数据分区或通过网络发走。
-- 进程 `dumpable` 标志：`setuid` 程序或显式 `prctl(PR_SET_DUMPABLE, 0)` 会禁止 dump。
+- 进程 `dumpable` 标志：setuid 程序在默认 `fs.suid_dumpable=0` 时，或显式 `prctl(PR_SET_DUMPABLE, 0)`，会禁止 dump。
 
 core 不是越小越好，也不是越大越好。太小可能缺少关键映射；太大则写盘时间长、占存储、还可能把密钥/令牌写进去。`systemd-coredump` 的 `ProcessSizeMax=` 和 `ExternalSizeMax=` 是两道上限，超过上限的进程直接不 dump。
 
@@ -417,11 +417,11 @@ PSS 求和则不重复：
 
 $$M_{\mathrm{PSS}} = \sum_{p \in P} \mathrm{PSS}_p$$
 
-页表本身也占内存。对 $M$ 字节的映射，4 KiB 页、8 字节 PTE，页表项数约 $M/4096$，页表开销约
+页表本身也占内存。对 $M$ 字节的映射，4 KiB 页、8 字节 PTE（ARM64 或 ARM32 LPAE），页表项数约 $M/4096$，页表开销约
 
 $$M_{\mathrm{PTE}} \approx \frac{M}{4096} \times 8 = \frac{M}{512}$$
 
-100 MiB 的映射约 200 KiB 页表；1 GiB 约 2 MiB。多级页表只分配实际用到的部分，但这个量级可以用来判断“大映射”的隐藏成本。
+100 MiB 的映射约 200 KiB 页表；1 GiB 约 2 MiB。ARM32 短描述符的 PTE 是 4 字节，同一映射的页表开销约为一半；多级页表只分配实际用到的部分，但这个量级可以用来判断“大映射”的隐藏成本。
 
 泄漏到 OOM 的时间为
 
@@ -521,7 +521,7 @@ $$r \times s = 15{,}000{,}000\ \mathrm{B/s} = 15\ \mathrm{MB/s}$$
 
 $$32+1+2+0.1+0.5 = 35.6\ \mathrm{MiB}$$
 
-zstd 压缩比取 3.2：
+其中 0.1 MiB 是 ELF 头，0.5 MiB 是 notes、映射表与对齐余量。zstd 压缩比取 3.2：
 
 $$S_{\mathrm{stored}} = \frac{35.6}{3.2} = 11.1\ \mathrm{MiB}$$
 
@@ -709,7 +709,7 @@ $$43.2 \times 2.24 = 96.8\ \mathrm{DMIPS}$$
 
 $$32+1+2+0.1+0.5 = 35.6\ \mathrm{MiB}$$
 
-其中 0.5 MiB 是 ELF 头、notes 和映射表的余量。压缩后：
+其中 0.1 MiB 是 ELF 头，0.5 MiB 是 notes、映射表与对齐余量。压缩后：
 
 $$S_{\mathrm{stored}} = \frac{35.6}{3.2} = 11.1\ \mathrm{MiB}$$
 

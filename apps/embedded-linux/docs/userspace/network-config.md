@@ -26,7 +26,7 @@ sources:
 
 ## 1. 动机：网络故障最贵的是“改错层”
 
-一个网口不通，工程师通常会先换网线、再换交换机、再怀疑运营商。这些动作覆盖的是物理层和二层，而嵌入式设备上更常见的原因在别处：内核升级后接口名从 `eth0` 变成了 `enp3s0`，配置文件还在匹配旧名字；只读根文件系统上 `/etc/resolv.conf` 指向了一个没有启动的 stub resolver；防火墙默认拒绝，把 DHCP 回复或 ICMP 分片需要报文丢了；MTU 不匹配，小包能通、大包全丢。
+一个网口不通，工程师通常会先换网线、再换交换机、再怀疑运营商。这些动作覆盖的是物理层和二层，而嵌入式设备上更常见的原因在别处：内核升级后接口名从 `eth0` 变成了 `enp3s0`，配置文件还在匹配旧名字；只读根文件系统上 `/etc/resolv.conf` 指向了一个没有启动的 stub resolver；防火墙默认拒绝，把 DHCP 回复或 ICMP 的“需要分片”报文丢了；MTU 不匹配，小包能通、大包全丢。
 
 | 观察到的现象 | 更可能出问题的层 | 第一条命令 |
 |---|---|---|
@@ -370,11 +370,11 @@ $r_{\mathrm{slew}}$ 是允许的最大 slew 速率。Linux 内核通过 `adjtime
 
 $$C_{\mathrm{fw}} = N_{\mathrm{rules}} \times N_{\mathrm{pps}} \times c_{\mathrm{rule}}$$
 
-$c_{\mathrm{rule}}$ 是单条规则的平均周期数。连接跟踪表的内存为
+$N_{\mathrm{rules}}$ 是规则数，$N_{\mathrm{pps}}$ 是包速率，$c_{\mathrm{rule}}$ 是单条规则的平均周期数。连接跟踪表的内存为
 
 $$M_{\mathrm{ct}} = N_{\mathrm{conn}} \times s_{\mathrm{entry}}$$
 
-$s_{\mathrm{entry}}$ 是单条 conntrack 记录的近似大小。嵌入式设备上，连接表被打满的表现是“新连接随机失败”，而不是“防火墙报错”；要同时监控 `nf_conntrack_count` 与 `nf_conntrack_max`。
+$N_{\mathrm{conn}}$ 是连接表条目数，$s_{\mathrm{entry}}$ 是单条 conntrack 记录的近似大小。嵌入式设备上，连接表被打满的表现是“新连接随机失败”，而不是“防火墙报错”；要同时监控 `nf_conntrack_count` 与 `nf_conntrack_max`。
 
 ## 4. 典型计算：从 /24 到 NTP 漂移
 

@@ -24,8 +24,12 @@
 
 ## 第四篇 · 硬件接口与板级支持
 
+* [显示与触摸：MIPI DSI、LVDS、RGB 接口取舍与面板时序](hardware/display-touch.md)
+* [音频：I2S/TDM 时序、codec 与 DAPM、时钟树与 pop 音](hardware/audio.md)
 
 ## 第五篇 · 可靠性与升级
 
+* [看门狗与日志：/dev/watchdog、systemd 集成与 journald 落盘](reliability/watchdog-log.md)
+* [A/B 升级：GPT 分区、启动计数器、镜像校验与断电回滚](reliability/ab-upgrade.md)
 
 ## 第六篇 · 板级实战

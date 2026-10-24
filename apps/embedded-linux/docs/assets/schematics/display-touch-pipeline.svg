@@ -1,0 +1,53 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>显示接口带宽、一行像素时序与背光触摸链路</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a">显示链路：三种接口的带宽与一行像素的时序</text>
+    <text x="24" y="52" font-size="13" fill="#5a6b7b">左：线数与 lane 速率；中：一行 2200 pixel = 14.815 µs（非等比例）；下：背光与触摸预算</text>
+
+    <rect x="24" y="76" width="276" height="58" rx="7" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.6"/>
+    <text x="38" y="99" font-size="14" font-weight="700" fill="#1a2b3a">MIPI DSI · 4 lane</text>
+    <text x="38" y="120" font-size="13" fill="#2b3a4a">891 Mbit/s·lane，加 12% 后 998 Mbit/s</text>
+
+    <rect x="24" y="142" width="276" height="58" rx="7" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.6"/>
+    <text x="38" y="165" font-size="14" font-weight="700" fill="#1a2b3a">LVDS · 双通道 24 bit</text>
+    <text x="38" y="186" font-size="13" fill="#2b3a4a">519.75 Mbit/s·pair；单通道 1039.5</text>
+
+    <rect x="24" y="208" width="276" height="58" rx="7" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.6"/>
+    <text x="38" y="231" font-size="14" font-weight="700" fill="#1a2b3a">RGB 并行 · 24 bit</text>
+    <text x="38" y="252" font-size="13" fill="#2b3a4a">28 根单端线；33 MHz 已接近上限</text>
+
+    <text x="730" y="88" font-size="13" text-anchor="end" fill="#4a5a6a">一行 2200 pixel = 14.815 µs</text>
+
+    <rect x="320" y="100" width="70" height="12" fill="#dbe4ee" stroke="#8fa8c0" stroke-width="1"/>
+    <rect x="390" y="100" width="40" height="12" fill="#e8c4bd" stroke="#b03a2e" stroke-width="1"/>
+    <rect x="430" y="100" width="210" height="12" fill="#1a4f8b" stroke="#1a4f8b" stroke-width="1"/>
+    <rect x="640" y="100" width="90" height="12" fill="#dbe4ee" stroke="#8fa8c0" stroke-width="1"/>
+
+    <path d="M320,134 L390,134 L390,122 L430,122 L430,134 L730,134" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <text x="312" y="128" font-size="13" text-anchor="end" fill="#4a5a6a">HSYNC</text>
+    <path d="M320,170 L430,170 L430,158 L640,158 L640,170 L730,170" fill="none" stroke="#4f9e63" stroke-width="2"/>
+    <text x="312" y="166" font-size="13" text-anchor="end" fill="#4a5a6a">DE</text>
+
+    <text x="355" y="194" font-size="13" text-anchor="middle" fill="#1a2b3a">HBP 148</text>
+    <text x="355" y="210" font-size="13" text-anchor="middle" fill="#5a6b7b">0.997 µs</text>
+    <text x="410" y="194" font-size="13" text-anchor="middle" fill="#b03a2e">HSW 44</text>
+    <text x="410" y="210" font-size="13" text-anchor="middle" fill="#b03a2e">0.296 µs</text>
+    <text x="535" y="194" font-size="13" text-anchor="middle" fill="#1a4f8b">有效 1920 px</text>
+    <text x="535" y="210" font-size="13" text-anchor="middle" fill="#1a4f8b">12.929 µs</text>
+    <text x="685" y="194" font-size="13" text-anchor="middle" fill="#1a2b3a">HFP 88</text>
+    <text x="685" y="210" font-size="13" text-anchor="middle" fill="#5a6b7b">0.593 µs</text>
+
+    <text x="320" y="236" font-size="13" fill="#2b3a4a">V：VBP 36 + VSW 5 + 1080 + VFP 4 = 1125 行 → 16.667 ms</text>
+    <text x="320" y="256" font-size="13" fill="#2b3a4a">消隐占 19.36%，相当于 28.75 MHz 的像素时钟在送无效像素</text>
+
+    <line x1="24" y1="276" x2="736" y2="276" stroke="#c9d2da" stroke-width="1.2"/>
+
+    <text x="24" y="300" font-size="13" fill="#1a2b3a">DSI：148.5 M × 24 / 4 = 891 Mbit/s·lane；×1.12 = 998，配 1 Gbit/s（D-PHY v1.2 上限 1.5 G）</text>
+    <text x="24" y="322" font-size="13" fill="#1a2b3a">LVDS：单通道 7 × 148.5 = 1039.5，双通道 74.25 × 7 = 519.75 Mbit/s·pair</text>
+    <text x="24" y="344" font-size="13" fill="#1a2b3a">RGB：24 根单端线并行，800×480 的 33.264 MHz 已接近排线极限；1080p 不成立</text>
+    <text x="24" y="366" font-size="13" fill="#8a4a1f">背光：20 kHz、最小导通 1.5 µs → 最低占空 3%、调光比 33:1；gamma 2.2 下 50% 占空只有 21.8% 感知亮度</text>
+    <text x="24" y="388" font-size="13" fill="#2b3a4a">触摸：42 B × 9 bit / 400 kHz = 945 µs，120 Hz → 11.3% 总线；端到端 8.3 + 0.95 + 16.7 ≈ 26 ms</text>
+    <text x="24" y="410" font-size="13" fill="#4f9e63">故障分层：无光查背光与电源；有光无图查 DSI 与初始化；图错位查时序；点漂移查坐标链路</text>
+  </g>
+</svg>

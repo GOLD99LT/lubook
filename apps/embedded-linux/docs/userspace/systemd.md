@@ -327,11 +327,11 @@ $$S = \frac{T_{\mathrm{boot}}^{(0)}}{T_{\mathrm{boot}}^{(1)}}$$
 
 ### 3.3 看门狗的检测与恢复预算
 
-从故障发生到设备恢复服务，时间由四段组成：
+从故障发生到设备恢复服务，时间由三段组成：
 
-$$T_{\mathrm{rec}} = T_{\mathrm{det}} + T_{\mathrm{rst}} + T_{\mathrm{boot}} + T_{\mathrm{app}}$$
+$$T_{\mathrm{rec}} = T_{\mathrm{det}} + T_{\mathrm{rst}} + T_{\mathrm{ready}}$$
 
-$T_{\mathrm{det}}$ 是看门狗检测时间（最坏接近 $W$），$T_{\mathrm{rst}}$ 是硬件复位与引导器启动，$T_{\mathrm{boot}}$ 是内核启动，$T_{\mathrm{app}}$ 是应用初始化到可服务。若关心长期可用性，稳态可用度为
+$T_{\mathrm{det}}$ 是看门狗检测时间（最坏接近 $W$），$T_{\mathrm{rst}}$ 是硬件复位与引导器启动，$T_{\mathrm{ready}}$ 是从内核启动到应用可服务的总时间（含内核初始化与应用初始化）。若关心长期可用性，稳态可用度为
 
 $$A = \frac{\mathrm{MTBF}}{\mathrm{MTBF} + T_{\mathrm{rec}}}$$
 
@@ -339,15 +339,15 @@ $$A = \frac{\mathrm{MTBF}}{\mathrm{MTBF} + T_{\mathrm{rec}}}$$
 
 ### 3.4 只读根文件系统的内存预算
 
-用 tmpfs 做 `/var` 或 overlay upper 时，写入直接消耗 RAM。设第 $i$ 类写入的速率为 $r_i$（MiB/h），可用容量为 $C$（MiB），则无清理时填满时间为
+用 tmpfs 做 `/var` 或 overlay upper 时，写入直接消耗 RAM。设第 $i$ 类写入的速率为 $r_i$（MiB/h），第 $i$ 类目录的配额为 $C_i$（MiB），tmpfs 总容量为 $C$（MiB），则无清理时填满时间为
 
 $$T_{\mathrm{fill}} = \frac{C}{\sum_i r_i}$$
 
-有配额时，稳态占用是各类上限之和：
+设运行时间为 $T$，有配额时稳态占用为
 
 $$M_{\mathrm{steady}} = \sum_i \min\left(r_i T,\ C_i\right) + M_{\mathrm{base}}$$
 
-$C_i$ 是第 $i$ 类目录的配额，$M_{\mathrm{base}}$ 是基础占用。设计时要让 $M_{\mathrm{steady}}$ 小于 tmpfs 容量，并留出 20% 余量给突发写入；否则写满后应用会收到 `ENOSPC`，表现为“服务随机崩溃”，而不是“磁盘满”。
+$M_{\mathrm{base}}$ 是基础占用。设计时要让 $M_{\mathrm{steady}}$ 小于 tmpfs 容量，并留出 20% 余量给突发写入；否则写满后应用会收到 `ENOSPC`，表现为“服务随机崩溃”，而不是“磁盘满”。
 
 ### 3.5 unit 的常驻内存
 
@@ -389,7 +389,7 @@ $$T_{\mathrm{user}} = 160 + 210 + 340 + 780 + 150 + 250 = 1{,}890\ \mathrm{ms}$$
 
 前五项是 udevd 160、tmpfiles 210、networkd 340、应用 780、target 与公共开销 150；最后 250 ms 是事务求解、cgroup 与日志写入等不落在单个 unit 上的开销。验算：$160+210+340+780+150=1{,}640$，加 250 得 1,890。
 
-`systemd-analyze` 只报内核加用户空间：
+在这块 U-Boot 板上，`systemd-analyze` 只报内核加用户空间：
 
 $$1{,}240 + 1{,}890 = 3{,}130\ \mathrm{ms}$$
 
@@ -433,9 +433,9 @@ $$W > 2 S_{\max}$$
 
 恢复时间按
 
-$$T_{\mathrm{rec}} = W + T_{\mathrm{rst}} + T_{\mathrm{boot}}$$
+$$T_{\mathrm{rec}} = W + T_{\mathrm{rst}} + T_{\mathrm{ready}}$$
 
-计算。取 $T_{\mathrm{rst}}=1.8\ \mathrm{s}$、$T_{\mathrm{boot}}=22\ \mathrm{s}$：
+计算。取 $T_{\mathrm{rst}}=1.8\ \mathrm{s}$、$T_{\mathrm{ready}}=22\ \mathrm{s}$：
 
 $$T_{\mathrm{rec}} = 10 + 1.8 + 22 = 33.8\ \mathrm{s}$$
 

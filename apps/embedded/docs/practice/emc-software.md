@@ -28,13 +28,13 @@ EMC（Electromagnetic Compatibility，电磁兼容）通常被当成硬件问题
 ## 1. 动机：四个“软件本来能救”的现场
 
 ::: motivation 四个现场
-**现场一：30 MHz 超 6 dB。** 一台 24 V 供电的电机控制器，PWM 频率 100 kHz，MOSFET 开通时间 20 ns。辐射发射在 30 MHz 附近超限 6 dB，实验室建议加共模电感与屏蔽罩，但结构件已经开模。把开管边沿从 20 ns 放慢到 100 ns，30 MHz 的包络下降约 14 dB，测试通过；代价是开关损耗从 48 mW 涨到 240 mW，需要重新核算散热。
+**现场一：30 MHz 超 6 dB。** 一台 24 V 供电的电机控制器，PWM（Pulse-Width Modulation，脉冲宽度调制）频率 100 kHz，MOSFET 开通时间 20 ns。辐射发射在 30 MHz 附近超限 6 dB，实验室建议加共模电感与屏蔽罩，但结构件已经开模。把开关边沿从 20 ns 放慢到 100 ns，30 MHz 的包络下降约 14 dB，测试通过；代价是开关损耗从 48 mW 涨到 240 mW，需要重新核算散热。
 
-**现场二：ADC 每次都在开关瞬间采样。** 12 位 ADC 采母线电流，采样时刻由软件轮询触发，恰好落在 MOSFET 开通后的振铃里，读到的值比真实值高 80~120 个 LSB。电流环把噪声当成真实电流，输出抖动。把采样改成定时器在 PWM 中心触发，振铃已经衰减到 0.02%，同样的硬件，电流纹波下降一个数量级。
+**现场二：ADC 每次都在开关瞬间采样。** 12 位 ADC（Analog-to-Digital Converter，模数转换器）采母线电流，采样时刻由软件轮询触发，恰好落在 MOSFET 开通后的振铃里，读到的值比真实值高 80~120 个 LSB（Least Significant Bit，最低有效位）。电流环把噪声当成真实电流，输出抖动。把采样改成定时器在 PWM 中心触发，振铃已经衰减到 0.02%，同样的硬件，电流纹波下降一个数量级。
 
-**现场三：EFT 之后继电器自己吸合。** 设备通过 IEC 61000-4-4 群脉冲测试时复位，复位后 GPIO 默认是浮空输入，继电器驱动芯片的输入被拉高，继电器吸合，执行器动作。测试员看到“设备自己动了”，判定不合格。修复不是加电容，而是复位后先把驱动引脚拉到安全电平，再等待 200 ms 确认电源稳定。
+**现场三：EFT 之后继电器自己吸合。** 设备通过电快速瞬变脉冲群（Electrical Fast Transient，EFT）测试时复位，复位后 GPIO 默认是浮空输入，继电器驱动芯片的输入被拉高，继电器吸合，执行器动作。测试员看到“设备自己动了”，判定不合格。修复不是加电容，而是复位后先把驱动引脚拉到安全电平，再等待 200 ms 确认电源稳定。
 
-**现场四：通信一错就疯狂重试。** RS-485 总线受干扰，一帧 CRC 错，软件立刻重发，重发又错，再重发，发射占空比从 5% 涨到 90%，电源被拉低，干扰更严重，形成“重试风暴”。加上指数退避与随机抖动后，总线恢复时间从秒级降到百毫秒级。
+**现场四：通信一错就疯狂重试。** RS-485 总线受干扰，一帧 CRC（Cyclic Redundancy Check，循环冗余校验）错，软件立刻重发，重发又错，再重发，发射占空比从 5% 涨到 90%，电源被拉低，干扰更严重，形成“重试风暴”。加上指数退避与随机抖动后，总线恢复时间从秒级降到百毫秒级。
 :::
 
 | 你想确认 | 先算 | 判据（工程经验值，非标准强制） |
@@ -67,7 +67,7 @@ EMC 问题永远是三要素的组合：**噪声源**（开关管、时钟、DC-
 
 ### 2.2 开关噪声的频谱从哪里来
 
-一个周期为 $T$、占空比为 $d$、幅度为 $A$、上升时间为 $t_r$ 的梯形波，其第 $n$ 次谐波的幅度可以写成：
+一个周期为 $T$、占空比为 $d$、幅度为 $A$、上升时间为 $t_r$ 的梯形波，其第 $n$ 次谐波的单边幅度可以写成：
 
 $$A_n=2Ad\,\mathrm{sinc}(nd)\,\mathrm{sinc}\!\left(\frac{n t_r}{T}\right)$$
 
@@ -83,7 +83,7 @@ $\tau$ 是脉冲宽度（单位 s）。在 $f_2$ 之后，谐波幅度近似与 
 
 **旋钮二：边沿控制（Slew Rate Control）。** 通过 GPIO 输出速度寄存器、栅极电阻或驱动芯片的压摆率设置，改变开通/关断的 $dV/dt$ 与 $dI/dt$。边沿越慢，高次谐波越低，但开关损耗越大、死区误差越大。软件能做的是选择驱动档位、在轻载时降档、在重载时升档。
 
-**旋钮三：软启动与死区。** 软启动让占空比从 0 缓慢升到目标值，限制输入电容充电的浪涌电流；死区保证上下管不同时导通。两者都直接改变电流波形，从而改变传导发射与电压跌落。
+**旋钮三：软启动（Soft Start）与死区（Dead Time）。** 软启动让占空比从 0 缓慢升到目标值，限制输入电容充电的浪涌电流；死区保证上下管不同时导通。两者都直接改变电流波形，从而改变传导发射与电压跌落。
 
 **旋钮四：采样同步（Sampling Synchronization）。** 用定时器在 PWM 的特定相位触发 ADC，避开开关沿与振铃；对多路 ADC，用同时采样或顺序采样加消隐窗口。采样时刻错了，再好的滤波器也救不回来。
 
@@ -119,7 +119,7 @@ $$\Delta L=10\log_{10}\!\left(\frac{\Delta f}{RBW}\right)$$
 
 ### 3.3 边沿、共模电流与开关损耗
 
-边沿时间同时决定两件事。第一是共模电流：
+边沿时间同时决定两件事。第一是共模电流（Common-Mode Current）：
 
 $$I_{cm}=C_{par}\frac{dV}{dt}=C_{par}\frac{\Delta V}{t_r}$$
 
@@ -290,14 +290,14 @@ $$t_{safe}=2.105+0.020+0.300+0.040+0.001=2.466\ \text{s}$$
 - **PWM 周期**：在中心周期附近按三角波或伪随机序列偏移，占空比按比例补偿，保持伏秒积恒定。伪代码：
 
 ```c
-/* 周期抖频：中心 10 us，深度 ±5%，步进 100 ns */
+/* 周期抖频：中心 10 us，深度 ±5%，三角波步进 100 ns */
 static int32_t dither;
-static const int32_t dither_step = 100;   /* ns */
-static const int32_t dither_max  = 500;   /* ns */
+static int32_t dither_dir = 100;          /* ns/步 */
+static const int32_t dither_max = 500;    /* ns */
 
-dither += dither_step;
-if (dither >  dither_max) dither = -dither_max;
-if (dither < -dither_max) dither =  dither_max;
+dither += dither_dir;
+if (dither >  dither_max) { dither =  dither_max; dither_dir = -dither_dir; }
+if (dither < -dither_max) { dither = -dither_max; dither_dir = -dither_dir; }
 
 uint32_t period = 10000 + dither;          /* ns */
 uint32_t pulse  = (period * duty_permille) / 1000;
@@ -470,10 +470,10 @@ $$\frac{2.000-1.772}{2.000}=11.4\%$$
 
 ## 8. 参考资料
 
-- IEC 61000-4-3:2020 *Electromagnetic compatibility (EMC) — Part 4-3: Testing and measurement techniques — Radiated, radio-frequency, electromagnetic field immunity test*，§5 试验等级与 §6 试验布置。
-- IEC 61000-4-6:2013 *Electromagnetic compatibility (EMC) — Part 4-6: Testing and measurement techniques — Immunity to conducted disturbances, induced by radio-frequency fields*，§5 试验等级与耦合/去耦网络。
-- CISPR 25:2021 *Vehicles, boats and internal combustion engines — Radio disturbance characteristics — Limits and methods of measurement for the protection of on-board receivers*，§6 测量布置与 §7 限值。
+- IEC 61000-4-3:2020 *Electromagnetic compatibility (EMC) — Part 4-3: Testing and measurement techniques — Radiated, radio-frequency, electromagnetic field immunity test*，试验等级、试验设备与试验布置章节。
+- IEC 61000-4-6:2013 *Electromagnetic compatibility (EMC) — Part 4-6: Testing and measurement techniques — Immunity to conducted disturbances, induced by radio-frequency fields*，试验等级、耦合/去耦网络与试验布置章节。
+- CISPR 25:2021 *Vehicles, boats and internal combustion engines — Radio disturbance characteristics — Limits and methods of measurement for the protection of on-board receivers*，测量布置与限值章节。
 - Henry W. Ott, *Electromagnetic Compatibility Engineering*, Wiley, 2009，辐射发射与传导发射章节：梯形波频谱包络、共模电流与地弹。
 - STMicroelectronics, AN1709 *EMC design guide for STM8, STM32 and Legacy MCUs*，PCB 布局、时钟与 IO 边沿、软件抖频相关小节。
 - K. B. Hardin, J. T. Fessler, D. R. Bush, *Spread Spectrum Clock Generation for the Reduction of Radiated Emissions*, IEEE International Symposium on EMC, 1994：调制深度、调制频率与峰值抑制。
-- IEC 61000-4-4:2012 *Electromagnetic compatibility (EMC) — Part 4-4: Testing and measurement techniques — Electrical fast transient/burst immunity test*，§5 试验等级与 §6 试验发生器。
+- IEC 61000-4-4:2012 *Electromagnetic compatibility (EMC) — Part 4-4: Testing and measurement techniques — Electrical fast transient/burst immunity test*，试验等级与试验发生器章节。

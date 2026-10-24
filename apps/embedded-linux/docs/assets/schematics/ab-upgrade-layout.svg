@@ -1,0 +1,77 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>A/B 分区布局、启动状态机与升级时间预算</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a">A/B 升级：GPT 布局、启动状态机与 72.2 s 时间预算</text>
+    <text x="24" y="52" font-size="13" fill="#5a6b7b">分区宽度不按比例，括号为 MiB；状态机每一步断电后都有确定的恢复路径</text>
+
+    <text x="736" y="88" font-size="13" text-anchor="end" fill="#5a6b7b">8 GiB = 8192 MiB，分区合计 7050 MiB</text>
+
+    <rect x="24" y="96" width="12" height="34" fill="#c9d2da" stroke="#ffffff" stroke-width="1"/>
+    <rect x="36" y="96" width="26" height="34" fill="#6b7f95" stroke="#ffffff" stroke-width="1"/>
+    <rect x="62" y="96" width="26" height="34" fill="#8fa8c0" stroke="#ffffff" stroke-width="1"/>
+    <rect x="88" y="96" width="54" height="34" fill="#1a4f8b" stroke="#ffffff" stroke-width="1"/>
+    <rect x="142" y="96" width="54" height="34" fill="#3a6ea5" stroke="#ffffff" stroke-width="1"/>
+    <rect x="196" y="96" width="118" height="34" fill="#b5642e" stroke="#ffffff" stroke-width="1"/>
+    <rect x="314" y="96" width="118" height="34" fill="#c97a45" stroke="#ffffff" stroke-width="1"/>
+    <rect x="432" y="96" width="46" height="34" fill="#4f9e63" stroke="#ffffff" stroke-width="1"/>
+    <rect x="478" y="96" width="150" height="34" fill="#8a4a1f" stroke="#ffffff" stroke-width="1"/>
+    <rect x="628" y="96" width="108" height="34" fill="#c9d2da" stroke="#ffffff" stroke-width="1"/>
+
+    <text x="255" y="118" font-size="13" text-anchor="middle" fill="#ffffff">root_a 1280</text>
+    <text x="373" y="118" font-size="13" text-anchor="middle" fill="#ffffff">root_b 1280</text>
+    <text x="553" y="118" font-size="13" text-anchor="middle" fill="#ffffff">data 4096</text>
+
+    <line x1="49" y1="130" x2="49" y2="144" stroke="#6b7f95" stroke-width="1.2"/>
+    <text x="49" y="148" font-size="13" text-anchor="middle" fill="#1a2b3a">boot 8</text>
+    <line x1="115" y1="130" x2="115" y2="144" stroke="#6b7f95" stroke-width="1.2"/>
+    <text x="115" y="148" font-size="13" text-anchor="middle" fill="#1a2b3a">boot_a 64</text>
+    <line x1="455" y1="130" x2="455" y2="144" stroke="#4f9e63" stroke-width="1.2"/>
+    <text x="455" y="148" font-size="13" text-anchor="middle" fill="#1a2b3a">recovery 256</text>
+
+    <line x1="75" y1="130" x2="75" y2="162" stroke="#8fa8c0" stroke-width="1.2"/>
+    <text x="75" y="166" font-size="13" text-anchor="middle" fill="#1a2b3a">env 1</text>
+    <line x1="169" y1="130" x2="169" y2="162" stroke="#6b7f95" stroke-width="1.2"/>
+    <text x="169" y="166" font-size="13" text-anchor="middle" fill="#1a2b3a">boot_b 64</text>
+    <line x1="682" y1="130" x2="682" y2="162" stroke="#8fa8c0" stroke-width="1.2"/>
+    <text x="682" y="166" font-size="13" text-anchor="middle" fill="#1a2b3a">spare 1142</text>
+
+    <text x="24" y="192" font-size="14" font-weight="700" fill="#1a2b3a">状态机：下载 → 校验 → 写备用槽 → 置位 → 试运行 → 确认 / 回滚</text>
+
+    <rect x="24" y="204" width="88" height="42" rx="6" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.4"/>
+    <text x="68" y="230" font-size="13" text-anchor="middle" fill="#1a2b3a">IDLE</text>
+    <line x1="112" y1="225" x2="124" y2="225" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="126" y="204" width="88" height="42" rx="6" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.4"/>
+    <text x="170" y="230" font-size="13" text-anchor="middle" fill="#1a2b3a">DOWNLOAD</text>
+    <line x1="214" y1="225" x2="226" y2="225" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="228" y="204" width="88" height="42" rx="6" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.4"/>
+    <text x="272" y="230" font-size="13" text-anchor="middle" fill="#1a2b3a">VERIFY</text>
+    <line x1="316" y1="225" x2="328" y2="225" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="330" y="204" width="88" height="42" rx="6" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="374" y="230" font-size="13" text-anchor="middle" fill="#1a2b3a">STAGE</text>
+    <line x1="418" y1="225" x2="430" y2="225" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="432" y="204" width="88" height="42" rx="6" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="476" y="230" font-size="13" text-anchor="middle" fill="#1a2b3a">ARM</text>
+    <line x1="520" y1="225" x2="532" y2="225" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="534" y="204" width="88" height="42" rx="6" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.4"/>
+    <text x="578" y="230" font-size="13" text-anchor="middle" fill="#1a2b3a">TRIAL</text>
+    <line x1="622" y1="225" x2="634" y2="225" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="636" y="204" width="88" height="42" rx="6" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.4"/>
+    <text x="680" y="230" font-size="13" text-anchor="middle" fill="#1a2b3a">CONFIRM</text>
+
+    <line x1="578" y1="246" x2="578" y2="258" stroke="#b03a2e" stroke-width="2" stroke-dasharray="5 3"/>
+    <rect x="534" y="260" width="88" height="28" rx="6" fill="#f7e9e7" stroke="#b03a2e" stroke-width="1.4"/>
+    <text x="578" y="279" font-size="13" text-anchor="middle" fill="#8a2a20">ROLLBACK</text>
+    <text x="634" y="279" font-size="13" fill="#b03a2e">bootcount 超限</text>
+    <text x="724" y="310" font-size="13" text-anchor="end" fill="#4f9e63">CONFIRM 只在健康检查通过后调用 mark-good</text>
+
+    <text x="24" y="336" font-size="14" font-weight="700" fill="#1a2b3a">时间：后台写入 47.2 s（业务不停） + 停机 25 s = 72.2 s</text>
+    <rect x="24" y="348" width="457.6" height="30" fill="#1a4f8b" stroke="#ffffff" stroke-width="1"/>
+    <rect x="481.6" y="348" width="242.4" height="30" fill="#b5642e" stroke="#ffffff" stroke-width="1"/>
+    <text x="252" y="368" font-size="13" text-anchor="middle" fill="#ffffff">后台 47.2 s</text>
+    <text x="603" y="368" font-size="13" text-anchor="middle" fill="#ffffff">重启 + 试运行 25 s</text>
+
+    <text x="24" y="396" font-size="13" fill="#1a2b3a">写入 32 + 校验 14.2 + 提交 1 = 47.2 s；传输 25.6 s 与写入并行，取 max 后不叠加</text>
+    <text x="24" y="418" font-size="13" fill="#8a4a1f">差分：传输 1.6 + 应用 3.7 + 校验 0.36 + 提交 1 ≈ 5.1 s，省 42.1 s（89.2%）</text>
+  </g>
+</svg>
