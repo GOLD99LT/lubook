@@ -1,0 +1,95 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">可靠性防御体系：心跳、双看门狗与复位取证</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">快组任务决定是否喂狗；WWDG 管节拍，IWDG 管死活；复位后先取证再初始化</text>
+  <line x1="20" y1="66" x2="740" y2="66" stroke="#e2e8f0"/>
+
+  <text x="20" y="88" font-size="13" fill="#718096">任务与心跳</text>
+
+  <rect x="20" y="96" width="95" height="38" rx="4" fill="#ebf8ff" stroke="#2b6cb0"/>
+  <text x="67" y="113" font-size="13" fill="#2c5282" text-anchor="middle">控制任务</text>
+  <text x="67" y="129" font-size="13" fill="#4a5568" text-anchor="middle">20 ms</text>
+
+  <rect x="125" y="96" width="95" height="38" rx="4" fill="#ebf8ff" stroke="#2b6cb0"/>
+  <text x="172" y="113" font-size="13" fill="#2c5282" text-anchor="middle">采集任务</text>
+  <text x="172" y="129" font-size="13" fill="#4a5568" text-anchor="middle">100 ms</text>
+
+  <rect x="230" y="96" width="95" height="38" rx="4" fill="#ebf8ff" stroke="#2b6cb0"/>
+  <text x="277" y="113" font-size="13" fill="#2c5282" text-anchor="middle">通信任务</text>
+  <text x="277" y="129" font-size="13" fill="#4a5568" text-anchor="middle">1 s</text>
+
+  <rect x="335" y="96" width="95" height="38" rx="4" fill="#faf5ff" stroke="#6b46c1"/>
+  <text x="382" y="113" font-size="13" fill="#553c9a" text-anchor="middle">日志任务</text>
+  <text x="382" y="129" font-size="13" fill="#4a5568" text-anchor="middle">60 s 慢组</text>
+
+  <line x1="67" y1="134" x2="67" y2="156" stroke="#4a5568"/>
+  <line x1="277" y1="134" x2="277" y2="156" stroke="#4a5568"/>
+  <line x1="382" y1="134" x2="382" y2="156" stroke="#4a5568" stroke-dasharray="4 3"/>
+
+  <rect x="20" y="156" width="410" height="46" rx="4" fill="#f7fafc" stroke="#4a5568"/>
+  <text x="225" y="176" font-size="13" fill="#2d3748" text-anchor="middle">心跳位图 + 监控任务（100 ms）</text>
+  <text x="225" y="194" font-size="13" fill="#4a5568" text-anchor="middle">快组全置位才“先清后喂”；慢组 180 s 超时只降级</text>
+
+  <line x1="225" y1="202" x2="225" y2="224" stroke="#4a5568"/>
+  <polygon points="220,222 225,232 230,222" fill="#4a5568"/>
+  <line x1="225" y1="232" x2="120" y2="232" stroke="#4a5568"/>
+  <line x1="225" y1="232" x2="310" y2="232" stroke="#4a5568"/>
+
+  <rect x="30" y="232" width="180" height="56" rx="4" fill="#fff5f5" stroke="#c53030"/>
+  <text x="120" y="250" font-size="13" fill="#822727" text-anchor="middle">IWDG（LSI 32 kHz）</text>
+  <text x="120" y="268" font-size="13" fill="#2d3748" text-anchor="middle">2.000 s 超时</text>
+  <text x="120" y="284" font-size="13" fill="#4a5568" text-anchor="middle">主时钟停也照常计数</text>
+
+  <rect x="220" y="232" width="180" height="56" rx="4" fill="#fffaf0" stroke="#b7791f"/>
+  <text x="310" y="250" font-size="13" fill="#744210" text-anchor="middle">WWDG（PCLK1 36 MHz）</text>
+  <text x="310" y="268" font-size="13" fill="#2d3748" text-anchor="middle">29.13 ms 超时</text>
+  <text x="310" y="284" font-size="13" fill="#4a5568" text-anchor="middle">窗口 3.19 ms 打开</text>
+
+  <line x1="120" y1="288" x2="120" y2="304" stroke="#4a5568"/>
+  <line x1="310" y1="288" x2="310" y2="304" stroke="#4a5568"/>
+  <line x1="120" y1="304" x2="310" y2="304" stroke="#4a5568"/>
+  <line x1="225" y1="304" x2="225" y2="316" stroke="#4a5568"/>
+  <polygon points="220,314 225,324 230,314" fill="#4a5568"/>
+
+  <rect x="20" y="324" width="410" height="46" rx="4" fill="#f7fafc" stroke="#4a5568"/>
+  <text x="225" y="344" font-size="13" fill="#2d3748" text-anchor="middle">复位 → 读 RCC_CSR 七位标志，先存后清</text>
+  <text x="225" y="362" font-size="13" fill="#4a5568" text-anchor="middle">备份寄存器 20 × 32 位 = 80 B 黑匣子</text>
+
+  <line x1="225" y1="370" x2="225" y2="384" stroke="#4a5568"/>
+  <polygon points="220,382 225,392 230,382" fill="#4a5568"/>
+  <rect x="20" y="392" width="410" height="34" rx="4" fill="#f0fff4" stroke="#2f855a"/>
+  <text x="225" y="414" font-size="13" fill="#22543d" text-anchor="middle">安全状态 / 降级启动 / 记录现场，而不是直接重跑</text>
+
+  <text x="455" y="88" font-size="13" fill="#718096">WWDG 窗口（T=0x7F，W=0x78，WDGTB=2）</text>
+
+  <rect x="460" y="226" width="29" height="20" fill="#fde8e8" stroke="#c53030"/>
+  <rect x="489" y="226" width="237" height="20" fill="#e8f5ec" stroke="#2f855a"/>
+  <rect x="726" y="226" width="4" height="20" fill="#fefcbf" stroke="#b7791f"/>
+
+  <text x="462" y="220" font-size="13" fill="#822727">禁止</text>
+  <text x="545" y="220" font-size="13" fill="#22543d">可刷新 25.94 ms</text>
+  <text x="728" y="220" font-size="13" fill="#744210" text-anchor="end">EWI</text>
+
+  <line x1="460" y1="250" x2="730" y2="250" stroke="#4a5568"/>
+  <line x1="460" y1="246" x2="460" y2="254" stroke="#4a5568"/>
+  <line x1="489" y1="246" x2="489" y2="254" stroke="#4a5568"/>
+  <line x1="726" y1="246" x2="726" y2="254" stroke="#c53030"/>
+  <text x="456" y="270" font-size="13" fill="#4a5568" text-anchor="end">0</text>
+  <text x="489" y="270" font-size="13" fill="#4a5568" text-anchor="middle">3.19 ms</text>
+  <text x="730" y="270" font-size="13" fill="#822727" text-anchor="end">29.13 ms 复位</text>
+
+  <line x1="525" y1="176" x2="525" y2="224" stroke="#2b6cb0" stroke-dasharray="4 3"/>
+  <line x1="581" y1="176" x2="581" y2="224" stroke="#2b6cb0" stroke-dasharray="4 3"/>
+  <line x1="525" y1="176" x2="581" y2="176" stroke="#2b6cb0"/>
+  <polygon points="523,176 525,171 527,176" fill="#2b6cb0"/>
+  <polygon points="579,176 581,171 583,176" fill="#2b6cb0"/>
+  <text x="553" y="166" font-size="13" fill="#2c5282" text-anchor="middle">7~13 ms 喂狗</text>
+
+  <text x="455" y="300" font-size="13" fill="#4a5568">0~3.19 ms 禁止；3.19~29.13 ms 合法</text>
+
+  <text x="455" y="336" font-size="13" fill="#2d3748">余量 = (1.905 − 1.08) / 1.08 = 76.4%</text>
+  <text x="455" y="360" font-size="13" fill="#2d3748">检测上界 = 2.105 + 0.025 = 2.130 s &lt; 2.5 s</text>
+  <text x="455" y="384" font-size="13" fill="#4a5568">CRC-32 漏检间隔 ≈ 497 天 @ 100 帧/秒</text>
+  </g>
+</svg>

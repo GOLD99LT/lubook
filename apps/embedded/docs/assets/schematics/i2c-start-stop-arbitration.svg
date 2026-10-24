@@ -17,8 +17,8 @@
 
   <line x1="120" y1="84" x2="120" y2="212" stroke="#c53030" stroke-dasharray="4 3"/>
   <text x="126" y="80" font-size="13" fill="#c53030">START：SCL 高时 SDA 下降</text>
-  <line x1="650" y1="84" x2="650" y2="212" stroke="#c53030" stroke-dasharray="4 3"/>
-  <text x="734" y="80" font-size="13" fill="#c53030" text-anchor="end">STOP：SCL 高时 SDA 上升</text>
+  <line x1="720" y1="84" x2="720" y2="212" stroke="#c53030" stroke-dasharray="4 3"/>
+  <text x="720" y="80" font-size="13" fill="#c53030" text-anchor="end">STOP：SCL 高时 SDA 上升</text>
 
   <line x1="286" y1="134" x2="368" y2="134" stroke="#c05621" stroke-width="1.6"/>
   <line x1="286" y1="130" x2="286" y2="138" stroke="#c05621" stroke-width="1.6"/>

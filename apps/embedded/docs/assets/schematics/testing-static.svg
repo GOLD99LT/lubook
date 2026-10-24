@@ -1,0 +1,69 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">测试门禁：四层测试、覆盖率与静态分析</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">越靠下越快、数量越多；静态分析贯穿每次提交；覆盖率是下限门禁，不是质量评分</text>
+  <line x1="20" y1="66" x2="740" y2="66" stroke="#e2e8f0"/>
+
+  <text x="40" y="86" font-size="13" fill="#718096">测试层级与数量</text>
+
+  <polygon points="150,90 250,90 280,135 120,135" fill="#faf5ff" stroke="#6b46c1"/>
+  <text x="200" y="112" font-size="13" fill="#553c9a" text-anchor="middle">量产 POST</text>
+  <text x="200" y="128" font-size="13" fill="#4a5568" text-anchor="middle">每台设备</text>
+
+  <polygon points="120,135 280,135 310,180 90,180" fill="#fffaf0" stroke="#b7791f"/>
+  <text x="200" y="157" font-size="13" fill="#744210" text-anchor="middle">HIL 300 例</text>
+  <text x="200" y="173" font-size="13" fill="#4a5568" text-anchor="middle">闭环 + 故障注入</text>
+
+  <polygon points="90,180 310,180 340,225 60,225" fill="#e6fffa" stroke="#2c7a7b"/>
+  <text x="200" y="202" font-size="13" fill="#285e61" text-anchor="middle">集成 40 例</text>
+  <text x="200" y="218" font-size="13" fill="#4a5568" text-anchor="middle">接口与协议状态机</text>
+
+  <polygon points="60,225 340,225 370,270 30,270" fill="#ebf8ff" stroke="#2b6cb0"/>
+  <text x="200" y="247" font-size="13" fill="#2c5282" text-anchor="middle">单元 1200 例</text>
+  <text x="200" y="263" font-size="13" fill="#4a5568" text-anchor="middle">毫秒级，宿主运行</text>
+
+  <rect x="30" y="282" width="340" height="44" rx="4" fill="#f7fafc" stroke="#4a5568"/>
+  <text x="200" y="301" font-size="13" fill="#2d3748" text-anchor="middle">静态分析：MISRA C / cppcheck / clang-tidy</text>
+  <text x="200" y="318" font-size="13" fill="#4a5568" text-anchor="middle">每次提交跑增量，新增告警必须为 0</text>
+
+  <text x="400" y="95" font-size="13" fill="#718096">覆盖率（120 KLOC 示例）</text>
+
+  <text x="405" y="135" font-size="13" fill="#2d3748">语句</text>
+  <rect x="460" y="123" width="220" height="14" rx="3" fill="#edf2f7"/>
+  <rect x="460" y="123" width="192" height="14" rx="3" fill="#2b6cb0"/>
+  <text x="688" y="135" font-size="13" fill="#2c5282">87.5%</text>
+
+  <text x="405" y="160" font-size="13" fill="#2d3748">分支</text>
+  <rect x="460" y="148" width="220" height="14" rx="3" fill="#edf2f7"/>
+  <rect x="460" y="148" width="186" height="14" rx="3" fill="#2c7a7b"/>
+  <text x="688" y="160" font-size="13" fill="#285e61">84.4%</text>
+
+  <text x="405" y="185" font-size="13" fill="#2d3748">函数</text>
+  <rect x="460" y="173" width="220" height="14" rx="3" fill="#edf2f7"/>
+  <rect x="460" y="173" width="211" height="14" rx="3" fill="#6b46c1"/>
+  <text x="688" y="185" font-size="13" fill="#553c9a">96.0%</text>
+
+  <rect x="400" y="205" width="105" height="66" rx="4" fill="#fff5f5" stroke="#c53030"/>
+  <text x="452" y="226" font-size="13" fill="#822727" text-anchor="middle">变异分数</text>
+  <text x="452" y="252" font-size="18" font-weight="700" fill="#822727" text-anchor="middle">75%</text>
+
+  <rect x="515" y="205" width="105" height="66" rx="4" fill="#fffaf0" stroke="#b7791f"/>
+  <text x="567" y="226" font-size="13" fill="#744210" text-anchor="middle">静态告警</text>
+  <text x="567" y="252" font-size="18" font-weight="700" fill="#744210" text-anchor="middle">96</text>
+
+  <rect x="630" y="205" width="105" height="66" rx="4" fill="#f0fff4" stroke="#2f855a"/>
+  <text x="682" y="226" font-size="13" fill="#22543d" text-anchor="middle">真缺陷</text>
+  <text x="682" y="252" font-size="18" font-weight="700" fill="#22543d" text-anchor="middle">67</text>
+
+  <rect x="400" y="285" width="335" height="70" rx="4" fill="#ebf8ff" stroke="#2b6cb0"/>
+  <text x="412" y="306" font-size="13" fill="#2c5282">单轮 CI = 0.72 + 60 + 7.5 = 68.2 s</text>
+  <text x="412" y="326" font-size="13" fill="#2d3748">每天 50 轮 ≈ 56.9 min，可每次提交全量</text>
+  <text x="412" y="346" font-size="13" fill="#4a5568">HIL 变慢时拆“冒烟 50 例 + 夜间全量”</text>
+
+  <text x="400" y="382" font-size="13" fill="#2d3748">MC/DC：4 个条件的与表达式最少 5 个用例（n+1）</text>
+  <text x="400" y="404" font-size="13" fill="#4a5568">圈复杂度 V(G)=E−N+2；示例 V=7，共 7 条基本路径</text>
+
+  <text x="20" y="430" font-size="13" fill="#4a5568">门禁阈值按模块分级：安全相关 100%/100%/MC/DC 100%；核心算法 90%/85%；胶水代码 70%/60%</text>
+  </g>
+</svg>

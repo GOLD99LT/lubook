@@ -140,7 +140,11 @@ jobs:
           set -e
           APP="${{ matrix.app }}"
           if [ -f "apps/$APP/docs/SUMMARY.md" ]; then
-            python run_quality.py --app "$APP"
+            # 接地符号检查只对电子原理图分册有意义（hardware）：
+            # MCU/Linux 的框图、时序图、状态机本来就没有接地符号。
+            EXTRA=""
+            if [ "$APP" != "hardware" ]; then EXTRA="--skip-grounds"; fi
+            python run_quality.py --app "$APP" $EXTRA
           else
             echo "app=$APP 无 SUMMARY.md（门户类），跳过内容检查"
             python run_quality.py --app "$APP" --kind portal

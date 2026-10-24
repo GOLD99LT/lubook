@@ -1,0 +1,66 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>网口不通的排查路径：从 PHY 载波到 MTU，以及 1500/9000 字节 MTU 的 TCP 有效载荷占比</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">网口不通的排查路径：从 PHY 到 MTU</text>
+  <text x="24" y="52" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">每层只回答一个问题；下层不通时，上层的所有现象都没有意义</text>
+
+  <rect x="24" y="78" width="210" height="54" rx="7" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.6"/>
+  <text x="129" y="101" font-size="14" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">1 PHY 载波</text>
+  <text x="129" y="121" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ethtool：Link detected</text>
+
+  <line x1="234" y1="105" x2="272" y2="105" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="274" y="78" width="210" height="54" rx="7" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.6"/>
+  <text x="379" y="101" font-size="14" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">2 接口与网名</text>
+  <text x="379" y="121" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ip -br link；.link</text>
+
+  <line x1="484" y1="105" x2="522" y2="105" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="524" y="78" width="210" height="54" rx="7" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.6"/>
+  <text x="629" y="101" font-size="14" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">3 地址</text>
+  <text x="629" y="121" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">DHCP / 静态；networkctl</text>
+
+  <line x1="629" y1="132" x2="629" y2="168" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="524" y="170" width="210" height="54" rx="7" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.6"/>
+  <text x="629" y="193" font-size="14" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">4 DNS</text>
+  <text x="629" y="213" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">resolvectl query</text>
+
+  <line x1="524" y1="197" x2="486" y2="197" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="274" y="170" width="210" height="54" rx="7" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.6"/>
+  <text x="379" y="193" font-size="14" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">5 端口与防火墙</text>
+  <text x="379" y="213" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ss -lntup；nft list ruleset</text>
+
+  <line x1="274" y1="197" x2="236" y2="197" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="24" y="170" width="210" height="54" rx="7" fill="#f7f0f0" stroke="#b03a2e" stroke-width="1.6"/>
+  <text x="129" y="193" font-size="14" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">6 MTU 与分片</text>
+  <text x="129" y="213" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ping -M do -s 1472</text>
+
+  <line x1="129" y1="224" x2="129" y2="260" stroke="#2b3a4a" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="24" y="262" width="210" height="54" rx="7" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.6"/>
+  <text x="129" y="285" font-size="14" font-weight="700" text-anchor="middle" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">7 应用绑定</text>
+  <text x="129" y="305" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">0.0.0.0 还是 127.0.0.1</text>
+
+  <text x="24" y="336" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">MTU 对 TCP 有效载荷占比的影响（1 Gbit/s 线速，TCP/IPv4）</text>
+
+  <text x="30" y="352" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">MTU 1500</text>
+  <rect x="30" y="356" width="35.5" height="20" fill="#b03a2e" stroke="#ffffff" stroke-width="0.8"/>
+  <rect x="65.5" y="356" width="664.5" height="20" fill="#1a4f8b" stroke="#ffffff" stroke-width="0.8"/>
+  <text x="397" y="371" font-size="13" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">TCP 有效载荷 94.9%（1460 / 1538）</text>
+
+  <text x="30" y="392" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">MTU 9000</text>
+  <rect x="30" y="396" width="6.0" height="20" fill="#b03a2e" stroke="#ffffff" stroke-width="0.8"/>
+  <rect x="36.0" y="396" width="694.0" height="20" fill="#1a4f8b" stroke="#ffffff" stroke-width="0.8"/>
+  <text x="383" y="411" font-size="13" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">TCP 有效载荷 99.1%（8960 / 9038）</text>
+
+  <text x="30" y="428" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">1 Gbit/s 线速：1500 需 81,274 pps，9000 仅 13,830 pps；帧开销 38 B = 前导 8 + MAC 头 14 + FCS 4 + IFG 12</text>
+</svg>

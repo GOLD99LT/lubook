@@ -87,7 +87,12 @@ def main():
                 failures.append('%s:legacy-errors' % app)
                 continue
 
-            rc = run([sys.executable, 'run_quality.py', '--app', app], REPO_ROOT, env)
+            # 接地符号检查只对电子原理图分册有意义（hardware）；MCU/Linux 的框图、
+            # 时序图、状态机本来就没有接地符号，套用只会产生假告警。
+            _q = [sys.executable, 'run_quality.py', '--app', app]
+            if app != 'hardware':
+                _q.append('--skip-grounds')
+            rc = run(_q, REPO_ROOT, env)
             if rc != 0:
                 failures.append('%s:quality' % app)
                 continue

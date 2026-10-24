@@ -38,3 +38,8 @@
 * [Bootloader 与 OTA：A/B 双区、镜像校验与回滚 Bootloader and OTA](storage/bootloader-ota.md)
 
 ## 第六篇 · 工程实践与量产
+
+* [低功耗设计：功耗构成、睡眠模式与电池寿命 | Low-Power Design: Power Budget, Sleep Modes and Battery Life](practice/low-power.md)
+* [可靠性与看门狗体系：故障模型、双看门狗与复位取证 | Reliability and Watchdog Systems](practice/reliability.md)
+* [测试与静态分析：单元测试、MISRA C、覆盖率与 HIL | Testing and Static Analysis](practice/testing-static.md)
+* [软件能做的 EMC：抖频、边沿控制、采样同步与安全状态 | EMC Measures in Software](practice/emc-software.md)

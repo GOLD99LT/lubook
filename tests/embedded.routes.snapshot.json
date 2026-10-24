@@ -1,4 +1,27 @@
 [
   "/",
-  "/basics/embedded-overview"
+  "/basics/embedded-overview",
+  "/basics/memory-registers",
+  "/basics/startup-boot",
+  "/basics/toolchain-debug",
+  "/comm/i2c",
+  "/comm/spi",
+  "/comm/uart",
+  "/mcu/adc-dac",
+  "/mcu/clock-tree",
+  "/mcu/cortex-m-arch",
+  "/mcu/dma",
+  "/mcu/gpio",
+  "/mcu/interrupt-nvic",
+  "/mcu/timer-pwm",
+  "/mcu/watchdog-rtc",
+  "/practice/emc-software",
+  "/practice/low-power",
+  "/practice/reliability",
+  "/practice/testing-static",
+  "/rtos/priority-inversion",
+  "/rtos/rtos-scheduling",
+  "/rtos/sync-primitives",
+  "/storage/bootloader-ota",
+  "/storage/flash-eeprom"
 ]

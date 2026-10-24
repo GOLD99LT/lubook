@@ -1,0 +1,83 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>SoC 上电到应用启动的分层图：硬件、ROM、SPL/TF-A、U-Boot、内核、init 的接力与证据</title>
+  <desc>六层纵向栈，左侧是启动阶段，右侧是每层最早可见的证据。启动方向自上而下，设备树位于 U-Boot 与内核的交接处。</desc>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="overview-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="28" font-size="20" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">从 SoC 上电到应用启动：六层接力</text>
+  <text x="24" y="50" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">启动方向 ↓　每层只做三件事：准备运行条件、装载下一级、按约定交出控制权</text>
+
+  <text x="24" y="70" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">阶段与动作</text>
+  <text x="558" y="70" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">最早可见的证据</text>
+
+  <rect x="20" y="78" width="528" height="49" rx="7" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.5"/>
+  <circle cx="43" cy="102" r="14" fill="#6b7f95"/>
+  <text x="43" y="107" font-size="14" font-weight="700" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">1</text>
+  <text x="66" y="98" font-size="15" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">SoC 物理层与启动条件</text>
+  <text x="66" y="117" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">供电、晶振、复位释放、启动模式 strap、调试 UART 引脚复用</text>
+  <rect x="558" y="78" width="182" height="49" rx="7" fill="#f7fafc" stroke="#9fb3c8" stroke-width="1.2"/>
+  <text x="570" y="98" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">无日志：测电压、时钟</text>
+  <text x="570" y="116" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">与 UART TX 波形</text>
+
+  <line x1="284" y1="127" x2="284" y2="133" stroke="#2b3a4a" stroke-width="2" marker-end="url(#overview-arrow)"/>
+
+  <rect x="20" y="133" width="528" height="49" rx="7" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.5"/>
+  <circle cx="43" cy="157" r="14" fill="#8fa8c0"/>
+  <text x="43" y="162" font-size="14" font-weight="700" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">2</text>
+  <text x="66" y="153" font-size="15" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">片内 ROM Code</text>
+  <text x="66" y="172" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">选择启动介质 → 校验第一级镜像 → 搬到片内 SRAM → 跳转</text>
+  <rect x="558" y="133" width="182" height="49" rx="7" fill="#f7fafc" stroke="#9fb3c8" stroke-width="1.2"/>
+  <text x="570" y="153" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">无日志：看启动介质</text>
+  <text x="570" y="171" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">枚举、电流与偏移</text>
+
+  <line x1="284" y1="182" x2="284" y2="188" stroke="#2b3a4a" stroke-width="2" marker-end="url(#overview-arrow)"/>
+
+  <rect x="20" y="188" width="528" height="49" rx="7" fill="#fff8e8" stroke="#b58a2e" stroke-width="1.5"/>
+  <circle cx="43" cy="212" r="14" fill="#b58a2e"/>
+  <text x="43" y="217" font-size="14" font-weight="700" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">3</text>
+  <text x="66" y="208" font-size="15" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">SPL / TF-A</text>
+  <text x="66" y="227" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">初始化 DDR → 加载 U-Boot；ARMv8 上常由 BL1/BL2/BL31 分工</text>
+  <rect x="558" y="188" width="182" height="49" rx="7" fill="#f7fafc" stroke="#9fb3c8" stroke-width="1.2"/>
+  <text x="570" y="208" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">可能是第一行串口</text>
+  <text x="570" y="226" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">输出或 SPL 调试日志</text>
+
+  <line x1="284" y1="237" x2="284" y2="243" stroke="#2b3a4a" stroke-width="2" marker-end="url(#overview-arrow)"/>
+
+  <rect x="20" y="243" width="528" height="49" rx="7" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.5"/>
+  <circle cx="43" cy="267" r="14" fill="#b5642e"/>
+  <text x="43" y="272" font-size="14" font-weight="700" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">4</text>
+  <text x="66" y="263" font-size="15" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">U-Boot</text>
+  <text x="66" y="282" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">加载 kernel + DTB → 修补内存与 bootargs → 按寄存器约定跳转</text>
+  <rect x="558" y="243" width="182" height="49" rx="7" fill="#f7fafc" stroke="#9fb3c8" stroke-width="1.2"/>
+  <text x="570" y="263" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">U-Boot 串口日志、</text>
+  <text x="570" y="281" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">环境变量、加载地址</text>
+
+  <line x1="284" y1="292" x2="284" y2="298" stroke="#2b3a4a" stroke-width="2" marker-end="url(#overview-arrow)"/>
+
+  <rect x="20" y="298" width="528" height="49" rx="7" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.8"/>
+  <circle cx="43" cy="322" r="14" fill="#1a4f8b"/>
+  <text x="43" y="327" font-size="14" font-weight="700" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">5</text>
+  <text x="66" y="318" font-size="15" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">Linux 内核</text>
+  <text x="66" y="337" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">解析 DTB → 创建设备 → probe 驱动 → 挂载 rootfs 或解压 initramfs</text>
+  <rect x="558" y="298" width="182" height="49" rx="7" fill="#f7fafc" stroke="#9fb3c8" stroke-width="1.2"/>
+  <text x="570" y="318" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">dmesg、earlycon、</text>
+  <text x="570" y="336" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">/proc/device-tree</text>
+
+  <line x1="284" y1="347" x2="284" y2="353" stroke="#2b3a4a" stroke-width="2" marker-end="url(#overview-arrow)"/>
+
+  <rect x="20" y="353" width="528" height="49" rx="7" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.5"/>
+  <circle cx="43" cy="377" r="14" fill="#4f9e63"/>
+  <text x="43" y="382" font-size="14" font-weight="700" text-anchor="middle" fill="#ffffff" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">6</text>
+  <text x="66" y="373" font-size="15" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">init 与用户空间应用</text>
+  <text x="66" y="392" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">systemd / BusyBox init → 服务依赖 → getty / 应用就绪</text>
+  <rect x="558" y="353" width="182" height="49" rx="7" fill="#f7fafc" stroke="#9fb3c8" stroke-width="1.2"/>
+  <text x="570" y="373" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">登录提示、journal、</text>
+  <text x="570" y="391" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">systemctl 服务状态</text>
+
+  <rect x="20" y="411" width="720" height="22" rx="5" fill="#f7fafc" stroke="#c9d6e2" stroke-width="1"/>
+  <text x="30" y="427" font-size="13" fill="#1a4f8b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">设备树是 U-Boot 与内核的硬件契约：节点缺失、status 关闭或资源不全，都会让 probe 停住。</text>
+</svg>

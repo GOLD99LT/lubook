@@ -1,4 +1,4 @@
-﻿<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
   <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
   <rect width="760" height="440" fill="#ffffff"/>
   <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">Flash 与 EEPROM：擦写粒度、双备份提交与磨损均衡</text>

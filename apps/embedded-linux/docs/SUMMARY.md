@@ -8,6 +8,7 @@
 * [交叉编译与工具链 Cross Compilation and Toolchains](basics/toolchain-cross.md)
 * [构建系统：Buildroot 与 Yocto Build Systems: Buildroot and Yocto](basics/buildroot-yocto.md)
 * [启动链：从 ROM Code 到 init Boot Flow: From ROM Code to init](basics/boot-flow.md)
+* [设备树：从 DTS 到驱动 probe Device Tree](basics/device-tree.md)
 
 ## 第二篇 · 内核与驱动
 
@@ -17,6 +18,9 @@
 
 ## 第三篇 · 用户空间与调试
 
+* [systemd 与启动管理：unit 依赖、启动耗时与看门狗](userspace/systemd.md)
+* [网络配置：接口命名、地址、防火墙与 NTP](userspace/network-config.md)
+* [调试工具链：gdb、strace、perf、ftrace 与 core dump](userspace/debugging-tools.md)
 
 ## 第四篇 · 硬件接口与板级支持
 

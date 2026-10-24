@@ -1,0 +1,69 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">低功耗账本：状态电流、占空比与电池寿命</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">左侧五种状态取对数刻度；右侧阴影面积是一个周期取走的电荷；底部三条式子都可复算</text>
+  <line x1="20" y1="66" x2="740" y2="66" stroke="#e2e8f0"/>
+
+  <text x="20" y="88" font-size="13" fill="#718096">状态电流（3.3 V，典型值）</text>
+
+  <rect x="130" y="100" width="164" height="22" rx="3" fill="#ebf8ff" stroke="#2b6cb0"/>
+  <text x="20" y="116" font-size="13" fill="#2d3748">运行 16 MHz</text>
+  <text x="345" y="116" font-size="13" fill="#2c5282" text-anchor="end">3.0 mA</text>
+
+  <rect x="130" y="132" width="151" height="22" rx="3" fill="#e6fffa" stroke="#2c7a7b"/>
+  <text x="20" y="148" font-size="13" fill="#2d3748">睡眠 Sleep</text>
+  <text x="345" y="148" font-size="13" fill="#285e61" text-anchor="end">1.6 mA</text>
+
+  <rect x="130" y="164" width="50" height="22" rx="3" fill="#faf5ff" stroke="#6b46c1"/>
+  <text x="20" y="180" font-size="13" fill="#2d3748">停止 Stop 2</text>
+  <text x="345" y="180" font-size="13" fill="#553c9a" text-anchor="end">1.2 µA</text>
+
+  <rect x="130" y="196" width="28" height="22" rx="3" fill="#fff5f5" stroke="#c53030"/>
+  <text x="20" y="212" font-size="13" fill="#2d3748">待机 Standby</text>
+  <text x="345" y="212" font-size="13" fill="#822727" text-anchor="end">0.35 µA</text>
+
+  <rect x="130" y="228" width="11" height="22" rx="3" fill="#f7fafc" stroke="#4a5568"/>
+  <text x="20" y="244" font-size="13" fill="#2d3748">关断 Shutdown</text>
+  <text x="345" y="244" font-size="13" fill="#2d3748" text-anchor="end">30 nA</text>
+
+  <text x="20" y="272" font-size="13" fill="#4a5568">对数刻度：每格 10 倍，运行与关断相差 5 个数量级</text>
+
+  <text x="380" y="88" font-size="13" fill="#718096">一个周期内的电流（T = 10 s，非等比）</text>
+  <line x1="390" y1="100" x2="390" y2="250" stroke="#4a5568"/>
+  <line x1="390" y1="250" x2="730" y2="250" stroke="#4a5568"/>
+
+  <rect x="405" y="125" width="50" height="90" fill="#fefcbf" stroke="#b7791f"/>
+  <polyline points="390,215 405,215 405,125 455,125 455,215 730,215" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+
+  <line x1="395" y1="165" x2="725" y2="165" stroke="#c53030" stroke-dasharray="6 4" stroke-width="1.5"/>
+  <text x="560" y="159" font-size="13" fill="#822727" stroke="#ffffff" stroke-width="4" paint-order="stroke">I_avg = 13.80 µA</text>
+
+  <text x="405" y="118" font-size="13" fill="#744210">4.2 mA</text>
+  <text x="475" y="112" font-size="13" fill="#744210">Q = 4.2 mA × 30 ms = 126 µC</text>
+  <text x="560" y="232" font-size="13" fill="#2c5282">1.2 µA（休眠）</text>
+  <text x="405" y="270" font-size="13" fill="#4a5568">t_on = 30 ms</text>
+  <text x="600" y="270" font-size="13" fill="#4a5568">T = 10 s，睡眠 9970 ms</text>
+  <text x="390" y="270" font-size="13" fill="#4a5568">0</text>
+
+  <rect x="20" y="292" width="230" height="104" rx="4" fill="#ebf8ff" stroke="#2b6cb0"/>
+  <text x="32" y="314" font-size="14" font-weight="700" fill="#2c5282">动态功耗</text>
+  <text x="32" y="338" font-size="13" fill="#2d3748">P = α · C_L · V² · f</text>
+  <text x="32" y="362" font-size="13" fill="#2d3748">3.3 V × 3 mA = 9.9 mW</text>
+  <text x="32" y="386" font-size="13" fill="#4a5568">C_eq = 56.8 pF，619 pJ/周期</text>
+
+  <rect x="265" y="292" width="230" height="104" rx="4" fill="#fff5f5" stroke="#c53030"/>
+  <text x="277" y="314" font-size="14" font-weight="700" fill="#822727">平均电流</text>
+  <text x="277" y="338" font-size="13" fill="#2d3748">I_avg = Σ D · I</text>
+  <text x="277" y="362" font-size="13" fill="#2d3748">13.80 µA @ T = 10 s</text>
+  <text x="277" y="386" font-size="13" fill="#4a5568">127.2 µA @ T = 1 s</text>
+
+  <rect x="510" y="292" width="230" height="104" rx="4" fill="#f0fff4" stroke="#2f855a"/>
+  <text x="522" y="314" font-size="14" font-weight="700" fill="#22543d">电池寿命</text>
+  <text x="522" y="338" font-size="13" fill="#2d3748">t = C · η / I_avg</text>
+  <text x="522" y="362" font-size="13" fill="#2d3748">187 mAh / 13.8 µA</text>
+  <text x="522" y="386" font-size="13" fill="#4a5568">= 13 554 h ≈ 1.55 年</text>
+
+  <text x="20" y="424" font-size="13" fill="#4a5568">电池：220 mAh × 0.85 = 187 mAh；寿命 = 容量 / 平均电流；脉冲压降 ΔV = I·R_bat 需另算</text>
+  </g>
+</svg>

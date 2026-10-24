@@ -1,4 +1,14 @@
 [
   "/",
-  "/basics/linux-overview"
+  "/basics/boot-flow",
+  "/basics/buildroot-yocto",
+  "/basics/device-tree",
+  "/basics/linux-overview",
+  "/basics/toolchain-cross",
+  "/kernel/char-device",
+  "/kernel/kernel-module",
+  "/kernel/platform-driver",
+  "/userspace/debugging-tools",
+  "/userspace/network-config",
+  "/userspace/systemd"
 ]

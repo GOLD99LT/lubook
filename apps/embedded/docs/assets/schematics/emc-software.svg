@@ -1,0 +1,84 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">软件 EMC：边沿、频谱包络、抖频与采样同步</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">边沿决定 f2 的位置；抖频把窄带能量摊宽；采样点要落在振铃衰减之后</text>
+  <line x1="20" y1="66" x2="740" y2="66" stroke="#e2e8f0"/>
+
+  <text x="20" y="88" font-size="13" fill="#718096">PWM 波形与采样时刻（100 kHz，非等比）</text>
+  <line x1="40" y1="100" x2="40" y2="230" stroke="#4a5568"/>
+  <line x1="40" y1="230" x2="340" y2="230" stroke="#4a5568"/>
+
+  <polyline points="40,215 60,215 68,120 180,120 188,215 300,215 308,120 340,120" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+  <polyline points="68,120 72,108 76,130 80,114 84,124 88,120" fill="none" stroke="#c53030" stroke-width="1.5"/>
+
+  <line x1="124" y1="100" x2="124" y2="230" stroke="#2f855a" stroke-dasharray="5 4" stroke-width="1.5"/>
+  <circle cx="124" cy="168" r="4" fill="#2f855a"/>
+
+  <text x="44" y="134" font-size="13" fill="#2d3748">12 V</text>
+  <text x="44" y="212" font-size="13" fill="#2d3748">0 V</text>
+  <text x="130" y="110" font-size="13" fill="#22543d">采样点</text>
+  <text x="200" y="104" font-size="13" fill="#2c5282">20 ns 边沿</text>
+  <text x="124" y="185" font-size="13" fill="#2c5282" text-anchor="middle">t_on = 5 µs</text>
+  <text x="40" y="262" font-size="13" fill="#4a5568">0</text>
+  <text x="300" y="262" font-size="13" fill="#4a5568" text-anchor="middle">T = 10 µs</text>
+  <text x="340" y="262" font-size="13" fill="#4a5568" text-anchor="end">t</text>
+
+  <text x="400" y="88" font-size="13" fill="#718096">梯形波频谱包络（纵轴相对基波，dBc）</text>
+  <text x="405" y="102" font-size="13" fill="#4a5568">实线 20 ns，虚线 200 ns</text>
+
+  <line x1="400" y1="108" x2="400" y2="250" stroke="#4a5568"/>
+  <line x1="400" y1="250" x2="730" y2="250" stroke="#4a5568"/>
+
+  <text x="392" y="121" font-size="13" fill="#4a5568" text-anchor="end">0</text>
+  <text x="392" y="154" font-size="13" fill="#4a5568" text-anchor="end">-20</text>
+  <text x="392" y="187" font-size="13" fill="#4a5568" text-anchor="end">-40</text>
+  <text x="392" y="221" font-size="13" fill="#4a5568" text-anchor="end">-60</text>
+  <text x="392" y="250" font-size="13" fill="#4a5568" text-anchor="end">-80</text>
+
+  <polyline points="400,110 466,110 664,190 730,243" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+  <polyline points="400,110 466,110 582,157 697,250" fill="none" stroke="#dd6b20" stroke-width="2" stroke-dasharray="7 4"/>
+
+  <line x1="466" y1="110" x2="466" y2="250" stroke="#a0aec0" stroke-dasharray="3 4"/>
+  <line x1="664" y1="190" x2="664" y2="250" stroke="#a0aec0" stroke-dasharray="3 4"/>
+  <text x="470" y="242" font-size="13" fill="#718096">f1</text>
+  <text x="668" y="242" font-size="13" fill="#718096">f2</text>
+
+  <line x1="687" y1="208" x2="687" y2="242" stroke="#c53030" stroke-width="1.5"/>
+  <line x1="682" y1="208" x2="692" y2="208" stroke="#c53030" stroke-width="1.5"/>
+  <line x1="682" y1="242" x2="692" y2="242" stroke="#c53030" stroke-width="1.5"/>
+  <text x="695" y="229" font-size="13" fill="#822727">20 dB</text>
+  <circle cx="687" cy="208" r="3" fill="#2b6cb0"/>
+  <circle cx="687" cy="242" r="3" fill="#dd6b20"/>
+
+  <text x="400" y="270" font-size="13" fill="#4a5568">10 kHz</text>
+  <text x="565" y="270" font-size="13" fill="#4a5568" text-anchor="middle">1 MHz</text>
+  <text x="730" y="270" font-size="13" fill="#4a5568" text-anchor="end">100 MHz</text>
+
+  <rect x="20" y="292" width="172" height="108" rx="4" fill="#ebf8ff" stroke="#2b6cb0"/>
+  <text x="30" y="313" font-size="14" font-weight="700" fill="#2c5282">抖频</text>
+  <text x="30" y="336" font-size="13" fill="#2d3748">2 MHz / 120 kHz</text>
+  <text x="30" y="358" font-size="13" fill="#2d3748">收益 12.2 dB</text>
+  <text x="30" y="380" font-size="13" fill="#4a5568">深度需 10×RBW 以上</text>
+
+  <rect x="202" y="292" width="172" height="108" rx="4" fill="#fffaf0" stroke="#b7791f"/>
+  <text x="212" y="313" font-size="14" font-weight="700" fill="#744210">边沿</text>
+  <text x="212" y="336" font-size="13" fill="#2d3748">20 → 200 ns</text>
+  <text x="212" y="358" font-size="13" fill="#2d3748">−55 → −75 dBc</text>
+  <text x="212" y="380" font-size="13" fill="#4a5568">损耗 48 → 480 mW</text>
+
+  <rect x="384" y="292" width="172" height="108" rx="4" fill="#f0fff4" stroke="#2f855a"/>
+  <text x="394" y="313" font-size="14" font-weight="700" fill="#22543d">软启动</text>
+  <text x="394" y="336" font-size="13" fill="#2d3748">1000 µF，12 V，6 ms</text>
+  <text x="394" y="358" font-size="13" fill="#2d3748">浪涌 2 A（原 120 A）</text>
+  <text x="394" y="380" font-size="13" fill="#4a5568">t_ss = C·ΔV / I</text>
+
+  <rect x="566" y="292" width="172" height="108" rx="4" fill="#faf5ff" stroke="#6b46c1"/>
+  <text x="576" y="313" font-size="14" font-weight="700" fill="#553c9a">采样同步</text>
+  <text x="576" y="336" font-size="13" fill="#2d3748">沿后 5 µs：0.02%</text>
+  <text x="576" y="358" font-size="13" fill="#2d3748">0.5 µs：43.5%</text>
+  <text x="576" y="380" font-size="13" fill="#4a5568">12 位 LSB 0.806 mV</text>
+
+  <text x="20" y="424" font-size="13" fill="#4a5568">原则：先对齐采样相位与边沿，再考虑抖频与滤波；复位期间硬件必须先处于安全态</text>
+  </g>
+</svg>

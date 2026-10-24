@@ -94,6 +94,8 @@ def check_manifest(app, src, prefix):
 
 def main():
     ap = add_common_args()
+    ap.add_argument('--skip-grounds', action='store_true',
+                    help='跳过接地符号检查（非电子原理图分册用：嵌入式/数字图没有接地符号）')
     ap.add_argument('--snapshot-prefix', default=None,
                     help='快照文件名前缀（默认 = --app）')
     ap.add_argument('--kind', choices=['content', 'portal'], default=None,
@@ -140,15 +142,21 @@ def main():
             print(err)
         step('validate.py (退出码门禁)', rc == 0, '(exit %d)' % rc)
 
-        print('\n==== 3/5 scan_grounds.py ====')
-        rc, out, err = run_tool('scan_grounds.py', app, src)
-        m = re.search(r'共识别接地符号\s*(\d+)\s*个', out)
-        grounds = int(m.group(1)) if m else -1
-        flagged = ('最下线过短' in out) or ('递减不匀' in out)
-        expect = fp['groundsCount'] if fp else -1
-        step('scan_grounds.py (数量对齐基线且无告警)',
-             grounds == expect and not flagged,
-             '(grounds=%d expect=%d, flagged=%s)' % (grounds, expect, flagged))
+        if args.skip_grounds:
+            # 非电子原理图分册（MCU/Linux 的框图、时序图、状态机）本来就没有接地符号，
+            # 套用接地检查只会产生假告警。这里显式跳过并记一条 skip。
+            print('\n==== 3/5 scan_grounds.py（跳过：非电子原理图分册） ====')
+            step('scan_grounds.py (跳过)', True, '(skip)')
+        else:
+            print('\n==== 3/5 scan_grounds.py ====')
+            rc, out, err = run_tool('scan_grounds.py', app, src)
+            m = re.search(r'共识别接地符号\s*(\d+)\s*个', out)
+            grounds = int(m.group(1)) if m else -1
+            flagged = ('最下线过短' in out) or ('递减不匀' in out)
+            expect = fp['groundsCount'] if fp else -1
+            step('scan_grounds.py (数量对齐基线且无告警)',
+                 grounds == expect and not flagged,
+                 '(grounds=%d expect=%d, flagged=%s)' % (grounds, expect, flagged))
 
         print('\n==== 4/5 scan_svg_order.py ====')
         rc, out, err = run_tool('scan_svg_order.py', app, src)
