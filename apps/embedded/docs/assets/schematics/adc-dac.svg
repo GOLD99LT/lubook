@@ -58,7 +58,7 @@
 
   <rect x="150" y="248" width="200" height="54" fill="#f7f5ef" stroke="#2b3a4a" stroke-width="2.2"/>
   <text x="250" y="270" font-size="14" fill="#222a32" text-anchor="middle">SAR 逻辑 · 逐次逼近</text>
-  <text x="250" y="290" font-size="13" fill="#5c6772" text-anchor="middle">12 bit / 1 MSPS</text>
+  <text x="250" y="290" font-size="13" fill="#5c6772" text-anchor="middle">12 bit / 10 kSPS</text>
   <path d="M350,248 V206 H272 V176" fill="none" stroke="#b5642e" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#ar)"/>
   <text x="282" y="222" font-size="13" fill="#b5642e">开关控制</text>
   <text x="150" y="322" font-size="13" fill="#5c6772">V_REF = 3.3 V，满量程 0 至 V_REF</text>

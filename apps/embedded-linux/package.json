@@ -7,12 +7,13 @@
   "scripts": {
     "gen:sidebar": "python ../../packages/tooling/src/build_vp_sidebar.py --src docs",
     "gen:catalog": "node ../../packages/content-core/src/cli.ts --appId embedded-linux --src docs --out ../../.generated/embedded-linux-content-manifest.ts.json --catalogOut docs/.vitepress/catalog.generated.mjs",
-    "gen": "pnpm run gen:sidebar && pnpm run gen:catalog",
+    "gen": "pnpm run gen:summary && pnpm run gen:sidebar && pnpm run gen:catalog",
     "predocs:dev": "pnpm run gen",
     "predocs:build": "pnpm run gen",
     "docs:dev": "vitepress dev docs",
     "docs:build": "node ../../packages/tooling/bin/vitepress-with-heap.mjs build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "gen:summary": "python ../../packages/tooling/src/sync_summary.py --app embedded-linux"
   },
   "dependencies": {
     "@lubook/content-core": "workspace:*",

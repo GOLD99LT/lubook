@@ -68,6 +68,20 @@ for rel in summary_paths:
             warn(rel, 'frontmatter 第 %d 行列表项的 ": " 会被 YAML 当成映射: %s'
                  % (_lineno, _item[:40]))
 
+    # 顶层标量值里出现 ": " 且未加引号 → YAML 解析失败，构建直接挂掉。
+    # 2026-10-24 实例：i2c.md 的 title 写成 `I²C 总线：… | I²C Bus: START/STOP…`，
+    # VitePress 报的是 "Could not load /@localSearchIndex"，完全指不到真正原因。
+    for _lineno, _line in enumerate(_fm_raw.splitlines(), 1):
+        _m = re.match(r'^([A-Za-z_]+):\s*(.+)$', _line)
+        if not _m:
+            continue
+        _key, _val = _m.group(1), _m.group(2).strip()
+        if _val[:1] in ('"', "'", '[', '{', '|', '>'):
+            continue
+        if ': ' in _val:
+            err(rel, 'frontmatter 第 %d 行 %s 的值含 ": "，YAML 会解析失败（用双引号包裹）: %s'
+                % (_lineno, _key, _val[:50]))
+
     for key in ('id', 'title', 'part', 'order', 'tags', 'difficulty', 'status'):
         if key not in fm or fm[key] in (None, '', []):
             err(rel, 'frontmatter 缺少或为空: %s' % key)

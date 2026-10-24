@@ -1,11 +1,11 @@
 <svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
   <title>A/B 双区布局与升级状态机：槽首即向量表、元数据双页轮换、六态迁移与回滚路径</title>
   <defs>
-    <marker id="ab" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 Z" fill="#2b3a4a"/>
+    <marker id="ab" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2b3a4a"/>
     </marker>
-    <marker id="abred" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 Z" fill="#b03a2e"/>
+    <marker id="abred" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#b03a2e"/>
     </marker>
   </defs>
   <rect width="760" height="440" fill="#ffffff"/>

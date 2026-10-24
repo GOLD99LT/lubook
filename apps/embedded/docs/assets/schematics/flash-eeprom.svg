@@ -1,0 +1,90 @@
+﻿<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">Flash 与 EEPROM：擦写粒度、双备份提交与磨损均衡</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">编程只能 1→0，擦除才回到 1；NOR 按扇区擦、按页写，掉电安全靠双槽 + CRC 的提交顺序</text>
+  <line x1="20" y1="66" x2="740" y2="66" stroke="#e2e8f0"/>
+
+  <text x="20" y="90" font-size="13" font-weight="600" fill="#2d3748">① 擦写粒度</text>
+  <text x="330" y="90" font-size="13" font-weight="600" fill="#2d3748">② 双备份提交</text>
+  <text x="530" y="90" font-size="13" font-weight="600" fill="#2d3748">③ 磨损均衡</text>
+
+  <rect x="20" y="100" width="260" height="32" fill="#edf2f7" stroke="#4a5568" stroke-width="1.5"/>
+  <line x1="36.3" y1="100" x2="36.3" y2="132" stroke="#a0aec0"/>
+  <line x1="52.5" y1="100" x2="52.5" y2="132" stroke="#a0aec0"/>
+  <line x1="68.8" y1="100" x2="68.8" y2="132" stroke="#a0aec0"/>
+  <line x1="85" y1="100" x2="85" y2="132" stroke="#a0aec0"/>
+  <line x1="101.3" y1="100" x2="101.3" y2="132" stroke="#a0aec0"/>
+  <line x1="117.5" y1="100" x2="117.5" y2="132" stroke="#a0aec0"/>
+  <line x1="133.8" y1="100" x2="133.8" y2="132" stroke="#a0aec0"/>
+  <line x1="150" y1="100" x2="150" y2="132" stroke="#a0aec0"/>
+  <line x1="166.3" y1="100" x2="166.3" y2="132" stroke="#a0aec0"/>
+  <line x1="182.5" y1="100" x2="182.5" y2="132" stroke="#a0aec0"/>
+  <line x1="198.8" y1="100" x2="198.8" y2="132" stroke="#a0aec0"/>
+  <line x1="215" y1="100" x2="215" y2="132" stroke="#a0aec0"/>
+  <line x1="231.3" y1="100" x2="231.3" y2="132" stroke="#a0aec0"/>
+  <line x1="247.5" y1="100" x2="247.5" y2="132" stroke="#a0aec0"/>
+  <line x1="263.8" y1="100" x2="263.8" y2="132" stroke="#a0aec0"/>
+  <text x="20" y="152" font-size="13" fill="#2d3748">4 KB 扇区 = 16 个 256 B 页，擦除一次全变 1</text>
+
+  <rect x="20" y="164" width="130" height="32" fill="#e6fffa" stroke="#2c7a7b" stroke-width="1.5"/>
+  <rect x="52" y="164" width="33" height="32" fill="#b2f5ea"/>
+  <rect x="85" y="164" width="33" height="32" fill="#b2f5ea"/>
+  <rect x="118" y="164" width="32" height="32" fill="#b2f5ea"/>
+  <text x="162" y="186" font-size="13" fill="#2d3748">256 B 页：写入单位</text>
+
+  <text x="20" y="220" font-size="13" fill="#4a5568">编程只能把 1 写成 0，擦除才能回到 1</text>
+  <text x="20" y="242" font-size="13" fill="#4a5568">读可任意地址，NOR 支持 XIP 就地执行</text>
+
+  <rect x="20" y="258" width="10" height="10" fill="#2b6cb0"/>
+  <text x="38" y="268" font-size="13" fill="#2d3748">NOR：约 1 万次擦写，10 年保持</text>
+  <rect x="20" y="282" width="10" height="10" fill="#b7791f"/>
+  <text x="38" y="292" font-size="13" fill="#2d3748">NAND TLC：约 1000 次，需 ECC</text>
+  <rect x="20" y="306" width="10" height="10" fill="#2f855a"/>
+  <text x="38" y="316" font-size="13" fill="#2d3748">EEPROM：100 万次，可逐字节改写</text>
+  <text x="20" y="340" font-size="13" fill="#4a5568">写前必须先擦：这是所有寿命问题的源头</text>
+
+  <text x="330" y="112" font-size="13" fill="#2d3748">① 写 512 B 数据到槽 B</text>
+  <rect x="330" y="120" width="170" height="40" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="415" y="145" font-size="13" fill="#2d3748" text-anchor="middle">槽 A：seq=41，CRC 通过</text>
+
+  <rect x="330" y="172" width="170" height="40" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="415" y="197" font-size="13" fill="#2d3748" text-anchor="middle">槽 B：seq=42，写入中</text>
+
+  <text x="330" y="234" font-size="13" fill="#2d3748">② 最后写 8 B 提交头</text>
+  <line x1="330" y1="246" x2="500" y2="246" stroke="#c53030" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="330" y="266" font-size="13" fill="#822727">掉电点：B 头无效</text>
+  <text x="330" y="286" font-size="13" fill="#822727">→ 上电回退到 A</text>
+  <text x="330" y="312" font-size="13" fill="#4a5568">③ 扫描两槽，取 seq 最大</text>
+  <text x="330" y="332" font-size="13" fill="#4a5568">且 CRC 通过者，另一槽留作回滚</text>
+
+  <rect x="530" y="100" width="45" height="30" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="552" y="120" font-size="13" fill="#2d3748" text-anchor="middle">3</text>
+  <rect x="583" y="100" width="45" height="30" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="605" y="120" font-size="13" fill="#2d3748" text-anchor="middle">3</text>
+  <rect x="636" y="100" width="45" height="30" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="658" y="120" font-size="13" fill="#2d3748" text-anchor="middle">4</text>
+  <rect x="689" y="100" width="45" height="30" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="711" y="120" font-size="13" fill="#2d3748" text-anchor="middle">3</text>
+  <rect x="530" y="138" width="45" height="30" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="552" y="158" font-size="13" fill="#2d3748" text-anchor="middle">4</text>
+  <rect x="583" y="138" width="45" height="30" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="605" y="158" font-size="13" fill="#2d3748" text-anchor="middle">3</text>
+  <rect x="636" y="138" width="45" height="30" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="658" y="158" font-size="13" fill="#2d3748" text-anchor="middle">3</text>
+  <rect x="689" y="138" width="45" height="30" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="711" y="158" font-size="13" fill="#2d3748" text-anchor="middle">4</text>
+
+  <text x="530" y="196" font-size="13" fill="#2d3748">128 扇区 × 4 KB = 512 KB</text>
+  <text x="530" y="218" font-size="13" fill="#4a5568">写指针轮转，擦除均摊</text>
+  <text x="530" y="240" font-size="13" fill="#4a5568">86400/128 = 675 条/天</text>
+  <text x="530" y="262" font-size="13" fill="#4a5568">675/64 = 10.5 次擦除/天</text>
+  <text x="530" y="284" font-size="13" fill="#2d3748">10000/10.5 = 948 天</text>
+  <text x="530" y="306" font-size="13" fill="#4a5568">约 2.6 年，收益 ×128</text>
+
+  <text x="20" y="368" font-size="13" fill="#2d3748">寿命（天）= 擦写次数 ÷ 日擦写次数</text>
+  <text x="20" y="390" font-size="13" fill="#2d3748">单扇区就地写：10000 ÷ 86400 = 0.116 天，不到 3 小时</text>
+  <text x="20" y="412" font-size="13" fill="#2d3748">×128 扇区 = 14.8 天；再按 64 条/扇区追加写 = 948 天</text>
+  <text x="20" y="434" font-size="13" fill="#4a5568">双槽：每次逻辑写 = 1 次页编程（64 B）+ 8 B 提交头，掉电最多丢 1 次</text>
+  </g>
+</svg>

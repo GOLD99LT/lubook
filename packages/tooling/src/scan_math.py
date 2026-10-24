@@ -7,6 +7,13 @@
 import os, re, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from paths_util import add_common_args, resolve_src
+
+# 控制台可能是 GBK（Windows 中文环境）：公式里出现 µ/Ω 等字符时 print 会崩，
+# 这里强制 stdout 用 UTF-8 + replace，保证工具本身不会因为编码问题失败。
+try:
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+except Exception:
+    pass
 _args, _ = add_common_args().parse_known_args()
 DOCS = resolve_src(_args)
 

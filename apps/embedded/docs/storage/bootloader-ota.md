@@ -11,8 +11,8 @@ sources:
   - Arm, ARMv7-M Architecture Reference Manual（ARM DDI 0403E），Chapter B1 "System Level Architecture" 中 "Exception vectors" 与 "Reset behavior" 两节
   - Arm, Cortex-M3 Devices Generic User Guide（DUI 0552A），Chapter 4.3 "System control block"（VTOR、AIRCR）与 Chapter 4.4 "SysTick"
   - STMicroelectronics, RM0008 Reference Manual（Rev 21），Chapter 3 "Memory and bus architecture" 中 "Flash memory" 的页大小、擦除与编程时序
-  - STMicroelectronics, STM32F103x8/xB Datasheet（DS5319 Rev 10），Table 5 "Memory map" 与 "Flash memory endurance/data retention" 小节
-  - MCUboot 项目文档，"Image Slots"、"Swap Modes"、"Image Verification" 三节（docs.mcuboot.com）
+  - STMicroelectronics, STM32F103x8/xB Datasheet（DS5319 Rev 10）与 STM32F103xC/D/E Datasheet（DS5792），各自的 Table 5 "Memory map" 与 "Flash memory endurance/data retention" 小节
+  - MCUboot 项目文档，*MCUboot Design* 的 "Image Slots"、"Swap Modes"、"Image Validation" 三节（docs.mcuboot.com）
   - Android Open Source Project，*A/B (Seamless) System Updates* 文档中 "Bootloader support" 与 "Slot metadata" 两节
   - Colin Percival, *Naive Differences of Executable Code*（2003），bsdiff 的差分编码与内存需求分析
 ---
@@ -28,7 +28,7 @@ sources:
 
 **现场二：升级成功，但设备只在第一次上电正常。** 新镜像写进了 B 槽，元数据里 `active = B`。第二天现场反映设备反复重启：应用启动 5 秒后自检失败、看门狗复位，引导程序又从 B 槽启动，如此循环。问题在于升级流程里根本没有"确认"这一步，只要写进去就当成功——旧镜像还完好地躺在 A 槽，却永远轮不到它。
 
-**现场三：换了个 2 KB 页的型号，擦除把隔壁槽的头擦没了。** 应用从 1 KB 页的型号移植过来，镜像长度 130 KB，代码按 130 KB 计算槽边界，结果 130 KB 不是 2 KB 的整数倍，擦除最后一页时正好覆盖 B 槽的向量表首 1 KB。现象是"升级成功、重启后 HardFault"，因为 B 槽复位向量已经变成 `0xFFFFFFFF`。
+**现场三：换了个 2 KB 页的型号，擦除把隔壁槽的头擦没了。** 应用从 1 KB 页的型号移植过来，镜像 131 KB，也就是 65.5 个 2 KB 页。1 KB 页的器件上擦 131 页刚好；换到 2 KB 页的器件，擦除必须补齐到 66 页、也就是 132 KB，多出来的 1 KB 正好压在 B 槽的向量表上——B 槽复位向量被擦成 `0xFFFFFFFF`。现象是"升级成功、重启后 HardFault"。
 :::
 
 把升级阶段的典型现象、第一检查项与判据列成表：
@@ -44,7 +44,7 @@ sources:
 **不算会摔在哪**，三个带数字的代价：
 
 1. **返修成本。** 现场一台设备的返修成本通常是一台新机的 2–3 倍（拆装、物流、停运），而一次全量 OTA 只花 24 s 的传输时间。把"可回滚"做进去的成本是几 KB 代码加两页 Flash，收益是避免整批返修。
-2. **掉电窗口。** 一次 24 s 的升级里，元数据写入占约 20 ms，正好在写元数据时掉电的概率约 $20/24000=0.083\%$。这个数字看起来很小，但 4000 台设备、每年 6 次升级就是 2 万次写入，期望命中约 17 次。所以元数据必须双份。
+2. **掉电窗口。** 一次 24 s 的升级里，元数据写入占约 20 ms，只算这一次写入，正好在写元数据时掉电的概率约 $20/24000=0.083\%$。这个数字看起来很小，但 4000 台设备、每年 6 次升级就是 2.4 万次，期望命中约 20 次；若每次试启动都去递增计数，写入次数还要乘 4。所以元数据必须双份。
 3. **擦写寿命。** STM32F1 的 Flash 擦写寿命典型 10 000 次。若每次上电都往同一页写一个"启动计数"，每天上电 10 次，寿命只有 $10000/(10\times365)=2.74$ 年——比设备的设计寿命还短。
 
 ## 2. 定义与直观（分区、跳转与状态机）
@@ -130,6 +130,8 @@ A/B 的核心不是"两份镜像"，而是**一个能表达"这份镜像还没�
 
 状态机的每次迁移都遵循同一条规则：**先写元数据，再执行动作**。写 `PENDING` 要在"镜像已经完整落盘并校验通过"之后，不能在开始写之前；写 `CONFIRMED` 要在应用自检通过之后，不能在 `main` 的第一行。反过来做，掉电时就会留下"元数据说成功、镜像其实残缺"的组合。
 
+表里只有 `IDLE` 不写进元数据：它只活在引导程序的 RAM 里，表示"本次上电没有升级事务"。元数据里长期保存的是 `CONFIRMED`、`PENDING` 或 `ROLLBACK`，引导程序每次上电读出来再翻译成动作。
+
 ![A/B 双区布局与升级状态机：槽首即向量表、元数据双页轮换、六态迁移与回滚路径](../assets/schematics/bootloader-ota-ab.svg)
 
 ::: analogy 两把钥匙与一张便签
@@ -137,7 +139,7 @@ A/B 的核心不是"两份镜像"，而是**一个能表达"这份镜像还没�
 :::
 
 ::: advanced 为什么"两阶段提交"在小 Flash 上仍然不够
-元数据页的"擦—写"不是原子操作：擦除要 20 ms，这期间掉电，整页变成 `0xFF`。写 8 个字节要 0.4 ms，这期间掉电，可能只写进去一半。所以单页元数据的失效窗口是 20.4 ms，不是 0。双页轮换把失效条件从"一次写坏"提升到"两次连续写坏"：第一次写坏时，另一页的序号更小但 CRC 有效，仍可用；只有当另一页也恰好写坏，才会退到"无有效元数据"。此时引导程序的兜底策略必须是"回到出厂镜像或停在升级模式"，而不是"猜一个槽跳过去"。
+元数据页的"擦—写"不是原子操作：擦除要 20 ms，这期间掉电，整页变成 `0xFF`。写 16 个字节（8 个半字）要 0.4 ms，这期间掉电，可能只写进去一半。所以单页元数据的失效窗口是 20.4 ms，不是 0。双页轮换把失效条件从"一次写坏"提升到"两次连续写坏"：第一次写坏时，另一页的序号更小但 CRC 有效，仍可用；只有当另一页也恰好写坏，才会退到"无有效元数据"。此时引导程序的兜底策略必须是"回到出厂镜像或停在升级模式"，而不是"猜一个槽跳过去"。
 
 更强的做法是加一个单调计数器（monotonic counter）与镜像版本号绑定，防止把设备刷回有漏洞的旧版本。计数器本身也有擦写寿命问题，通常与元数据页同页存放、一起轮换。
 :::
@@ -248,7 +250,7 @@ $$
 p_{\text{hit}}=\frac{n_{\text{meta}}\,t_{\text{meta}}}{T_{\text{ota}}}
 $$
 
-$n_{\text{meta}}$ 是一次 OTA 期间元数据的写入次数。这个概率衡量的是"掉电正好发生在最脆弱的 20 ms 里"，它决定了双页轮换到底值不值。
+$n_{\text{meta}}$ 是一次 OTA 期间元数据的写入次数。这个概率衡量的是"掉电正好落在元数据写入的那几个 20 ms 窗口里"，它决定了双页轮换到底值不值。
 
 ### 3.4 元数据写入次数与擦写寿命
 
@@ -292,7 +294,7 @@ $M$ 是在网版本数。这个二次增长是差分升级在运维上最大的�
 
 ## 4. 典型计算（64 KB 与 512 KB 两套方案）
 
-设定两套硬件：一套 64 KB Flash、1 KB 页、8 个外设中断以外的 59 项向量表；一套 512 KB Flash、2 KB 页、60 个外设中断。链路都是 115200 8N1，协议效率 0.90。
+设定两套硬件：一套 64 KB Flash、1 KB 页（59 项向量表，43 个外设中断）；一套 512 KB Flash、2 KB 页（76 项向量表，60 个外设中断）。链路都是 115200 8N1，协议效率 0.90。
 
 **参数一：115200 8N1 的有效吞吐。**
 
@@ -300,7 +302,7 @@ $$
 R_{\text{eff}}=\frac{\eta_{\text{proto}}f_{\text{baud}}}{n_{\text{bit}}}=\frac{0.9\times115200}{10}=10368\ \text{B/s}
 $$
 
-即约 10.1 KiB/s。记住这个数：所有串口 OTA 的估算都从它出发。
+即 10.4 kB/s。记住这个数：所有串口 OTA 的估算都从它出发。
 
 **参数二：Flash 的等效写入吞吐。**
 
@@ -316,7 +318,7 @@ $$
 t_{2\text{KB}}=20+1024\times0.05=71.2\ \text{ms}\ \Rightarrow\ R_{\text{flash}}\approx\frac{2048}{0.0712}=28.8\ \text{KB/s}
 $$
 
-两个都高于 10.1 KB/s，所以在 115200 下**瓶颈永远是链路**；换成 USB 全速（有效 0.5–1 MB/s）后瓶颈立刻变成 Flash。
+两个都高于 10.4 kB/s，所以在 115200 下**瓶颈永远是链路**；换成 USB 全速（有效 0.5–1 MB/s）后瓶颈立刻变成 Flash。
 
 **问题一：64 KB 的器件能不能做 A/B？**
 
@@ -340,7 +342,7 @@ $$
 16+4+4+244+244=512\ \text{KB}
 $$
 
-244 KB $=122$ 页，是 2 KB 的整数倍。地址：引导程序 `0x08000000`，元数据 `0x08004000`，参数区 `0x08005000`，槽 A `0x08006000`–`0x08042FFF`，槽 B `0x08043000`–`0x0807FFFF`。
+244 KB 即 122 页，是 2 KB 的整数倍。地址：引导程序 `0x08000000`，元数据 `0x08004000`，参数区 `0x08005000`，槽 A `0x08006000`–`0x08042FFF`，槽 B `0x08043000`–`0x0807FFFF`。
 
 VTOR 校验：$\text{0x6000}=24576$，$24576/128=192$；$\text{0x43000}=274432$，$274432/128=2144$，都整除。向量表 76 项 304 B，落在槽首 2 KB 页内。
 
@@ -372,7 +374,7 @@ $$
 
 **问题四：回滚窗口设多长？掉电正好撞上元数据的概率是多少？**
 
-应用从复拉到自检完成按 8 s 预算（外设初始化 1 s、传感器预热 5 s、自检 2 s），试启动 3 次：
+应用从复位到自检完成按 8 s 预算（外设初始化 1 s、传感器预热 5 s、自检 2 s），试启动 3 次：
 
 $$
 T_{\text{try}}=3\times8=24\ \text{s}
@@ -390,7 +392,7 @@ $$
 p_{\text{hit}}=\frac{4\times0.0204}{24.1}=0.34\%
 $$
 
-单看一次升级，0.34% 不算高；但 4000 台 × 每年 6 次 = 2.4 万次升级，期望命中约 82 次。双页轮换把"命中后失效"变成"命中后仍可用"，这 82 次就从事故变成了日志里的一条记录。
+单看一次升级，0.34% 不算高；但 4000 台 × 每年 6 次 = 2.4 万次升级，期望命中约 82 次。双页轮换把"命中即失效"变成"命中后仍可用"，这 82 次里的大部分就从事故降级成日志里的一条记录。
 
 **问题五：元数据页能用几年？**
 
@@ -441,7 +443,7 @@ _Static_assert(SLOT_SIZE % FLASH_PAGE == 0,           "槽长未按页对齐");
 _Static_assert(SLOT_A_BASE % 128 == 0,                "VTOR 未对齐");
 ```
 
-这四条断言能在编译期拦下九成的分区错误，成本是四行代码。
+这四条断言能在编译期拦下大部分分区错误，成本是四行代码。
 
 **跳转收尾的代码骨架。** 下面这段是引导程序跳转的最小实现，关键点都在注释里：
 
@@ -675,7 +677,7 @@ $$
 - Arm, *ARMv7-M Architecture Reference Manual*（ARM DDI 0403E），Chapter B1 "System Level Architecture" 的 "Exception vectors" 与 "Reset behavior"：向量表结构、初始 MSP/PC 装载规则、Thumb 位要求，第 2.3 节的合法性检查依据此节。
 - Arm, *Cortex-M3 Devices Generic User Guide*（DUI 0552A），Chapter 4.3 "System control block"：VTOR 的可实现位与 128 字节对齐、AIRCR 的 `SYSRESETREQ`；Chapter 4.4 "SysTick"：跳转前停 SysTick 的寄存器写法。
 - STMicroelectronics, *RM0008 Reference Manual*（Rev 21），Chapter 3 "Memory and bus architecture" 中 "Flash memory" 一节：页大小、擦除与编程时序、`FLASH_ACR` 等待周期；第 3.2 节的时间模型与第 4 节的 71.2 ms/页按此整理。
-- STMicroelectronics, *STM32F103x8/xB Datasheet*（DS5319 Rev 10），Table 5 "Memory map" 与 "Flash memory endurance/data retention" 小节：64/512 KB 容量、10 000 次擦写寿命，第 3.4 节的寿命计算以此为准。
-- MCUboot 项目文档，"Image Slots"、"Swap Modes"、"Image Verification" 三节（[docs.mcuboot.com](https://docs.mcuboot.com/design.html)）：槽位、交换模式与镜像校验的实现口径，第 2.5 节的状态机与第 3.3 节的回滚窗口参照其术语。
+- STMicroelectronics, *STM32F103x8/xB Datasheet*（DS5319 Rev 10）与 *STM32F103xC/D/E Datasheet*（DS5792），各自的 Table 5 "Memory map" 与 "Flash memory endurance/data retention" 小节：64 KB 与 512 KB 两个容量的地址映射、10 000 次擦写寿命，第 3.4 节的寿命计算以此为准（大容量型号的页大小见 DS5792 的 Flash 特性表）。
+- MCUboot 项目文档，*MCUboot Design* 的 "Image Slots"、"Swap Modes"、"Image Validation" 三节（[docs.mcuboot.com](https://docs.mcuboot.com/design.html)）：槽位、交换模式与镜像校验的实现口径，第 2.5 节的状态机与第 3.3 节的回滚窗口参照其术语。
 - Android Open Source Project，*A/B (Seamless) System Updates*，[source.android.com](https://source.android.com/docs/core/ota/ab)：槽元数据（slot metadata）、bootloader 支持与回滚计数器的工业实践，第 2.5 节的状态表与其 `slot_suffix`/`successful` 标记同构。
 - Colin Percival, *Naive Differences of Executable Code*（2003）：bsdiff 的差分编码与内存需求分析，第 2.7 节与第 3.5 节的补丁占比与版本矩阵讨论以此为基础。

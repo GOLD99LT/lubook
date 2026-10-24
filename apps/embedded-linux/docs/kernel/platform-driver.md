@@ -342,6 +342,8 @@ $$T_{\text{probe}}+T_{\text{other}}<T_{\text{wdt}}-T_{\text{margin}}$$
 
 `deferred_probe_timeout` 是"等多久后放弃等待"，不是"让设备 probe 成功"。设一个小于看门狗预算的值，可以让内核在依赖永远不出现时继续启动，但相关设备仍然不可用。它不是修复依赖环的手段。
 
+内核并没有针对单次 `probe` 的通用超时：`probe` 在进程上下文执行，一旦卡死，只能靠硬件看门狗、`hung_task` 检测或 NMI 栈回溯定位。因此 `t_i` 里最危险的是无界等待——等完成量、等硬件状态位、等 I2C 总线空闲。这类等待都应改成带超时的版本（如 `wait_for_completion_timeout()`），并给硬件轮询设上限。
+
 ### 3.4 regmap 访问吞吐
 
 一次 SPI 寄存器访问的时间：
@@ -481,7 +483,7 @@ $$\frac{N(N+1)}{2}\times0.5\,\text{ms}\le48.8\ \text{s}\quad\Rightarrow\quad N(N
 - `clocks` 与 `clock-names` 成对出现，驱动按名字取时钟，避免依赖顺序。
 - `pinctrl-0`/`pinctrl-names` 描述引脚复用，`pinctrl_bind_pins()` 在 probe 前自动应用 default 状态。
 - `power-domains`、`resets`、`vcc-supply` 描述电源与复位依赖，驱动用对应的 `devm_*` API 获取。
-- `status = "okay"` 才能启用；`"disabled"` 的节点仍会被创建成 device，但不会 probe。
+- `status = "okay"` 才能启用；`"disabled"` 的节点不会被正常实例化或绑定（具体行为随内核版本与总线类型略有差异），所以 bring-up 第一步永远是确认 `status`。
 
 ### 5.2 probe 的返回值语义
 

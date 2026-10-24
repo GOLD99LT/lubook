@@ -1,0 +1,95 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <rect width="760" height="440" fill="#ffffff"/>
+
+    <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">优先级反转：同一段时间账，有无继承的两种结局</text>
+    <text x="20" y="52" font-size="13" fill="#4a5568">横轴 0~12.4 ms，每 1 ms 折合 50 px；H 在 t=2 ms 到达，截止期为到达后 5 ms</text>
+    <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+    <text x="20" y="84" font-size="14" font-weight="700" fill="#9b2c2c">A 无优先级继承：H 等锁 7.5 ms，响应 9.5 ms，错过截止期</text>
+
+    <text x="20" y="114" font-size="13" font-weight="700" fill="#2d3748">H 高</text>
+    <text x="20" y="146" font-size="13" font-weight="700" fill="#2d3748">M 中</text>
+    <text x="20" y="178" font-size="13" font-weight="700" fill="#2d3748">L 低</text>
+
+    <rect x="220" y="96" width="375" height="24" rx="3" fill="#fde2e2" stroke="#c53030" stroke-width="1.4"/>
+    <text x="407" y="113" font-size="13" fill="#9b2c2c" text-anchor="middle">H 等锁 7.5 ms</text>
+    <rect x="595" y="96" width="100" height="24" rx="3" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.4"/>
+    <text x="645" y="113" font-size="13" fill="#1a365d" text-anchor="middle">H 2 ms</text>
+
+    <rect x="245" y="128" width="300" height="24" rx="3" fill="#fde7c7" stroke="#c05621" stroke-width="1.4"/>
+    <text x="395" y="145" font-size="13" fill="#7b341e" text-anchor="middle">M 执行 6 ms</text>
+
+    <rect x="120" y="160" width="125" height="24" rx="3" fill="#d9f0e0" stroke="#2f855a" stroke-width="1.4"/>
+    <text x="182" y="177" font-size="13" fill="#22543d" text-anchor="middle">L 持锁</text>
+    <rect x="545" y="160" width="50" height="24" rx="3" fill="#d9f0e0" stroke="#2f855a" stroke-width="1.4"/>
+    <rect x="695" y="160" width="45" height="24" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1.2"/>
+
+    <line x1="470" y1="90" x2="470" y2="194" stroke="#c53030" stroke-width="1.3" stroke-dasharray="4 3"/>
+    <line x1="120" y1="200" x2="740" y2="200" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="120" y1="196" x2="120" y2="204" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="220" y1="196" x2="220" y2="204" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="320" y1="196" x2="320" y2="204" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="420" y1="196" x2="420" y2="204" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="520" y1="196" x2="520" y2="204" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="620" y1="196" x2="620" y2="204" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="720" y1="196" x2="720" y2="204" stroke="#4a5568" stroke-width="1.4"/>
+    <text x="120" y="216" font-size="13" fill="#4a5568" text-anchor="middle">0</text>
+    <text x="220" y="216" font-size="13" fill="#4a5568" text-anchor="middle">2</text>
+    <text x="320" y="216" font-size="13" fill="#4a5568" text-anchor="middle">4</text>
+    <text x="420" y="216" font-size="13" fill="#4a5568" text-anchor="middle">6</text>
+    <text x="520" y="216" font-size="13" fill="#4a5568" text-anchor="middle">8</text>
+    <text x="620" y="216" font-size="13" fill="#4a5568" text-anchor="middle">10</text>
+    <text x="720" y="216" font-size="13" fill="#4a5568" text-anchor="middle">12 ms</text>
+
+    <text x="20" y="246" font-size="14" font-weight="700" fill="#22543d">B 开启优先级继承：L 临时升到 H 的优先级，H 等锁 1.5 ms，响应 3.5 ms</text>
+
+    <text x="20" y="282" font-size="13" font-weight="700" fill="#2d3748">H 高</text>
+    <text x="20" y="314" font-size="13" font-weight="700" fill="#2d3748">M 中</text>
+    <text x="20" y="346" font-size="13" font-weight="700" fill="#2d3748">L 低</text>
+
+    <rect x="220" y="264" width="75" height="24" rx="3" fill="#fde2e2" stroke="#c53030" stroke-width="1.4"/>
+    <text x="257" y="281" font-size="13" fill="#9b2c2c" text-anchor="middle">等锁</text>
+    <rect x="295" y="264" width="100" height="24" rx="3" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.4"/>
+    <text x="345" y="281" font-size="13" fill="#1a365d" text-anchor="middle">H 2 ms</text>
+
+    <rect x="395" y="296" width="300" height="24" rx="3" fill="#fde7c7" stroke="#c05621" stroke-width="1.4"/>
+    <text x="545" y="313" font-size="13" fill="#7b341e" text-anchor="middle">M 执行 6 ms</text>
+    <rect x="245" y="296" width="150" height="24" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1.2"/>
+    <text x="320" y="313" font-size="13" fill="#4a5568" text-anchor="middle">就绪但被挡住</text>
+
+    <rect x="120" y="328" width="125" height="24" rx="3" fill="#d9f0e0" stroke="#2f855a" stroke-width="1.4"/>
+    <text x="182" y="345" font-size="13" fill="#22543d" text-anchor="middle">L 持锁</text>
+    <rect x="245" y="328" width="50" height="24" rx="3" fill="#ece0f5" stroke="#6b46c1" stroke-width="1.4"/>
+    <text x="270" y="345" font-size="13" fill="#44337a" text-anchor="middle">继承</text>
+    <rect x="695" y="328" width="45" height="24" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1.2"/>
+
+    <line x1="470" y1="258" x2="470" y2="362" stroke="#c53030" stroke-width="1.3" stroke-dasharray="4 3"/>
+    <line x1="120" y1="368" x2="740" y2="368" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="120" y1="364" x2="120" y2="372" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="220" y1="364" x2="220" y2="372" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="320" y1="364" x2="320" y2="372" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="420" y1="364" x2="420" y2="372" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="520" y1="364" x2="520" y2="372" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="620" y1="364" x2="620" y2="372" stroke="#4a5568" stroke-width="1.4"/>
+    <line x1="720" y1="364" x2="720" y2="372" stroke="#4a5568" stroke-width="1.4"/>
+    <text x="120" y="384" font-size="13" fill="#4a5568" text-anchor="middle">0</text>
+    <text x="220" y="384" font-size="13" fill="#4a5568" text-anchor="middle">2</text>
+    <text x="320" y="384" font-size="13" fill="#4a5568" text-anchor="middle">4</text>
+    <text x="420" y="384" font-size="13" fill="#4a5568" text-anchor="middle">6</text>
+    <text x="520" y="384" font-size="13" fill="#4a5568" text-anchor="middle">8</text>
+    <text x="620" y="384" font-size="13" fill="#4a5568" text-anchor="middle">10</text>
+    <text x="720" y="384" font-size="13" fill="#4a5568" text-anchor="middle">12 ms</text>
+
+    <rect x="20" y="400" width="14" height="14" fill="#d9f0e0" stroke="#2f855a" stroke-width="1.4"/>
+    <text x="40" y="412" font-size="13" fill="#2d3748">持锁运行</text>
+    <rect x="130" y="400" width="14" height="14" fill="#fde2e2" stroke="#c53030" stroke-width="1.4"/>
+    <text x="150" y="412" font-size="13" fill="#2d3748">等锁，红色虚线为截止期</text>
+    <rect x="340" y="400" width="14" height="14" fill="#ece0f5" stroke="#6b46c1" stroke-width="1.4"/>
+    <text x="360" y="412" font-size="13" fill="#2d3748">继承来的优先级</text>
+    <rect x="500" y="400" width="14" height="14" fill="#fde7c7" stroke="#c05621" stroke-width="1.4"/>
+    <text x="520" y="412" font-size="13" fill="#2d3748">中优先级任务执行</text>
+
+    <text x="20" y="432" font-size="13" fill="#4a5568">同一组任务、同一段代码，只改锁的协议：H 的响应时间从 9.5 ms 降到 3.5 ms，差距全部来自 M 的 6 ms</text>
+  </g>
+</svg>

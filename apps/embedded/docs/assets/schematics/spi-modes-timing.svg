@@ -1,0 +1,92 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">SPI 四种模式：CPOL 定空闲电平，CPHA 定采样沿</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">模式 0/3 在上升沿采样，模式 1/2 在下降沿采样；数据总在另一个沿更新，半个周期就是建立与保持的预算</text>
+  <line x1="20" y1="64" x2="740" y2="64" stroke="#e2e8f0"/>
+
+  <rect x="16" y="74" width="356" height="158" rx="4" fill="#f7fafc" stroke="#cbd5e0"/>
+  <text x="30" y="96" font-size="13" font-weight="700" fill="#2d3748">模式 0：CPOL=0，CPHA=0</text>
+  <text x="30" y="114" font-size="13" fill="#4a5568">空闲低；上升沿（第 1 沿）采样</text>
+  <text x="30" y="142" font-size="13" fill="#2d3748">SCL</text>
+  <polyline points="66,130 101,130 101,148 136,148 136,130 171,130 171,148 206,148 206,130 241,130 241,148 276,148 276,130 311,130 311,148 346,148 356,148" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="30" y="184" font-size="13" fill="#2d3748">MOSI</text>
+  <polyline points="66,172 136,172 136,190 206,190 206,172 346,172 356,172" fill="none" stroke="#2f855a" stroke-width="2"/>
+  <line x1="101" y1="120" x2="101" y2="196" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="171" y1="120" x2="171" y2="196" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="241" y1="120" x2="241" y2="196" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="311" y1="120" x2="311" y2="196" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <circle cx="101" cy="172" r="3.4" fill="#c53030"/>
+  <circle cx="171" cy="190" r="3.4" fill="#c53030"/>
+  <circle cx="241" cy="172" r="3.4" fill="#c53030"/>
+  <circle cx="311" cy="172" r="3.4" fill="#c53030"/>
+  <text x="101" y="216" font-size="13" fill="#4a5568" text-anchor="middle">b7</text>
+  <text x="171" y="216" font-size="13" fill="#4a5568" text-anchor="middle">b6</text>
+  <text x="241" y="216" font-size="13" fill="#4a5568" text-anchor="middle">b5</text>
+  <text x="311" y="216" font-size="13" fill="#4a5568" text-anchor="middle">b4</text>
+
+  <rect x="388" y="74" width="356" height="158" rx="4" fill="#f7fafc" stroke="#cbd5e0"/>
+  <text x="402" y="96" font-size="13" font-weight="700" fill="#2d3748">模式 1：CPOL=0，CPHA=1</text>
+  <text x="402" y="114" font-size="13" fill="#4a5568">空闲低；下降沿（第 2 沿）采样</text>
+  <text x="402" y="142" font-size="13" fill="#2d3748">SCL</text>
+  <polyline points="438,130 473,130 473,148 508,148 508,130 543,130 543,148 578,148 578,130 613,130 613,148 648,148 648,130 683,130 683,148 718,148 728,148" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="402" y="184" font-size="13" fill="#2d3748">MOSI</text>
+  <polyline points="438,190 473,190" fill="none" stroke="#2f855a" stroke-width="2" stroke-dasharray="4 3"/>
+  <polyline points="473,190 473,172 543,172 543,190 613,190 613,172 718,172 728,172" fill="none" stroke="#2f855a" stroke-width="2"/>
+  <line x1="508" y1="120" x2="508" y2="196" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="578" y1="120" x2="578" y2="196" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="648" y1="120" x2="648" y2="196" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="718" y1="120" x2="718" y2="196" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <circle cx="508" cy="172" r="3.4" fill="#c53030"/>
+  <circle cx="578" cy="190" r="3.4" fill="#c53030"/>
+  <circle cx="648" cy="172" r="3.4" fill="#c53030"/>
+  <circle cx="718" cy="172" r="3.4" fill="#c53030"/>
+  <text x="508" y="216" font-size="13" fill="#4a5568" text-anchor="middle">b7</text>
+  <text x="578" y="216" font-size="13" fill="#4a5568" text-anchor="middle">b6</text>
+  <text x="648" y="216" font-size="13" fill="#4a5568" text-anchor="middle">b5</text>
+  <text x="718" y="216" font-size="13" fill="#4a5568" text-anchor="middle">b4</text>
+
+  <rect x="16" y="240" width="356" height="158" rx="4" fill="#f7fafc" stroke="#cbd5e0"/>
+  <text x="30" y="262" font-size="13" font-weight="700" fill="#2d3748">模式 2：CPOL=1，CPHA=0</text>
+  <text x="30" y="280" font-size="13" fill="#4a5568">空闲高；下降沿（第 1 沿）采样</text>
+  <text x="30" y="308" font-size="13" fill="#2d3748">SCL</text>
+  <polyline points="66,296 101,296 101,314 136,314 136,296 171,296 171,314 206,314 206,296 241,296 241,314 276,314 276,296 311,296 311,314 346,314 356,314" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="30" y="350" font-size="13" fill="#2d3748">MOSI</text>
+  <polyline points="66,338 136,338 136,356 206,356 206,338 346,338 356,338" fill="none" stroke="#2f855a" stroke-width="2"/>
+  <line x1="101" y1="286" x2="101" y2="362" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="171" y1="286" x2="171" y2="362" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="241" y1="286" x2="241" y2="362" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="311" y1="286" x2="311" y2="362" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <circle cx="101" cy="338" r="3.4" fill="#c53030"/>
+  <circle cx="171" cy="356" r="3.4" fill="#c53030"/>
+  <circle cx="241" cy="338" r="3.4" fill="#c53030"/>
+  <circle cx="311" cy="338" r="3.4" fill="#c53030"/>
+  <text x="101" y="382" font-size="13" fill="#4a5568" text-anchor="middle">b7</text>
+  <text x="171" y="382" font-size="13" fill="#4a5568" text-anchor="middle">b6</text>
+  <text x="241" y="382" font-size="13" fill="#4a5568" text-anchor="middle">b5</text>
+  <text x="311" y="382" font-size="13" fill="#4a5568" text-anchor="middle">b4</text>
+
+  <rect x="388" y="240" width="356" height="158" rx="4" fill="#f7fafc" stroke="#cbd5e0"/>
+  <text x="402" y="262" font-size="13" font-weight="700" fill="#2d3748">模式 3：CPOL=1，CPHA=1</text>
+  <text x="402" y="280" font-size="13" fill="#4a5568">空闲高；上升沿（第 2 沿）采样</text>
+  <text x="402" y="308" font-size="13" fill="#2d3748">SCL</text>
+  <polyline points="438,296 473,296 473,314 508,314 508,296 543,296 543,314 578,314 578,296 613,296 613,314 648,314 648,296 683,296 683,314 718,314 728,314" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="402" y="350" font-size="13" fill="#2d3748">MOSI</text>
+  <polyline points="438,356 473,356" fill="none" stroke="#2f855a" stroke-width="2" stroke-dasharray="4 3"/>
+  <polyline points="473,356 473,338 543,338 543,356 613,356 613,338 718,338 728,338" fill="none" stroke="#2f855a" stroke-width="2"/>
+  <line x1="508" y1="286" x2="508" y2="362" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="578" y1="286" x2="578" y2="362" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="648" y1="286" x2="648" y2="362" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <line x1="718" y1="286" x2="718" y2="362" stroke="#f6adad" stroke-dasharray="3 2"/>
+  <circle cx="508" cy="338" r="3.4" fill="#c53030"/>
+  <circle cx="578" cy="356" r="3.4" fill="#c53030"/>
+  <circle cx="648" cy="338" r="3.4" fill="#c53030"/>
+  <circle cx="718" cy="338" r="3.4" fill="#c53030"/>
+  <text x="508" y="382" font-size="13" fill="#4a5568" text-anchor="middle">b7</text>
+  <text x="578" y="382" font-size="13" fill="#4a5568" text-anchor="middle">b6</text>
+  <text x="648" y="382" font-size="13" fill="#4a5568" text-anchor="middle">b5</text>
+  <text x="718" y="382" font-size="13" fill="#4a5568" text-anchor="middle">b4</text>
+
+  <text x="20" y="424" font-size="13" fill="#4a5568">红点为采样点；数据在相反沿更新。错配现象：低速能通、提速失败，或整字节错一位</text>
+  </g>
+</svg>

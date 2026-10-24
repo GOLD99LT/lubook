@@ -102,6 +102,9 @@ static int __init demo_init(void)
     return 0;
 
 err_class:
+    /* 销毁已创建的节点，再销毁 class */
+    while (--i >= 0)
+        device_destroy(demo_class, MKDEV(MAJOR(demo_dev), i));
     class_destroy(demo_class);
 err_cdev:
     cdev_del(&demo_cdev);
@@ -192,6 +195,8 @@ static ssize_t demo_read(struct file *filp, char __user *buf,
 ```
 
 `copy_to_user()` 返回**未拷贝的字节数**，不是错误码。返回 0 表示全部成功；返回非 0 通常意味着用户缓冲区在中途不可访问。`copy_from_user()` 在短拷贝时会把目标缓冲区剩余部分清零，避免把内核旧数据泄露给用户；但驱动仍应检查返回值并返回 `-EFAULT`。
+
+上面的 `demo_read` 假设同一时刻只有一个读者。如果允许多个读者并发 `read`，要在外层加互斥锁，或者在 `copied == 0` 时返回 `-EAGAIN` 重新等待；否则两个读者都判断"非空"、其中一个把数据取空后，另一个会返回 0，被应用误认为 EOF。
 
 其他接口：
 
@@ -291,13 +296,13 @@ static long demo_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
     struct demo_cfg cfg;
     void __user *argp = (void __user *)arg;
+    int ret;
 
     switch (cmd) {
     case DEMO_IOC_SET_CFG:
-        if (_IOC_SIZE(cmd) != sizeof(cfg))
-            return -EINVAL;
-        if (copy_struct_from_user(&cfg, sizeof(cfg), argp, _IOC_SIZE(cmd)))
-            return -EFAULT;
+        ret = copy_struct_from_user(&cfg, sizeof(cfg), argp, _IOC_SIZE(cmd));
+        if (ret)
+            return ret;
         if (cfg.rate == 0 || cfg.rate > 1000000)
             return -EINVAL;
         return demo_set_cfg(filp->private_data, &cfg);
@@ -313,6 +318,7 @@ static long demo_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 - 成功返回 0；需要返回数据时用 `_IOR` 的结构体，不要用正返回值兼作数据。
 - 结构体用固定宽度类型（`__u32`、`__u64`），不要放原生指针；用户地址用 `__u64` 存，再用 `u64_to_user_ptr()` 转换。
 - 结构体要可扩展：开头放 `version` 或 `size` 字段，新版本只追加字段；配合 `copy_struct_from_user()` 处理旧应用传来的短结构。
+- `copy_struct_from_user()` 返回 `-E2BIG` 或 `-EFAULT` 时要原样返回，不要一律映射成 `-EFAULT`，否则用户态无法区分"缓冲区不可访问"与"结构体版本太新"。
 - 命令字不能随意改。改了 `sizeof` 就等于改了 ABI，旧应用会收到 `-EINVAL` 或读越界。
 
 ## 3. 定量关系

@@ -325,7 +325,14 @@ $$245\ \mathrm{KiB}\times30=7.35\ \mathrm{MiB}$$
 | C 库版本 | `ldd --version` 或 `getconf GNU_LIBC_VERSION` | 符号版本基线 |
 | 内核头文件版本 | `grep LINUX_VERSION_CODE sysroot/usr/include/linux/version.h` | 系统调用可用性 |
 | 工具链包哈希 | `sha256sum` 工具链压缩包 | 防止"同版本不同构建" |
-| 容器镜像摘要 | `docker inspect --format '{{.Id}}'` | 锁定整个构建环境 |
+| 容器镜像摘要 | `docker inspect` 的 `--format` 取镜像 ID | 锁定整个构建环境 |
+
+取镜像 ID 的实际写法（花括号模板放在代码块里，避免被当作前端插值解析）：
+
+```bash
+docker inspect --format '{{.Id}}' <image>
+```
+
 
 最后两项是关键。**版本号是声明，哈希才是证据**。把工具链压缩包的 SHA-256 和容器镜像摘要写进构建脚本，任何人拿到仓库都能确认自己用的是不是同一套；只写版本号，等于只写了"我用的是 12.3"，而 12.3 可以有几十种构建。
 

@@ -18,15 +18,23 @@
 * [定时器与 PWM：预分频、频率与死区](mcu/timer-pwm.md)
 * [DMA：通道映射、双缓冲与带宽](mcu/dma.md)
 * [ADC/DAC：采样保持、量化误差与重建滤波](mcu/adc-dac.md)
+* [看门狗、RTC 与低功耗定时：独立看门狗、窗口看门狗与 ppm 校准 | Watchdog, RTC and Low-Power Timers](mcu/watchdog-rtc.md)
 
 ## 第三篇 · 通信接口与协议
 
+* [UART 与 USART：帧格式、波特率误差与收发缓冲 | UART and USART: Framing, Baud Error, and Receive Buffering](comm/uart.md)
+* [I²C 总线：起止条件、时钟同步与总线恢复 | I²C Bus: START/STOP, Clock Synchronization, and Bus Recovery](comm/i2c.md)
+* [SPI 总线：四种模式、片选与环形 DMA | SPI Bus: Clock Modes, Chip Select, and Ring DMA](comm/spi.md)
 
 ## 第四篇 · RTOS 与并发
 
+* [RTOS 调度：任务状态机、优先级抢占与可调度性 RTOS Scheduling](rtos/rtos-scheduling.md)
+* [同步原语：临界区、互斥量、事件组与死锁预防 Synchronization Primitives](rtos/sync-primitives.md)
+* [优先级反转与实时性：继承、天花板与微秒级抖动 Priority Inversion and Jitter](rtos/priority-inversion.md)
 
 ## 第五篇 · 存储、启动与升级
 
+* [Flash 与 EEPROM：擦写粒度、寿命与掉电安全写入 | Flash and EEPROM: Granularity, Endurance and Fail-Safe Writes](storage/flash-eeprom.md)
 * [Bootloader 与 OTA：A/B 双区、镜像校验与回滚 Bootloader and OTA](storage/bootloader-ota.md)
 
 ## 第六篇 · 工程实践与量产

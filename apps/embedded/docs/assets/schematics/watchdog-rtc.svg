@@ -1,0 +1,109 @@
+﻿<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">看门狗、RTC 与低功耗定时：时钟源、复位与唤醒</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">IWDG 走 LSI（独立 RC），WWDG 走 PCLK1，RTC 与 LPTIM 走 LSE（32.768 kHz 晶振）</text>
+  <line x1="20" y1="66" x2="740" y2="66" stroke="#e2e8f0"/>
+
+  <text x="20" y="82" font-size="13" fill="#718096">时钟源</text>
+  <text x="200" y="82" font-size="13" fill="#718096">时间外设</text>
+  <text x="410" y="82" font-size="13" fill="#718096">结果</text>
+  <text x="525" y="82" font-size="13" fill="#718096">关键时间常数</text>
+
+  <rect x="20" y="88" width="120" height="44" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="80" y="106" font-size="13" fill="#2d3748" text-anchor="middle">LSI 32 kHz</text>
+  <text x="80" y="124" font-size="13" fill="#4a5568" text-anchor="middle">独立 RC，±5%</text>
+
+  <line x1="140" y1="110" x2="192" y2="110" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="192,106 202,110 192,114" fill="#4a5568"/>
+
+  <rect x="202" y="88" width="196" height="44" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="300" y="106" font-size="13" fill="#2d3748" text-anchor="middle">独立看门狗 IWDG</text>
+  <text x="300" y="124" font-size="13" fill="#4a5568" text-anchor="middle">12 位递减，启动后不能停</text>
+
+  <line x1="398" y1="110" x2="406" y2="110" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="406,106 416,110 406,114" fill="#4a5568"/>
+
+  <rect x="416" y="88" width="92" height="44" rx="4" fill="#fde8e8" stroke="#c53030" stroke-width="1.5"/>
+  <text x="462" y="114" font-size="13" fill="#822727" text-anchor="middle">复位</text>
+
+  <text x="525" y="106" font-size="13" fill="#2d3748">1 s = 1000 × 1 ms</text>
+  <text x="525" y="124" font-size="13" fill="#4a5568">超时 = 周期 × 计数</text>
+
+  <rect x="20" y="148" width="120" height="44" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="80" y="166" font-size="13" fill="#2d3748" text-anchor="middle">LSE 32.768 kHz</text>
+  <text x="80" y="184" font-size="13" fill="#4a5568" text-anchor="middle">晶振，±20 ppm</text>
+
+  <line x1="140" y1="170" x2="192" y2="170" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="192,166 202,170 192,174" fill="#4a5568"/>
+
+  <rect x="202" y="148" width="196" height="44" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="300" y="166" font-size="13" fill="#2d3748" text-anchor="middle">实时时钟 RTC</text>
+  <text x="300" y="184" font-size="13" fill="#4a5568" text-anchor="middle">BCD 日历 + 闹钟</text>
+
+  <line x1="398" y1="170" x2="406" y2="170" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="406,166 416,170 406,174" fill="#4a5568"/>
+
+  <rect x="416" y="148" width="92" height="44" rx="4" fill="#ebf8ff" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="462" y="174" font-size="13" fill="#2c5282" text-anchor="middle">闹钟/中断</text>
+
+  <text x="525" y="166" font-size="13" fill="#2d3748">1 Hz = 32768/128/256</text>
+  <text x="525" y="184" font-size="13" fill="#4a5568">20 ppm → 1.728 s/天</text>
+
+  <rect x="20" y="208" width="120" height="44" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="80" y="226" font-size="13" fill="#2d3748" text-anchor="middle">APB1 36 MHz</text>
+  <text x="80" y="244" font-size="13" fill="#4a5568" text-anchor="middle">PCLK1</text>
+
+  <line x1="140" y1="230" x2="192" y2="230" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="192,226 202,230 192,234" fill="#4a5568"/>
+
+  <rect x="202" y="208" width="196" height="44" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="300" y="226" font-size="13" fill="#2d3748" text-anchor="middle">窗口看门狗 WWDG</text>
+  <text x="300" y="244" font-size="13" fill="#4a5568" text-anchor="middle">7 位递减，窗口 0x40~W</text>
+
+  <line x1="398" y1="230" x2="406" y2="230" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="406,226 416,230 406,234" fill="#4a5568"/>
+
+  <rect x="416" y="208" width="92" height="44" rx="4" fill="#fde8e8" stroke="#c53030" stroke-width="1.5"/>
+  <text x="462" y="234" font-size="13" fill="#822727" text-anchor="middle">复位</text>
+
+  <text x="525" y="226" font-size="13" fill="#2d3748">7.28 ms = 64 × 113.8 µs</text>
+  <text x="525" y="244" font-size="13" fill="#4a5568">窗口在 5.35 ms 打开</text>
+
+  <rect x="20" y="268" width="120" height="44" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="80" y="286" font-size="13" fill="#2d3748" text-anchor="middle">LSE 或 LSI</text>
+  <text x="80" y="304" font-size="13" fill="#4a5568" text-anchor="middle">32.768 / 32 kHz</text>
+
+  <line x1="140" y1="290" x2="192" y2="290" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="192,286 202,290 192,294" fill="#4a5568"/>
+
+  <rect x="202" y="268" width="196" height="44" rx="4" fill="#f7fafc" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="300" y="286" font-size="13" fill="#2d3748" text-anchor="middle">低功耗定时器 LPTIM</text>
+  <text x="300" y="304" font-size="13" fill="#4a5568" text-anchor="middle">16 位，Stop 模式计数</text>
+
+  <line x1="398" y1="290" x2="406" y2="290" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="406,286 416,290 406,294" fill="#4a5568"/>
+
+  <rect x="416" y="268" width="92" height="44" rx="4" fill="#ebf8ff" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="462" y="294" font-size="13" fill="#2c5282" text-anchor="middle">唤醒 CPU</text>
+
+  <text x="525" y="286" font-size="13" fill="#2d3748">256 s = 65536 × 128/32768</text>
+  <text x="525" y="304" font-size="13" fill="#4a5568">最短 30.5 µs</text>
+
+  <text x="20" y="340" font-size="13" fill="#2d3748">WWDG 刷新窗口：36 MHz，T=0x7F，W=0x50，WDGTB=0，超时 7.28 ms，窗口在 5.35 ms 打开</text>
+
+  <rect x="20" y="352" width="529" height="34" fill="#fde8e8" stroke="#c53030" stroke-width="1.5"/>
+  <text x="284" y="374" font-size="13" fill="#822727" text-anchor="middle">禁止刷新：喂狗即复位（0 ~ 5.35 ms）</text>
+
+  <rect x="549" y="352" width="180" height="34" fill="#e8f5ec" stroke="#2f855a" stroke-width="1.5"/>
+  <text x="639" y="374" font-size="13" fill="#22543d" text-anchor="middle">可刷新 1.8 ms</text>
+
+  <rect x="729" y="352" width="11" height="34" fill="#fff8e1" stroke="#b7791f" stroke-width="1.5"/>
+
+  <text x="20" y="404" font-size="13" fill="#4a5568">0</text>
+  <text x="549" y="404" font-size="13" fill="#4a5568" text-anchor="middle">5.35 ms 窗口打开</text>
+  <text x="740" y="404" font-size="13" fill="#4a5568" text-anchor="end">7.28 ms 复位</text>
+
+  <text x="20" y="430" font-size="13" fill="#4a5568">IWDG 超时 = 计数周期 × 计数个数；RTC 每天漂移 = ppm × 86400 / 10^6；校准 1 步 = 1/2^20 = 0.954 ppm</text>
+  </g>
+</svg>

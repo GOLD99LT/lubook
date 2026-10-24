@@ -13,7 +13,7 @@ sources:
   - Linux 内核文档 Documentation/admin-guide/dynamic-debug-howto.rst（dynamic debug 查询语法、标志位与 dyndbg 启动参数）
   - Linux 内核文档 Documentation/admin-guide/tainted-kernels.rst 与 Documentation/process/license-rules.rst（GPL 许可、taint 标记与专有模块）
   - Linux 内核源码 kernel/module/main.c、include/linux/module.h、include/linux/moduleparam.h（load_module 的各阶段、struct module、module_param 宏族）
-  - Linux Device Drivers, 3rd Edition（Corbet, Rubini, Kroah-Hartman, O'Reilly, 2005），Building and Running Modules 与 Advanced Char Driver Operations 两章
+  - Linux Device Drivers, 3rd Edition（Corbet, Rubini, Kroah-Hartman, O'Reilly, 2005），Building and Running Modules 一章
   - Linux 内核文档 Documentation/admin-guide/kernel-parameters.txt（module.*、dyndbg、panic_on_oops）与 Documentation/trace/ftrace.rst（函数内偏移到源码行的映射工具）
 ---
 
@@ -80,7 +80,7 @@ sources:
 | `.rodata` | 只读常量、`MODULE_PARM_DESC` 字符串 | 常驻，写保护 |
 | `.data` / `.bss` | 可读写全局变量 | 常驻 |
 | `.modinfo` | 许可证、作者、别名、参数说明、vermagic | 常驻，供 `modinfo` 读取 |
-| `__ksymtab` / `__ksymtab_gpl` | 本模块导出的符号表项 | 常驻，供其他模块解析 |
+| 导出符号表 / GPL 符号表 | 本模块导出的符号表项 | 常驻，供其他模块解析 |
 | `__versions` | 符号 CRC（开启 `CONFIG_MODVERSIONS` 时） | 常驻，加载时校验 |
 | `.gnu.linkonce.this_module` | 一个 `struct module` 实例 | 常驻，内核用它表示这个模块 |
 
@@ -152,7 +152,7 @@ EXPORT_SYMBOL_GPL(demo_read_reg);
 extern int demo_read_reg(struct demo_dev *d, u32 reg, u32 *val);
 ```
 
-`EXPORT_SYMBOL` 把符号放进 `__ksymtab`，`EXPORT_SYMBOL_GPL` 放进 `__ksymtab_gpl`。后者只允许声明了 GPL 兼容许可证的模块使用；如果客户端写 `MODULE_LICENSE("Proprietary")`，加载时会得到 `Unknown symbol`，而不是"许可证不匹配"这种更友好的错误。
+`EXPORT_SYMBOL` 把符号放进普通导出符号表，`EXPORT_SYMBOL_GPL` 放进 GPL 专用符号表（链接脚本里对应 `__ksymtab_gpl` 一类节名）。后者只允许声明了 GPL 兼容许可证的模块使用；如果客户端写 `MODULE_LICENSE("Proprietary")`，加载时会得到 `Unknown symbol`，而不是"许可证不匹配"这种更友好的错误。
 
 符号解析依赖三样东西：
 
@@ -339,12 +339,12 @@ $$t_{\text{load}}=\frac{S_{\text{ko}}}{B_{\text{io}}}+N_{\text{rel}}t_{\text{rel
 
 模块各段按页分配，`init` 段在初始化后释放。常驻内存为：
 
-$$M_{\text{res}}=\left(\sum_{s}\left\lceil\frac{S_s}{P}\right\rceil P\right)-\left\lceil\frac{S_{\text{init}}}{P}\right\rceil P+S_{\text{meta}}$$
+$$M_{\text{res}}=\left(\sum_{s}\left\lceil\frac{S_s}{P}\right\rceil P\right)-\left(\sum_{s\in\text{init}}\left\lceil\frac{S_s}{P}\right\rceil P\right)+S_{\text{meta}}$$
 
 符号与单位：
 
-- $S_s$：第 $s$ 个常驻段的字节数，B；
-- $S_{\text{init}}$：`.init.text` 与 `.init.data` 的总字节数，B；
+- $S_s$：第 $s$ 个段的字节数，B；
+- $s\in\text{init}$：初始化段集合（`.init.text`、`.init.data` 等），这些段在 `init` 返回后释放；
 - $P$：页大小，ARM64 常见 4096 B 或 65536 B；
 - $S_{\text{meta}}$：`struct module`、sysfs 节点、kallsyms 字符串等元数据，约 1–2 KiB；
 - $M_{\text{res}}$：模块常驻内存，B。
@@ -629,5 +629,5 @@ $$A_{\text{rip}}=0xffffffffc03a0200+0x4a=0xffffffffc03a024a$$
 - Linux 内核文档 `Documentation/admin-guide/dynamic-debug-howto.rst`：dynamic debug 的查询语法、标志位、`dyndbg` 启动参数。
 - Linux 内核文档 `Documentation/admin-guide/tainted-kernels.rst`：`P`、`O`、`E` 等污点标记的含义；`Documentation/process/license-rules.rst` 解释 GPL 兼容许可证。
 - Linux 内核源码 `kernel/module/main.c`、`include/linux/module.h`、`include/linux/moduleparam.h`：`load_module` 的各阶段、`struct module`、参数宏族。
-- Linux Device Drivers, 3rd Edition（Corbet, Rubini, Kroah-Hartman, O'Reilly, 2005）：Building and Running Modules、Advanced Char Driver Operations。
+- Linux Device Drivers, 3rd Edition（Corbet, Rubini, Kroah-Hartman, O'Reilly, 2005）：Building and Running Modules。
 - Linux 内核文档 `Documentation/trace/ftrace.rst` 与 `scripts/faddr2line`：函数内偏移到源码行的映射；`Documentation/admin-guide/kernel-parameters.txt` 中的 `panic_on_oops` 等参数。

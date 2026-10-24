@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">I²C 总线时序：起止条件、时钟延展与仲裁</text>
+  <text x="20" y="54" font-size="13" fill="#4a5568">两根开漏线，线与关系：任一端拉低即为 0；上升沿由 Rp × Cb 决定，t_r = 0.8473 · Rp · Cb</text>
+  <line x1="20" y1="64" x2="740" y2="64" stroke="#e2e8f0"/>
+
+  <text x="84" y="111" font-size="13" fill="#2d3748" text-anchor="end">SCL</text>
+  <text x="84" y="189" font-size="13" fill="#2d3748" text-anchor="end">SDA</text>
+
+  <polyline points="90,92 148,92 148,122 176,122 176,92 203,92 203,122 231,122 231,92 258,92 258,122 368,122 368,92 395,92 395,122 423,122 423,92 450,92 450,122" fill="none" stroke="#2b6cb0" stroke-width="2.2"/>
+  <line x1="450" y1="122" x2="548" y2="122" stroke="#2b6cb0" stroke-width="2.2" stroke-dasharray="6 4"/>
+  <polyline points="548,122 548,92 575,92 575,122 600,122 600,92 730,92" fill="none" stroke="#2b6cb0" stroke-width="2.2"/>
+  <text x="499" y="114" font-size="13" fill="#4a5568" text-anchor="middle">省略若干时钟</text>
+
+  <polyline points="90,170 120,170 120,200 152,200 152,170 208,170 208,200 320,200 320,170 400,170 400,200 720,200 720,170 730,170" fill="none" stroke="#2f855a" stroke-width="2.2"/>
+
+  <line x1="120" y1="84" x2="120" y2="212" stroke="#c53030" stroke-dasharray="4 3"/>
+  <text x="126" y="80" font-size="13" fill="#c53030">START：SCL 高时 SDA 下降</text>
+  <line x1="650" y1="84" x2="650" y2="212" stroke="#c53030" stroke-dasharray="4 3"/>
+  <text x="734" y="80" font-size="13" fill="#c53030" text-anchor="end">STOP：SCL 高时 SDA 上升</text>
+
+  <line x1="286" y1="134" x2="368" y2="134" stroke="#c05621" stroke-width="1.6"/>
+  <line x1="286" y1="130" x2="286" y2="138" stroke="#c05621" stroke-width="1.6"/>
+  <line x1="368" y1="130" x2="368" y2="138" stroke="#c05621" stroke-width="1.6"/>
+  <text x="327" y="152" font-size="13" fill="#9c4221" text-anchor="middle">主机已释放，从机仍拉低：时钟延展</text>
+
+  <text x="190" y="222" font-size="13" fill="#2d3748" text-anchor="middle">A6 = 1</text>
+  <text x="245" y="222" font-size="13" fill="#2d3748" text-anchor="middle">A5 = 0</text>
+  <text x="382" y="222" font-size="13" fill="#2d3748" text-anchor="middle">A4 = 1</text>
+  <text x="437" y="222" font-size="13" fill="#2d3748" text-anchor="middle">A3 = 0</text>
+  <text x="561" y="222" font-size="13" fill="#2d3748" text-anchor="middle">ACK = 0</text>
+
+  <rect x="16" y="238" width="356" height="192" rx="4" fill="#f7fafc" stroke="#cbd5e0"/>
+  <text x="28" y="260" font-size="13" font-weight="700" fill="#2d3748">多主仲裁：线与，先送 0 者获胜</text>
+  <text x="26" y="294" font-size="13" fill="#2d3748">主 A</text>
+  <polyline points="76,282 190,282 190,298 360,298" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="26" y="326" font-size="13" fill="#2d3748">主 B</text>
+  <polyline points="76,314 190,314" fill="none" stroke="#2f855a" stroke-width="2"/>
+  <polyline points="190,314 360,314" fill="none" stroke="#2f855a" stroke-width="2" stroke-dasharray="4 3"/>
+  <line x1="190" y1="268" x2="190" y2="376" stroke="#cbd5e0" stroke-dasharray="4 3"/>
+  <text x="26" y="358" font-size="13" fill="#2d3748">总线</text>
+  <polyline points="76,346 190,346 190,362 360,362" fill="none" stroke="#2d3748" stroke-width="2"/>
+  <text x="28" y="388" font-size="13" fill="#4a5568">第 3 位：A 送 0、B 送 1 却读到 0</text>
+  <text x="28" y="407" font-size="13" fill="#4a5568">B 立即松开 SDA 与 SCL，A 不受影响</text>
+
+  <rect x="388" y="238" width="356" height="192" rx="4" fill="#f7fafc" stroke="#cbd5e0"/>
+  <text x="400" y="260" font-size="13" font-weight="700" fill="#2d3748">从机拉住 SDA：9 个时钟解除锁死</text>
+  <text x="396" y="290" font-size="13" fill="#2d3748">SCL</text>
+  <polyline points="430,282 436,282 436,296 452,296 452,282 469,282 469,296 485,296 485,282 502,282 502,296 518,296 518,282 535,282 535,296 551,296 551,282 568,282 568,296 584,296 584,282 601,282 601,296 617,296 617,282 634,282 634,296 650,296 650,282 667,282 667,296 683,296 683,282 700,282 700,296 716,296 716,282 730,282" fill="none" stroke="#2b6cb0" stroke-width="1.9"/>
+  <text x="396" y="342" font-size="13" fill="#2d3748">SDA</text>
+  <polyline points="430,344 720,344 720,330 730,330" fill="none" stroke="#2f855a" stroke-width="2"/>
+  <text x="400" y="380" font-size="13" fill="#4a5568">每个 SCL 上升沿让从机移出 1 位</text>
+  <text x="400" y="398" font-size="13" fill="#4a5568">9 个时钟后从机释放，再发 STOP</text>
+  <text x="400" y="416" font-size="13" fill="#4a5568">SDA 仍为低：查短路或更换从机</text>
+  </g>
+</svg>

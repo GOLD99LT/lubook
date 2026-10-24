@@ -1,0 +1,65 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <rect width="760" height="440" fill="#ffffff"/>
+    <defs>
+      <marker id="ar-gray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#4a5568"/>
+      </marker>
+      <marker id="ar-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b6cb0"/>
+      </marker>
+      <marker id="ar-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#c53030"/>
+      </marker>
+    </defs>
+
+    <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">RTOS 任务状态机与切换路径</text>
+    <text x="20" y="52" font-size="13" fill="#4a5568">矩形为四种状态，箭头为合法迁移；触发者只有三类：调度器、阻塞服务、显式控制接口</text>
+    <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+    <rect x="60" y="80" width="140" height="60" rx="8" fill="#e9edf2" stroke="#4a5568" stroke-width="1.6"/>
+    <text x="130" y="108" font-size="16" font-weight="700" fill="#1a202c" text-anchor="middle">就绪 Ready</text>
+    <text x="130" y="128" font-size="13" fill="#4a5568" text-anchor="middle">在就绪表中排队</text>
+
+    <rect x="300" y="80" width="150" height="60" rx="8" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.8"/>
+    <text x="375" y="108" font-size="16" font-weight="700" fill="#1a365d" text-anchor="middle">运行 Running</text>
+    <text x="375" y="128" font-size="13" fill="#2a4365" text-anchor="middle">只有 1 个任务</text>
+
+    <rect x="300" y="270" width="150" height="60" rx="8" fill="#fde7c7" stroke="#c05621" stroke-width="1.6"/>
+    <text x="375" y="298" font-size="16" font-weight="700" fill="#7b341e" text-anchor="middle">阻塞 Blocked</text>
+    <text x="375" y="318" font-size="13" fill="#7b341e" text-anchor="middle">等事件或等超时</text>
+
+    <rect x="560" y="80" width="150" height="60" rx="8" fill="#ece0f5" stroke="#6b46c1" stroke-width="1.6"/>
+    <text x="635" y="108" font-size="16" font-weight="700" fill="#44337a" text-anchor="middle">挂起 Suspended</text>
+    <text x="635" y="128" font-size="13" fill="#44337a" text-anchor="middle">不参与调度</text>
+
+    <line x1="200" y1="95" x2="298" y2="95" stroke="#2b6cb0" stroke-width="1.6" marker-end="url(#ar-blue)"/>
+    <text x="249" y="86" font-size="13" fill="#2a4365" text-anchor="middle">调度器选中</text>
+
+    <line x1="300" y1="125" x2="202" y2="125" stroke="#4a5568" stroke-width="1.6" marker-end="url(#ar-gray)"/>
+    <text x="250" y="146" font-size="13" fill="#2d3748" text-anchor="middle">被抢占</text>
+    <text x="250" y="163" font-size="13" fill="#2d3748" text-anchor="middle">或时间片耗尽</text>
+
+    <line x1="375" y1="140" x2="375" y2="268" stroke="#c05621" stroke-width="1.6" marker-end="url(#ar-gray)"/>
+    <text x="388" y="186" font-size="13" fill="#7b341e">等待事件：</text>
+    <text x="388" y="204" font-size="13" fill="#7b341e">vTaskDelay / 信号量</text>
+    <text x="388" y="222" font-size="13" fill="#7b341e">超时与事件二选一</text>
+
+    <polyline points="300,300 100,300 100,142" fill="none" stroke="#2f855a" stroke-width="1.6" marker-end="url(#ar-gray)"/>
+    <text x="224" y="292" font-size="13" fill="#22543d" text-anchor="middle">事件到达或超时</text>
+
+    <line x1="450" y1="95" x2="558" y2="95" stroke="#6b46c1" stroke-width="1.6" marker-end="url(#ar-gray)"/>
+    <text x="504" y="86" font-size="13" fill="#44337a" text-anchor="middle">挂起</text>
+
+    <polyline points="635,140 635,385 180,385 180,312" fill="none" stroke="#6b46c1" stroke-width="1.6"/>
+    <line x1="180" y1="288" x2="180" y2="142" stroke="#6b46c1" stroke-width="1.6" marker-end="url(#ar-gray)"/>
+    <text x="330" y="378" font-size="13" fill="#44337a" text-anchor="middle">恢复（vTaskResume）重新进就绪表</text>
+
+    <rect x="20" y="404" width="14" height="14" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.5"/>
+    <text x="40" y="416" font-size="13" fill="#2d3748">运行态唯一</text>
+    <rect x="150" y="404" width="14" height="14" fill="#e9edf2" stroke="#4a5568" stroke-width="1.5"/>
+    <text x="170" y="416" font-size="13" fill="#2d3748">就绪表 + CLZ：常数周期查找</text>
+    <rect x="430" y="404" width="14" height="14" fill="#fde7c7" stroke="#c05621" stroke-width="1.5"/>
+    <text x="450" y="416" font-size="13" fill="#2d3748">阻塞态不占 CPU</text>
+  </g>
+</svg>
