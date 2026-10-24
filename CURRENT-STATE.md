@@ -14,7 +14,7 @@
 | 分册 | 状态 | 证据 |
 |---|---|---|
 | 门户 `apps/portal` | 本地验证 | 构建通过；产物 `href="/lubook/hardware/" target="_self"`（两种 base 均正确） |
-| 硬件分册 `apps/hardware` | 本地验证，**线上仍是旧版** | 140 章 / 411 SVG / 418 图 / 231,273 中文字；`revision=sha256-f199c10b304f5a89`（内容勘误后重新冻结） |
+| 硬件分册 `apps/hardware` | **已上线（双站）** 2026-10-24 03:04 | 140 章 / 491 SVG / 375 处图片引用 / 322 条来源；`revision=sha256-4fb67d571370933b`；线上体检 141 路由 + 1238 资源 **0 失败** |
 | 嵌入式软件 `apps/embedded` | 规划 | 无目录；门户卡片 `available:false` |
 | 嵌入式 Linux `apps/embedded-linux` | 规划 | 无目录；门户卡片 `available:false` |
 
@@ -90,10 +90,12 @@
 
 ## 7. 下一步（按批次）
 
-1. **批次 1**：规范二选一（`id/status/sources`），模板修好，`build:<app>` 脚本契约。
-2. **批次 2**：渲染级验证脚手架（KaTeX 错误数、破图数、跨 app 点击、学习往返），这是"门禁绿≠页面对"的唯一解。
-3. **批次 3**：内容勘误（上表 10 处）+ 主干章深挖。
-4. **发布**：本地 6 个提交含安全勘误，至今未上线；push 需用户明确授权。
+1. **P4 / P5 立项**（需用户决策）：嵌入式软件手册（`apps/embedded`）与平台能力（搜索/计算器/题库扩展等）。
+   按 AGENTS.md §2.5，未立项前不做实际内容。
+2. **标准原文核对**：`pcb/routing.md` 的 IPC-2221 间距表——审校认为与 B1 列差 5~10 倍，
+   但本机代理取不到标准原文，未擅自改。
+3. **反爬站点来源链接人工确认**：JEDEC / onsemi / ST / Murata（403 或超时，本机不可验证）。
+4. **可选优化**：搜索索引 7 MB 的加载策略、portal 端与分册的一致性抽查。
 
 ## 8. 本轮整改总览（2026-10-22，分支 `fix/batch0-hardening`）
 
@@ -184,7 +186,8 @@ quality job 承担。修复后重新 push（`d33b556`），部署成功。
 | 不排期 | appendix 9 / quizbank 9 | 按"速查/附录"档，不设字数门槛 | — | — |
 
 现状：**全书 140/140 覆盖**——正文 122 章全部达主干章标准（basics 14 + components 13 + opamp 33 + power 12 + digital 12 + mcu 13 + pcb 13 + practice 12），附录 9 章与题库 9 章按速查/题库档完成校订。
-基线：evision=sha256-b0bfc73e3ba0bc48，routes 仍 141（URL 未变）。
+基线：
+evision=sha256-b0bfc73e3ba0bc48，routes 仍 141（URL 未变）。
 
 ### 待专业复核（写作智能体无法联网核实，已在正文标注"以数据手册为准"）
 
@@ -245,3 +248,20 @@ Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配
 
 两条流水线都跑完整质量门禁。**并发组必须带调用方**（`quality-${{ github.workflow }}-${{ github.ref }}`），
 否则两条流水线的门禁会互相取消——2026-10-22 与 2026-10-23 各踩过一次，详见 ADR-0013。
+
+## 14. 阶段定位（对照 ARCHITECTURE v3 §12）
+
+| 阶段 | 内容 | 状态 |
+|---|---|---|
+| P0 | 冻结基线（保持单站结构） | ✅ 完成 |
+| P1 | Monorepo 骨架与共享包（shared-config / theme / content-core / learning / tooling） | ✅ 完成 |
+| P2 | 迁移 140 章（只 rename，URL 零变更） | ✅ 完成（路由快照 141 条零差异） |
+| P3 | 活文档与模板（CONTENT-STANDARD / PLAYBOOK / ADR-0001~0013 / 新分册脚手架） | ✅ 完成 |
+| — | **内容生产 18 批 / 140 章** | ✅ 完成并上线 |
+| — | **质量审查（本轮 6 智能体、约 1200 条断言、38 处修正）** | ✅ 完成并上线 |
+| — | **双站部署（Pages 主站 + Cloudflare 镜像，随 main 自动）** | ✅ 完成 |
+| P4 | 嵌入式软件手册（3–5 章验证） | ⬜ 未立项 |
+| P5 | 平台能力（按 Backlog 逐项立项） | ⬜ 未立项 |
+
+上线方式：合并到 `main` 即自动发布两条流水线（deploy-docs → GitHub Pages；deploy-cloudflare → 镜像），
+无需人工触发。最近一次：commit `f5b061e`，2026-10-24 03:01:51 触发、03:04 双侧完成。
