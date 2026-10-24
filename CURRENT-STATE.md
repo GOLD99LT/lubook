@@ -277,6 +277,10 @@ Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配
 - 内容审查：6 组审查覆盖 27 章、1,069 条量化断言，确认并修复 **45 条错误**（全部复算验证）；
   另有若干存疑因证据不足未改，已在当轮记录。
 - 浏览器抽验：6 页 KaTeX 149~484 个、0 错误、图正常。
-- 门户卡片保持 vailable: false，**上线需用户确认**；上线步骤见 docs/P4-RELEASE-PLAN.md。
+- **已上线（仅代码，门户卡片仍关闭）** 2026-10-24：
+  - GitHub Pages：https://gold99lt.github.io/lubook/embedded/、.../embedded-linux/
+  - Cloudflare：https://lubook.pages.dev/embedded/、.../embedded-linux/
+  - 双站全路由体检与资源检查均「全部通过」；线上浏览器抽验 KaTeX 484/261、0 错误。
+- 门户卡片仍为 vailable: false（按用户要求先不开入口），开启步骤见 docs/P4-RELEASE-PLAN.md。
 - 工具适配（本轮新增）：SUMMARY 自动同步进 gen 流程、篇号按 SUMMARY 推导、
   frontmatter 冒号值 YAML 硬错误规则、接地符号检查按分册跳过、scan_math 编码兜底。
