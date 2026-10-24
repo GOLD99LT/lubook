@@ -1,0 +1,27 @@
+{
+  "name": "@lubook/embedded-linux",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "嵌入式 Linux 手册",
+  "scripts": {
+    "gen:sidebar": "python ../../packages/tooling/src/build_vp_sidebar.py --src docs",
+    "gen:catalog": "node ../../packages/content-core/src/cli.ts --appId embedded-linux --src docs --out ../../.generated/embedded-linux-content-manifest.ts.json --catalogOut docs/.vitepress/catalog.generated.mjs",
+    "gen": "pnpm run gen:sidebar && pnpm run gen:catalog",
+    "predocs:dev": "pnpm run gen",
+    "predocs:build": "pnpm run gen",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "node ../../packages/tooling/bin/vitepress-with-heap.mjs build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "dependencies": {
+    "@lubook/content-core": "workspace:*",
+    "@lubook/learning": "workspace:*",
+    "@lubook/shared-config": "workspace:*",
+    "@lubook/theme": "workspace:*",
+    "vue": "^3.5.43"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}

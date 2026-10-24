@@ -25,6 +25,12 @@ DIR_PART = {'basics':1, 'components':2, 'opamp':3, 'digital':4, 'mcu':5,
 
 parts = B.parse_summary()
 summary_paths = []
+# 新分册未必沿用上面这张目录→篇号的映射：对映射里没有的目录，
+# 用"本章在 SUMMARY 的第几篇下"来判定 frontmatter 的 part，避免每加一个分册就改工具。
+summary_part = {}
+for _i, _p in enumerate(parts, 1):
+    for _t, _rel in _p['items']:
+        summary_part[_rel] = _i
 for p in parts:
     for _t, rel in p['items']:
         summary_paths.append(rel)
@@ -75,9 +81,9 @@ for rel in summary_paths:
     else:
         seen_ids[_id] = rel
     top = rel.split('/')[0]
-    exp = DIR_PART.get(top)
+    exp = DIR_PART.get(top) or summary_part.get(rel)
     if exp and 'part' in fm and fm['part'] != exp:
-        err(rel, 'part=%s 与目录 %s（应为 %s）不一致' % (fm['part'], top, exp))
+        err(rel, 'part=%s 与 SUMMARY 中的篇序/目录 %s（应为 %s）不一致' % (fm['part'], top, exp))
     if 'difficulty' in fm and fm['difficulty'] not in (1, 2, 3):
         err(rel, 'difficulty 非法: %r' % fm['difficulty'])
     if 'status' in fm and fm['status'] not in ('draft', 'published', 'deprecated'):

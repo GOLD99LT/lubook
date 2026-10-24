@@ -1,0 +1,13 @@
+{
+  "appId": "embedded-linux",
+  "revision": "sha256-b4af8d09109dbc3d",
+  "docCount": 1,
+  "titles": [
+    "嵌入式 Linux 全景：从 SoC 上电到应用启动"
+  ],
+  "imageTotal": 0,
+  "svgCount": 0,
+  "assetsChecksum": "sha256-none",
+  "groundsCount": -1,
+  "overallChecksum": "b4af8d09109dbc3dc98568ad9785286595bbf1f6433df61bb8e0e9ac6bdab7f2"
+}

@@ -9,7 +9,9 @@ _args, _ = add_common_args().parse_known_args()
 SD = os.path.join(resolve_src(_args), 'assets', 'schematics')
 
 broken, ok = [], []
-for fn in sorted(os.listdir(SD)):
+# 新分册在还没有原理图时不会有 assets/schematics 目录——空=0 张，不是错误。
+_files = sorted(os.listdir(SD)) if os.path.isdir(SD) else []
+for fn in _files:
     if not fn.endswith('.svg'):
         continue
     s = open(os.path.join(SD, fn), encoding='utf-8').read()

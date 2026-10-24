@@ -265,3 +265,15 @@ Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配
 
 上线方式：合并到 `main` 即自动发布两条流水线（deploy-docs → GitHub Pages；deploy-cloudflare → 镜像），
 无需人工触发。最近一次：commit `f5b061e`，2026-10-24 03:01:51 触发、03:04 双侧完成。
+
+## 15. P4 进展（2026-10-24）
+
+| 分册 | 脚手架 | 种子章 | 构建 | 质量门禁 | 内容批次 |
+|---|---|---|---|---|---|
+| pps/embedded | ✅ | 1 章（总览） | ✅ | ✅ 0 项失败 | ⏳ 进行中 |
+| pps/embedded-linux | ✅ | 1 章（总览） | ✅ | ✅ 0 项失败 | ⏳ 进行中 |
+
+- 立项依据：ADR-0014；流程依据：docs/DEVELOPMENT-STANDARD.md。
+- 门户卡片保持 vailable: false，**上线需用户确认**。
+- 工具适配：alidate.py 支持 SUMMARY 推导篇号；scan_svg_order.py 容忍空原理图目录；
+  check-content.py --by-dir 让速查档不再恒红。
