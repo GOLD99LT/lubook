@@ -7,7 +7,7 @@
 
     <rect x="24" y="76" width="276" height="58" rx="7" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.6"/>
     <text x="38" y="99" font-size="14" font-weight="700" fill="#1a2b3a">MIPI DSI · 4 lane</text>
-    <text x="38" y="120" font-size="13" fill="#2b3a4a">891 Mbit/s·lane，加 12% 后 998 Mbit/s</text>
+    <text x="38" y="120" font-size="13" fill="#2b3a4a">891 Mbit/s·lane（+12% → 998）</text>
 
     <rect x="24" y="142" width="276" height="58" rx="7" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.6"/>
     <text x="38" y="165" font-size="14" font-weight="700" fill="#1a2b3a">LVDS · 双通道 24 bit</text>
@@ -15,7 +15,7 @@
 
     <rect x="24" y="208" width="276" height="58" rx="7" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.6"/>
     <text x="38" y="231" font-size="14" font-weight="700" fill="#1a2b3a">RGB 并行 · 24 bit</text>
-    <text x="38" y="252" font-size="13" fill="#2b3a4a">28 根单端线；33 MHz 已接近上限</text>
+    <text x="38" y="252" font-size="13" fill="#2b3a4a">28 根单端线；33 MHz 近上限</text>
 
     <text x="730" y="88" font-size="13" text-anchor="end" fill="#4a5a6a">一行 2200 pixel = 14.815 µs</text>
 
@@ -25,14 +25,14 @@
     <rect x="640" y="100" width="90" height="12" fill="#dbe4ee" stroke="#8fa8c0" stroke-width="1"/>
 
     <path d="M320,134 L390,134 L390,122 L430,122 L430,134 L730,134" fill="none" stroke="#2b3a4a" stroke-width="2"/>
-    <text x="312" y="128" font-size="13" text-anchor="end" fill="#4a5a6a">HSYNC</text>
+    <text x="320" y="128" font-size="13" fill="#4a5a6a">HSYNC</text>
     <path d="M320,170 L430,170 L430,158 L640,158 L640,170 L730,170" fill="none" stroke="#4f9e63" stroke-width="2"/>
-    <text x="312" y="166" font-size="13" text-anchor="end" fill="#4a5a6a">DE</text>
+    <text x="320" y="164" font-size="13" fill="#4a5a6a">DE</text>
 
-    <text x="355" y="194" font-size="13" text-anchor="middle" fill="#1a2b3a">HBP 148</text>
-    <text x="355" y="210" font-size="13" text-anchor="middle" fill="#5a6b7b">0.997 µs</text>
-    <text x="410" y="194" font-size="13" text-anchor="middle" fill="#b03a2e">HSW 44</text>
-    <text x="410" y="210" font-size="13" text-anchor="middle" fill="#b03a2e">0.296 µs</text>
+    <text x="345" y="194" font-size="13" text-anchor="middle" fill="#1a2b3a">HBP 148</text>
+    <text x="345" y="210" font-size="13" text-anchor="middle" fill="#5a6b7b">0.997 µs</text>
+    <text x="414" y="194" font-size="13" text-anchor="middle" fill="#b03a2e">HSW 44</text>
+    <text x="414" y="210" font-size="13" text-anchor="middle" fill="#b03a2e">0.296 µs</text>
     <text x="535" y="194" font-size="13" text-anchor="middle" fill="#1a4f8b">有效 1920 px</text>
     <text x="535" y="210" font-size="13" text-anchor="middle" fill="#1a4f8b">12.929 µs</text>
     <text x="685" y="194" font-size="13" text-anchor="middle" fill="#1a2b3a">HFP 88</text>
