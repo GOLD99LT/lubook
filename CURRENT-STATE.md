@@ -268,12 +268,15 @@ Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配
 
 ## 15. P4 进展（2026-10-24）
 
-| 分册 | 脚手架 | 种子章 | 构建 | 质量门禁 | 内容批次 |
-|---|---|---|---|---|---|
-| pps/embedded | ✅ | 1 章（总览） | ✅ | ✅ 0 项失败 | ⏳ 进行中 |
-| pps/embedded-linux | ✅ | 1 章（总览） | ✅ | ✅ 0 项失败 | ⏳ 进行中 |
+| 分册 | 章节 | 中文字 | 自绘图 | 路由 | 构建 | 质量门禁 |
+|---|---|---|---|---|---|---|
+| apps/embedded | 24 章（六篇齐备） | 156,360 | 24 | 25 | ✅ | ✅ 0 项失败 |
+| apps/embedded-linux | 17 章（六篇齐备） | 114,145 | 17 | 18 | ✅ | ✅ 0 项失败 |
 
-- 立项依据：ADR-0014；流程依据：docs/DEVELOPMENT-STANDARD.md。
-- 门户卡片保持 vailable: false，**上线需用户确认**。
-- 工具适配：alidate.py 支持 SUMMARY 推导篇号；scan_svg_order.py 容忍空原理图目录；
-  check-content.py --by-dir 让速查档不再恒红。
+- pnpm verify:all 退出 0，四个 app（portal/embedded/embedded-linux/hardware）全部通过。
+- 内容审查：6 组审查覆盖 27 章、1,069 条量化断言，确认并修复 **45 条错误**（全部复算验证）；
+  另有若干存疑因证据不足未改，已在当轮记录。
+- 浏览器抽验：6 页 KaTeX 149~484 个、0 错误、图正常。
+- 门户卡片保持 vailable: false，**上线需用户确认**；上线步骤见 docs/P4-RELEASE-PLAN.md。
+- 工具适配（本轮新增）：SUMMARY 自动同步进 gen 流程、篇号按 SUMMARY 推导、
+  frontmatter 冒号值 YAML 硬错误规则、接地符号检查按分册跳过、scan_math 编码兜底。

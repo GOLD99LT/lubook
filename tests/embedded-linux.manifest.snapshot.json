@@ -1,7 +1,7 @@
 {
   "appId": "embedded-linux",
-  "revision": "sha256-395e4b73b04ae9ae",
-  "docCount": 11,
+  "revision": "sha256-f0646340d43ce2a8",
+  "docCount": 17,
   "titles": [
     "嵌入式 Linux 全景：从 SoC 上电到应用启动",
     "交叉编译与工具链 Cross Compilation and Toolchains",
@@ -13,11 +13,17 @@
     "platform 总线与驱动：匹配、probe 与资源 Platform Bus and Drivers",
     "systemd 与启动管理：unit 依赖、启动耗时与看门狗",
     "网络配置：接口命名、地址、防火墙与 NTP",
-    "调试工具链：gdb、strace、perf、ftrace 与 core dump"
+    "调试工具链：gdb、strace、perf、ftrace 与 core dump",
+    "显示与触摸：MIPI DSI、LVDS、RGB 接口取舍与面板时序",
+    "音频：I2S/TDM 时序、codec 与 DAPM、时钟树与 pop 音",
+    "看门狗与日志：/dev/watchdog、systemd 集成与 journald 落盘",
+    "A/B 升级：GPT 分区、启动计数器、镜像校验与断电回滚",
+    "板级 bring-up：从裸板到第一个用户态程序 Board Bring-up",
+    "板级移植：从参考板到量产的清单 Board Porting Checklist"
   ],
-  "imageTotal": 10,
-  "svgCount": 11,
-  "assetsChecksum": "sha256-f1e14f86dc5194c7",
+  "imageTotal": 17,
+  "svgCount": 17,
+  "assetsChecksum": "sha256-2ed5277b148705e7",
   "groundsCount": 0,
-  "overallChecksum": "395e4b73b04ae9aec9a84c4cce558870c40084c575b2dd6862c4f1116a12224f"
+  "overallChecksum": "f0646340d43ce2a862ed2fe2476cbe6b84f4df2399690cf5ae06c304aca865ad"
 }
