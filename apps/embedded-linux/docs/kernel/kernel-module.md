@@ -94,7 +94,7 @@ sources:
 2. **布局与重定位**：为各段分配内核内存，解析未定义符号（`simplify_symbols`），应用重定位（`apply_relocations`），刷新指令缓存。
 3. **执行 init**：`do_init_module()` 通过 `do_one_initcall()` 调用模块的 `init` 函数。返回 0 表示成功；返回负 errno 表示失败，内核回收模块内存，**不会**调用 `exit`。
 4. **进入 LIVE**：模块状态从 `MODULE_STATE_COMING` 变成 `MODULE_STATE_LIVE`，注册 sysfs 节点、发送 `MODULE_STATE_LIVE` 通知，`/sys/module/demo/` 下出现 `refcnt`、`holders`、`parameters` 等文件。
-5. **卸载**：`delete_module` 先把状态置为 `MODULE_STATE_GOING`，检查引用计数，调用 `exit`，等待 RCU 宽限期后释放内存。
+5. **卸载**：`delete_module` 先等待/检查引用计数归零（阻塞模式用 `wait_for_zero_refcount()`，非阻塞模式用 `strong_try_module_get()`，失败返回 `-EBUSY`），再把状态置为 `MODULE_STATE_GOING`，调用 `exit`，等 RCU 宽限期结束后由 `free_module()` 释放内存。
 
 ![内核模块从 insmod 到 rmmod 的五个阶段与检查点](../assets/schematics/kernel-module-loading.svg)
 
@@ -337,19 +337,20 @@ $$t_{\text{load}}=\frac{S_{\text{ko}}}{B_{\text{io}}}+N_{\text{rel}}t_{\text{rel
 
 ### 3.2 常驻内存的页数
 
-模块各段按页分配，`init` 段在初始化后释放。常驻内存为：
+模块的各 section 并不逐段占用整页：内核在 `layout_sections()` 里按每个 section 的 `sh_addralign` 依次摆放，只有跨过**权限组边界**（可执行 RX、只读 RO、可写 RW）以及 **core 与 init 之间**才调用 `strict_align()` 做页对齐。因此同权限组内的多个 section 共享页，常驻内存应按组计算：
 
-$$M_{\text{res}}=\left(\sum_{s}\left\lceil\frac{S_s}{P}\right\rceil P\right)-\left(\sum_{s\in\text{init}}\left\lceil\frac{S_s}{P}\right\rceil P\right)+S_{\text{meta}}$$
+$$M_{\text{res}}=\left(\sum_{g}\left\lceil\frac{S_g}{P}\right\rceil P\right)-\left(\sum_{g\in\text{init}}\left\lceil\frac{S_g}{P}\right\rceil P\right)+S_{\text{meta}}$$
 
 符号与单位：
 
-- $S_s$：第 $s$ 个段的字节数，B；
-- $s\in\text{init}$：初始化段集合（`.init.text`、`.init.data` 等），这些段在 `init` 返回后释放；
+- $g$：权限组。core 按可执行（`.text` 等）、只读（`.rodata`/`.modinfo` 等）、可写（`.data`+`.bss` 等）分组；init 区同样按权限分组，但整体在 `init` 返回后释放；
+- $S_g$：组内各 section 字节数之和，B；组内按 `sh_addralign` 的少量填充忽略不计；
+- $g\in\text{init}$：属于 init 区的权限组，`init` 返回后整组释放；
 - $P$：页大小，ARM64 常见 4096 B 或 65536 B；
 - $S_{\text{meta}}$：`struct module`、sysfs 节点、kallsyms 字符串等元数据，约 1–2 KiB；
 - $M_{\text{res}}$：模块常驻内存，B。
 
-注意求和里的段要先各自向上取整再相加，不能先加总再取整：5 个 1 KiB 的段占 5 页，而不是 2 页。这个细节在模块很多时会把误差放大到几十 KiB。
+按这个模型，5 个同权限组的 1 KiB section 只占 2 页，而不是 5 页；只有跨权限组或 core/init 边界时才各付一次页对齐的代价。模块一多，逐段取整会把误差放大到几十 KiB。
 
 ### 3.3 引用计数（Reference Count）与可卸载条件
 
@@ -433,11 +434,11 @@ $$t_{\text{load}}=\frac{300\times1024}{80\times10^6}+4000\times0.8\times10^{-6}+
 
 假设单个模块各段大小为：`.text` 96 KiB、`.init.text` 24 KiB、`.rodata` 8 KiB、`.data` 4 KiB、`.bss` 2 KiB、`.modinfo` 1 KiB，页大小 $P=4$ KiB。
 
-按段取整：$96/4=24$ 页，$24/4=6$ 页，$8/4=2$ 页，$4/4=1$ 页，$2/4\to1$ 页，$1/4\to1$ 页，合计 35 页，即 140 KiB。`init` 返回后释放 6 页（24 KiB），剩 29 页 = 116 KiB，再加约 2 KiB 元数据，约 118 KiB。
+按权限组对齐：`.text` 96 KiB 单独成可执行组，$96/4=24$ 页；只读组 `.rodata` 8 KiB 加 `.modinfo` 1 KiB 共 9 KiB，占 3 页；可写组 `.data` 4 KiB 加 `.bss` 2 KiB 共 6 KiB，占 2 页；init 区可执行组 `.init.text` 24 KiB 占 6 页。合计 $24+3+2+6=35$ 页，即 140 KiB。`init` 返回后释放 6 页（24 KiB），剩 29 页 = 116 KiB，再加约 2 KiB 元数据，约 118 KiB。
 
 40 个模块：$40\times118=4720$ KiB，约 4.6 MiB。这个数字要和"把这 40 个驱动静态编进内核"比较：静态链接会去掉模块元数据与对齐填充，通常略小，但失去按需加载能力。若板子只有 128 MiB 内存，4.6 MiB 占 3.6%，通常可以接受；真正的大头往往是每个模块私有的 DMA 缓冲区，而不是代码段。
 
-验算：`cat /proc/modules` 第二列是模块大小（字节），把所有值加起来除以 1024 得到 KiB；与按段估算的差异主要来自页对齐和 `struct module` 的实现大小。
+验算：`cat /proc/modules` 第二列是模块大小（字节），把所有值加起来除以 1024 得到 KiB；与按组估算的差异主要来自组内对齐填充和 `struct module` 的实现大小。
 
 ### 4.3 115200 串口下的日志上限
 
@@ -578,11 +579,11 @@ make modules_install INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=/tmp/rootfs
 
 <details><summary>题一：某模块的 `.text` 为 100 KiB、`.init.text` 为 20 KiB、`.rodata` 为 6 KiB、`.data` 为 3 KiB、`.bss` 为 1 KiB，页大小 4 KiB，元数据 2 KiB。求加载期间与 `init` 返回后的常驻内存，并说明为什么不能先加总再取整。</summary>
 
-加载期间按段取整：`100/4=25` 页，`20/4=5` 页，`6/4=1.5` 向上取整为 2 页，`3/4` 为 1 页，`1/4` 为 1 页，合计 $25+5+2+1+1=34$ 页，即 136 KiB。加元数据 2 KiB，加载期间约 138 KiB。
+加载期间按权限组计算：`.text` 100 KiB 单独成可执行组，`100/4=25` 页；只读组 `.rodata` 6 KiB，`6/4=1.5` 向上取整为 2 页；可写组 `.data` 3 KiB 加 `.bss` 1 KiB 共 4 KiB，占 1 页；init 区可执行组 `.init.text` 20 KiB，`20/4=5` 页。合计 $25+2+1+5=33$ 页，即 132 KiB。加元数据 2 KiB，加载期间约 134 KiB。
 
-`init` 返回后释放 5 页（20 KiB），剩 29 页 = 116 KiB，加元数据约 118 KiB。
+`init` 返回后释放 5 页（20 KiB），剩 28 页 = 112 KiB，加元数据约 114 KiB。
 
-不能先加总再取整，是因为各段独立分配、独立对齐：总字节数 $100+20+6+3+1=130$ KiB，若按 130 KiB 一次取整只需 33 页，但实际每段都有自己的页边界，`6 KiB` 的 `.rodata` 要占 2 页而不是 1.5 页，`3 KiB` 的 `.data` 要占 1 页而不是 0.75 页。模块越多，这种"段内碎片"越明显。
+不能先加总再取整，也不能逐段取整：内核按各 section 的 `sh_addralign` 在组内摆放，只在权限组边界和 core/init 边界做页对齐；每个组都从新的页边界开始，组间的对齐填充不计入总字节数，所以正确做法是先把同一权限组的 section 求和、再按组向上取整。总字节数 $100+20+6+3+1=130$ KiB，整体一次取整是 33 页；本例按组对齐后也正好是 33 页（$25+2+1+5$），但原因不是“每段各占一页”。组内 `.data` 与 `.bss` 合并只占 1 页；若逐段取整会得到 34 页，多算 1 页。模块越多，逐段取整的误差越大。
 
 </details>
 

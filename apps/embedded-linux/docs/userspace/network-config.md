@@ -444,11 +444,13 @@ $$R_{\mathrm{win}} = \frac{262{,}144}{0.02} = 13{,}107{,}200\ \mathrm{B/s} = 104
 用 iputils 的 ping 做路径 MTU 探测：
 
 ```bash
-ping -M do -s 1472 -c 3 192.168.10.1
-ping -M do -s 1400 -c 3 192.168.10.1
+ping -M do -s 1472 -c 3 192.168.10.1   # 1500 B：失败说明 PMTU < 1500
+ping -M do -s 1400 -c 3 192.168.10.1   # 成功只证明 PMTU >= 1428
+ping -M do -s 1436 -c 3 192.168.10.1   # 在 1400–1472 之间二分（中点）
+tracepath 192.168.10.1                 # 直接看它报告的 pmtu
 ```
 
-`-s 1472` 加 8 字节 ICMP 头和 20 字节 IP 头正好 1500。如果 1472 全部超时、1400 正常，说明路径 MTU 小于 1500；1400 对应的实际 MTU 是 $1400+28=1428$，可以先把接口 MTU 设成 1400 留余量：
+`-s 1472` 加 8 字节 ICMP 头和 20 字节 IP 头正好 1500。如果 1472 全部超时、1400 正常，只能说明路径 MTU 小于 1500、且不小于 1428：1400 载荷成功仅证明 PMTU ≥ 1428，实际值可能更大，不能把 1428 当成测得的 PMTU。用 `ping -M do -s` 在 1400–1472 之间二分，最后一次成功的 `-s` 加 28 才给出下界；`tracepath` 会直接报告它观测到的 PMTU。拿到值后，可以先把接口 MTU 设成实测值以下（如 1400）留余量：
 
 ```bash
 ip link set dev lan0 mtu 1400
@@ -599,7 +601,7 @@ $$576 \times 2 = 1{,}152\ \mathrm{packets/day}$$
 
 **原因**：路径 MTU 小于 1500，且 ICMP `fragmentation needed` 被防火墙丢弃，导致路径 MTU 发现（PMTUD）失效。TCP 握手用小包能完成，进入数据传输后大包在中间设备被静默丢弃，表现为“连接建立但不动”。
 
-**解决**：用 `ping -M do -s 1472` 和逐级减小包长定位路径 MTU；把接口 MTU 调到实测值以下（如 1400）；在转发设备上放行 ICMP type 3 code 4 和 IPv6 type 2；对 TCP 做 MSS clamping。VPN 场景先扣掉封装开销，再留 20–40 字节余量。
+**解决**：用 `ping -M do -s` 在 1400–1472 之间二分（或 `tracepath`）定位 PMTU 下界；把接口 MTU 调到该下界以下（如 1400）；在转发设备上放行 ICMP type 3 code 4 和 IPv6 type 2；对 TCP 做 MSS clamping。VPN 场景先扣掉封装开销，再留 20–40 字节余量。
 :::
 
 ::: pitfall 坑四：防火墙默认拒绝后，DHCP、NTP、DNS 全部失效

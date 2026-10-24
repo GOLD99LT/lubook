@@ -78,6 +78,7 @@ Linux 设备模型把"总线"抽象成 `struct bus_type`，把"设备"抽象成 
 static int platform_match(struct device *dev, struct device_driver *drv)
 {
     struct platform_device *pdev = to_platform_device(dev);
+    struct platform_driver *pdrv = to_platform_driver(drv);
 
     if (pdev->driver_override)
         return !strcmp(pdev->driver_override, drv->name);
@@ -88,8 +89,8 @@ static int platform_match(struct device *dev, struct device_driver *drv)
     if (acpi_driver_match_device(dev, drv))
         return 1;
 
-    if (pdev->id_entry)
-        return platform_match_id(pdev->id_entry, pdev) != NULL;
+    if (pdrv->id_table)
+        return platform_match_id(pdrv->id_table, pdev) != NULL;
 
     return strcmp(pdev->name, drv->name) == 0;
 }
@@ -98,7 +99,7 @@ static int platform_match(struct device *dev, struct device_driver *drv)
 优先级从高到低：
 
 1. **`driver_override`**：用户通过 sysfs 强制指定驱动名，优先级最高，常用于调试"我想让另一个驱动绑定这个设备"。
-2. **设备树 `compatible`**：`of_driver_match_device()` 拿 `of_match_table` 里的 `compatible` 与节点比较，命中第一个就返回。
+2. **设备树 `compatible`**：`of_driver_match_device()` 判断节点 `compatible` 列表是否包含 `of_match_table` 中的任一字符串，返回布尔值。
 3. **ACPI**：`acpi_driver_match_device()`，x86 平台常见。
 4. **`id_table`**：非设备树设备（board file、MFD 子设备）用 `platform_device_id` 匹配。
 5. **name**：最后兜底，`platform_device.name` 与 `platform_driver.driver.name` 字符串相等。
@@ -138,7 +139,7 @@ static struct platform_driver demo_driver = {
 module_platform_driver(demo_driver);
 ```
 
-`compatible` 是一个字符串列表，从最具体到最通用排列。内核按顺序取第一个能匹配的；驱动表里写 `"vendor,i2c-v2"` 就只能匹配具体版本，写 `"vendor,i2c"` 则两类设备都能匹配。**不要把通用字符串写在前面**，否则具体版本的驱动永远轮不到。
+`compatible` 是一个字符串列表，设备树约定从最具体到最通用排列，但内核匹配时并不按这个顺序挑“最具体”的驱动：`of_driver_match_device()` 只判断节点的 `compatible` 列表是否包含驱动表中的字符串。因此写 `"vendor,i2c-v2"` 的驱动和写 `"vendor,i2c"` 的驱动都能匹配同一节点，最终谁绑定取决于谁先注册并在 `__driver_attach()` 时发现 `dev->driver` 为空、probe 成功。**不要指望靠 `compatible` 的顺序让具体驱动优先**；需要固定绑定关系时用 `driver_override`，或者只保留一个能匹配的驱动。
 
 `MODULE_DEVICE_TABLE(of, demo_of_match)` 不是可选项。它把 `compatible` 写进模块的 `alias` 字段，udev 收到设备事件后拿 `MODALIAS` 去 `modprobe`；没有它，模块只能手动加载，自动加载永远不触发。
 
@@ -579,7 +580,7 @@ $$\frac{N(N+1)}{2}\times0.5\,\text{ms}\le48.8\ \text{s}\quad\Rightarrow\quad N(N
 
 <details><summary>题一：设备树节点 `compatible = "acme,uart-v2", "acme,uart"`，驱动 A 的 `of_match_table` 匹配 `"acme,uart"`，驱动 B 匹配 `"acme,uart-v2"`。谁会被绑定？如果用户把 `driver_override` 写成 A 的名字，又会怎样？</summary>
 
-正常情况下 B 被绑定。`platform_match()` 先用 `of_driver_match_device()` 比较 `compatible` 列表，设备树从最具体到最通用排列，B 的 `"acme,uart-v2"` 与第一个字符串完全相等，直接命中；A 的 `"acme,uart"` 虽然也能匹配第二个字符串，但总线在找到第一个匹配的驱动后就停止，不会同时绑定两个驱动。
+不能预先断定是 B：A 和 B 都能匹配。`of_driver_match_device()` 只检查节点 `compatible` 列表中是否含驱动表里的字符串，`"acme,uart"` 与 `"acme,uart-v2"` 都在列表里，所以两个驱动都会通过匹配；内核不会因为 B 的字符串更具体就给它更高优先级。真正的绑定发生在 probe 时：`__driver_attach()` 先看 `dev->driver` 是否为空，为空才调用 `really_probe()`。若 A 先注册且 probe 成功，A 就绑定；B 之后注册时看到 `dev->driver` 已非空，直接跳过。反之若 B 先注册并 probe 成功，则由 B 绑定；若先注册者 probe 失败，后注册者仍可继续匹配。谁先注册取决于内置驱动的链接顺序或模块加载顺序，不能靠 `compatible` 的排列来指定。
 
 `driver_override` 的优先级高于设备树匹配。把 `/sys/bus/platform/devices/<dev>/driver_override` 写成 A 的驱动名后，`platform_match()` 第一分支就直接比较 override 与驱动名，只有 A 能匹配，B 被跳过。这个机制用于调试"我想让另一个驱动接管这个设备"，但写错会让设备绑到不合适的驱动，生产环境不要长期保留 override。
 

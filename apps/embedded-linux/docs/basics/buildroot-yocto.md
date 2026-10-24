@@ -73,7 +73,7 @@ Buildroot 的哲学是"**一次构建，一个镜像**"：它不追求生成可�
 | 字段 | 作用 | 常见错误 |
 |---|---|---|
 | `SUMMARY` / `DESCRIPTION` | 包的说明 | 留空，导致包管理器里全是一行 "UNKNOWN" |
-| `LICENSE` / `LIC_FILES_CHKSUM` | 许可证声明与源文件校验 | 校验和写错，`do_fetch` 直接失败 |
+| `LICENSE` / `LIC_FILES_CHKSUM` | 许可证声明与源文件校验 | 校验和写错，`do_populate_lic` 阶段报错（`do_fetch` 只负责下载） |
 | `SRC_URI` / `SRCREV` | 源码位置与锁定提交 | 用分支名而不锁提交，构建不可复现 |
 | `DEPENDS` / `RDEPENDS` | 构建期依赖 / 运行期依赖 | 把运行期依赖写成构建期依赖，镜像里缺库 |
 | `do_install` | 安装到目标目录 | 路径写死，`D` 变量没用到，打包为空 |
@@ -195,21 +195,25 @@ ext4 则完全是另一笔账。平均每个文件 $9.4/1842\approx5.2\ \mathrm{
 
 $$\sum_j\left\lceil\frac{b_j}{4096}\right\rceil\times4096\approx9.4+1842\times\frac{2}{1024}=9.4+3.6=13.0\ \mathrm{MiB}$$
 
-inode 按每 4 KiB 一个（`-i 4096`）需要 $13.0\times1024/4\approx3328$ 个，取 3,328 个：
+inode 的分配基数不是数据区，而是**整个文件系统**：`-i 4096` 表示每 4096 字节文件系统一个 inode。先按 18.01 MiB（数据 13.0 + 日志 4.0 + 固定开销 0.2 + inode 表首估 0.81）估算：
 
-$$N_{\mathrm{inode}}\times256=3328\times256\ \mathrm{B}=832\ \mathrm{KiB}\approx0.81\ \mathrm{MiB}$$
+$$N_{\mathrm{inode}}\approx\frac{18.01\times1024}{4}\approx4{,}611$$
+
+约 4,600 个 inode。每个 inode 占 256 字节：
+
+$$N_{\mathrm{inode}}\times256=4611\times256\ \mathrm{B}=1{,}180{,}416\ \mathrm{B}\approx1.13\ \mathrm{MiB}$$
 
 日志取最小值 4 MiB，固定开销约 0.2 MiB，于是
 
-$$S_{\mathrm{ext4}}=13.0+0.81+4.0+0.2=18.01\ \mathrm{MiB}$$
+$$S_{\mathrm{ext4}}=13.0+1.13+4.0+0.2=18.33\ \mathrm{MiB}\approx18.3\ \mathrm{MiB}$$
 
-**同样的内容，ext4 要 18 MiB，squashfs 只要 3.6 MiB**。这就是为什么嵌入式 rootfs 普遍用只读压缩文件系统：闪存贵、擦写寿命有限、掉电风险高，而 rootfs 在量产设备上本来就很少需要原地修改。
+inode 表只占总量约 6%，用它再迭代一次，总量仍约 18.3 MiB。**同样的内容，ext4 要 18.3 MiB，squashfs 只要 3.6 MiB**。这就是为什么嵌入式 rootfs 普遍用只读压缩文件系统：闪存贵、擦写寿命有限、掉电风险高，而 rootfs 在量产设备上本来就很少需要原地修改。
 
 这里还埋着一个 inode 陷阱。`mke2fs` 默认按每 16 KiB 一个 inode 分配，对一个 4.5 MiB 分区：
 
 $$N_{\mathrm{inode}}^{\mathrm{default}}=\frac{4.5\times1024}{16}=288$$
 
-288 个 inode 远少于 1,842 个文件。`mkfs` 不会报错，`mount` 也正常，但拷贝到第 289 个文件时就会报 `No space left on device`——块还有很多，inode 用完了。修法是 `mkfs.ext4 -i 4096` 或 `-N 2500`，并把"inode 数 ≥ 文件数 × 1.2"写进镜像构建脚本的断言。
+288 个 inode 远少于 1,842 个文件。`mkfs` 不会报错，`mount` 也正常，但拷贝到第 289 个文件时就会报 `No space left on device`——块还有很多，inode 用完了。修法是 `mkfs.ext4 -N 2500`（对 4.5 MiB 这种小分区，`-i 4096` 只得 4.5×1024/4≈1152 个，仍不足 1,842×1.2≈2,210，必须直接指定 `-N`；对 18.3 MiB 的完整镜像，`-i 4096` 才有 4,611 个、够用），并把"inode 数 ≥ 文件数 × 1.2"写进镜像构建脚本的断言。
 
 ### 算例 3：Buildroot 与 Yocto 的构建时间
 
@@ -360,13 +364,13 @@ Buildroot 是"一份配置、一棵输出树"的固件工厂：基于 Make，配
 3. **团队与维护周期**：需要 5 年以上维护、持续 CVE 治理、对外发 SDK，Yocto 的 LTS 与包治理更成熟；团队里没人能读懂 BitBake 变量展开与任务哈希，则 Yocto 的排错成本可能高于收益。
 </details>
 
-<details><summary>题二：9.4 MiB 内容、1,842 个文件，squashfs 压缩比 2.7、元数据 0.12 MiB，体积是多少？换成 ext4（4 KiB 块、平均碎片 2 KiB/文件、每 4 KiB 一个 inode、日志 4 MiB）又是多少？</summary>
+<details><summary>题二：9.4 MiB 内容、1,842 个文件，squashfs 压缩比 2.7、元数据 0.12 MiB，体积是多少？换成 ext4（4 KiB 块、平均碎片 2 KiB/文件、`-i 4096`、日志 4 MiB）又是多少？</summary>
 
 squashfs：$9.4/2.7=3.48\ \mathrm{MiB}$，加元数据 $3.48+0.12=3.60\ \mathrm{MiB}$。
 
-ext4：块分配约 $9.4+1842\times2/1024=9.4+3.6=13.0\ \mathrm{MiB}$；inode 数约 $13.0\times1024/4=3328$ 个，inode 表 $3328\times256\ \mathrm{B}=832\ \mathrm{KiB}\approx0.81\ \mathrm{MiB}$；加日志 4 MiB 与固定开销 0.2 MiB，合计 $13.0+0.81+4.0+0.2=18.01\ \mathrm{MiB}$。
+ext4：块分配约 $9.4+1842\times2/1024=9.4+3.6=13.0\ \mathrm{MiB}$；`-i 4096` 按**文件系统总大小**每 4 KiB 一个 inode，以 18.01 MiB 为基数，$18.01\times1024/4\approx4{,}611$ 个（约 4,600），inode 表 $4611\times256\ \mathrm{B}=1{,}180{,}416\ \mathrm{B}\approx1.13\ \mathrm{MiB}$；加日志 4 MiB 与固定开销 0.2 MiB，合计 $13.0+1.13+4.0+0.2=18.33\ \mathrm{MiB}\approx18.3\ \mathrm{MiB}$。
 
-同样的内容，squashfs 只要 3.6 MiB，ext4 要 18 MiB，相差 5 倍。原因是 squashfs 压缩且按压缩块组织，ext4 不压缩、按 4 KiB 块分配还要预留日志与 inode 表。这也解释了为什么 4.5 MiB 分区只能放 squashfs。
+同样的内容，squashfs 只要 3.6 MiB，ext4 要 18.3 MiB，相差约 5 倍。原因是 squashfs 压缩且按压缩块组织，ext4 不压缩、按 4 KiB 块分配还要预留日志与 inode 表。这也解释了为什么 4.5 MiB 分区只能放 squashfs。
 
 补充陷阱：若用 `mke2fs` 默认的每 16 KiB 一个 inode，4.5 MiB 分区只有 288 个 inode，拷贝第 289 个文件就会 `No space left on device`，此时块还有大量空闲。
 </details>

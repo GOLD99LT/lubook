@@ -42,7 +42,7 @@ sources:
 - 用 `strace` 查延迟毛刺，trace 本身把毛刺抹平或放大，最后得出“系统很正常”；
 - 用 `gdb` 连接一个已经恢复的竞态，进程停在断点时其他线程继续跑，问题不再复现；
 - 用 `perf` 但没有符号和 `vmlinux`，报告里全是 `[unknown]`；
-- 用 `top` 的 1 秒采样判断 6% CPU 的精度，jiffies 量化误差就有十几个百分点。
+- 用 `top` 的 1 秒采样判断 6% CPU：USER_HZ=100 时 1 s 只有 100 个 tick，6% 对应 6 个 tick，±1 tick 的量化误差就是 ±1 个百分点，相对误差约 $1/6\approx17\%$。
 
 ::: motivation 每 6 小时一次的 4.8 ms 抖动
 某采集设备每 6 小时出现一次 4.8 ms 的采样丢失。应用侧 `strace -T` 看了半小时，系统调用都很快；`perf top` 也没有明显热点；`top` 的 CPU 占用一直在 8% 左右。
@@ -499,7 +499,7 @@ $$100{,}000 \times 6\ \mu\mathrm{s} = 0.6\ \mathrm{s/s} = 60\%$$
 
 4 核设备，每 CPU 4 MiB 缓冲区：
 
-$$B_{\mathrm{total}} = 4 \times 4 = 16\ \mathrm{MiB}$$
+$$B_{\mathrm{total}} = 4 \times 4\ \mathrm{MiB} = 16\ \mathrm{MiB} = 16{,}777{,}216\ \mathrm{B}$$
 
 tracepoint 事件 15,000 个/秒，每个 80 字节：
 
@@ -507,13 +507,13 @@ $$r \times s = 15{,}000 \times 80 = 1{,}200{,}000\ \mathrm{B/s} = 1.2\ \mathrm{M
 
 窗口：
 
-$$T_{\mathrm{buf}} = \frac{16}{1.2} = 13.3\ \mathrm{s}$$
+$$T_{\mathrm{buf}} = \frac{16\ \mathrm{MiB}}{1.2\ \mathrm{MB/s}} = \frac{16{,}777{,}216\ \mathrm{B}}{1{,}200{,}000\ \mathrm{B/s}} = 13.98\ \mathrm{s} \approx 14.0\ \mathrm{s}$$
 
 如果换成 `function_graph`，150,000 事件/秒、每个 100 字节：
 
 $$r \times s = 15{,}000{,}000\ \mathrm{B/s} = 15\ \mathrm{MB/s}$$
 
-窗口只剩 $16/15=1.07\ \mathrm{s}$。这就是为什么抓 `function_graph` 必须过滤函数：不过滤时，缓冲区几秒就被覆盖，看到的只是最后一段。
+窗口只剩 $16.777216\ \mathrm{MB}/15\ \mathrm{MB/s}=1.118\ \mathrm{s} \approx 1.12\ \mathrm{s}$。这就是为什么抓 `function_graph` 必须过滤函数：不过滤时，缓冲区几秒就被覆盖，看到的只是最后一段。
 
 ### 4.5 core：35.6 MiB 的现场与 8 GiB 的存储
 

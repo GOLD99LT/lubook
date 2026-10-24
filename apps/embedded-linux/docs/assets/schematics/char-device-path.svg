@@ -73,8 +73,8 @@
 
   <!-- 主路径第 5 行 -->
   <rect x="250" y="328" width="300" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
-  <text x="262" y="348" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">copy_to_user() → 返回 n</text>
-  <text x="262" y="366" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">失败返回 -EFAULT</text>
+  <text x="262" y="348" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">copy_to_user() → 返回未拷贝字节数</text>
+  <text x="262" y="366" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">0=全部成功；非 0 时驱动返回 -EFAULT</text>
 
   <rect x="24" y="328" width="190" height="46" rx="4" fill="#fbfdff" stroke="#b9c6d2"/>
   <text x="34" y="348" font-size="13" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">内核缓冲区</text>

@@ -57,12 +57,12 @@ $$T_{\mathrm{host}}=\frac{1200}{8\times 3}=50\ \text{min}$$
 
 $$\langle \mathrm{arch}\rangle\text{-}\langle \mathrm{vendor}\rangle\text{-}\langle \mathrm{os}\rangle\text{-}\langle \mathrm{abi}\rangle$$
 
-很多平台把后两段合并成三段，所以"三元组"这个名字沿用了下来。以最常见的 `arm-linux-gnueabihf` 为例，它其实是三段式：
+很多平台会省略 vendor 段、写成三段式，所以"三元组"这个名字沿用了下来。以最常见的 `arm-linux-gnueabihf` 为例，它其实是 **arch-os-abi** 三段式，四段完整形式是 `arm-unknown-linux-gnueabihf`：
 
 | 段 | 取值 | 含义 |
 |---|---|---|
 | arch | `arm` | 32 位小端 ARM 指令集家族；具体微架构由 `-march` 决定 |
-| vendor | `linux`（此处被省略为中间段） | 供应商标记，一般为 `unknown`、`buildroot` 或发行商名 |
+| vendor | `unknown`（三段式中省略） | 供应商标记，一般为 `unknown`、`buildroot` 或发行商名 |
 | os | `linux` | 操作系统是 Linux，决定系统调用与 ELF 格式 |
 | abi | `gnueabihf` | GNU EABI，硬浮点（hard-float）调用约定 |
 
@@ -112,11 +112,12 @@ sysroot/
 └── ...
 ```
 
-编译器在构建时通过 `--with-sysroot=` 记录一个默认 sysroot，运行 `gcc -print-sysroot` 可以打印出来。sysroot 有三个消费者，对应三个不同的阶段：
+编译器在构建时通过 `--with-sysroot=` 记录一个默认 sysroot，运行 `gcc -print-sysroot` 可以打印出来。sysroot 的消费者只有两个，都在构建期：
 
 1. **预处理阶段**读 `<sysroot>/usr/include`，决定 `#include <stdio.h>` 找到的是哪一份头文件；
-2. **链接阶段**读 `<sysroot>/usr/lib` 与 `<sysroot>/lib`，取 `crt1.o`、`libc.so`、`libm.so`；
-3. **运行阶段**由内核按 ELF 的 `PT_INTERP` 段加载 `<sysroot>/lib/ld-linux-armhf.so.3`，再由它按 `DT_NEEDED` 找 `libc.so.6`。
+2. **链接阶段**读 `<sysroot>/usr/lib` 与 `<sysroot>/lib`，取 `crt1.o`、`libc.so`、`libm.so`。
+
+**运行阶段不消费 sysroot。** ELF 的 `PT_INTERP` 段里存的是**绝对路径** `/lib/ld-linux-armhf.so.3`；程序在目标板上启动时，内核按这个路径到**目标 rootfs** 里找解释器，再由它按 `DT_NEEDED` 找 `libc.so.6`。sysroot 只是构建主机上的开发视图，不会被拷到板上，也不参与运行期解析。
 
 **`--sysroot` 与 `-I`/`-L` 不是一回事**。`-I` 和 `-L` 只是往搜索路径前面插目录，编译器的默认搜索路径（包括宿主机的 `/usr/include`、`/usr/lib`）依然在列表里；而 `--sysroot` 会把整套默认路径重定向到目标根下。只加 `-I`/`-L` 的典型后果是：头文件用对了，链接时 `ld` 却从宿主机拿了 x86_64 的 `crt1.o`，报 `wrong ELF class`；或者更隐蔽——宿主机恰好有一份同名库，链接静默通过，运行时才炸。
 
@@ -292,9 +293,11 @@ $$S'=6\times1.2=7.2\ \mathrm{GiB}$$
 
 $$12\ \mathrm{MiB}\times2\%=245\ \mathrm{KiB}$$
 
-若换了一版编译器（比如从 GCC 12.2 升到 13.3），同一份源码的 `.text` 只差 6,656 字节，看似只有 0.55%，但这些差异散布在大量函数里，二进制差分工具无法再找到长匹配段，差分包会膨胀到接近全量。按 30 倍估算：
+若换了一版编译器（比如从 GCC 12.2 升到 13.3），同一份源码的 `.text` 只差 6,656 字节，仅占 12 MiB 镜像的 0.053%，但这些差异散布在大量函数里，二进制差分工具无法再找到长匹配段，差分包会膨胀到接近全量。按 30 倍估算：
 
-$$245\ \mathrm{KiB}\times30=7.35\ \mathrm{MiB}$$
+$$245\ \mathrm{KiB}\times30=7{,}350\ \mathrm{KiB}=7.18\ \mathrm{MiB}$$
+
+若按精确的 2%（245.76 KiB）计，则是 $245.76\times30=7{,}372.8\ \mathrm{KiB}\approx7.20\ \mathrm{MiB}$，两种口径只差 0.02 MiB。
 
 对于走蜂窝网络、按流量计费的现场设备，这意味着单次升级成本上升一个数量级。**版本锁定不只是"可复现"的学术要求，它直接决定 OTA 的经济性**。
 

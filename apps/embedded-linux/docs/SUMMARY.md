@@ -33,3 +33,6 @@
 * [A/B 升级：GPT 分区、启动计数器、镜像校验与断电回滚](reliability/ab-upgrade.md)
 
 ## 第六篇 · 板级实战
+
+* [板级 bring-up：从裸板到第一个用户态程序 Board Bring-up](practice/bring-up.md)
+* [板级移植：从参考板到量产的清单 Board Porting Checklist](practice/board-porting.md)

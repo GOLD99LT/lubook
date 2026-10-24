@@ -78,7 +78,7 @@
 
   <rect x="220" y="344" width="290" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
   <text x="232" y="363" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">delete_module：调用 exit</text>
-  <text x="232" y="381" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">MODULE_STATE_GOING，等待 refcnt</text>
+  <text x="232" y="381" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">等待 refcnt 归零 → GOING → exit</text>
 
   <rect x="546" y="344" width="190" height="46" rx="4" fill="#fbfdff" stroke="#b9c6d2"/>
   <text x="556" y="363" font-size="13" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">RCU 宽限期后释放</text>

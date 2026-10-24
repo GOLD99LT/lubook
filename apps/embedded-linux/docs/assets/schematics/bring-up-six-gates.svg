@@ -1,0 +1,74 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>新板 bring-up 的六道门与判据</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="ar1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">新板 bring-up 的六道门与判据</text>
+  <text x="24" y="52" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">每一步先定可测量的判据再动手：判据通过才进下一步，不通过就沿失败分支定位，不在同一层反复猜</text>
+
+  <text x="30" y="78" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">步骤</text>
+  <text x="242" y="78" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">通过判据</text>
+  <text x="492" y="78" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">首个失败分支与定位</text>
+  <line x1="22" y1="84" x2="742" y2="84" stroke="#c3ced8" stroke-width="1"/>
+
+  <rect x="22" y="88" width="208" height="42" rx="6" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.5"/>
+  <text x="32" y="107" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">1 上电前检查</text>
+  <text x="32" y="124" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">电源 / 时钟 / 复位 / BOOT</text>
+  <text x="242" y="107" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">4 条轨 ±5% 以内</text>
+  <text x="242" y="124" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">复位晚于末轨 10 ms</text>
+  <text x="492" y="107" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">某轨 0 V：使能或 PMIC</text>
+  <text x="492" y="124" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">上电即限流：短路 / 反贴</text>
+  <line x1="126" y1="130" x2="126" y2="138" stroke="#b9c7d3" stroke-width="2" marker-end="url(#ar1)"/>
+
+  <rect x="22" y="138" width="208" height="42" rx="6" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.5"/>
+  <text x="32" y="157" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">2 串口最小系统</text>
+  <text x="32" y="174" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">3.3 V TTL，8N1，共地</text>
+  <text x="242" y="157" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">200 ms 内出现字符</text>
+  <text x="242" y="174" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">1,000 字节无乱码</text>
+  <text x="492" y="157" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">无字符：量 TX 空闲电平</text>
+  <text x="492" y="174" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">乱码：时钟差 4.17%</text>
+  <line x1="126" y1="180" x2="126" y2="188" stroke="#b9c7d3" stroke-width="2" marker-end="url(#ar1)"/>
+
+  <rect x="22" y="188" width="208" height="42" rx="6" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.5"/>
+  <text x="32" y="207" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">3 U-Boot 移植</text>
+  <text x="32" y="224" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">SPL + DDR + bootcmd</text>
+  <text x="242" y="207" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">2 s 内出现 =&gt; 提示符</text>
+  <text x="242" y="224" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">bdinfo 的 DRAM 一致</text>
+  <text x="492" y="207" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">卡 MMC1：偏移或分区</text>
+  <text x="492" y="224" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">DRAM 0 Bytes：训练失败</text>
+  <line x1="126" y1="230" x2="126" y2="238" stroke="#b9c7d3" stroke-width="2" marker-end="url(#ar1)"/>
+
+  <rect x="22" y="238" width="208" height="42" rx="6" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.5"/>
+  <text x="32" y="257" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">4 内核启动参数</text>
+  <text x="32" y="274" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">console / earlycon / root</text>
+  <text x="242" y="257" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">earlycon 首行可见</text>
+  <text x="242" y="274" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">命令行原样回显</text>
+  <text x="492" y="257" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">停在 Starting kernel</text>
+  <text x="492" y="274" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">原因：console 或 earlycon</text>
+  <line x1="126" y1="280" x2="126" y2="288" stroke="#b9c7d3" stroke-width="2" marker-end="url(#ar1)"/>
+
+  <rect x="22" y="288" width="208" height="42" rx="6" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.5"/>
+  <text x="32" y="307" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">5 根文件系统</text>
+  <text x="32" y="324" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">squashfs + overlay</text>
+  <text x="242" y="307" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">Mounted root 一行</text>
+  <text x="242" y="324" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">块设备号与 root= 一致</text>
+  <text x="492" y="307" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">等 root device：驱动 =m</text>
+  <text x="492" y="324" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">ext4 error：镜像或分区表</text>
+  <line x1="126" y1="330" x2="126" y2="338" stroke="#b9c7d3" stroke-width="2" marker-end="url(#ar1)"/>
+
+  <rect x="22" y="338" width="208" height="42" rx="6" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.5"/>
+  <text x="32" y="357" font-size="14" font-weight="700" fill="#1a2b3a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">6 第一个用户态程序</text>
+  <text x="32" y="374" font-size="13" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">静态链接，PID 1，不返回</text>
+  <text x="242" y="357" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">hello, pid=1 一行</text>
+  <text x="242" y="374" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">断电重启仍能复现</text>
+  <text x="492" y="357" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">No working init：解释器</text>
+  <text x="492" y="374" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">Permission denied：noexec</text>
+
+  <line x1="22" y1="392" x2="742" y2="392" stroke="#c3ced8" stroke-width="1"/>
+  <text x="24" y="410" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">示例账：115200 波特率下 29.25 KiB 日志耗时 2,600 ms，占 4,015 ms 启动的 64.8%</text>
+  <text x="24" y="430" font-size="13" fill="#8a4a1f" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">降到 9 KiB 并把波特率提到 921600：2,215 ms → 1,515 ms；再回放 2D 训练数据到 1,393 ms</text>
+</svg>

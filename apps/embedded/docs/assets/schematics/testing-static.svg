@@ -27,7 +27,7 @@
   <text x="200" y="301" font-size="13" fill="#2d3748" text-anchor="middle">静态分析：MISRA C / cppcheck / clang-tidy</text>
   <text x="200" y="318" font-size="13" fill="#4a5568" text-anchor="middle">每次提交跑增量，新增告警必须为 0</text>
 
-  <text x="400" y="95" font-size="13" fill="#718096">覆盖率（120 KLOC 示例）</text>
+  <text x="400" y="95" font-size="13" fill="#718096">覆盖率（240 语句 / 96 分支 / 50 函数）</text>
 
   <text x="405" y="135" font-size="13" fill="#2d3748">语句</text>
   <rect x="460" y="123" width="220" height="14" rx="3" fill="#edf2f7"/>
@@ -57,9 +57,9 @@
   <text x="682" y="252" font-size="18" font-weight="700" fill="#22543d" text-anchor="middle">67</text>
 
   <rect x="400" y="285" width="335" height="70" rx="4" fill="#ebf8ff" stroke="#2b6cb0"/>
-  <text x="412" y="306" font-size="13" fill="#2c5282">单轮 CI = 0.72 + 60 + 7.5 = 68.2 s</text>
-  <text x="412" y="326" font-size="13" fill="#2d3748">每天 50 轮 ≈ 56.9 min，可每次提交全量</text>
-  <text x="412" y="346" font-size="13" fill="#4a5568">HIL 变慢时拆“冒烟 50 例 + 夜间全量”</text>
+  <text x="412" y="306" font-size="13" fill="#2c5282">单轮 CI = 0.72 + 60 + 300 = 360.7 s ≈ 6.0 min</text>
+  <text x="412" y="326" font-size="13" fill="#2d3748">每天 50 轮 ≈ 5.0 h，不能每次提交全量</text>
+  <text x="412" y="346" font-size="13" fill="#4a5568">拆“冒烟 50 例（50 s）+ 夜间全量”</text>
 
   <text x="400" y="382" font-size="13" fill="#2d3748">MC/DC：4 个条件的与表达式最少 5 个用例（n+1）</text>
   <text x="400" y="404" font-size="13" fill="#4a5568">圈复杂度 V(G)=E−N+2；示例 V=7，共 7 条基本路径</text>

@@ -57,9 +57,9 @@
 
   <rect x="20" y="292" width="172" height="108" rx="4" fill="#ebf8ff" stroke="#2b6cb0"/>
   <text x="30" y="313" font-size="14" font-weight="700" fill="#2c5282">抖频</text>
-  <text x="30" y="336" font-size="13" fill="#2d3748">2 MHz / 120 kHz</text>
+  <text x="30" y="336" font-size="13" fill="#2d3748">30 MHz：2 MHz / 120 kHz</text>
   <text x="30" y="358" font-size="13" fill="#2d3748">收益 12.2 dB</text>
-  <text x="30" y="380" font-size="13" fill="#4a5568">深度需 10×RBW 以上</text>
+  <text x="30" y="380" font-size="13" fill="#4a5568">开关频率 ±3.3%</text>
 
   <rect x="202" y="292" width="172" height="108" rx="4" fill="#fffaf0" stroke="#b7791f"/>
   <text x="212" y="313" font-size="14" font-weight="700" fill="#744210">边沿</text>

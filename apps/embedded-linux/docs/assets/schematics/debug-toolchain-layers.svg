@@ -68,5 +68,5 @@
   <text x="700" y="396" font-size="13" text-anchor="middle" fill="#4a5a6a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">gdb 暂停</text>
 
   <text x="24" y="416" font-size="13" fill="#2b3a4a" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">CPU：1.2 GHz × 2.24 = 2,688 DMIPS；6% 占用 = 72 MHz = 161 DMIPS</text>
-  <text x="24" y="432" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">core 35.6 MiB → zstd 11.1 MiB；ftrace 4 MiB/CPU × 4 = 16 MiB，15k 事件/s 约 13 s 窗口</text>
+  <text x="24" y="432" font-size="13" fill="#5a6b7b" font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">core 35.6 MiB → zstd 11.1 MiB；ftrace 4 MiB/CPU × 4 = 16 MiB，15k 事件/s 约 14 s 窗口</text>
 </svg>

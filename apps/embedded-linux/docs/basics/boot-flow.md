@@ -200,26 +200,26 @@ $$\frac{10\times8192}{921600}=0.0889\ \mathrm{s}=89\ \mathrm{ms}$$
 
 ### 算例 2：zImage 还是未压缩 Image
 
-设内核解压后 12 MiB，zImage 4 MiB；eMMC 读取 40 MiB/s，SPI NOR 读取 8 MiB/s；LZ4 解压 110 MiB/s，gzip 解压 30 MiB/s；解压后还要 memcpy 一次，按 200 MiB/s 计。
+设内核解压后 12 MiB，zImage 4 MiB；eMMC 读取 40 MiB/s，SPI NOR 读取 8 MiB/s；LZ4 解压 110 MiB/s，gzip 解压 30 MiB/s；解压后还要把 12 MiB 整体 memcpy 一次，按 200 MiB/s 计。
 
 eMMC + zImage + LZ4：
 
-$$T=\frac{4}{40}+\frac{4}{110}+\frac{4}{200}=0.100+0.036+0.020=0.156\ \mathrm{s}$$
+$$T=\frac{4}{40}+\frac{12}{110}+\frac{12}{200}=0.100+0.109+0.060=0.269\ \mathrm{s}$$
 
 eMMC + zImage + gzip：
 
-$$T=0.100+\frac{4}{30}+0.020=0.100+0.133+0.020=0.253\ \mathrm{s}$$
+$$T=\frac{4}{40}+\frac{12}{30}+\frac{12}{200}=0.100+0.400+0.060=0.560\ \mathrm{s}$$
 
 eMMC + 未压缩 Image：
 
 $$T=\frac{12}{40}=0.300\ \mathrm{s}$$
 
-在 eMMC 上，zImage + LZ4 比未压缩快 144 ms，gzip 版本仍快 47 ms。换到 SPI NOR：
+在 eMMC 上，zImage + LZ4 比未压缩快约 31 ms，而 gzip 版本反而慢 260 ms。换到 SPI NOR：
 
-- zImage + LZ4：$4/8+0.036+0.020=0.556\ \mathrm{s}$；
+- zImage + LZ4：$4/8+12/110+12/200=0.500+0.109+0.060=0.669\ \mathrm{s}$；
 - 未压缩：$12/8=1.500\ \mathrm{s}$。
 
-差距扩大到 944 ms，压缩镜像明显更优。但若解压速度只有 8 MiB/s（低端 CPU 上的 gzip），eMMC 上 zImage 的加载时间是 $0.100+0.500+0.020=0.620\ \mathrm{s}$，反而比未压缩的 0.300 s 慢一倍。**结论取决于实测的 $R_{\mathrm{dec}}$ 与 $R_{\mathrm{store}}$，不能照搬别人的配置**。
+差距扩大到 831 ms，压缩镜像仍然明显更优。但若解压速度只有 8 MiB/s（低端 CPU 上的 gzip），eMMC 上 zImage 的加载时间是 $0.100+1.500+0.060=1.660\ \mathrm{s}$，反而比未压缩的 0.300 s 慢 1.36 s（约 5.5 倍）。**结论取决于实测的 $R_{\mathrm{dec}}$ 与 $R_{\mathrm{store}}$，不能照搬别人的配置**。
 
 ### 算例 3：initramfs 要占多少内存与启动时间
 
@@ -354,20 +354,20 @@ U-Boot 侧则要打开 `CONFIG_BOOTSTAGE`，它记录每个阶段的进入/退�
 但要注意：若计算与 IO 本身要 1,005 ms，那么日志压到 89 ms 后总时间是 1,094 ms，瓶颈已经转移到计算段，继续压日志的收益趋近于零。
 </details>
 
-<details><summary>题三：4 MiB zImage、12 MiB 未压缩 Image，eMMC 40 MiB/s、SPI NOR 8 MiB/s，LZ4 解压 110 MiB/s、gzip 30 MiB/s、memcpy 200 MiB/s。分别算 eMMC 与 SPI NOR 上的加载时间，说明什么时候该用未压缩镜像。</summary>
+<details><summary>题三：4 MiB zImage（解压后 12 MiB）、12 MiB 未压缩 Image，eMMC 40 MiB/s、SPI NOR 8 MiB/s，LZ4 解压 110 MiB/s、gzip 30 MiB/s、memcpy 200 MiB/s。分别算 eMMC 与 SPI NOR 上的加载时间，说明什么时候该用未压缩镜像。</summary>
 
 eMMC：
 
-- zImage + LZ4：$4/40+4/110+4/200=0.100+0.036+0.020=0.156\ \mathrm{s}$；
-- zImage + gzip：$0.100+0.133+0.020=0.253\ \mathrm{s}$；
+- zImage + LZ4：$4/40+12/110+12/200=0.100+0.109+0.060=0.269\ \mathrm{s}$；
+- zImage + gzip：$4/40+12/30+12/200=0.100+0.400+0.060=0.560\ \mathrm{s}$；
 - 未压缩：$12/40=0.300\ \mathrm{s}$。
 
 SPI NOR：
 
-- zImage + LZ4：$4/8+0.036+0.020=0.556\ \mathrm{s}$；
+- zImage + LZ4：$4/8+12/110+12/200=0.500+0.109+0.060=0.669\ \mathrm{s}$；
 - 未压缩：$12/8=1.500\ \mathrm{s}$。
 
-在 eMMC 上压缩仍略优；在 SPI NOR 上压缩优势接近 1 秒。只有当解压速度足够低时，未压缩才可能反超：若解压只有 8 MiB/s，eMMC 上 zImage 为 $0.100+0.500+0.020=0.620\ \mathrm{s}$，慢于未压缩的 0.300 s。所以选择依据是实测的存储带宽与解压速度，而不是"压缩一定更快"。
+在 eMMC 上，LZ4 压缩只是略优（快约 31 ms），gzip 已经比未压缩慢 260 ms；在 SPI NOR 上 LZ4 的优势约 831 ms。只有当解压速度足够低时，未压缩才可能反超：若解压只有 8 MiB/s，eMMC 上 zImage 为 $0.100+1.500+0.060=1.660\ \mathrm{s}$，比未压缩的 0.300 s 慢 1.36 s。所以选择依据是实测的存储带宽与解压速度，而不是"压缩一定更快"。
 </details>
 
 <details><summary>题四：U-Boot 有输出、内核无输出，给出五步定位顺序，并说明每一步的判据。</summary>

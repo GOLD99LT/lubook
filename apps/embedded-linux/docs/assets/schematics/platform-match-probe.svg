@@ -15,7 +15,7 @@
   <text x="24" y="55" font-size="13.5" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">匹配成功才调用 probe；资源没就绪时返回 -EPROBE_DEFER，进入延迟队列重试</text>
   <line x1="24" y1="68" x2="736" y2="68" stroke="#e3e0d7" stroke-width="1"/>
 
-  <text x="24" y="88" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">1 匹配：compatible 优先，其次是 name 与 id_table</text>
+  <text x="24" y="88" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">1 匹配：compatible 优先，其次是 id_table 与 name</text>
 
   <rect x="24" y="98" width="196" height="76" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
   <text x="36" y="120" font-size="14" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">platform_device</text>
@@ -25,7 +25,7 @@
   <rect x="300" y="106" width="170" height="60" rx="4" fill="#ffffff" stroke="#1a4f8b" stroke-width="1.6"/>
   <text x="312" y="128" font-size="14" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">platform_match()</text>
   <text x="312" y="147" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">compatible</text>
-  <text x="312" y="162" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">name / id_table</text>
+  <text x="312" y="162" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">id_table / name</text>
 
   <rect x="540" y="98" width="196" height="76" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
   <text x="552" y="120" font-size="14" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">platform_driver</text>
@@ -42,7 +42,7 @@
 
   <rect x="24" y="236" width="120" height="60" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
   <text x="34" y="258" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif" textLength="104" lengthAdjust="spacingAndGlyphs">driver_register</text>
-  <text x="34" y="278" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">device_attach</text>
+  <text x="34" y="278" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">driver_attach</text>
 
   <rect x="180" y="236" width="120" height="60" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
   <text x="190" y="258" font-size="13" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">really_probe</text>
