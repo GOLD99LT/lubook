@@ -50,7 +50,7 @@ sources:
 
 1. 把“中断里不能睡眠”理解成“中断里不能调用任何函数”，于是把所有工作都推给工作队列，结果上半部该清的中断状态没清，中断风暴把 CPU 打满。
 2. 用 `spin_lock()` 保护一段会被硬中断访问的数据，却没关本地中断；进程上下文持锁时中断到来，中断处理在同一 CPU 上自旋等锁，死锁。
-3. 工作队列回调还在跑，模块已经卸载，回调访问已释放的内存；`rmmod` 时只调用了 `destroy_workqueue()`，没有 `cancel_work_sync()`。
+3. 工作队列回调还在跑，模块已经卸载，回调访问已释放的内存；驱动把 work 排在 `system_wq` 这类共享队列上，卸载时没有 `cancel_work_sync()`——`destroy_workqueue()` 会 drain 并销毁驱动自己创建的 wq，但管不到共享队列。
 4. 以为 `volatile` 能解决多核可见性，或者以为 `WRITE_ONCE()` 自带内存屏障；在弱内存模型机器上，标志位先于数据可见，消费者读到新标志、旧数据。
 
 ## 2. 定义与直观：上下文、两半、锁与屏障
@@ -611,8 +611,9 @@ static irqreturn_t demo_irq(int irq, void *data)
 
 生命周期是最大的坑：
 
-- 模块卸载前必须 `cancel_work_sync(&d->work)`，确保回调不再运行，再释放 `d`。
-- 如果工作项会重新排队自己，`cancel_work_sync()` 可能一直等；要在回调里检查“正在卸载”标志，并停止重排。
+- work 在 `system_wq` 等共享队列上时，模块卸载前必须 `cancel_work_sync(&d->work)`，确保回调不再运行，再释放 `d`。
+- 自己创建的 wq 用 `destroy_workqueue()` 销毁即可：它会先 `drain_workqueue()`，等该 wq 变空才销毁，不会把已排队或运行的回调留到 `rmmod` 之后。
+- `cancel_work_sync()` 支持会自我重排队的 work，不会仅仅因为 work 会重排就一直等：它会在返回前取消最后一次重排，返回时保证 work 不再 pending 或 executing。只有回调无条件无限重排、没有停止条件时才会一直等；卸载路径仍应置“停止”标志，让重排最终终止。
 - `flush_workqueue()` 会等待整个队列，可能很久；优先用 `cancel_work_sync()` 精确取消。
 - 内存回收路径的工作队列要加 `WQ_MEM_RECLAIM`，否则在内存紧张时可能死锁。
 - 高优先级工作用 `system_highpri_wq`，但不要把所有工作都塞进去，否则高优先级线程也会被拖慢。
@@ -718,9 +719,9 @@ PREEMPT_RT 把大部分中断线程化、把自旋锁替换为可睡眠的 rtmut
 ::: pitfall 坑三：工作队列回调在模块卸载后运行
 **现象**：`rmmod` 后几秒内 Oops，`RIP` 落在工作回调里；或者卸载时卡住，`rmmod` 进程处于 D 状态。
 
-**原因**：模块卸载只调用了 `destroy_workqueue()`，没有取消已经排队或正在运行的工作；回调访问了已释放的 `struct demo`、已 `iounmap` 的寄存器或已销毁的 workqueue。
+**原因**：work 排在 `system_wq` 等共享队列上，卸载时没有 `cancel_work_sync()`；共享 wq 不属于驱动，`destroy_workqueue()` 不会 drain 它，回调随后访问了已释放的 `struct demo` 或已 `iounmap` 的寄存器。另一种情况是驱动自己创建了 wq，却先释放 `d`、后销毁 wq，drain 期间回调仍会碰到已释放的资源。
 
-**解决**：卸载路径先 `cancel_work_sync(&d->work)`，再停中断、停 DMA、释放内存；如果回调会重排队，先置“停止”标志，再取消。用 `devm_add_action_or_reset()` 把清理顺序固定下来；用 KASAN 和 `CONFIG_DEBUG_OBJECTS_WORK` 复现。
+**解决**：卸载路径先停中断、停 DMA，再 `cancel_work_sync(&d->work)`（共享 wq 上的 work 必须这样做），最后释放内存；自己创建的 wq 用 `destroy_workqueue()` 收尾：它会先 drain 再销毁，所以调用前不要提前释放回调还在用的 `d`。如果回调会重排队，先置“停止”标志，再取消。用 `devm_add_action_or_reset()` 把清理顺序固定下来；用 KASAN 和 `CONFIG_DEBUG_OBJECTS_WORK` 复现。
 :::
 
 ::: pitfall 坑四：RCU 读侧睡眠或忘记读锁
@@ -759,7 +760,7 @@ $$t_{\mathrm{start}} = 2+18+3+10+2+7 = 42\ \mu s$$
 
 $$t_{\mathrm{end}} = 42+25 = 67\ \mu s$$
 
-截止期 200 微秒，余量 $200-67=133$ 微秒，占 33.5%。如果叠加 20 微秒高优先级中断，$t_{\mathrm{end}}=87$ 微秒，余量 113 微秒。
+截止期 200 微秒，已用 $67$ 微秒，占 $67/200=33.5\%$；余量 $200-67=133$ 微秒，占 $133/200=66.5\%$。如果叠加 20 微秒高优先级中断，$t_{\mathrm{end}}=87$ 微秒，已用占 $87/200=43.5\%$，余量 113 微秒，占 $113/200=56.5\%$。
 
 应先优化最大的两段：$t_{\mathrm{bottom}}=25$ 微秒和 $t_{\mathrm{off}}=18$ 微秒。下半部可以拆成“必须在本周期完成的部分”和“可以延后的部分”，把滤波、日志、上报移出；关中断窗口要用 `irqsoff` 找到具体调用栈，通常是长临界区、`printk` 或 `stop_machine`。上半部只有 10 微秒，优化它收益最小。
 

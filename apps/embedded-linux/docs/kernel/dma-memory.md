@@ -490,7 +490,8 @@ $$t_{\mathrm{bounce}} = \frac{2 \times 3{,}110{,}400}{1.2\times10^9} = 5.184\ \m
 ```c
 dma_addr_t handle;
 
-handle = dma_map_single(dev, buf, len, DMA_TO_DEVICE);
+/* 设备既读请求又写结果，map/sync/unmap 三处方向必须一致 */
+handle = dma_map_single(dev, buf, len, DMA_BIDIRECTIONAL);
 if (dma_mapping_error(dev, handle))
     return -EIO;
 
@@ -500,18 +501,20 @@ demo_start(dev, handle, len);
 /* 等待完成 */
 wait_for_completion(&d->done);
 
-/* 设备写完、CPU 读之前 */
-dma_sync_single_for_cpu(dev, handle, len, DMA_FROM_DEVICE);
+/* 设备读完请求、写完结果，CPU 读之前 */
+dma_sync_single_for_cpu(dev, handle, len, DMA_BIDIRECTIONAL);
 
 /* CPU 读数据 */
 demo_consume(buf, len);
 
-dma_unmap_single(dev, handle, len, DMA_FROM_DEVICE);
+dma_unmap_single(dev, handle, len, DMA_BIDIRECTIONAL);
 ```
+
+这里设备会读写同一块缓冲，所以 map、sync、unmap 全部用 `DMA_BIDIRECTIONAL`。如果设备只从缓冲读（CPU→设备），应改用 `DMA_TO_DEVICE`，map/unmap 同向，且不需要 `dma_sync_single_for_cpu()`；如果设备只写（设备→CPU），用 `DMA_FROM_DEVICE` 并在 CPU 读之前同步。方向写反不只是语义问题：unmap 的 direction 与 map 不一致会触发 DMA-API 调试告警，架构代码也可能做错 cache 维护。
 
 规则：
 
-- map 和 unmap 的 `dev`、`len`、`direction` 必须一致；unmap 的地址是 map 返回的 `dma_addr_t`，不是 CPU 虚拟地址。
+- map、sync、unmap 的 `dev`、`len`、`direction` 必须一致；unmap 的地址是 map 返回的 `dma_addr_t`，不是 CPU 虚拟地址。`dma_sync_*` 的方向也必须与 map 相同，不能拿 `DMA_FROM_DEVICE` 去同步一个 `DMA_TO_DEVICE` 映射。
 - `dma_mapping_error()` 检查不能省；返回错误后不要 unmap，也不要把错误地址写给设备。
 - 传输还在进行时不能 unmap，也不能释放缓冲区；要等完成中断或 `dma_fence`。
 - `dma_sync_single_for_cpu()` 之后，CPU 拥有缓冲区；在下次 `for_device` 之前，不要让设备再写。

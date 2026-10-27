@@ -1,6 +1,6 @@
 <svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
   <title>电源管理：runtime PM、系统休眠与功耗账</title>
-  <desc>上半部分画出 runtime PM 的 Active、Idle、Suspended 三态与 autosuspend 定时器；中部画出系统休眠的冻结、设备挂起、late/noirq、syscore、固件与恢复阶段；底部用工作与待机功耗账说明电池寿命与漏电的量级。</desc>
+  <desc>上半部分画出 runtime PM 的 Active、Idle、Suspended 三态与 autosuspend 定时器；中部按冻结、设备挂起、late/noirq、syscore、固件与恢复的顺序画出系统休眠阶段，设备挂起为逆序、恢复为正序；底部用工作与待机功耗账说明电池寿命与漏电的量级。</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b3a4a"/>
@@ -38,7 +38,7 @@
 
   <line x1="24" y1="210" x2="736" y2="210" stroke="#e3e0d7" stroke-width="1"/>
 
-  <text x="24" y="232" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">2 系统休眠：按 dpm_list 顺序挂起，恢复逆序</text>
+  <text x="24" y="232" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">2 系统休眠：按 dpm_list 逆序挂起（子→父），正序恢复（父→子）</text>
 
   <rect x="24" y="244" width="108" height="52" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
   <text x="78" y="265" font-size="13" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Freeze</text>
@@ -62,7 +62,7 @@
 
   <rect x="604" y="244" width="108" height="52" rx="4" fill="#e3f0e6" stroke="#2f6b45"/>
   <text x="658" y="265" font-size="13" font-weight="700" text-anchor="middle" fill="#2f6b45" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Resume</text>
-  <text x="658" y="283" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">逆序恢复</text>
+  <text x="658" y="283" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">正序恢复</text>
 
   <line x1="132" y1="270" x2="136" y2="270" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
   <line x1="248" y1="270" x2="252" y2="270" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>

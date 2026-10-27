@@ -38,7 +38,7 @@ sources:
 - **关机**：只有 RTC 和电源键待机。
 
 ::: motivation 三个必须算功耗账的场景
-**场景一：电池待机 30 天。** 3000 mAh 电池、3.7 V，能量 11.1 Wh；30 天是 720 小时，平均功率必须低于 $11.1/720=15.4$ mW。板子待机 3.56 mW 时理论 130 天，看起来余量很大；但只要多一个 20 mW 的漏电点，待机就掉到 5 天量级。**待机功耗是“加法”，不是“平均值”**，每个漏电点都要单独找出来。
+**场景一：电池待机 30 天。** 3000 mAh 电池、3.7 V，能量 11.1 Wh；30 天是 720 小时，平均功率必须低于 $11.1/720=15.4$ mW。板子待机 3.56 mW 时理论 130 天，看起来余量很大；但多一个 20 mW 的漏电点，单算就是 $11.1/0.020=555$ 小时，即 23.1 天，叠加 3.56 mW 基线后约 19.6 天。要掉到 5 天，漏电得达到 92.5 mW。**待机功耗是“加法”，不是“平均值”**，每个漏电点都要单独找出来。
 
 **场景二：唤醒时间。** 工业 HMI 要求按键到屏幕亮在 300 ms 内。系统 suspend 越深，功耗越低，但 resume 要重新初始化 DDR、时钟、显示，可能超过 500 ms。省电和唤醒时间是一对矛盾，要用“唤醒能量 + 待机功率差”算盈亏平衡点。
 
@@ -76,7 +76,7 @@ Linux 的电源管理可以分成五层，越往下越省电，恢复越慢：
 | 4 | runtime PM | 单设备关时钟/regulator | 重新初始化设备 | 毫秒到几十毫秒 |
 | 5 | 系统 suspend | 冻结进程、CPU 断电、DDR 自刷新 | 重新初始化系统 | 几十毫秒到几百毫秒 |
 
-这五层不是互斥的。系统 suspend 时，设备先经过 runtime PM 的 `runtime_suspend`（如果驱动用 `pm_runtime_force_suspend()`），再走系统休眠的 `suspend` 回调；resume 时反过来。
+这五层不是互斥的。系统 suspend 的 `suspend` 阶段，PM core 只会调用驱动 `dev_pm_ops` 里的 `.suspend` 回调，不会额外再调一次 runtime 的 `.runtime_suspend`；如果驱动把 `.suspend` 指向 `pm_runtime_force_suspend()`，这个回调会在内部调用 `runtime_suspend`，把系统休眠桥接到 runtime 回调。两套回调必须由驱动显式桥接。resume 时同理，`pm_runtime_force_resume()` 是 `.resume` 回调。
 
 ### 2.2 runtime PM：引用计数 + 自动挂起
 
@@ -150,24 +150,27 @@ static int demo_probe(struct platform_device *pdev)
 ```text
 用户写 /sys/power/state
   → 冻结用户进程与可冻结内核线程（freezer）
-  → dpm_suspend：按 dpm_list 逆序调用设备 prepare / suspend
-  → 关闭非启动 CPU
+  → dpm_prepare：从 dpm_list.next 正序（父→子）调用 device_prepare
+  → dpm_suspend：从 dpm_prepared_list.prev 逆序（子→父）调用 device_suspend
   → dpm_suspend_late：late 回调
-  → dpm_suspend_noirq：关中断后的 noirq 回调
+  → dpm_suspend_noirq：noirq 回调（不能睡眠）
+  → pm_sleep_disable_secondary_cpus：关闭非启动 CPU
+  → arch_suspend_disable_irqs：关闭本地中断
   → syscore_suspend：核心子系统回调
   → 平台固件进入低功耗（PSCI SYSTEM_SUSPEND / CPU_SUSPEND）
   → 唤醒源触发，固件恢复 CPU 和 DDR
   → syscore_resume
+  → 重新打开本地中断、启动非启动 CPU
   → dpm_resume_noirq
   → dpm_resume_early
-  → dpm_resume：按 dpm_list 正序调用 resume
+  → dpm_resume：正序（父→子）调用 resume
   → 解冻进程
 ```
 
 几个关键点：
 
-- **dpm_list 的顺序**：设备按注册顺序挂在 `dpm_list` 上，子设备通常在父设备之后；suspend 时逆序（先子后父），resume 时正序（先父后子）。驱动不应该假设“我的设备一定在某个设备之前挂起”，要用 `device_link` 表达依赖。
-- **回调阶段**：`suspend` 可以睡眠；`suspend_late` 在非启动 CPU 关闭后执行，仍可睡眠；`suspend_noirq` 在中断关闭后执行，不能睡眠；`syscore` 阶段更晚，不能睡眠。把会睡眠的 I2C 传输放在 `suspend_noirq` 里，必然出问题。
+- **dpm_list 的顺序**：设备按注册顺序挂在 `dpm_list` 上，子设备通常在父设备之后。`dpm_prepare()` 从 `dpm_list.next` 正序（父→子）调用 `device_prepare`；`dpm_suspend()` 随后从 `dpm_prepared_list.prev` 逆序（子→父）调用 `device_suspend`；resume 时正序（父→子）。prepare 是独立阶段，不属于 `dpm_suspend()`。驱动不应该假设“我的设备一定在某个设备之前挂起”，要用 `device_link` 表达依赖。
+- **回调阶段**：`suspend` 可以睡眠；`suspend_late` 在 `suspend` 之后执行，仍可睡眠；`suspend_noirq` 在 `late` 之后执行，不能睡眠。非启动 CPU 和本地中断是在 `noirq` 之后才关闭的，随后进入 `syscore` 阶段，同样不能睡眠。把会睡眠的 I2C 传输放在 `suspend_noirq` 里，必然出问题。
 - **失败处理**：任何设备的 `suspend` 返回负值，系统会中止休眠并恢复已经挂起的设备；`suspend_stats` 记录失败阶段和设备。
 - **唤醒源**：系统睡着后，只有被标记为 wakeup 的中断能把系统叫醒；普通中断被屏蔽。`enable_irq_wake()` 要在这个阶段之前调用。
 
@@ -437,7 +440,7 @@ $$\frac{E_2}{E_1} = 0.32 \times 2 = 0.64$$
 
 $$P_{\mathrm{spur}} = f_w E_w$$
 
-10 Hz、0.2 mJ 就是 2 mW；100 Hz 就是 20 mW，足以让 130 天的待机掉到 5 天量级。唤醒源要有硬件消抖、软件去抖和中断计数；调试时看 `/sys/kernel/debug/wakeup_sources` 的唤醒次数，比看电流更快定位。
+10 Hz、0.2 mJ 就是 2 mW；100 Hz 就是 20 mW，足以让 130 天的待机掉到 23.1 天，叠加 3.56 mW 基线后约 19.6 天。唤醒源要有硬件消抖、软件去抖和中断计数；调试时看 `/sys/kernel/debug/wakeup_sources` 的唤醒次数，比看电流更快定位。
 
 ## 4. 典型算例
 
@@ -554,11 +557,11 @@ $$\eta_{\mathrm{LDO}} = \frac{1.8}{5.0} = 36\%$$
 
 $$P_{\mathrm{in}} = \frac{1.8\times0.2}{0.9} = 400\ \mathrm{mW}$$
 
-损耗 40 mW，省 600 mW。若这块 1.8 V 轨是整机主要负载，其他部分耗 500 mW，则 LDO 方案整机 2000 mW、buck 方案 1100 mW：
+损耗 40 mW，省 600 mW。若这块 1.8 V 轨是整机主要负载，其他部分耗 500 mW，则 LDO 方案整机 1000 + 500 = 1500 mW、buck 方案 400 + 500 = 900 mW：
 
-$$t_{\mathrm{LDO}} = \frac{11.1}{2.0} = 5.55\ \mathrm{h},\qquad t_{\mathrm{buck}} = \frac{11.1}{1.1} = 10.09\ \mathrm{h}$$
+$$t_{\mathrm{LDO}} = \frac{11.1}{1.5} = 7.40\ \mathrm{h},\qquad t_{\mathrm{buck}} = \frac{11.1}{0.9} = 12.33\ \mathrm{h}$$
 
-这是“换电源拓扑”带来的数量级收益，远比在软件里抠几毫安有效。当然，buck 有开关噪声、需要电感，成本和 PCB 面积要权衡。
+整机从 1500 mW 降到 900 mW，电池时间从 7.40 h 延长到 12.33 h；这比在软件里抠几毫安有效得多。当然，buck 有开关噪声、需要电感，成本和 PCB 面积要权衡。
 
 ### 4.5 DVFS 的能量账
 
@@ -582,11 +585,11 @@ $$P_{\mathrm{spur}} = 10 \times 0.2\times10^{-3} = 2\ \mathrm{mW}$$
 
 $$P_{\mathrm{spur}} = 100 \times 0.2\times10^{-3} = 20\ \mathrm{mW}$$
 
-待机时间从 130 天掉到：
+待机时间从 130 天掉到（按 20 mW 单独计算）：
 
 $$t = \frac{11.1}{0.020} = 555\ \mathrm{h} = 23.1\ \mathrm{days}$$
 
-一个引脚配置错误，就能让 30 天目标变成 23 天。唤醒源要有上拉/下拉、RC 滤波、软件去抖；调试时先看 `/sys/kernel/debug/wakeup_sources` 的计数，再看电流。
+叠加 3.56 mW 基线后为 $11.1/(0.020+0.00356)=471$ 小时，即 19.6 天。一个引脚配置错误，就能让 30 天目标直接失守。唤醒源要有上拉/下拉、RC 滤波、软件去抖；调试时先看 `/sys/kernel/debug/wakeup_sources` 的计数，再看电流。
 
 ### 4.7 测量分辨率
 
@@ -616,12 +619,12 @@ $$I_{\mathrm{LSB}} = \frac{10\times10^{-6}}{1} = 10\ \mu A$$
 | 回调 | 阶段 | 能否睡眠 | 典型工作 |
 |---|---|---|---|
 | `prepare` | 冻结进程后 | 是 | 检查是否允许休眠、准备缓冲 |
-| `suspend` | 设备挂起 | 是 | 保存寄存器、关时钟、关电源 |
-| `suspend_late` | 非启动 CPU 关闭后 | 是 | 依赖 CPU 热插拔的清理 |
-| `suspend_noirq` | 中断关闭后 | 否 | 保存最后状态、编程唤醒源 |
-| `resume_noirq` | 中断恢复前 | 否 | 恢复硬件、清唤醒状态 |
-| `resume_early` | 非启动 CPU 启动前 | 是 | 恢复时钟/电源 |
-| `resume` | 设备恢复 | 是 | 重新初始化设备 |
+| `suspend` | `prepare` 之后 | 是 | 保存寄存器、关时钟、关电源 |
+| `suspend_late` | `suspend` 之后 | 是 | late 阶段的设备清理 |
+| `suspend_noirq` | `late` 之后 | 否 | 保存最后状态、编程唤醒源 |
+| `resume_noirq` | 恢复中断和非启动 CPU 后 | 否 | 恢复硬件、清唤醒状态 |
+| `resume_early` | `resume_noirq` 之后 | 是 | 恢复时钟/电源 |
+| `resume` | `resume_early` 之后 | 是 | 重新初始化设备 |
 | `complete` | 解冻进程前 | 是 | 收尾、通知 |
 
 会睡眠的 I2C/SPI 传输只能放在 `suspend`、`suspend_late`、`resume`、`resume_early`；`noirq` 阶段只能用 MMIO 和不会睡眠的寄存器操作。把 `regulator_set_voltage()` 放在 `suspend_noirq` 里，会触发 `scheduling while atomic`。
