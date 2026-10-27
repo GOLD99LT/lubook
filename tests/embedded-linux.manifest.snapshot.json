@@ -1,6 +1,6 @@
 {
   "appId": "embedded-linux",
-  "revision": "sha256-09c75f96e72c6ef8",
+  "revision": "sha256-36393af5292de18f",
   "docCount": 23,
   "titles": [
     "嵌入式 Linux 全景：从 SoC 上电到应用启动",
@@ -29,7 +29,7 @@
   ],
   "imageTotal": 23,
   "svgCount": 23,
-  "assetsChecksum": "sha256-e7a6e16fc48c724b",
+  "assetsChecksum": "sha256-ffe8ddb3dced3877",
   "groundsCount": 0,
-  "overallChecksum": "09c75f96e72c6ef8ce0445792a367d0988a13d9ad202aa68b4d86afc478bf0f8"
+  "overallChecksum": "36393af5292de18f773724e92f0c7d4dea1140c410b2ff47a78f91c6392e860c"
 }

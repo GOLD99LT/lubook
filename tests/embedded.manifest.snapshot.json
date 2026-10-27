@@ -1,6 +1,6 @@
 {
   "appId": "embedded",
-  "revision": "sha256-cd6f6582de523e5f",
+  "revision": "sha256-c09395dbc505b743",
   "docCount": 30,
   "titles": [
     "嵌入式软件全景：从寄存器到 RTOS",
@@ -36,7 +36,7 @@
   ],
   "imageTotal": 30,
   "svgCount": 30,
-  "assetsChecksum": "sha256-8fef892538d18976",
+  "assetsChecksum": "sha256-3c484977d4b38fa2",
   "groundsCount": 7,
-  "overallChecksum": "cd6f6582de523e5f33d3c8b49c92029a385cbbde33a3f76c29f53c1e08c39f31"
+  "overallChecksum": "c09395dbc505b743c0445d9f03537c80f565942623599d7fb5b6716a2391ebcc"
 }
