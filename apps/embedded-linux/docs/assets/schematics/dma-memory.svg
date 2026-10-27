@@ -1,0 +1,89 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>DMA 与内存：地址、cache 所有权与散射聚集</title>
+  <desc>上半部分画出 CPU 经 cache 访问 DRAM、设备经 IOMMU 访问 DRAM 的两条路径；中部画出流式 DMA 从 CPU 写缓冲、clean、设备读、invalidate 到 CPU 读的所有权交接；底部对比一致性 DMA 与流式散射聚集的适用场景。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+
+  <text x="24" y="30" font-size="20" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">DMA 与内存：地址、cache 所有权与散射聚集</text>
+  <text x="24" y="52" font-size="13.5" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">设备看到总线地址或 IOVA；CPU 与设备交替拥有缓冲区，交接点必须做 cache 维护</text>
+  <line x1="24" y1="66" x2="736" y2="66" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="88" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">1 一条 DMA 路径：CPU 经 cache，设备经 IOMMU</text>
+
+  <rect x="24" y="104" width="100" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="74" y="124" font-size="14" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">CPU</text>
+  <text x="74" y="142" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">虚拟地址</text>
+
+  <rect x="150" y="104" width="110" height="46" rx="4" fill="#f7f9fb" stroke="#5c6772"/>
+  <text x="205" y="124" font-size="14" font-weight="700" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Cache</text>
+  <text x="205" y="142" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">行 64 字节</text>
+
+  <rect x="286" y="104" width="150" height="46" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="361" y="124" font-size="14" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">互联总线</text>
+  <text x="361" y="142" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">AXI 或 PCIe</text>
+
+  <rect x="462" y="104" width="120" height="46" rx="4" fill="#e3f0e6" stroke="#2f6b45"/>
+  <text x="522" y="124" font-size="14" font-weight="700" text-anchor="middle" fill="#2f6b45" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">DRAM</text>
+  <text x="522" y="142" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">物理页</text>
+
+  <rect x="24" y="178" width="100" height="40" rx="4" fill="#fdf1ee" stroke="#a8452f"/>
+  <text x="74" y="196" font-size="14" font-weight="700" text-anchor="middle" fill="#a8452f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">设备</text>
+  <text x="74" y="212" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">DMA 引擎</text>
+
+  <rect x="150" y="178" width="110" height="40" rx="4" fill="#f3ecd8" stroke="#8a6d2f"/>
+  <text x="205" y="196" font-size="14" font-weight="700" text-anchor="middle" fill="#8a6d2f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">IOMMU</text>
+  <text x="205" y="212" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">IOVA 到 PA</text>
+
+  <line x1="124" y1="127" x2="146" y2="127" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="260" y1="127" x2="282" y2="127" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="436" y1="127" x2="458" y2="127" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="124" y1="198" x2="146" y2="198" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <polyline points="260,198 340,198 340,154" fill="none" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="250" y="172" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">总线地址或 IOVA</text>
+
+  <text x="24" y="238" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">dma_addr_t 可能是物理地址，也可能是 IOMMU 输出的 IOVA；驱动不要自己做地址换算</text>
+
+  <line x1="24" y1="250" x2="736" y2="250" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="272" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">2 流式 DMA 的所有权交接：谁写、谁读、何时 sync</text>
+
+  <rect x="24" y="284" width="120" height="50" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="84" y="305" font-size="13" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">CPU 写缓冲</text>
+  <text x="84" y="323" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">cache 变脏</text>
+
+  <rect x="168" y="284" width="120" height="50" rx="4" fill="#f3ecd8" stroke="#8a6d2f"/>
+  <text x="228" y="305" font-size="13" font-weight="700" text-anchor="middle" fill="#8a6d2f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">clean</text>
+  <text x="228" y="323" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">写回 DRAM</text>
+
+  <rect x="312" y="284" width="120" height="50" rx="4" fill="#fdf1ee" stroke="#a8452f"/>
+  <text x="372" y="305" font-size="13" font-weight="700" text-anchor="middle" fill="#a8452f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">设备读</text>
+  <text x="372" y="323" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">DMA 传输</text>
+
+  <rect x="456" y="284" width="120" height="50" rx="4" fill="#f3ecd8" stroke="#8a6d2f"/>
+  <text x="516" y="305" font-size="13" font-weight="700" text-anchor="middle" fill="#8a6d2f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">invalidate</text>
+  <text x="516" y="323" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">丢弃旧行</text>
+
+  <rect x="600" y="284" width="120" height="50" rx="4" fill="#e3f0e6" stroke="#2f6b45"/>
+  <text x="660" y="305" font-size="13" font-weight="700" text-anchor="middle" fill="#2f6b45" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">CPU 读</text>
+  <text x="660" y="323" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">重新取数</text>
+
+  <line x1="144" y1="309" x2="164" y2="309" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="288" y1="309" x2="308" y2="309" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="432" y1="309" x2="452" y2="309" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="576" y1="309" x2="596" y2="309" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <text x="24" y="352" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">for_device 把 CPU 的写交棒给设备；for_cpu 把设备的写交棒给 CPU，两个方向都不能省</text>
+  <text x="24" y="370" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">1080p 帧 48,600 行，clean 加 invalidate 共 6.22 MB，1.2 GB/s 下 5.18 ms</text>
+
+  <line x1="24" y1="382" x2="736" y2="382" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="402" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">3 一致性与散射聚集的取舍</text>
+  <rect x="24" y="410" width="344" height="24" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="36" y="427" font-size="13" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">coherent：长期共享，少 sync，适合描述符环</text>
+  <rect x="392" y="410" width="344" height="24" rx="4" fill="#e3f0e6" stroke="#2f6b45"/>
+  <text x="404" y="427" font-size="13" fill="#2f6b45" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">streaming + SG：按需映射，适合帧与网络包</text>
+</svg>

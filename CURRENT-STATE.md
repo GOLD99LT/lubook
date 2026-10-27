@@ -281,6 +281,20 @@ Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配
   - GitHub Pages：https://gold99lt.github.io/lubook/embedded/、.../embedded-linux/
   - Cloudflare：https://lubook.pages.dev/embedded/、.../embedded-linux/
   - 双站全路由体检与资源检查均「全部通过」；线上浏览器抽验 KaTeX 484/261、0 错误。
-- 门户卡片仍为 vailable: false（按用户要求先不开入口），开启步骤见 docs/P4-RELEASE-PLAN.md。
+- **门户入口已全量开启**（2026-10-27）：vailable: true，双站门户均显示三个分册卡片，
+  链接为 /lubook/embedded/、/lubook/embedded-linux/（镜像站同构），无即将上线标记。
+
+### 第 2 批内容（进行中）
+
+计划 12 章，按 DEVELOPMENT-STANDARD 的 3~6 章/批与审查协议推进：
+
+| 分册 | 篇 | 新增章 | 状态 |
+|---|---|---|---|
+| embedded | 第三篇 通信接口与协议 | CAN 与 CAN FD、USB 设备、以太网 | 写作中 |
+| embedded | 第二篇 Cortex-M 与 MCU 外设 | MPU 与 Cache、FPU 与 DSP、硬件加速外设 | 写作中 |
+| embedded-linux | 第二篇 内核与驱动 | 中断与并发、DMA 与内存、电源管理 | 写作中 |
+| embedded-linux | 第四/五篇 | eMMC/UFS/SD、Camera 与 ISP、安全启动与签名 | 写作中 |
+
+写完后按同一流程：自动装配 → 构建 → 抽样复算审查 → 修正 → 全量门禁。
 - 工具适配（本轮新增）：SUMMARY 自动同步进 gen 流程、篇号按 SUMMARY 推导、
   frontmatter 冒号值 YAML 硬错误规则、接地符号检查按分册跳过、scan_math 编码兜底。

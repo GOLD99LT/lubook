@@ -1,0 +1,89 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>电源管理：runtime PM、系统休眠与功耗账</title>
+  <desc>上半部分画出 runtime PM 的 Active、Idle、Suspended 三态与 autosuspend 定时器；中部画出系统休眠的冻结、设备挂起、late/noirq、syscore、固件与恢复阶段；底部用工作与待机功耗账说明电池寿命与漏电的量级。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+
+  <text x="24" y="30" font-size="20" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">电源管理：runtime PM、系统休眠与功耗账</text>
+  <text x="24" y="52" font-size="13.5" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">运行时按需关时钟与电源；系统休眠分阶段挂起设备；待机电流决定电池寿命</text>
+  <line x1="24" y1="66" x2="736" y2="66" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="88" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">1 runtime PM：usage_count 与 autosuspend 定时器</text>
+
+  <rect x="24" y="104" width="150" height="56" rx="4" fill="#e3f0e6" stroke="#2f6b45"/>
+  <text x="99" y="126" font-size="14" font-weight="700" text-anchor="middle" fill="#2f6b45" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Active</text>
+  <text x="99" y="146" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">usage_count 大于 0</text>
+
+  <rect x="224" y="104" width="170" height="56" rx="4" fill="#f3ecd8" stroke="#8a6d2f"/>
+  <text x="309" y="126" font-size="14" font-weight="700" text-anchor="middle" fill="#8a6d2f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Idle</text>
+  <text x="309" y="146" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">autosuspend 计时中</text>
+
+  <rect x="444" y="104" width="180" height="56" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="534" y="126" font-size="14" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Suspended</text>
+  <text x="534" y="146" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">clk 与 regulator 关闭</text>
+
+  <line x1="174" y1="132" x2="220" y2="132" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="197" y="124" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">put</text>
+  <line x1="394" y1="132" x2="440" y2="132" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="417" y="124" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">到期</text>
+
+  <polyline points="534,160 534,180 99,180 99,164" fill="none" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="316" y="176" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">get 或中断唤醒，立即 resume</text>
+
+  <text x="24" y="198" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">runtime_suspend 里关时钟、关 regulator；runtime_resume 里按相反顺序恢复</text>
+
+  <line x1="24" y1="210" x2="736" y2="210" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="232" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">2 系统休眠：按 dpm_list 顺序挂起，恢复逆序</text>
+
+  <rect x="24" y="244" width="108" height="52" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="78" y="265" font-size="13" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Freeze</text>
+  <text x="78" y="283" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">冻结进程</text>
+
+  <rect x="140" y="244" width="108" height="52" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="194" y="265" font-size="13" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Device</text>
+  <text x="194" y="283" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">suspend</text>
+
+  <rect x="256" y="244" width="108" height="52" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="310" y="265" font-size="13" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Late</text>
+  <text x="310" y="283" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">noirq</text>
+
+  <rect x="372" y="244" width="108" height="52" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="426" y="265" font-size="13" font-weight="700" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Syscore</text>
+  <text x="426" y="283" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">核心回调</text>
+
+  <rect x="488" y="244" width="108" height="52" rx="4" fill="#fdf1ee" stroke="#a8452f"/>
+  <text x="542" y="265" font-size="13" font-weight="700" text-anchor="middle" fill="#a8452f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Firmware</text>
+  <text x="542" y="283" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">PSCI 或 TF-A</text>
+
+  <rect x="604" y="244" width="108" height="52" rx="4" fill="#e3f0e6" stroke="#2f6b45"/>
+  <text x="658" y="265" font-size="13" font-weight="700" text-anchor="middle" fill="#2f6b45" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">Resume</text>
+  <text x="658" y="283" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">逆序恢复</text>
+
+  <line x1="132" y1="270" x2="136" y2="270" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="248" y1="270" x2="252" y2="270" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="364" y1="270" x2="368" y2="270" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="480" y1="270" x2="484" y2="270" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="596" y1="270" x2="600" y2="270" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <text x="24" y="318" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">预算：80 + 120 + 20 + 10 + 5 + 100 + 150 = 485 毫秒，小于 500 毫秒，余量 15 毫秒</text>
+
+  <line x1="24" y1="330" x2="736" y2="330" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="350" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">3 功耗账：1.15 W 工作，3.56 mW 待机</text>
+
+  <text x="24" y="370" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">工作 1150 mW</text>
+  <rect x="150" y="358" width="560" height="16" fill="#e8a33d" stroke="#a86a18"/>
+  <text x="700" y="371" font-size="13" text-anchor="end" fill="#5a3a0c" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">9.65 小时</text>
+
+  <text x="24" y="396" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">待机 3.56 mW</text>
+  <rect x="150" y="384" width="4" height="16" fill="#1a4f8b"/>
+  <text x="162" y="397" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">约 0.96 mA，130 天；条长按比例，几乎不可见</text>
+
+  <text x="24" y="418" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">漏电 5 mW 等于 1.35 mA，每天耗 1.08% 电量；50 mW 只能待机 9.25 天</text>
+  <text x="24" y="436" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">唤醒能量 0.5 mJ 乘 10 次每秒等于 5 mW，与整板待机同一量级</text>
+</svg>

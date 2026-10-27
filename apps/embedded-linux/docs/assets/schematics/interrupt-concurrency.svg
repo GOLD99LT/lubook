@@ -1,0 +1,73 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>中断延迟分解与上下半部分工</title>
+  <desc>上半部分把中断延迟拆成硬件、关中断、入口、上半部、退出与调度六段，并叠加下半部；下半部分对比 softirq、tasklet、workqueue 与线程化中断的上下文；底部给出原子上下文与可睡眠上下文的选锁方向。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+
+  <text x="24" y="30" font-size="20" font-weight="700" fill="#222a32" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">中断延迟分解与上下半部分工</text>
+  <text x="24" y="52" font-size="13.5" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">从 IRQ 拉低到下半部完成：每一段都计入延迟预算；示意图不按时间比例</text>
+  <line x1="24" y1="66" x2="736" y2="66" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="88" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">1 端到端延迟：上半部 42 微秒，下半部再加 20 微秒</text>
+
+  <rect x="24" y="138" width="60" height="24" fill="#dce9f7" stroke="#1a4f8b"/>
+  <rect x="84" y="138" width="140" height="24" fill="#f6dcd6" stroke="#a8452f"/>
+  <rect x="224" y="138" width="70" height="24" fill="#e8eef4" stroke="#5c6772"/>
+  <rect x="294" y="138" width="170" height="24" fill="#dce9f7" stroke="#1a4f8b"/>
+  <rect x="464" y="138" width="60" height="24" fill="#e8eef4" stroke="#5c6772"/>
+  <rect x="524" y="138" width="90" height="24" fill="#f3ecd8" stroke="#8a6d2f"/>
+  <rect x="614" y="138" width="120" height="24" fill="#e3f0e6" stroke="#2f6b45"/>
+
+  <text x="54" y="128" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">2 微秒</text>
+  <text x="154" y="128" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">15 微秒</text>
+  <text x="259" y="128" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">3 微秒</text>
+  <text x="379" y="128" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">12 微秒</text>
+  <text x="494" y="128" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">2 微秒</text>
+  <text x="569" y="128" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">8 微秒</text>
+  <text x="674" y="128" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">20 微秒</text>
+
+  <text x="54" y="155" font-size="13" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">t_hw</text>
+  <text x="154" y="155" font-size="13" text-anchor="middle" fill="#a8452f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">t_off</text>
+  <text x="259" y="155" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">t_entry</text>
+  <text x="379" y="155" font-size="13" text-anchor="middle" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">t_top</text>
+  <text x="494" y="155" font-size="13" text-anchor="middle" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">t_exit</text>
+  <text x="569" y="155" font-size="13" text-anchor="middle" fill="#8a6d2f" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">t_sched</text>
+  <text x="674" y="155" font-size="13" text-anchor="middle" fill="#2f6b45" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">t_bottom</text>
+
+  <text x="24" y="184" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">t_off 是本地关中断的最坏窗口；t_sched 是唤醒 ksoftirqd 或中断线程的调度延迟</text>
+  <text x="24" y="204" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">算例：到下半部开始 42 微秒，到完成 62 微秒；1 毫秒截止期占 6.2%</text>
+  <text x="24" y="222" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">叠加 30 微秒高优先级中断后 92 微秒，占 9.2%，余量 908 微秒</text>
+
+  <line x1="24" y1="238" x2="736" y2="238" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="260" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">2 上下半部：硬中断只做最短的现场处理</text>
+
+  <rect x="24" y="272" width="240" height="76" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="36" y="294" font-size="14" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">上半部 Top Half</text>
+  <text x="36" y="314" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">hardirq：本地关中断、不可睡眠</text>
+  <text x="36" y="334" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">清状态、读 FIFO、唤醒下半部</text>
+
+  <rect x="284" y="272" width="228" height="34" rx="4" fill="#f7f9fb" stroke="#5c6772"/>
+  <text x="296" y="294" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">softirq：原子，不可睡眠</text>
+  <rect x="524" y="272" width="212" height="34" rx="4" fill="#f7f9fb" stroke="#5c6772"/>
+  <text x="536" y="294" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">tasklet：遗留接口</text>
+  <rect x="284" y="314" width="228" height="34" rx="4" fill="#f7f9fb" stroke="#5c6772"/>
+  <text x="296" y="336" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">workqueue：进程上下文</text>
+  <rect x="524" y="314" width="212" height="34" rx="4" fill="#f7f9fb" stroke="#5c6772"/>
+  <text x="536" y="336" font-size="13" fill="#2b3a4a" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">threaded：线程化可睡眠</text>
+
+  <line x1="264" y1="310" x2="280" y2="310" stroke="#2b3a4a" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <text x="24" y="366" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">softirq/tasklet 在中断退出或 ksoftirqd 中执行；workqueue/threaded 在进程上下文执行</text>
+
+  <line x1="24" y1="378" x2="736" y2="378" stroke="#e3e0d7" stroke-width="1"/>
+
+  <text x="24" y="398" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">3 选锁先看上下文</text>
+  <rect x="24" y="406" width="344" height="26" rx="4" fill="#fdf1ee" stroke="#a8452f"/>
+  <text x="36" y="424" font-size="13" fill="#7a2f20" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">原子：spinlock / atomic_t / RCU 读侧</text>
+  <rect x="392" y="406" width="344" height="26" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
+  <text x="404" y="424" font-size="13" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">可睡眠：mutex / completion / RCU 同步</text>
+</svg>
