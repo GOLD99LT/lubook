@@ -1,0 +1,86 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>MPU 区域划分、栈保护带与 32 字节缓存行</title>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">MPU 区域划分、栈保护带与 32 字节缓存行</text>
+  <text x="20" y="52" font-size="13" fill="#4a5568">示例：4 KB 栈区 0x2007_F000 关掉最低 512 B 子区域，作为越界保护带</text>
+  <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+  <rect x="20" y="78" width="150" height="44" rx="3" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="95" y="105" font-size="13" fill="#1a365d" text-anchor="middle">0x0800_0000</text>
+  <text x="180" y="96" font-size="13" fill="#2d3748">Flash 1 MB</text>
+  <text x="180" y="114" font-size="13" fill="#4a5568">只读、可缓存、可执行</text>
+
+  <rect x="20" y="130" width="150" height="44" rx="3" fill="#d9f0e0" stroke="#2f855a" stroke-width="1.5"/>
+  <text x="95" y="157" font-size="13" fill="#22543d" text-anchor="middle">0x2000_0000</text>
+  <text x="180" y="148" font-size="13" fill="#2d3748">SRAM 512 KB</text>
+  <text x="180" y="166" font-size="13" fill="#4a5568">读写、可缓存、XN=1</text>
+
+  <rect x="20" y="182" width="150" height="64" rx="3" fill="#f7fafc" stroke="#2f855a" stroke-width="1.5"/>
+  <rect x="22" y="184" width="146" height="36" fill="#d9f0e0"/>
+  <rect x="22" y="222" width="146" height="22" fill="#fde7c7"/>
+  <text x="95" y="207" font-size="13" fill="#22543d" text-anchor="middle">可用 3584 B</text>
+  <text x="95" y="238" font-size="13" fill="#7b341e" text-anchor="middle">保护带 512 B</text>
+  <text x="180" y="198" font-size="13" fill="#2d3748">栈区 4 KB</text>
+  <text x="180" y="216" font-size="13" fill="#4a5568">SRD=0x01，AP=000</text>
+  <text x="180" y="234" font-size="13" fill="#4a5568">MSP 从顶端向下生长</text>
+
+  <rect x="20" y="254" width="150" height="44" rx="3" fill="#edf2f7" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="95" y="281" font-size="13" fill="#2d3748" text-anchor="middle">0x4000_0000</text>
+  <text x="180" y="272" font-size="13" fill="#2d3748">外设 512 MB</text>
+  <text x="180" y="290" font-size="13" fill="#4a5568">Device、XN=1</text>
+
+  <rect x="20" y="306" width="150" height="44" rx="3" fill="#edf2f7" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="95" y="333" font-size="13" fill="#2d3748" text-anchor="middle">0xE000_0000</text>
+  <text x="180" y="324" font-size="13" fill="#2d3748">系统区 1 MB</text>
+  <text x="180" y="342" font-size="13" fill="#4a5568">Device、XN=1</text>
+
+  <text x="20" y="374" font-size="13" fill="#4a5568">基址须按区域大小对齐，RBAR 只保留 ADDR[31:5]</text>
+  <text x="20" y="396" font-size="13" fill="#4a5568">重叠时区域号大者优先，保护带放高编号</text>
+  <text x="20" y="418" font-size="13" fill="#4a5568">MPU 只约束 CPU，DMA 独立访问内存</text>
+
+  <text x="400" y="86" font-size="15" font-weight="700" fill="#1a202c">D-Cache：32 字节一行，共 8 个字</text>
+  <rect x="400" y="96" width="38" height="26" fill="#dbe9f6" stroke="#2b6cb0"/>
+  <rect x="438" y="96" width="38" height="26" fill="#dbe9f6" stroke="#2b6cb0"/>
+  <rect x="476" y="96" width="38" height="26" fill="#dbe9f6" stroke="#2b6cb0"/>
+  <rect x="514" y="96" width="38" height="26" fill="#dbe9f6" stroke="#2b6cb0"/>
+  <rect x="552" y="96" width="38" height="26" fill="#dbe9f6" stroke="#2b6cb0"/>
+  <rect x="590" y="96" width="38" height="26" fill="#dbe9f6" stroke="#2b6cb0"/>
+  <rect x="628" y="96" width="38" height="26" fill="#dbe9f6" stroke="#2b6cb0"/>
+  <rect x="666" y="96" width="38" height="26" fill="#dbe9f6" stroke="#2b6cb0"/>
+  <text x="419" y="114" font-size="13" fill="#1a365d" text-anchor="middle">w0</text>
+  <text x="457" y="114" font-size="13" fill="#1a365d" text-anchor="middle">w1</text>
+  <text x="495" y="114" font-size="13" fill="#1a365d" text-anchor="middle">w2</text>
+  <text x="533" y="114" font-size="13" fill="#1a365d" text-anchor="middle">w3</text>
+  <text x="571" y="114" font-size="13" fill="#1a365d" text-anchor="middle">w4</text>
+  <text x="609" y="114" font-size="13" fill="#1a365d" text-anchor="middle">w5</text>
+  <text x="647" y="114" font-size="13" fill="#1a365d" text-anchor="middle">w6</text>
+  <text x="685" y="114" font-size="13" fill="#1a365d" text-anchor="middle">w7</text>
+  <text x="400" y="142" font-size="13" fill="#4a5568">偏移 5 位 ｜ 组索引 7 位 ｜ 标签 20 位</text>
+
+  <rect x="400" y="160" width="80" height="40" rx="3" fill="#ffffff" stroke="#4a5568" stroke-width="1.5"/>
+  <text x="440" y="185" font-size="14" fill="#2d3748" text-anchor="middle">CPU</text>
+  <rect x="500" y="160" width="90" height="40" rx="3" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.5"/>
+  <text x="545" y="185" font-size="14" fill="#1a365d" text-anchor="middle">D-Cache</text>
+  <rect x="620" y="160" width="100" height="40" rx="3" fill="#d9f0e0" stroke="#2f855a" stroke-width="1.5"/>
+  <text x="670" y="185" font-size="14" fill="#22543d" text-anchor="middle">SRAM</text>
+
+  <line x1="480" y1="180" x2="494" y2="180" stroke="#4a5568" stroke-width="1.6"/>
+  <polygon points="500,180 491,175 491,185" fill="#4a5568"/>
+  <line x1="590" y1="180" x2="614" y2="180" stroke="#c05621" stroke-width="1.6"/>
+  <polygon points="620,180 611,175 611,185" fill="#c05621"/>
+  <text x="594" y="156" font-size="13" fill="#9c4221">clean</text>
+
+  <rect x="620" y="250" width="100" height="40" rx="3" fill="#fde7c7" stroke="#c05621" stroke-width="1.5"/>
+  <text x="670" y="275" font-size="14" fill="#7b341e" text-anchor="middle">DMA</text>
+  <line x1="670" y1="250" x2="670" y2="206" stroke="#c05621" stroke-width="1.6"/>
+  <polygon points="670,200 665,209 675,209" fill="#c05621"/>
+  <text x="505" y="242" font-size="13" fill="#9c4221">不经过缓存与 MPU</text>
+
+  <text x="400" y="318" font-size="13" fill="#4a5568">① CPU 写缓冲区，行变脏，内存仍旧</text>
+  <text x="400" y="342" font-size="13" fill="#4a5568">② DMA 直读内存，拿到的是旧值</text>
+  <text x="400" y="366" font-size="13" fill="#4a5568">③ 再读命中旧行，invalidate 后才见新值</text>
+  <text x="400" y="392" font-size="13" fill="#4a5568">clean 写回 ｜ invalidate 丢弃 ｜ 粒度 32 B</text>
+  <text x="400" y="418" font-size="13" fill="#4a5568">维护范围须按 32 B 向上取整并对齐</text>
+  </g>
+</svg>

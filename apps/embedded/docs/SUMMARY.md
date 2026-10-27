@@ -19,12 +19,18 @@
 * [DMA：通道映射、双缓冲与带宽](mcu/dma.md)
 * [ADC/DAC：采样保持、量化误差与重建滤波](mcu/adc-dac.md)
 * [看门狗、RTC 与低功耗定时：独立看门狗、窗口看门狗与 ppm 校准 | Watchdog, RTC and Low-Power Timers](mcu/watchdog-rtc.md)
+* [MPU 与 Cache：区域权限、子区域与缓存一致性 | MPU and Cache: Regions, Subregions and Coherency](mcu/mpu-cache.md)
+* [FPU 与 DSP：单双精度、浮点 ABI 与定点化 | FPU and DSP: Precision, ABI and Fixed-Point](mcu/fpu-dsp.md)
+* [硬件加速外设：CRC、AES、TRNG 与加速流水线 | Hardware Accelerators: CRC, AES, TRNG and Pipelines](mcu/hw-accel.md)
 
 ## 第三篇 · 通信接口与协议
 
 * [UART 与 USART：帧格式、波特率误差与收发缓冲 | UART and USART: Framing, Baud Error, and Receive Buffering](comm/uart.md)
 * [I²C 总线：起止条件、时钟同步与总线恢复 | I²C Bus: START/STOP, Clock Synchronization, and Bus Recovery](comm/i2c.md)
 * [SPI 总线：四种模式、片选与环形 DMA | SPI Bus: Clock Modes, Chip Select, and Ring DMA](comm/spi.md)
+* [CAN 与 CAN FD：位时序、仲裁、Bus-Off 与负载率 | CAN and CAN FD: Bit Timing, Arbitration, Bus-Off, and Bus Load](comm/can.md)
+* [USB 设备：枚举、端点、描述符与 SOF | USB Device: Enumeration, Endpoints, Descriptors, and SOF](comm/usb-device.md)
+* [以太网：MAC/PHY、DMA 描述符环与 lwIP 零拷贝 | Ethernet: MAC/PHY, DMA Descriptor Rings, and lwIP Zero-Copy](comm/ethernet.md)
 
 ## 第四篇 · RTOS 与并发
 

@@ -9,7 +9,7 @@ difficulty: 3
 status: published
 sources:
   - ARM, DDI 0403 ARMv7-M Architecture Reference Manual, Chapter B3.5 Protected Memory System Architecture（RBAR/RASR 编码、AP 权限、XN、SRD 子区域、区域对齐规则）
-  - ARM, DDI 0489 Cortex-M7 Processor Technical Reference Manual, Chapter 6 Memory System（L1 I-Cache/D-Cache、32 字节 cache line、cache maintenance operations 的 clean/invalidate 语义）
+  - ARM, DDI 0489 Cortex-M7 Processor Technical Reference Manual, Memory System 章（L1 I-Cache/D-Cache、32 字节 cache line、cache maintenance operations 的 clean/invalidate 语义）
   - STMicroelectronics, RM0433 STM32H743/753 参考手册, Memory protection unit（MPU）章与 Level 1 cache 章（16 个区域、cache 使能顺序、维护寄存器）
   - STMicroelectronics, AN4838 Managing memory protection unit (MPU) in STM32 MCUs，区域大小与基址对齐、子区域禁用、栈保护与 XN 配置
   - STMicroelectronics, AN4839 Level 1 cache on STM32F7 Series，cache 维护函数、DMA 双缓冲的一致性问题与实测方法
@@ -79,7 +79,7 @@ MPU 不是"给每个变量加锁"，而是在地址空间上切出若干块矩�
 | MPU_RBAR | ADDR[31:5]、VALID、REGION | 基址（低 5 位隐含为 0）、VALID 置位时顺带切换区域号 |
 | MPU_RASR | XN、AP[2:0]、TEX、S、C、B、SRD[7:0]、SIZE[4:0]、ENABLE | 权限、内存属性、子区域禁用、大小、使能 |
 
-AP 的三位编码决定四类权限组合，工程上常用的只有四种：
+AP 的三位编码里，工程上常用的有五种：
 
 | AP | 特权 | 非特权 | 典型用途 |
 |---|---|---|---|
@@ -89,7 +89,7 @@ AP 的三位编码决定四类权限组合，工程上常用的只有四种：
 | 011 | 读写 | 读写 | 任务共享缓冲区 |
 | 110 | 只读 | 只读 | Flash 中的常量与代码 |
 
-内存属性由 TEX/C/B 三位组合，M7 上最常用的四种编码：
+内存属性由 TEX、C、B 三个字段组合，M7 上最常用的四种编码：
 
 | TEX | C | B | 含义 | 用在哪 |
 |---|---|---|---|---|
@@ -161,7 +161,7 @@ clean 与 invalidate 的语义不同，混用会出事：clean 是"把脏数据�
 | 4 | 0x2007F000 | 4 KB | 读写 | 可缓存，XN=1，SRD=0x01 | 栈区加 512 B 保护带 |
 | 5 | 0x20030000 | 8 KB | 读写 | 不可缓存 | DMA 双缓冲 |
 
-六个区域就已经用掉三分之一预算。RTOS 的 MPU 端口通常每个任务再占两到三个区域（代码、数据、栈），16 个区域在"内核加三个任务"的场景下刚好够用，再加任务就得合并区域或者放弃按任务隔离。
+六个区域用掉 16 个预算里的 37.5%。RTOS 的 MPU 端口通常每个任务再占两到三个区域（代码、数据、栈），16 个区域在"内核加三个任务"的场景下刚好够用，再加任务就得合并区域或者放弃按任务隔离。
 
 ### 3.2 动态分析：cache 维护的时间账
 
@@ -181,7 +181,7 @@ $B$ 是需要维护的字节数，$L=32$ B 是行大小，$c_{word}$ 是每个 3
 | 4 KB | 128 | 3.73 µs | 2.13 µs | 5.87 µs |
 | 64 KB | 2048 | 59.7 µs | 34.1 µs | 93.9 µs |
 
-64 KB 的整块维护是 45056 个周期；如果同一块内存用 CPU 逐字节复制一遍是 65536 个周期，也就是说维护成本相当于一次 memcpy 的 69%。这就是图像、音频这类大缓冲宁愿放不可缓存区的原因：与其每次搬两遍，不如全程慢一点。
+64 KB 的整块维护是 45056 个周期；如果同一块内存按每字节 1 个周期逐字节复制一遍是 65536 个周期，也就是说维护成本相当于一次 memcpy 的 69%。这就是图像、音频这类大缓冲宁愿放不可缓存区的原因：与其每次搬两遍，不如全程慢一点。
 
 反过来，对 1 KB 这种小块，维护成本只有 1.47 µs，而 DMA 传输 1 KB 本身要几微秒到几十微秒，维护占比很小。**结论是分块的：小块维护，大块改属性。**
 
@@ -191,11 +191,11 @@ $B$ 是需要维护的字节数，$L=32$ B 是行大小，$c_{word}$ 是每个 3
 
 把"脏行未写回"当成一种状态误差，它不会自己衰减：clean 之前，内存永远是旧值，DMA 每发一次就错一次，错误率等于传输频率，而不是偶发。所以一致性问题的现象是"稳定的错"，不是"偶尔错"。
 
-真正会振荡的是缓存替换本身。设工作集为 $W$，缓存容量为 $C$，4 路组相联下同一组能放 4 行；当同时活跃的、组索引相同的数据流超过 4 条时，每访问一次就替换一次：
+真正会振荡的是缓存替换本身。4 路组相联下同一组能放 4 行，一行 32 B；当同时活跃、且组索引相同的数据流超过 4 条时，每访问一次就替换一次：
 
-$$W_{set}=L\times W=32\times4=128\ \text{B}$$
+$$S_{set}=L\times N_{way}=32\times4=128\ \text{B}$$
 
-$W_{set}$ 是单组的容量。地址上相隔 4096 B（128 组乘 32 B）的两个数组会落到同一组；五条这样的流交替访问，命中率按 4/5 的稳态掉到接近 0。这类冲突缺失在代码里完全看不出来，只能用性能计数器或者对照实验发现。
+$S_{set}$ 是单组的容量，$L$ 是行大小，$N_{way}$ 是路数。地址上相隔 4096 B（128 组乘 32 B）的两个数组会落到同一组；五条这样的流交替访问时，一行在被再次用到之前就被替换掉，冲突缺失率接近 100%。这类冲突缺失在代码里完全看不出来，只能用性能计数器或者对照实验发现。
 
 栈的稳态边界则是另一条曲线：栈使用量由调用深度、局部数组和异常嵌套共同决定，其中异常嵌套在最坏情况下是叠加的。带 FPU 的异常栈帧是 104 字节（8 个核心寄存器加 16 个 S 寄存器加 FPSCR 与填充），8 层嵌套就是 832 B，占 4 KB 栈区的 20%。如果按"平均使用量"配栈，最坏情况必然溢出；正确做法是用填充法测高水位，再乘 1.3 到 1.5 的余量。
 
@@ -231,7 +231,7 @@ $$S_{usable}=4096-512=3584\ \text{B}$$
 
 $$\frac{3584}{4096}=87.5\%$$
 
-如果栈的最坏使用量实测为 3.1 KB（3174 B），余量是 3584 减 3174 等于 410 B，占可用量的 12.9%，低于 30% 的经验阈值，应该把栈区扩到 8 KB（子区域 1 KB，可用 7168 B）或者削减局部大数组。
+如果栈的最坏使用量实测为 3.1 KB（3174 B），余量是 3584 减 3174 等于 410 B，占可用量的 11.4%，低于 30% 的经验阈值，应该把栈区扩到 8 KB（子区域 1 KB，可用 7168 B）或者削减局部大数组。
 
 ### 4.2 1 KB 双缓冲的维护开销
 
@@ -359,7 +359,7 @@ $$S_{sub}=\frac{4096}{8}=512\ \text{B}$$
 
 $$S_{usable}=4096-512=3584\ \text{B}=3.5\ \text{KiB}$$
 
-实测峰值 3.4 KB（3482 B）小于 3584 B，不会触发异常，但余量只有 102 B，占 2.8%。任何一次更深的调用或一层额外中断嵌套（带 FPU 时一帧 104 B）都会越界。结论：这个配置不能用，应扩到 8 KB 栈区并把峰值控制在 5.6 KB 以内。
+实测峰值 3.4 KB（3482 B）小于 3584 B，不会触发异常，但余量只有 102 B，占 2.8%。任何一次更深的调用或一层额外中断嵌套（带 FPU 时一帧 104 B）都会越界。结论：这个配置不能用，应扩到 8 KB 栈区（可用 7168 B），并把峰值控制在 5 KB 以内以留出 30% 余量。
 
 </details>
 
@@ -418,7 +418,7 @@ clean 把缓存行里的脏数据写回内存，缓存行保持有效；invalida
 ## 8. 参考资料
 
 - ARM, DDI 0403 *ARMv7-M Architecture Reference Manual*，Chapter B3.5 Protected Memory System Architecture（RBAR/RASR、AP、XN、SRD、对齐规则）。
-- ARM, DDI 0489 *Cortex-M7 Processor Technical Reference Manual*，Chapter 6 Memory System 与 cache maintenance operations。
+- ARM, DDI 0489 *Cortex-M7 Processor Technical Reference Manual*，Memory System 章与 cache maintenance operations 节。
 - STMicroelectronics, RM0433 *STM32H743/753 参考手册*，Memory protection unit 章与 Level 1 cache 章。
 - STMicroelectronics, AN4838 *Managing memory protection unit (MPU) in STM32 MCUs*，区域对齐、子区域与栈保护配置。
 - STMicroelectronics, AN4839 *Level 1 cache on STM32F7 Series*，cache 维护函数与 DMA 一致性实测。
