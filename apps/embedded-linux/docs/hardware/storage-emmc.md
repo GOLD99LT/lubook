@@ -114,7 +114,7 @@ HS400 在 HS200 的基础上把采样改成双沿（Double Data Rate，DDR），
 - **只支持 8 位**，1 位或 4 位模式下没有 HS400；
 - **HS400ES** 是增强版，`DS` 一直输出，不需要在读写之间切换方向，对长走线更友好。
 
-UFS 走的是另一条路：MIPI M-PHY 的 HS-GEAR 用嵌入式时钟和 8b/10b 编码，一条 lane 在 HS-G4 上跑 11.6 Gbit/s，两条 lane 双向全双工。折算下来 UFS 2.1 的理论带宽是 2.9 GB/s，扣掉 8b/10b 的 20% 开销后约 2.32 GB/s；UFS 3.1 用 128b/132b 编码，两条 lane 的理论值是 5.8 GB/s，编码后 5.62 GB/s。这个数量级已经和 SATA SSD 相当，代价是 PCB 上要按高速差分对来布线。
+UFS 走的是另一条路：MIPI M-PHY 的 HS-GEAR 用嵌入式时钟，两条 lane 收发分离，可以全双工。UFS 2.1 跑 HS-G3，每 lane 5.8 Gbit/s，两条合计 11.6 Gbit/s，折算 1.45 GB/s，扣掉 8b/10b 的 20% 开销后约 1.16 GB/s；UFS 3.1 跑 HS-G4，每 lane 11.6 Gbit/s，两条合计 23.2 Gbit/s，理论值 2.9 GB/s，128b/132b 编码后约 2.81 GB/s。这个数量级已经超过 SATA III 的 0.6 GB/s，接近 PCIe 3.0 双通道的入门 NVMe，代价是 PCB 上要按高速差分对来布线。
 
 ### 2.4 分区与 boot 区
 
@@ -476,8 +476,8 @@ UI $= 1/(200\ \text{MHz} \times 2) = 2.5$ ns $= 2500$ ps。
 
 ## 8. 参考资料
 
-- JEDEC，《JESD84-B51 Embedded MultiMediaCard Product Standard 5.1》：第 6 章命令表、第 7 章 EXT_CSD、HS200/HS400 时序与 boot 分区定义。
-- SD Association，《SD Physical Layer Simplified Specification 8.00》：第 4 章卡识别流程、UHS-I 总线时序。
+- JEDEC，《JESD84-B51 Embedded MultiMediaCard Product Standard 5.1》：命令表与 EXT_CSD 字段两章、HS200/HS400 时序与 boot 分区定义。
+- SD Association，《SD Physical Layer Simplified Specification 8.00》：卡识别流程、UHS-I 总线时序部分。
 - JEDEC，《JESD220E Universal Flash Storage 3.1》：UFS 链路层、传输层与 SCSI 命令映射。
 - JEDEC，《JESD218B》与《JESD219》：TBW 的定义、企业级与客户端负载的差异。
 - Linux 内核文档 `Documentation/driver-api/mmc/mmc-dev-parts.rst`：boot0/boot1、RPMB、GPP 的设备节点与访问规则。

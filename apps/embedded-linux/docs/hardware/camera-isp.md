@@ -494,7 +494,7 @@ $$N_{blur} = \frac{2 \times 0.008}{8} \times 1920 = 3.84\ \text{像素}$$
 
 ## 8. 参考资料
 
-- MIPI Alliance，《MIPI CSI-2 Specification v2.1》：第 6 章包格式、第 9 章数据速率与虚拟通道。
+- MIPI Alliance，《MIPI CSI-2 Specification v2.1》：包格式、数据速率与虚拟通道相关章节。
 - MIPI Alliance，《MIPI D-PHY Specification v2.0》：HS/LP 时序、settle 与 SoT/EoT 定义。
 - Linux 内核文档 `Documentation/media/kapi/v4l2-subdev.rst`：pad、format、link 的协商规则。
 - Linux 内核绑定 `Documentation/devicetree/bindings/media/video-interfaces.txt`：`data-lanes`、`clock-lanes`、`link-frequencies`。

@@ -1,0 +1,70 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>eMMC 速率阶梯、HS400 双沿时序与分区布局</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a">eMMC：速率阶梯、HS400 双沿时序与分区布局</text>
+    <text x="24" y="52" font-size="13" fill="#5a6b7b">带宽 = 位宽 × 时钟 × 边沿 ÷ 8；条形按线性比例，legacy 只有 3 px</text>
+
+    <text x="24" y="84" font-size="14" font-weight="700" fill="#1a2b3a">速率阶梯（MB/s，理论值）</text>
+
+    <text x="24" y="114" font-size="13" fill="#1a2b3a">legacy 1 位 26 MHz</text>
+    <rect x="190" y="96" width="3" height="26" fill="#c9d2da"/>
+    <text x="456" y="114" font-size="13" fill="#1a2b3a">3.25</text>
+
+    <text x="24" y="150" font-size="13" fill="#1a2b3a">HS 8 位 52 MHz</text>
+    <rect x="190" y="132" width="34" height="26" fill="#8fa8c0"/>
+    <text x="456" y="150" font-size="13" fill="#1a2b3a">52</text>
+
+    <text x="24" y="186" font-size="13" fill="#1a2b3a">HS200 8 位 200 MHz</text>
+    <rect x="190" y="168" width="130" height="26" fill="#3a6ea5"/>
+    <text x="456" y="186" font-size="13" fill="#1a2b3a">200</text>
+
+    <text x="24" y="222" font-size="13" fill="#1a2b3a">HS400 8 位 200 MHz ×2</text>
+    <rect x="190" y="204" width="260" height="26" fill="#b5642e"/>
+    <text x="456" y="222" font-size="13" fill="#1a2b3a">400</text>
+
+    <text x="24" y="252" font-size="13" fill="#8a4a1f">HS400 = 8 × 200 MHz × 2 ÷ 8 = 400 MB/s；效率 88% 即 352 MB/s</text>
+
+    <text x="500" y="84" font-size="14" font-weight="700" fill="#1a2b3a">HS400 双沿时序</text>
+    <text x="500" y="104" font-size="13" fill="#5a6b7b">CLK</text>
+    <path d="M506,132 L506,110 L532,110 L532,132 L558,132 L558,110 L584,110 L584,132 L610,132 L610,110 L636,110 L636,132 L662,132 L662,110 L688,110 L688,132 L714,132" fill="none" stroke="#1a4f8b" stroke-width="2"/>
+    <text x="500" y="152" font-size="13" fill="#5a6b7b">DS</text>
+    <path d="M506,178 L519,178 L519,156 L545,156 L545,178 L571,178 L571,156 L597,156 L597,178 L623,178 L623,156 L649,156 L649,178 L675,178 L675,156 L701,156 L701,178 L714,178" fill="none" stroke="#b5642e" stroke-width="2"/>
+    <text x="500" y="196" font-size="13" fill="#5a6b7b">DAT</text>
+    <rect x="506" y="200" width="26" height="26" fill="#eef4fa" stroke="#8fa8c0"/>
+    <rect x="532" y="200" width="26" height="26" fill="#f7f9fb" stroke="#8fa8c0"/>
+    <rect x="558" y="200" width="26" height="26" fill="#eef4fa" stroke="#8fa8c0"/>
+    <rect x="584" y="200" width="26" height="26" fill="#f7f9fb" stroke="#8fa8c0"/>
+    <rect x="610" y="200" width="26" height="26" fill="#eef4fa" stroke="#8fa8c0"/>
+    <rect x="636" y="200" width="26" height="26" fill="#f7f9fb" stroke="#8fa8c0"/>
+    <rect x="662" y="200" width="26" height="26" fill="#eef4fa" stroke="#8fa8c0"/>
+    <rect x="688" y="200" width="26" height="26" fill="#f7f9fb" stroke="#8fa8c0"/>
+    <text x="519" y="218" font-size="13" text-anchor="middle" fill="#1a2b3a">D0</text>
+    <text x="545" y="218" font-size="13" text-anchor="middle" fill="#1a2b3a">D1</text>
+    <text x="571" y="218" font-size="13" text-anchor="middle" fill="#1a2b3a">D2</text>
+    <text x="597" y="218" font-size="13" text-anchor="middle" fill="#1a2b3a">D3</text>
+    <text x="623" y="218" font-size="13" text-anchor="middle" fill="#1a2b3a">D4</text>
+    <text x="649" y="218" font-size="13" text-anchor="middle" fill="#1a2b3a">D5</text>
+    <text x="675" y="218" font-size="13" text-anchor="middle" fill="#1a2b3a">D6</text>
+    <text x="701" y="218" font-size="13" text-anchor="middle" fill="#1a2b3a">D7</text>
+    <line x1="519" y1="156" x2="519" y2="200" stroke="#b5642e" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="545" y1="156" x2="545" y2="200" stroke="#b5642e" stroke-width="1" stroke-dasharray="3 3"/>
+    <text x="500" y="252" font-size="13" fill="#8a4a1f">UI = 2.5 ns；DS 在数据眼中心采样</text>
+
+    <text x="24" y="280" font-size="14" font-weight="700" fill="#1a2b3a">分区：两个 boot 区 + RPMB + 用户区（8 GB 器件，宽度示意）</text>
+    <rect x="24" y="288" width="110" height="32" fill="#1a4f8b"/>
+    <rect x="134" y="288" width="110" height="32" fill="#3a6ea5"/>
+    <rect x="244" y="288" width="90" height="32" fill="#8a4a1f"/>
+    <rect x="334" y="288" width="402" height="32" fill="#c9d2da"/>
+    <text x="79" y="309" font-size="13" text-anchor="middle" fill="#ffffff">boot0 8 MiB</text>
+    <text x="189" y="309" font-size="13" text-anchor="middle" fill="#ffffff">boot1 8 MiB</text>
+    <text x="289" y="309" font-size="13" text-anchor="middle" fill="#ffffff">RPMB 4 MiB</text>
+    <text x="535" y="309" font-size="13" text-anchor="middle" fill="#1a2b3a">用户区：GPT + rootfs + data</text>
+
+    <text x="24" y="344" font-size="13" fill="#1a2b3a">BOOT_SIZE_MULT = 0x40 → 64 × 128 KiB = 8 MiB；两个 boot 区共 16 MiB</text>
+    <text x="24" y="366" font-size="13" fill="#1a2b3a">启动：ROM 从 boot0 偏移 0 读 SPL；SD 卡则从用户区偏移 1024 B 读</text>
+    <text x="24" y="388" font-size="13" fill="#8a4a1f">TBW = 容量 × P/E ÷ WAF：16 GB × 3000 ÷ 3 = 16 TB，每天 8 GB 可用 5.48 年</text>
+    <text x="24" y="410" font-size="13" fill="#1a2b3a">寿命：PRE_EOL_INFO 0x02 警告 / 0x03 紧急；LIFE_TIME_EST 0x01 到 0x0B</text>
+    <text x="24" y="432" font-size="13" fill="#1a2b3a">fio 4K 随机 QD32 6000 IOPS = 24.6 MB/s，只有顺序读 352 MB/s 的 1/14</text>
+  </g>
+</svg>

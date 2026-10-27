@@ -1,0 +1,107 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>安全启动的信任链、密钥层级、回滚计数器与 1.8 s 启动预算</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a">安全启动：信任链、密钥层级、回滚账本与验签预算</text>
+    <text x="24" y="52" font-size="13" fill="#5a6b7b">验签 = 哈希（与镜像大小成正比）+ 一次公钥运算（常数）；先验签、再解析</text>
+
+    <text x="24" y="80" font-size="14" font-weight="700" fill="#1a2b3a">信任链：每一级验下一级，根在 ROM 与 OTP</text>
+    <rect x="24" y="90" width="128" height="64" rx="6" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.4"/>
+    <text x="88" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">ROM</text>
+    <text x="88" y="130" font-size="13" text-anchor="middle" fill="#5a6b7b">BL1</text>
+    <text x="88" y="148" font-size="13" text-anchor="middle" fill="#8a4a1f">OTP 哈希</text>
+
+    <path d="M152,122 L164,122" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M156,117 L164,122 L156,127" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="168" y="90" width="128" height="64" rx="6" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.4"/>
+    <text x="232" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">SPL</text>
+    <text x="232" y="130" font-size="13" text-anchor="middle" fill="#5a6b7b">BL2</text>
+    <text x="232" y="148" font-size="13" text-anchor="middle" fill="#8a4a1f">内嵌公钥</text>
+
+    <path d="M296,122 L308,122" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M300,117 L308,122 L300,127" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="312" y="90" width="128" height="64" rx="6" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.4"/>
+    <text x="376" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">U-Boot</text>
+    <text x="376" y="130" font-size="13" text-anchor="middle" fill="#5a6b7b">BL33</text>
+    <text x="376" y="148" font-size="13" text-anchor="middle" fill="#8a4a1f">control DTB</text>
+
+    <path d="M440,122 L452,122" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M444,117 L452,122 L444,127" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="456" y="90" width="128" height="64" rx="6" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="520" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">内核 + DTB</text>
+    <text x="520" y="130" font-size="13" text-anchor="middle" fill="#5a6b7b">FIT</text>
+    <text x="520" y="148" font-size="13" text-anchor="middle" fill="#8a4a1f">配置签名</text>
+
+    <path d="M584,122 L596,122" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M588,117 L596,122 L588,127" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="600" y="90" width="128" height="64" rx="6" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.4"/>
+    <text x="664" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">rootfs</text>
+    <text x="664" y="130" font-size="13" text-anchor="middle" fill="#5a6b7b">dm-verity</text>
+    <text x="664" y="148" font-size="13" text-anchor="middle" fill="#8a4a1f">root hash</text>
+
+    <text x="24" y="176" font-size="13" fill="#1a2b3a">任何一级被替换，后面全部失效；换钥必须从被替换的那一级往上重签</text>
+
+    <text x="24" y="204" font-size="14" font-weight="700" fill="#1a2b3a">密钥层级：OTP 只存根哈希，换钥靠重签证书</text>
+    <rect x="24" y="214" width="136" height="64" rx="6" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.4"/>
+    <text x="92" y="236" font-size="13" text-anchor="middle" fill="#1a2b3a">根密钥</text>
+    <text x="92" y="254" font-size="13" text-anchor="middle" fill="#5a6b7b">离线 HSM</text>
+    <text x="92" y="272" font-size="13" text-anchor="middle" fill="#8a4a1f">签中间证书</text>
+
+    <path d="M160,246 L180,246" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M172,241 L180,246 L172,251" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="184" y="214" width="136" height="64" rx="6" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.4"/>
+    <text x="252" y="236" font-size="13" text-anchor="middle" fill="#1a2b3a">中间证书</text>
+    <text x="252" y="254" font-size="13" text-anchor="middle" fill="#5a6b7b">随固件分发</text>
+    <text x="252" y="272" font-size="13" text-anchor="middle" fill="#8a4a1f">签签名密钥</text>
+
+    <path d="M320,246 L340,246" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M332,241 L340,246 L332,251" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="344" y="214" width="136" height="64" rx="6" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="412" y="236" font-size="13" text-anchor="middle" fill="#1a2b3a">签名密钥</text>
+    <text x="412" y="254" font-size="13" text-anchor="middle" fill="#5a6b7b">构建 HSM</text>
+    <text x="412" y="272" font-size="13" text-anchor="middle" fill="#8a4a1f">签镜像与 OTA</text>
+
+    <path d="M480,246 L500,246" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M492,241 L500,246 L492,251" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="504" y="214" width="136" height="64" rx="6" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.4"/>
+    <text x="572" y="236" font-size="13" text-anchor="middle" fill="#1a2b3a">设备验证</text>
+    <text x="572" y="254" font-size="13" text-anchor="middle" fill="#5a6b7b">只存根哈希</text>
+    <text x="572" y="272" font-size="13" text-anchor="middle" fill="#8a4a1f">32 B = 8 熔丝</text>
+
+    <rect x="656" y="214" width="80" height="64" rx="6" fill="#f7e9e7" stroke="#b03a2e" stroke-width="1.4"/>
+    <text x="696" y="236" font-size="13" text-anchor="middle" fill="#8a2a20">回滚</text>
+    <text x="696" y="254" font-size="13" text-anchor="middle" fill="#8a2a20">OTP 64</text>
+    <text x="696" y="272" font-size="13" text-anchor="middle" fill="#8a2a20">RPMB 32</text>
+
+    <text x="24" y="306" font-size="14" font-weight="700" fill="#1a2b3a">启动预算 1800 ms（上）与其中 49.7 ms 验签（下）</text>
+
+    <rect x="24" y="314" width="10.9" height="24" fill="#c9d2da"/>
+    <rect x="34.9" y="314" width="9.2" height="24" fill="#8fa8c0"/>
+    <rect x="44.1" y="314" width="101.7" height="24" fill="#3a6ea5"/>
+    <rect x="145.8" y="314" width="23.3" height="24" fill="#b5642e"/>
+    <rect x="169.1" y="314" width="215.6" height="24" fill="#1a4f8b"/>
+    <rect x="384.7" y="314" width="75.3" height="24" fill="#4f9e63"/>
+    <text x="95" y="331" font-size="13" text-anchor="middle" fill="#ffffff">U-Boot</text>
+    <text x="277" y="331" font-size="13" text-anchor="middle" fill="#ffffff">内核 890</text>
+    <text x="470" y="332" font-size="13" fill="#1a2b3a">1800 ms 总启动</text>
+
+    <rect x="24" y="352" width="8.8" height="24" fill="#8fa8c0"/>
+    <rect x="32.8" y="352" width="36.9" height="24" fill="#3a6ea5"/>
+    <rect x="69.7" y="352" width="227.2" height="24" fill="#b5642e"/>
+    <rect x="296.9" y="352" width="163.1" height="24" fill="#1a4f8b"/>
+    <text x="183" y="369" font-size="13" text-anchor="middle" fill="#ffffff">25.9 ms 内核哈希</text>
+    <text x="378" y="369" font-size="13" text-anchor="middle" fill="#ffffff">18.6 ms</text>
+    <text x="470" y="370" font-size="13" fill="#1a2b3a">49.7 ms = 2.76%</text>
+
+    <text x="24" y="398" font-size="13" fill="#1a2b3a">45 ROM · 38 SPL · 420 U-Boot · 96 FIT · 890 内核 · 311 dm-verity（ms）</text>
+    <text x="24" y="418" font-size="13" fill="#8a4a1f">1.0 + 4.2 + 25.9 + 18.6 = 49.7 ms；RSA 每次只有 0.5 ms，哈希才是线性项</text>
+    <text x="24" y="436" font-size="13" fill="#1a2b3a">64 位 OTP 每 8 版烧一位 → 512 版 / 42.7 年，回滚窗口 7 版</text>
+  </g>
+</svg>

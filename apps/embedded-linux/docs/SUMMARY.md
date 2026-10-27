@@ -15,6 +15,9 @@
 * [内核模块：生命周期、符号导出与调试 Kernel Modules](kernel/kernel-module.md)
 * [字符设备：file_operations、阻塞与 ioctl Character Devices](kernel/char-device.md)
 * [platform 总线与驱动：匹配、probe 与资源 Platform Bus and Drivers](kernel/platform-driver.md)
+* [中断与并发：上下半部、原子上下文与锁的选择](kernel/interrupt-concurrency.md)
+* [DMA 与内存：一致性、流式映射与 cache 维护](kernel/dma-memory.md)
+* [电源管理：runtime PM、系统休眠与功耗账](kernel/power-management.md)
 
 ## 第三篇 · 用户空间与调试
 
@@ -26,11 +29,14 @@
 
 * [显示与触摸：MIPI DSI、LVDS、RGB 接口取舍与面板时序](hardware/display-touch.md)
 * [音频：I2S/TDM 时序、codec 与 DAPM、时钟树与 pop 音](hardware/audio.md)
+* [存储：eMMC/UFS/SD 的协议、HS 时序、分区与寿命](hardware/storage-emmc.md)
+* [Camera 与 ISP：CSI-2 速率、V4L2 管线与 3A 收敛](hardware/camera-isp.md)
 
 ## 第五篇 · 可靠性与升级
 
 * [看门狗与日志：/dev/watchdog、systemd 集成与 journald 落盘](reliability/watchdog-log.md)
 * [A/B 升级：GPT 分区、启动计数器、镜像校验与断电回滚](reliability/ab-upgrade.md)
+* [安全启动：信任链、密钥层级、防回滚与验签预算](reliability/secure-boot.md)
 
 ## 第六篇 · 板级实战
 
