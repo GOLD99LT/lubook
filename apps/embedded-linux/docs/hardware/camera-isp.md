@@ -9,7 +9,7 @@ difficulty: 3
 status: published
 sources:
   - MIPI Alliance，《MIPI CSI-2 Specification v2.1》与《MIPI D-PHY Specification v2.0》：通道结构、长短包格式、数据速率与 HS/LP 时序
-  - Linux 内核文档 Documentation/media/kapi/v4l2-subdev.rst 与 v4l2-controls.rst：子设备、pad、format 协商与曝光/增益控制项
+  - Linux 内核文档 Documentation/media/kapi/v4l2-subdev.rst、v4l2-controls.rst 与 Documentation/driver-api/media/camera-sensor.rst：子设备、pad、format 协商、曝光/增益控制项与 link frequency 定义
   - Linux 内核绑定文档 Documentation/devicetree/bindings/media/video-interfaces.txt：data-lanes、clock-lanes、link-frequencies 字段语义
   - OmniVision，《OV5640 Datasheet》与《OV5640 Software Application Note》：上电时序、PLL、0x3500/0x3508 曝光与增益寄存器
   - Sony，《IMX219 Datasheet》：粗积分时间（coarse integration time）与增益寄存器、MIPI 输出配置
@@ -193,18 +193,20 @@ $\beta$ 是消隐开销比例，典型 0.10 到 0.15；$N_{lane}$ 是数据通�
 
 代入几组典型配置：
 
-| 配置 | 原始速率 | 含 12% 消隐 | 通道数 | 每通道 |
-|---|---|---|---|---|
-| 1080p30 RAW10 | 622.1 Mbit/s | 696.7 Mbit/s | 2 | 348.4 Mbit/s |
-| 1080p60 RAW10 | 1244.2 Mbit/s | 1393.5 Mbit/s | 4 | 348.4 Mbit/s |
-| 4K30 RAW10 | 2488.3 Mbit/s | 2786.9 Mbit/s | 4 | 696.7 Mbit/s |
-| 13 MP30 RAW10 | 3938.7 Mbit/s | 4411.3 Mbit/s | 4 | 1102.8 Mbit/s |
-| 13 MP15 RAW12 | 2363.2 Mbit/s | 2646.8 Mbit/s | 2 | 1323.4 Mbit/s |
+| 配置 | 原始速率 | 含 12% 消隐 | 通道数 | 每通道数据率 | clock lane 频率 |
+|---|---|---|---|---|---|
+| 1080p30 RAW10 | 622.1 Mbit/s | 696.7 Mbit/s | 2 | 348.4 Mbit/s | 174.2 MHz |
+| 1080p60 RAW10 | 1244.2 Mbit/s | 1393.5 Mbit/s | 4 | 348.4 Mbit/s | 174.2 MHz |
+| 4K30 RAW10 | 2488.3 Mbit/s | 2786.9 Mbit/s | 4 | 696.7 Mbit/s | 348.4 MHz |
+| 13 MP30 RAW10 | 3938.7 Mbit/s | 4411.3 Mbit/s | 4 | 1102.8 Mbit/s | 551.4 MHz |
+| 13 MP15 RAW12 | 2363.2 Mbit/s | 2646.8 Mbit/s | 2 | 1323.4 Mbit/s | 661.7 MHz |
+
+最后两列的关系是 $f_{link} = R_{lane}/2$：D-PHY 采用 DDR 时钟，一个时钟周期传 2 位，所以设备树里的 `link-frequencies` 是 **clock lane 频率**，不是每通道比特率。
 
 从表里能读出两条工程结论：
 
-1. **1080p30 用 2 条 lane 就够**，每通道 348 Mbit/s，离 1.5 Gbit/s 的上限还有 4 倍余量；
-2. **13 MP 全分辨率必须上 4 条 lane**，2 条 lane 时每通道 2.2 Gbit/s，只有 2.5 Gbit/s 的 PHY 才接得住，而且没有余量给走线损耗。
+1. **1080p30 用 2 条 lane 就够**，每通道 348.4 Mbit/s（clock lane 174.2 MHz），离 1.5 Gbit/s 的上限还有 4 倍余量；
+2. **13 MP 全分辨率必须上 4 条 lane**，每通道约 1.103 Gbit/s（clock lane 551.4 MHz）；2 条 lane 时每通道 2.2 Gbit/s，只有 2.5 Gbit/s 的 PHY 才接得住，而且没有余量给走线损耗。
 
 ### 3.2 帧时间与曝光窗口
 
@@ -273,6 +275,8 @@ $$R_{total} = 3.939 \times 1.12 = 4.411\ \text{Gbit/s}$$
 
 $$R_{lane} = \frac{4.411}{4} = 1.103\ \text{Gbit/s}$$
 
+对应的 clock lane 频率是 $1102.8/2 = 551.4$ MHz，设备树里的 `link-frequencies` 应写 `551400000`（按 sensor 实际 PLL 档位取整）；作为对照，1080p30 两条 lane 的 348.4 Mbit/s 对应 174.2 MHz。
+
 接收端 1.5 Gbit/s 上限时余量 26%；2.5 Gbit/s 时余量 56%。若改成 2 条 lane，每通道 2.206 Gbit/s，只有 2.5 Gbit/s 的 PHY 能接，且走线损耗会吃掉余量。
 
 **第二步：算内存带宽。** 一帧 RAW10 的数据量：
@@ -330,8 +334,8 @@ $$N_{blur} = \frac{1 \times 0.01}{5} \times 1920 = 3.84\ \text{像素}$$
 
 三个字段最容易写错：
 
-- `data-lanes = <1 2>` 表示用 lane 0 和 lane 1，顺序就是数组顺序；写成 `<2 1>` 是"物理 lane 2 接逻辑 lane 0"，用于走线交叉的板子；
-- `link-frequencies` 是**每通道的比特率**，单位 Hz，不是像素时钟，也不是总带宽；
+- `data-lanes = <1 2>` 里的值是**物理 data lane 索引**，数组位置才是**逻辑 lane**。CSI-2 有独立 clock lane 时，数据 lane 从 1 开始编号（绑定文档的原例就是 `data-lanes = <1 2>`，假设 clock lane 在硬件 lane 0），所以 `<1 2>` 表示"逻辑 lane 0 接物理 lane 1、逻辑 lane 1 接物理 lane 2"；4 条 lane 写 `<1 2 3 4>`。写成 `<2 1>` 则是"逻辑 lane 0 接物理 lane 2、逻辑 lane 1 接物理 lane 1"，用于走线交叉的板子——数组位置不变，变的是每个逻辑 lane 取哪条物理线。
+- `link-frequencies` 是 **CSI-2 clock lane 的频率**（D-PHY 在 DDR 下工作的时钟），单位 Hz；**每条 lane 的数据率是它的 2 倍**。V4L2 的 `V4L2_CID_LINK_FREQ` 报的就是这个时钟频率，内核 `camera-sensor.rst` 也是这样定义的。它不是像素时钟，也不是总带宽。IMX219 的 456 MHz 对应 912 Mbit/s/lane；示例里的 700 MHz 对应 1.4 Gbit/s/lane，只是演示单位换算，实际要按 sensor 的模式表填写——1080p30 两条 lane（348.4 Mbit/s/lane）只需要 174.2 MHz，13 MP 四条 lane（约 1.103 Gbit/s/lane）对应 551.4 MHz。
 - `clock-noncontinuous` 表示时钟通道在帧间会停，多数 sensor 默认连续时钟，配错时接收端会等不到 clock lane 的 HS 进入。
 
 ### 5.2 用 media-ctl 把链路配通
@@ -395,7 +399,7 @@ CSI-2 是差分高速信号，布线规则和 USB 3.0 类似：
 
 **原因**：接收端与发送端的 lane 数不一致，或者 `link-frequencies` 写错。接收端按 2 条 lane 解析 4 条 lane 的数据，长包的 word count 永远对不上，行数据被丢弃，自然不会产生 frame end。也可能是虚拟通道号不匹配（多 sensor 场景）。
 
-**解决**：先对齐设备树的 `data-lanes` 与 sensor 寄存器里的 lane 数；再确认 `link-frequencies` 等于"每 lane 比特率"而不是总带宽；最后用示波器看每条 lane 上有没有 HS 突发的波形——没有波形的 lane 说明 sensor 根本没配出来。
+**解决**：先对齐设备树的 `data-lanes` 与 sensor 寄存器里的 lane 数；再确认 `link-frequencies` 等于 clock lane 频率（每 lane 比特率的一半），而不是总带宽；最后用示波器看每条 lane 上有没有 HS 突发的波形——没有波形的 lane 说明 sensor 根本没配出来。
 :::
 
 ::: pitfall 坑二：画面有固定位置的横条纹或周期性花屏
@@ -439,6 +443,8 @@ $$R_{raw} = 1920 \times 1080 \times 10 \times 30 = 622.1\ \text{Mbit/s}$$
 $$R_{total} = 622.1 \times 1.12 = 696.7\ \text{Mbit/s}$$
 
 $$R_{lane} = \frac{696.7}{2} = 348.4\ \text{Mbit/s}$$
+
+对应的 clock lane 频率是 $348.4/2 = 174.2$ MHz，设备树写 `link-frequencies = /bits/ 64 <174200000>`。
 
 余量 $1.5/0.3484 = 4.3$ 倍，约 77%。所以 1080p30 用 2 条 lane 非常宽裕，这也是手机副摄普遍用 2 lane 的原因。
 </details>

@@ -96,7 +96,7 @@
     <rect x="32.8" y="352" width="36.9" height="24" fill="#3a6ea5"/>
     <rect x="69.7" y="352" width="227.2" height="24" fill="#b5642e"/>
     <rect x="296.9" y="352" width="163.1" height="24" fill="#1a4f8b"/>
-    <text x="183" y="369" font-size="13" text-anchor="middle" fill="#ffffff">25.9 ms 内核哈希</text>
+    <text x="183" y="369" font-size="13" text-anchor="middle" fill="#ffffff">25.9 ms FIT 验签</text>
     <text x="378" y="369" font-size="13" text-anchor="middle" fill="#ffffff">18.6 ms</text>
     <text x="470" y="370" font-size="13" fill="#1a2b3a">49.7 ms = 2.76%</text>
 

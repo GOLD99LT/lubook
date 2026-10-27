@@ -64,7 +64,7 @@
     <text x="24" y="344" font-size="13" fill="#1a2b3a">BOOT_SIZE_MULT = 0x40 → 64 × 128 KiB = 8 MiB；两个 boot 区共 16 MiB</text>
     <text x="24" y="366" font-size="13" fill="#1a2b3a">启动：ROM 从 boot0 偏移 0 读 SPL；SD 卡则从用户区偏移 1024 B 读</text>
     <text x="24" y="388" font-size="13" fill="#8a4a1f">TBW = 容量 × P/E ÷ WAF：16 GB × 3000 ÷ 3 = 16 TB，每天 8 GB 可用 5.48 年</text>
-    <text x="24" y="410" font-size="13" fill="#1a2b3a">寿命：PRE_EOL_INFO 0x02 警告 / 0x03 紧急；LIFE_TIME_EST 0x01 到 0x0B</text>
+    <text x="24" y="410" font-size="13" fill="#1a2b3a">寿命：PRE_EOL_INFO 0x02 警告 / 0x03 紧急；LIFE_TIME_EST 0x01 到 0x0A，0x0B 已超寿</text>
     <text x="24" y="432" font-size="13" fill="#1a2b3a">fio 4K 随机 QD32 6000 IOPS = 24.6 MB/s，只有顺序读 352 MB/s 的 1/14</text>
   </g>
 </svg>

@@ -92,7 +92,17 @@ CMD 线在初始化阶段用开漏（open-drain）驱动，允许多设备共享
 | 7 | CMD8 | 读 512 字节 EXT_CSD | 读出的字段全 0 或全 FF |
 | 8 | CMD6 | 切位宽、切时序、切分区 | 切完不工作，多为时序或电压不匹配 |
 
-EXT_CSD 是 eMMC 的"寄存器总表"，512 字节里有容量、分区大小、支持的速率模式、寿命估计。所有高阶配置都通过 CMD6 的 SWITCH 写这个表：参数高 3 位是访问模式（0 命令集、1 置位、2 清位、3 写字节），中间 16 位是 EXT_CSD 索引，低 8 位是值。**写错索引不会报错，只会静默地改掉另一个字段**，这是配置类故障的常见来源。
+EXT_CSD 是 eMMC 的"寄存器总表"，512 字节里有容量、分区大小、支持的速率模式、寿命估计。所有高阶配置都通过 CMD6 的 SWITCH 写这个表。CMD6 的 32 位参数按 JESD84 和内核 `__mmc_switch()` 的定义拆成四段：
+
+| 位段 | 字段 | 宽度 | 含义 |
+|---|---|---|---|
+| [31:26] | Reserved | 6 位 | 保留，写 0 |
+| [25:24] | Access | 2 位 | 0 命令集、1 置位、2 清位、3 写字节 |
+| [23:16] | Index | 8 位 | EXT_CSD 索引 |
+| [15:8] | Value | 8 位 | 要写入的字节 |
+| [7:0] | CmdSet | 8 位 | 命令集，通常为 0 |
+
+即 `arg = (access << 24) | (index << 16) | (value << 8) | cmdset`。例如 access = 3（写字节）、index = 179（`PARTITION_CONFIG`）、value = 0x08、cmdset = 0，参数就是 `0x03B30800`。**写错索引不会报错，只会静默地改掉另一个字段**，这是配置类故障的常见来源。
 
 ### 2.3 HS200 与 HS400：从单沿到双沿
 
@@ -127,7 +137,7 @@ eMMC 的"分区"和普通磁盘的 GPT 分区是两件事。eMMC 内部有四个
 | RPMB | `RPMB_SIZE_MULT` × 128 KiB | 通常是 4 MiB | 防重放的安全存储 |
 | General Purpose 1-4 | `GP_SIZE_MULT` | 按需 | 厂商自定义 |
 
-配置入口是 EXT_CSD 的 `PARTITION_CONFIG`（索引 179）：低 3 位使能哪个 boot 区，中间 3 位选择当前访问哪个分区，第 6 位是"分区配置已完成"标志。**这个标志一旦置 1，分区大小就锁死**，再改需要重新初始化整颗芯片。量产时把这一步做错，后面所有板子都得返工。
+配置入口是 EXT_CSD 的 `PARTITION_CONFIG`（索引 179）：低 3 位使能哪个 boot 区，中间 3 位选择当前访问哪个分区，第 6 位是"分区配置已完成"标志。**这个标志是一次性可编程位，一旦置 1 就不可逆**：之后再改 `BOOT_SIZE_MULT`、`RPMB_SIZE_MULT` 或 `GP_SIZE_MULT`，器件会直接返回 `SWITCH_ERROR`，`mmc-utils bootpart-resize` 也会拒绝执行。量产时把这一步做错，只能换器件或换方案，后面所有板子都得返工。
 
 三个工程要点：
 
@@ -252,11 +262,11 @@ $$B = \frac{8 \times 200 \times 10^{6} \times 2}{8} = 400\ \text{MB/s}$$
 
 $$T_{write} = \frac{1073.7\ \text{MB}}{300\ \text{MB/s}} = 3.58\ \text{s}$$
 
-同一份镜像在 HS200 模式下（写 160 MB/s）：
+同一份镜像在 HS200 模式下，按与 HS400 相同的 75% 写效率（200 × 0.75 = 150 MB/s）：
 
-$$T_{write} = \frac{1073.7}{160} = 6.71\ \text{s}$$
+$$T_{write} = \frac{1073.7}{150} = 7.16\ \text{s}$$
 
-差了 3.13 秒。这就是"HS400 训练失败、静默退回 HS200"在产线升级工位上表现出的现象：单台多 3 秒，一千台多 52 分钟。
+差了 $7.16 - 3.58 = 3.58$ 秒。这就是"HS400 训练失败、静默退回 HS200"在产线升级工位上表现出的现象：单台多 3.58 秒，一千台多 3580 秒，约 59.7 分钟（接近 1 小时）。
 
 **第三步：算寿命。** 8 GB、TLC 3000 次 P/E、WAF 取 4：
 
@@ -282,7 +292,7 @@ $$L = \frac{32}{6000} = 5.33\ \text{ms}$$
 
 $$S_{need} = 0.879 + 6 + 0.0625 = 6.94\ \text{MiB}$$
 
-8 MiB 的 boot 区（$M = 64$）放得下，余量 1.06 MiB；4 MiB 的 boot 区（$M = 32$）放不下。量产时如果把内核和 initramfs 一起塞进 boot 区，很容易超过 8 MiB，这时候要么改 `BOOT_SIZE_MULT`（需要重新初始化分区，已出货的板子改不了），要么把内核移到用户区由 U-Boot 从文件系统加载。
+8 MiB 的 boot 区（$M = 64$）放得下，余量 1.06 MiB；4 MiB 的 boot 区（$M = 32$）放不下。量产时如果把内核和 initramfs 一起塞进 boot 区，很容易超过 8 MiB，这时候要么在置位前把 `BOOT_SIZE_MULT` 改大（置位后不可逆，已出货的板子只能换器件或换方案），要么把内核移到用户区由 U-Boot 从文件系统加载。
 
 **第六步：验算全盘写入时间。** 8 GB 盘从全 0 写到全满：
 
@@ -336,7 +346,7 @@ echo 1 > /sys/block/mmcblk0boot0/force_ro
 sgdisk --clear --new=1:2048:+131072 --change-name=1:boot /dev/mmcblk0
 ```
 
-`PARTITION_CONFIG` 写完之后，`/dev/mmcblk0boot0` 才会出现对应的大小；改 `BOOT_SIZE_MULT` 需要先写 `PARTITION_SETTING_COMPLETED = 0`，再写大小，最后置 1，中间任何一步断电都可能让分区表处于半配置状态。
+`PARTITION_CONFIG` 写完之后，`/dev/mmcblk0boot0` 才会出现对应的大小。注意 `PARTITION_SETTING_COMPLETED`（EXT_CSD[179] 的 bit 6）**只能从 0 写成 1，不能写回 0**：一旦置 1，器件就冻结 `BOOT_SIZE_MULT`、`RPMB_SIZE_MULT` 与 `GP_SIZE_MULT`，后续任何修改都返回 `SWITCH_ERROR`，`mmc-utils bootpart-resize` 同样会拒绝。因此分区大小必须在置位前一次算准；已经置位的器件只能换器件或换方案。
 
 ### 5.3 fio 怎么测才有意义
 
@@ -377,7 +387,7 @@ mmc extcsd read /dev/mmcblk0 | grep -A2 "Life Time"
 两个字段最关键：
 
 - `PRE_EOL_INFO`：0x01 正常、0x02 警告（已用 80%）、0x03 紧急（已用 90%）；
-- `DEVICE_LIFE_TIME_EST_TYP_A/B`：0x01 到 0x0B，分别代表已用 0-10%、10-20% 一直到 90-100%。
+- `DEVICE_LIFE_TIME_EST_TYP_A/B`：0x01 到 0x0A 是十个十分位，分别代表已用 0-10%、10-20% 一直到 90-100%；**0x0B 不是"90-100% 之上的一档"，而是"已超出最大估计寿命"**，读到它说明器件已经超过设计寿命，应按失效处理。
 
 这两个值是 FTL 根据 P/E 消耗估算的，粒度很粗，但足以做"提前换机"的告警。把它接到远程诊断里，比在现场等设备写坏再返修便宜得多。
 
@@ -460,7 +470,7 @@ $$L = \frac{32}{5000} = 6.4\ \text{ms}$$
 
 $M = 32$，$S_{boot} = 32 \times 128\ \text{KiB} = 4\ \text{MiB}$。
 
-需求 $0.879 + 3 + 0.0625 = 3.94$ MiB，余量只有 0.06 MiB（约 61 KiB）。放得下，但**没有任何余量**：下次内核多 100 KiB 就放不进去，而 `BOOT_SIZE_MULT` 改大需要重新初始化分区。
+需求 $0.879 + 3 + 0.0625 = 3.94$ MiB，余量只有 0.06 MiB（约 61 KiB）。放得下，但**没有任何余量**：下次内核多 100 KiB 就放不进去；而 `PARTITION_SETTING_COMPLETED` 一旦置 1，`BOOT_SIZE_MULT` 就不可再改，已出货的板子只能换器件或换方案。
 
 工程上应该按"当前需求 × 1.5"取整到 2 的幂，即选 8 MiB（$M = 64$）。boot 区多占的 8 MiB 对 8 GB 的盘可以忽略。
 </details>
