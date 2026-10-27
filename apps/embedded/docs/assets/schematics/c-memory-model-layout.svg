@@ -1,0 +1,79 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>结构体布局、填充与重排</title>
+  <desc>左侧为未重排的 struct sample，12 字节中有 4 字节填充；右侧为按大到小重排后的布局，8 字节无填充。</desc>
+  <rect x="0" y="0" width="760" height="440" fill="#ffffff"/>
+
+  <text x="24" y="34" font-size="20" fill="#102a43" font-weight="700">结构体布局：填充、对齐与重排</text>
+  <text x="24" y="56" font-size="13.5" fill="#486581">同一组字段，声明顺序改变后 sizeof 从 12 B 降到 8 B（32 位 Cortex-M，AAPCS32）</text>
+
+  <rect x="20" y="76" width="355" height="302" rx="10" fill="#f8fafc" stroke="#bcccdc" stroke-width="1.5"/>
+  <text x="36" y="101" font-size="15" fill="#243b53" font-weight="600">struct sample（未重排）</text>
+
+  <rect x="36" y="116" width="24" height="34" fill="#e8f1ff" stroke="#3e7cb1" stroke-width="1.5"/>
+  <text x="48" y="138" font-size="14" fill="#173f5f" text-anchor="middle">ch</text>
+
+  <rect x="60" y="116" width="72" height="34" fill="#ffe8cc" stroke="#b7791f" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="96" y="138" font-size="14" fill="#7b4b12" text-anchor="middle">pad 3 B</text>
+
+  <rect x="132" y="116" width="96" height="34" fill="#e6f6f0" stroke="#2f855a" stroke-width="1.5"/>
+  <text x="180" y="138" font-size="14" fill="#1f5c41" text-anchor="middle">ts（uint32）</text>
+
+  <rect x="228" y="116" width="48" height="34" fill="#f3e8ff" stroke="#6b46c1" stroke-width="1.5"/>
+  <text x="252" y="138" font-size="14" fill="#4c1d95" text-anchor="middle">raw</text>
+
+  <rect x="276" y="116" width="34" height="34" fill="#fff4e6" stroke="#b7791f" stroke-width="1.5"/>
+  <text x="293" y="138" font-size="13" fill="#7b4b12" text-anchor="middle">flag</text>
+
+  <rect x="310" y="116" width="34" height="34" fill="#ffe8cc" stroke="#b7791f" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="327" y="138" font-size="13" fill="#7b4b12" text-anchor="middle">pad</text>
+
+  <text x="48" y="166" font-size="13" fill="#486581" text-anchor="middle">0</text>
+  <text x="180" y="166" font-size="13" fill="#486581" text-anchor="middle">4</text>
+  <text x="252" y="166" font-size="13" fill="#486581" text-anchor="middle">8</text>
+  <text x="293" y="166" font-size="13" fill="#486581" text-anchor="middle">10</text>
+  <text x="327" y="166" font-size="13" fill="#486581" text-anchor="middle">11</text>
+  <text x="344" y="166" font-size="13" fill="#486581">12</text>
+
+  <text x="36" y="196" font-size="14" fill="#243b53">sizeof = 12 B；有效字段 8 B；填充 4 B</text>
+  <text x="36" y="219" font-size="14" fill="#b23f2d" font-weight="600">填充率 = 4 / 12 = 33.33%</text>
+  <text x="36" y="246" font-size="13.5" fill="#486581">字段和：1 + 4 + 2 + 1 = 8 B</text>
+  <text x="36" y="268" font-size="13.5" fill="#486581">填充位置：偏移 1..3（3 B）+ 偏移 11（1 B）</text>
+  <text x="36" y="290" font-size="13.5" fill="#486581">字段偏移：0、4、8、10；结构体对齐 4</text>
+  <text x="36" y="312" font-size="13.5" fill="#486581">数组 1000 个：12,000 B</text>
+  <text x="36" y="334" font-size="13.5" fill="#486581">占 20 KB SRAM：58.59%</text>
+  <text x="36" y="356" font-size="13" fill="#7b4b12">填充字节内容未定义，不能直接 memcmp</text>
+
+  <rect x="400" y="76" width="340" height="302" rx="10" fill="#fffdf7" stroke="#d9b382" stroke-width="1.5"/>
+  <text x="416" y="101" font-size="15" fill="#5c3d0e" font-weight="600">struct sample_reordered（大到小）</text>
+
+  <rect x="416" y="116" width="120" height="34" fill="#e6f6f0" stroke="#2f855a" stroke-width="1.5"/>
+  <text x="476" y="138" font-size="14" fill="#1f5c41" text-anchor="middle">ts（uint32）</text>
+
+  <rect x="536" y="116" width="60" height="34" fill="#f3e8ff" stroke="#6b46c1" stroke-width="1.5"/>
+  <text x="566" y="138" font-size="14" fill="#4c1d95" text-anchor="middle">raw</text>
+
+  <rect x="596" y="116" width="30" height="34" fill="#e8f1ff" stroke="#3e7cb1" stroke-width="1.5"/>
+  <text x="611" y="138" font-size="14" fill="#173f5f" text-anchor="middle">ch</text>
+
+  <rect x="626" y="116" width="30" height="34" fill="#fff4e6" stroke="#b7791f" stroke-width="1.5"/>
+  <text x="641" y="138" font-size="14" fill="#7b4b12" text-anchor="middle">flag</text>
+
+  <text x="476" y="166" font-size="13" fill="#486581" text-anchor="middle">0</text>
+  <text x="566" y="166" font-size="13" fill="#486581" text-anchor="middle">4</text>
+  <text x="611" y="166" font-size="13" fill="#486581" text-anchor="middle">6</text>
+  <text x="641" y="166" font-size="13" fill="#486581" text-anchor="middle">7</text>
+  <text x="660" y="166" font-size="13" fill="#486581">8</text>
+
+  <text x="416" y="196" font-size="14" fill="#243b53">sizeof = 8 B；有效字段 8 B；填充 0 B</text>
+  <text x="416" y="219" font-size="14" fill="#2f855a" font-weight="600">填充率 = 0 / 8 = 0%</text>
+  <text x="416" y="246" font-size="13.5" fill="#486581">字段偏移：0、4、6、7</text>
+  <text x="416" y="268" font-size="13.5" fill="#486581">数组 1000 个：8,000 B</text>
+  <text x="416" y="290" font-size="13.5" fill="#486581">占 20 KB SRAM：39.06%</text>
+  <text x="416" y="312" font-size="13.5" fill="#b23f2d">相对节省：4 / 12 = 33.33%</text>
+  <text x="416" y="334" font-size="13.5" fill="#486581">省 4,000 B，少占 19.53 个百分点</text>
+  <text x="416" y="356" font-size="13" fill="#7b4b12">成员顺序就是布局，编译器不会自动重排</text>
+
+  <line x1="24" y1="392" x2="736" y2="392" stroke="#d9e2ec" stroke-width="1.2"/>
+  <text x="24" y="414" font-size="13.5" fill="#243b53">对齐递推：offset_i = align_up(offset_(i-1) + size_(i-1), align_i)；总大小再向上取整到最大成员对齐</text>
+  <text x="24" y="432" font-size="13" fill="#486581">协议结构体用 _Static_assert + offsetof 锁住布局；packed 结构体只当字节容器，访问前 memcpy 到对齐变量</text>
+</svg>

@@ -1,0 +1,88 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <rect width="760" height="440" fill="#ffffff"/>
+    <defs>
+      <marker id="fs-ar-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b6cb0"/>
+      </marker>
+    </defs>
+
+    <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">三种文件系统的盘上布局与掉电提交</text>
+    <text x="20" y="52" font-size="13" fill="#4a5568">左边三种布局决定元数据开销，右边 copy-on-write 的两个块决定掉电后能否回滚</text>
+    <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+    <text x="30" y="88" font-size="14" font-weight="700" fill="#1a365d">FAT16：集中式 FAT 表 + 固定根目录</text>
+    <rect x="30" y="96" width="44" height="42" fill="#e9edf2" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="74" y="96" width="58" height="42" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="132" y="96" width="58" height="42" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="190" y="96" width="62" height="42" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="252" y="96" width="178" height="42" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.2"/>
+    <text x="36" y="122" font-size="13" fill="#2d3748">引导</text>
+    <text x="82" y="122" font-size="13" fill="#7b341e">FAT 1</text>
+    <text x="140" y="122" font-size="13" fill="#7b341e">FAT 2</text>
+    <text x="198" y="122" font-size="13" fill="#7b341e">根目录</text>
+    <text x="262" y="122" font-size="13" fill="#2a4365">数据簇区 1024 簇</text>
+    <text x="30" y="156" font-size="13" fill="#4a5568">主备两份 FAT 共 4096 B，根目录 16384 B，合计占卷 0.49%</text>
+
+    <text x="30" y="182" font-size="14" font-weight="700" fill="#1a365d">LittleFS：成对元数据块 + 数据块</text>
+    <rect x="30" y="190" width="60" height="42" fill="#e9edf2" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="90" y="190" width="60" height="42" fill="#e6fffa" stroke="#2c7a7b" stroke-width="1.2"/>
+    <rect x="150" y="190" width="60" height="42" fill="#e6fffa" stroke="#2c7a7b" stroke-width="1.2"/>
+    <rect x="210" y="190" width="60" height="42" fill="#e6fffa" stroke="#2c7a7b" stroke-width="1.2"/>
+    <rect x="270" y="190" width="60" height="42" fill="#e6fffa" stroke="#2c7a7b" stroke-width="1.2"/>
+    <rect x="330" y="190" width="100" height="42" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.2"/>
+    <text x="60" y="216" font-size="13" text-anchor="middle" fill="#2d3748">SB</text>
+    <text x="120" y="216" font-size="13" text-anchor="middle" fill="#234e52">MD 0</text>
+    <text x="180" y="216" font-size="13" text-anchor="middle" fill="#234e52">MD 1</text>
+    <text x="240" y="216" font-size="13" text-anchor="middle" fill="#234e52">MD 2</text>
+    <text x="300" y="216" font-size="13" text-anchor="middle" fill="#234e52">MD 3</text>
+    <text x="380" y="216" font-size="13" text-anchor="middle" fill="#2a4365">数据块</text>
+    <text x="30" y="250" font-size="13" fill="#4a5568">SB 为超级块，MD 为元数据对，外置数据的文件各占一对</text>
+
+    <text x="30" y="276" font-size="14" font-weight="700" fill="#1a365d">SPIFFS：页 + 每文件一张索引页</text>
+    <rect x="30" y="284" width="76" height="42" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="106" y="284" width="76" height="42" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="182" y="284" width="118" height="42" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.2"/>
+    <rect x="300" y="284" width="130" height="42" fill="#e9edf2" stroke="#4a5568" stroke-width="1.2"/>
+    <text x="68" y="310" font-size="13" text-anchor="middle" fill="#7b341e">对象索引页</text>
+    <text x="144" y="310" font-size="13" text-anchor="middle" fill="#7b341e">数据页 0</text>
+    <text x="241" y="310" font-size="13" text-anchor="middle" fill="#2a4365">数据页 1 到 8</text>
+    <text x="365" y="310" font-size="13" text-anchor="middle" fill="#2d3748">GC 需预留空闲页</text>
+    <text x="30" y="344" font-size="13" fill="#4a5568">8 KiB 文件占 35 页，其中 2 页为固定开销</text>
+
+    <text x="450" y="88" font-size="14" font-weight="700" fill="#1a365d">掉电安全：先写新块，commit 后生效</text>
+
+    <rect x="450" y="96" width="286" height="72" rx="6" fill="#f0fff4" stroke="#2f855a" stroke-width="1.4"/>
+    <text x="462" y="118" font-size="14" font-weight="700" fill="#22543d">块 A：上一版，已提交</text>
+    <text x="462" y="140" font-size="13" fill="#2d3748">CRC 正确，tag 指向 A，可挂载</text>
+    <text x="462" y="160" font-size="13" fill="#2d3748">掉电只会让块 B 无效</text>
+
+    <rect x="450" y="186" width="286" height="72" rx="6" fill="#fffaf0" stroke="#c05621" stroke-width="1.4" stroke-dasharray="6 4"/>
+    <text x="462" y="208" font-size="14" font-weight="700" fill="#7b341e">块 B：正在写，commit 未落盘</text>
+    <text x="462" y="230" font-size="13" fill="#7b341e">写满后才写 commit 标记</text>
+    <text x="462" y="250" font-size="13" fill="#7b341e">CRC 通过才承认新版本</text>
+
+    <line x1="690" y1="184" x2="690" y2="170" stroke="#2b6cb0" stroke-width="1.6" marker-end="url(#fs-ar-blue)"/>
+    <text x="620" y="182" font-size="13" fill="#2b6cb0">commit 后</text>
+
+    <text x="450" y="284" font-size="13" fill="#4a5568">掉电落在 B 内部：B 的 CRC 不过，</text>
+    <text x="450" y="304" font-size="13" fill="#4a5568">挂载逻辑回滚到 A，只丢最后一次写。</text>
+    <text x="450" y="328" font-size="13" fill="#9b2c2c">FAT 无此机制：FAT 表与目录项</text>
+    <text x="450" y="348" font-size="13" fill="#9b2c2c">分两次写，中间掉电得到残文件。</text>
+
+    <rect x="30" y="362" width="226" height="66" rx="6" fill="#f7fafc" stroke="#cbd5e0"/>
+    <text x="42" y="382" font-size="14" font-weight="700" fill="#1a365d">元数据开销</text>
+    <text x="42" y="404" font-size="13" fill="#2d3748">200 个 2 KiB 文件时</text>
+    <text x="42" y="422" font-size="13" fill="#2d3748">FAT 52.3%，SPIFFS 27.3%</text>
+
+    <rect x="266" y="362" width="226" height="66" rx="6" fill="#f7fafc" stroke="#cbd5e0"/>
+    <text x="278" y="382" font-size="14" font-weight="700" fill="#1a365d">擦写寿命</text>
+    <text x="278" y="404" font-size="13" fill="#2d3748">64 B 每 10 s，单扇区 74 天</text>
+    <text x="278" y="422" font-size="13" fill="#2d3748">128 扇区均摊后 26.0 年</text>
+
+    <rect x="502" y="362" width="228" height="66" rx="6" fill="#fff5f5" stroke="#feb2b2"/>
+    <text x="514" y="382" font-size="14" font-weight="700" fill="#822727">写放大</text>
+    <text x="514" y="404" font-size="13" fill="#9b2c2c">每条记录都 sync：64 倍</text>
+    <text x="514" y="422" font-size="13" fill="#9b2c2c">一对元数据块 2.3 天写穿</text>
+  </g>
+</svg>

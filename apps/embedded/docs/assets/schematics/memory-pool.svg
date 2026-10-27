@@ -1,0 +1,99 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <rect width="760" height="440" fill="#ffffff"/>
+    <defs>
+      <marker id="mp-ar-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#c53030"/>
+      </marker>
+    </defs>
+
+    <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">堆的碎片剖面与固定块内存池</text>
+    <text x="20" y="52" font-size="13" fill="#4a5568">同一段 32 KiB SRAM：交替分配后堆只剩 256 B 的岛，固定块池没有外部碎片</text>
+    <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+    <text x="30" y="86" font-size="15" font-weight="700" fill="#1a365d">堆：首次适配，交替分配 64 组后的剖面</text>
+    <text x="460" y="86" font-size="15" font-weight="700" fill="#1a365d">固定块池：槽位等长</text>
+
+    <rect x="30" y="96" width="24" height="56" fill="#cbd5e0" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="54" y="96" width="24" height="56" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="78" y="96" width="24" height="56" fill="#cbd5e0" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="102" y="96" width="24" height="56" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="126" y="96" width="24" height="56" fill="#cbd5e0" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="150" y="96" width="24" height="56" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="174" y="96" width="24" height="56" fill="#cbd5e0" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="198" y="96" width="24" height="56" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="222" y="96" width="24" height="56" fill="#cbd5e0" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="246" y="96" width="24" height="56" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="270" y="96" width="24" height="56" fill="#cbd5e0" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="294" y="96" width="24" height="56" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="318" y="96" width="24" height="56" fill="#cbd5e0" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="342" y="96" width="24" height="56" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="366" y="96" width="24" height="56" fill="#cbd5e0" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="390" y="96" width="24" height="56" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+
+    <line x1="30" y1="164" x2="54" y2="164" stroke="#4a5568" stroke-width="1"/>
+    <line x1="30" y1="160" x2="30" y2="168" stroke="#4a5568" stroke-width="1"/>
+    <line x1="54" y1="160" x2="54" y2="168" stroke="#4a5568" stroke-width="1"/>
+    <text x="60" y="169" font-size="13" fill="#4a5568">256 B，共 64 组</text>
+
+    <rect x="460" y="96" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+    <rect x="499" y="96" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+    <rect x="538" y="96" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="577" y="96" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="616" y="96" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+    <rect x="655" y="96" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="694" y="96" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+
+    <rect x="460" y="124" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="499" y="124" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+    <rect x="538" y="124" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="577" y="124" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="616" y="124" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="655" y="124" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+    <rect x="694" y="124" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+
+    <rect x="460" y="152" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="499" y="152" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="538" y="152" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+    <rect x="577" y="152" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="616" y="152" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="655" y="152" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="694" y="152" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+
+    <rect x="460" y="180" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="499" y="180" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+    <rect x="538" y="180" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="577" y="180" width="34" height="22" rx="3" fill="#2b6cb0" stroke="#2b6cb0" stroke-width="1"/>
+    <rect x="616" y="180" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="655" y="180" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+    <rect x="694" y="180" width="34" height="22" rx="3" fill="#e9edf2" stroke="#4a5568" stroke-width="1"/>
+
+    <text x="460" y="222" font-size="13" fill="#2b6cb0">深色 已分配</text>
+    <text x="576" y="222" font-size="13" fill="#4a5568">浅色 空闲</text>
+    <text x="460" y="244" font-size="13" fill="#4a5568">128 B / 槽，共 256 槽</text>
+
+    <rect x="30" y="196" width="400" height="62" rx="6" fill="#fff5f5" stroke="#c53030" stroke-width="1.4"/>
+    <text x="44" y="220" font-size="15" font-weight="700" fill="#822727">此时申请 2048 B 连续块：失败</text>
+    <text x="44" y="243" font-size="13" fill="#9b2c2c">空闲总量 16 KiB 是请求的 8 倍，仍拼不出</text>
+
+    <text x="30" y="284" font-size="13" fill="#4a5568">浅色段是空闲块，深色段是仍被占用的块，两者交替排布，无法合并</text>
+
+    <rect x="30" y="298" width="226" height="112" rx="6" fill="#f7fafc" stroke="#cbd5e0"/>
+    <text x="42" y="320" font-size="14" font-weight="700" fill="#1a365d">碎片率</text>
+    <text x="42" y="344" font-size="13" fill="#2d3748">F = 1 - L / T</text>
+    <text x="42" y="366" font-size="13" fill="#2d3748">= 1 - 256 / 16384</text>
+    <text x="42" y="392" font-size="15" font-weight="700" fill="#c53030">= 98.4%</text>
+
+    <rect x="266" y="298" width="226" height="112" rx="6" fill="#f7fafc" stroke="#cbd5e0"/>
+    <text x="278" y="320" font-size="14" font-weight="700" fill="#1a365d">可分配上限</text>
+    <text x="278" y="344" font-size="13" fill="#2d3748">L = 256 B，T = 16384 B</text>
+    <text x="278" y="366" font-size="13" fill="#2d3748">需求 2056 B 大于 L</text>
+    <text x="278" y="392" font-size="15" font-weight="700" fill="#c53030">L 只有需求的 1/8</text>
+
+    <rect x="502" y="298" width="228" height="112" rx="6" fill="#f0fff4" stroke="#9ae6b4"/>
+    <text x="514" y="320" font-size="14" font-weight="700" fill="#22543d">固定块池</text>
+    <text x="514" y="344" font-size="13" fill="#2d3748">12 B 请求占满 128 B</text>
+    <text x="514" y="366" font-size="13" fill="#2d3748">槽内效率 12 / 128</text>
+    <text x="514" y="392" font-size="15" font-weight="700" fill="#2f855a">9.4%，但不会失败</text>
+  </g>
+</svg>

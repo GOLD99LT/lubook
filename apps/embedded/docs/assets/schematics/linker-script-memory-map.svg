@@ -1,0 +1,71 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>Flash 与 SRAM 的链接布局</title>
+  <desc>左侧 Flash 从 0x08000000 开始依次放置向量表、text、rodata 与 data 的 LMA；右侧 SRAM 放置 data 的 VMA、bss、堆、间隙与栈，并用箭头表示启动拷贝。</desc>
+  <rect x="0" y="0" width="760" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="copyArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 Z" fill="#b23f2d"/>
+    </marker>
+  </defs>
+
+  <text x="24" y="34" font-size="20" fill="#102a43" font-weight="700">Flash 与 SRAM 的链接布局：VMA、LMA 与启动拷贝</text>
+  <text x="24" y="56" font-size="13.5" fill="#486581">同一份 .data 在 Flash 中有一个 LMA，在 SRAM 中有一个 VMA；启动代码按 _sidata 拷贝 1,536 B</text>
+
+  <rect x="24" y="76" width="330" height="316" rx="10" fill="#f8fafc" stroke="#bcccdc" stroke-width="1.5"/>
+  <text x="40" y="100" font-size="15" fill="#243b53" font-weight="600">Flash 64 KB（0x08000000）</text>
+
+  <rect x="40" y="112" width="280" height="24" fill="#e8f1ff" stroke="#3e7cb1" stroke-width="1.4"/>
+  <text x="48" y="129" font-size="13.5" fill="#173f5f">isr_vector 236 B</text>
+  <text x="312" y="129" font-size="13" fill="#486581" text-anchor="end">0x08000000</text>
+
+  <rect x="40" y="136" width="280" height="78" fill="#e6f6f0" stroke="#2f855a" stroke-width="1.4"/>
+  <text x="48" y="180" font-size="14" fill="#1f5c41">text 40,000 B</text>
+  <text x="312" y="180" font-size="13" fill="#486581" text-anchor="end">0x080000EC</text>
+
+  <rect x="40" y="214" width="280" height="38" fill="#f3e8ff" stroke="#6b46c1" stroke-width="1.4"/>
+  <text x="48" y="238" font-size="14" fill="#4c1d95">rodata 4,096 B</text>
+  <text x="312" y="238" font-size="13" fill="#486581" text-anchor="end">0x08009D2C</text>
+
+  <rect x="40" y="252" width="280" height="38" fill="#ffe8cc" stroke="#b7791f" stroke-width="1.8"/>
+  <text x="48" y="276" font-size="14" fill="#7b4b12" font-weight="600">data（LMA）1,536 B</text>
+  <text x="312" y="276" font-size="13" fill="#7b4b12" text-anchor="end">0x0800AD2C</text>
+
+  <rect x="40" y="290" width="280" height="62" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="48" y="316" font-size="13.5" fill="#486581">free 19,668 B</text>
+  <text x="312" y="316" font-size="13" fill="#486581" text-anchor="end">到 0x08010000</text>
+
+  <text x="40" y="372" font-size="13.5" fill="#243b53">已用 45,868 B / 65,536 B = 69.99%</text>
+  <text x="40" y="388" font-size="13" fill="#486581">向量表在 Flash 起始，.data 的初值也在 Flash</text>
+
+  <rect x="406" y="76" width="330" height="316" rx="10" fill="#fffdf7" stroke="#d9b382" stroke-width="1.5"/>
+  <text x="422" y="100" font-size="15" fill="#5c3d0e" font-weight="600">SRAM 20 KB（0x20000000）</text>
+
+  <rect x="422" y="112" width="280" height="42" fill="#ffe8cc" stroke="#b7791f" stroke-width="1.8"/>
+  <text x="430" y="138" font-size="14" fill="#7b4b12" font-weight="600">data（VMA）1,536 B</text>
+  <text x="694" y="138" font-size="13" fill="#7b4b12" text-anchor="end">0x20000000</text>
+
+  <rect x="422" y="154" width="280" height="58" fill="#e6f6f0" stroke="#2f855a" stroke-width="1.4"/>
+  <text x="430" y="187" font-size="14" fill="#1f5c41">bss 6,144 B</text>
+  <text x="694" y="187" font-size="13" fill="#486581" text-anchor="end">0x20000600</text>
+
+  <rect x="422" y="212" width="280" height="40" fill="#e8f1ff" stroke="#3e7cb1" stroke-width="1.4"/>
+  <text x="430" y="237" font-size="14" fill="#173f5f">heap 2,048 B</text>
+  <text x="694" y="237" font-size="13" fill="#486581" text-anchor="end">0x20001E00</text>
+
+  <rect x="422" y="252" width="280" height="52" fill="#ffffff" stroke="#9fb3c8" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="430" y="274" font-size="13.5" fill="#486581">gap 8,704 B</text>
+  <text x="694" y="274" font-size="13" fill="#486581" text-anchor="end">0x20002600</text>
+  <text x="430" y="292" font-size="13" fill="#486581">堆向上长，栈向下长</text>
+
+  <rect x="422" y="304" width="280" height="44" fill="#fff4e6" stroke="#b7791f" stroke-width="1.5"/>
+  <text x="430" y="331" font-size="14" fill="#7b4b12">stack 2,048 B</text>
+  <text x="694" y="331" font-size="13" fill="#7b4b12" text-anchor="end">0x20004800</text>
+
+  <text x="430" y="370" font-size="13.5" fill="#243b53">已用 11,776 B / 20,480 B = 57.5%</text>
+  <text x="430" y="386" font-size="13" fill="#486581">_estack = 0x20005000；SP 从栈顶向下增长</text>
+
+  <path d="M320,271 L378,271 L378,133 L422,133" fill="none" stroke="#b23f2d" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#copyArrow)"/>
+
+  <text x="24" y="420" font-size="13.5" fill="#b23f2d">启动代码按 _sidata 把 .data 从 Flash 的 LMA 搬到 SRAM 的 VMA，长度 1,536 B</text>
+  <text x="24" y="436" font-size="13" fill="#486581">VMA 与 LMA 不同，是 .data 同时占 Flash 和 SRAM 的原因；拷贝前 .data 的 VMA 内容无效</text>
+</svg>

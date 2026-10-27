@@ -1,0 +1,83 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <rect width="760" height="440" fill="#ffffff"/>
+    <defs>
+      <marker id="tl-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#4a5568"/>
+      </marker>
+      <marker id="tl-ar-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b6cb0"/>
+      </marker>
+      <marker id="tl-ar-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#c53030"/>
+      </marker>
+    </defs>
+
+    <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">tickless：把每秒 1000 次唤醒压成 1 次</text>
+    <text x="20" y="52" font-size="13" fill="#4a5568">同一条 1 s 时间轴：上方为 1 kHz 节拍，下方为 tickless 空闲，右侧为折算平均电流</text>
+    <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+    <text x="30" y="86" font-size="15" font-weight="700" fill="#1a365d">1 kHz tick：每个节拍都退出一次低功耗</text>
+
+    <rect x="60" y="96" width="540" height="52" fill="#fde7c7" stroke="#c05621" stroke-width="1.2"/>
+    <rect x="60" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="114" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="168" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="222" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="276" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="330" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="384" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="438" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="492" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="546" y="96" width="4" height="52" fill="#c05621"/>
+    <rect x="596" y="96" width="4" height="52" fill="#c05621"/>
+
+    <text x="70" y="128" font-size="13" fill="#7b341e">睡眠 1 ms 被切碎</text>
+
+    <line x1="60" y1="160" x2="114" y2="160" stroke="#4a5568" stroke-width="1"/>
+    <line x1="60" y1="156" x2="60" y2="164" stroke="#4a5568" stroke-width="1"/>
+    <line x1="114" y1="156" x2="114" y2="164" stroke="#4a5568" stroke-width="1"/>
+    <text x="118" y="165" font-size="13" fill="#4a5568">1 ms，每次唤醒耗掉 7.34 µs</text>
+
+    <text x="30" y="196" font-size="15" font-weight="700" fill="#1a365d">tickless：整段睡到下一个到期点</text>
+
+    <rect x="60" y="206" width="540" height="52" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.2"/>
+    <rect x="596" y="206" width="4" height="52" fill="#2b6cb0"/>
+    <text x="180" y="238" font-size="13" fill="#2a4365">一次睡眠覆盖 1 s，中途不产生节拍中断</text>
+
+    <line x1="60" y1="270" x2="600" y2="270" stroke="#2b6cb0" stroke-width="1" marker-start="url(#tl-ar-blue)" marker-end="url(#tl-ar-blue)"/>
+    <text x="300" y="286" font-size="13" fill="#2b6cb0">1 s = 1000 个被抑制的节拍</text>
+
+    <line x1="600" y1="290" x2="600" y2="276" stroke="#c53030" stroke-width="1.4" marker-end="url(#tl-ar-red)"/>
+    <text x="470" y="304" font-size="13" fill="#9b2c2c">醒来后补记 1000 个 tick</text>
+
+    <text x="628" y="86" font-size="14" font-weight="700" fill="#1a365d">平均电流</text>
+    <line x1="620" y1="250" x2="736" y2="250" stroke="#4a5568" stroke-width="1.2"/>
+    <rect x="632" y="130" width="38" height="120" fill="#c05621" stroke="#7b341e" stroke-width="1"/>
+    <rect x="686" y="240" width="38" height="10" fill="#2b6cb0" stroke="#1a365d" stroke-width="1"/>
+    <text x="651" y="122" font-size="13" text-anchor="middle" fill="#7b341e">25.5 µA</text>
+    <text x="705" y="232" font-size="13" text-anchor="middle" fill="#1a365d">2.0 µA</text>
+    <text x="632" y="266" font-size="13" fill="#4a5568">1 kHz</text>
+    <text x="686" y="266" font-size="13" fill="#4a5568">1 s</text>
+
+    <rect x="30" y="322" width="226" height="102" rx="6" fill="#f7fafc" stroke="#cbd5e0"/>
+    <text x="42" y="344" font-size="14" font-weight="700" fill="#1a365d">节拍 CPU 开销</text>
+    <text x="42" y="368" font-size="13" fill="#2d3748">120 + 30 周期 @ 64 MHz</text>
+    <text x="42" y="390" font-size="13" fill="#2d3748">= 2.34 µs / 1 ms</text>
+    <text x="42" y="412" font-size="15" font-weight="700" fill="#2b6cb0">0.234%</text>
+
+    <rect x="266" y="322" width="226" height="102" rx="6" fill="#f7fafc" stroke="#cbd5e0"/>
+    <text x="278" y="344" font-size="14" font-weight="700" fill="#1a365d">唤醒占空比</text>
+    <text x="278" y="368" font-size="13" fill="#2d3748">7.34 µs / 1000 µs</text>
+    <text x="278" y="390" font-size="13" fill="#2d3748">= 0.734% 的唤醒占空比</text>
+    <text x="278" y="412" font-size="15" font-weight="700" fill="#c05621">0.734%</text>
+
+    <rect x="502" y="322" width="228" height="102" rx="6" fill="#f0fff4" stroke="#9ae6b4"/>
+    <text x="514" y="344" font-size="14" font-weight="700" fill="#22543d">CR2032 220 mAh</text>
+    <text x="514" y="368" font-size="13" fill="#2d3748">1 kHz：8632 h</text>
+    <text x="514" y="390" font-size="13" fill="#2d3748">1 s：108723 h</text>
+    <text x="514" y="412" font-size="15" font-weight="700" fill="#2f855a">0.99 年 对 12.4 年</text>
+
+    <text x="30" y="316" font-size="13" fill="#4a5568">前提：STOP 模式漏流 2.0 µA，运行 3.2 mA，退出 STOP 加时钟稳定 5 µs</text>
+  </g>
+</svg>

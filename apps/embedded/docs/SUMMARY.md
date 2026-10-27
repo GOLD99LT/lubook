@@ -8,6 +8,8 @@
 * [工具链与调试：从源码到芯片的最后一公里 Toolchain and Debug](basics/toolchain-debug.md)
 * [存储器与外设寄存器：Flash、SRAM 与寄存器语义 Memory and Peripheral Registers](basics/memory-registers.md)
 * [启动流程：从复位向量到 main Startup and Boot](basics/startup-boot.md)
+* [C 语言与内存模型：对齐、严格别名与编译优化 | C Memory Model: Alignment, Strict Aliasing and Optimization](basics/c-memory-model.md)
+* [链接脚本与内存布局：VMA、LMA 与启动拷贝 | Linker Script and Memory Layout: VMA, LMA and Startup Copy](basics/linker-script.md)
 
 ## 第二篇 · Cortex-M 与 MCU 外设
 
@@ -37,11 +39,14 @@
 * [RTOS 调度：任务状态机、优先级抢占与可调度性 RTOS Scheduling](rtos/rtos-scheduling.md)
 * [同步原语：临界区、互斥量、事件组与死锁预防 Synchronization Primitives](rtos/sync-primitives.md)
 * [优先级反转与实时性：继承、天花板与微秒级抖动 Priority Inversion and Jitter](rtos/priority-inversion.md)
+* [RTOS 内存管理：静态分配、动态堆与固定块内存池 Memory Management: Static, Heap and Pools](rtos/memory-pool.md)
+* [tickless 与低功耗调度：节拍开销、补偿与实时性权衡 Tickless Idle and Low-Power Scheduling: Tick Cost, Compensation and Real-Time Tradeoffs](rtos/tickless-lowpower.md)
 
 ## 第五篇 · 存储、启动与升级
 
 * [Flash 与 EEPROM：擦写粒度、寿命与掉电安全写入 | Flash and EEPROM: Granularity, Endurance and Fail-Safe Writes](storage/flash-eeprom.md)
 * [Bootloader 与 OTA：A/B 双区、镜像校验与回滚 Bootloader and OTA](storage/bootloader-ota.md)
+* [嵌入式文件系统：FAT、LittleFS 与 SPIFFS 的取舍 Embedded File Systems: FAT, LittleFS and SPIFFS Tradeoffs](storage/filesystem.md)
 
 ## 第六篇 · 工程实践与量产
 
@@ -49,3 +54,4 @@
 * [可靠性与看门狗体系：故障模型、双看门狗与复位取证 | Reliability and Watchdog Systems](practice/reliability.md)
 * [测试与静态分析：单元测试、MISRA C、覆盖率与 HIL | Testing and Static Analysis](practice/testing-static.md)
 * [软件能做的 EMC：抖频、边沿控制、采样同步与安全状态 | EMC Measures in Software](practice/emc-software.md)
+* [现场崩溃分析：HardFault 栈帧、CFSR 判读与 coredump | Field Crash Analysis: HardFault Frame, CFSR and Coredump](practice/crash-analysis.md)
