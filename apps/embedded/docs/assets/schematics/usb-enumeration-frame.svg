@@ -1,0 +1,61 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>USB 全速帧预算、批量事务与描述符长度</title>
+  <desc>1 ms 全速帧内的控制、中断、同步、批量事务，64 字节批量事务的 598 位结构，以及 HID、CDC、复合配置的描述符长度</desc>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="20" y="28" font-size="20" font-weight="700" fill="#1a202c">USB 全速帧预算、批量事务与描述符长度</text>
+    <text x="20" y="50" font-size="13" fill="#4a5568">12 Mbit/s、1 ms 帧 = 12000 位；90% 预算下 64 字节事务最多 18 个，净吞吐 1.152 MB/s</text>
+    <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+    <text x="20" y="86" font-size="13" font-weight="700" fill="#2d3748">一个全速帧（1 ms）的调度示意</text>
+    <rect x="50" y="96" width="30" height="34" fill="#c6f6d5" stroke="#2f855a"/>
+    <rect x="80" y="96" width="64" height="34" fill="#fefcbf" stroke="#b7791f"/>
+    <rect x="144" y="96" width="58" height="34" fill="#e9d8fd" stroke="#6b46c1"/>
+    <rect x="202" y="96" width="120" height="34" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="322" y="96" width="378" height="34" fill="#c3dafe" stroke="#3182ce"/>
+    <rect x="700" y="96" width="20" height="34" fill="#e2e8f0" stroke="#a0aec0"/>
+    <text x="65" y="118" font-size="13" fill="#22543d" text-anchor="middle">SOF</text>
+    <text x="112" y="118" font-size="13" fill="#744210" text-anchor="middle">控制</text>
+    <text x="173" y="118" font-size="13" fill="#44337a" text-anchor="middle">中断</text>
+    <text x="262" y="118" font-size="13" fill="#1a365d" text-anchor="middle">同步 192B</text>
+    <text x="511" y="118" font-size="13" fill="#1a365d" text-anchor="middle">批量 64B</text>
+    <line x1="653" y1="90" x2="653" y2="160" stroke="#c53030" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="653" y="176" font-size="13" fill="#c53030" text-anchor="middle">90% 预算 = 10800 位</text>
+    <text x="710" y="150" font-size="13" fill="#4a5568" text-anchor="middle">10%</text>
+    <text x="50" y="150" font-size="13" fill="#4a5568">SOF 与 10% 预留之外，周期端点按 bInterval 排布</text>
+
+    <text x="20" y="200" font-size="13" font-weight="700" fill="#2d3748">一个 64 字节批量事务：598 位 = 49.833 µs</text>
+    <rect x="60" y="212" width="35.3" height="30" fill="#fefcbf" stroke="#b7791f"/>
+    <rect x="95.3" y="212" width="600.4" height="30" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="695.7" y="212" width="17.7" height="30" fill="#c6f6d5" stroke="#2f855a"/>
+    <rect x="713.4" y="212" width="6.6" height="30" fill="#e2e8f0" stroke="#a0aec0"/>
+    <text x="77.6" y="232" font-size="13" fill="#744210" text-anchor="middle">32</text>
+    <text x="395" y="232" font-size="14" fill="#1a365d" text-anchor="middle">数据 544 位：PID 8 + 载荷 512 + CRC16 16</text>
+    <text x="704.5" y="232" font-size="13" fill="#22543d" text-anchor="middle">16</text>
+    <text x="60" y="262" font-size="13" fill="#4a5568">令牌 32</text>
+    <text x="300" y="262" font-size="13" fill="#4a5568">数据 544</text>
+    <text x="650" y="262" font-size="13" fill="#4a5568">握手 16</text>
+    <text x="20" y="284" font-size="13" fill="#2d3748">18 个批量事务 = 18 × 598 = 10764 位（89.7%）；加 CDC 通知与 HID 后减到 17 个，净 1.088 MB/s</text>
+
+    <text x="20" y="310" font-size="15" font-weight="700" fill="#2d3748">描述符长度预算（字节）</text>
+    <text x="150" y="332" font-size="13" fill="#2d3748" text-anchor="end">HID 键盘</text>
+    <rect x="160" y="320" width="136" height="18" fill="#c6f6d5" stroke="#2f855a"/>
+    <text x="304" y="334" font-size="13" fill="#22543d">34</text>
+    <text x="150" y="356" font-size="13" fill="#2d3748" text-anchor="end">CDC ACM</text>
+    <rect x="160" y="344" width="268" height="18" fill="#bee3f8" stroke="#2b6cb0"/>
+    <text x="436" y="358" font-size="13" fill="#1a365d">67</text>
+    <text x="150" y="380" font-size="13" fill="#2d3748" text-anchor="end">HID + CDC 复合</text>
+    <rect x="160" y="368" width="400" height="18" fill="#c3dafe" stroke="#3182ce"/>
+    <text x="568" y="382" font-size="13" fill="#1a365d">100</text>
+    <text x="20" y="406" font-size="13" fill="#4a5568">配置 9 + 接口 9 + 端点 7 + 类描述符；wTotalLength 等于总和</text>
+    <text x="20" y="426" font-size="13" fill="#4a5568">EP0 64：100 B 分 64+36 两包，约 81 µs</text>
+
+    <text x="580" y="310" font-size="15" font-weight="700" fill="#2d3748">枚举与挂起</text>
+    <text x="580" y="332" font-size="13" fill="#4a5568">复位 → 地址 0</text>
+    <text x="580" y="352" font-size="13" fill="#4a5568">→ 设备描述符 18 B</text>
+    <text x="580" y="372" font-size="13" fill="#4a5568">→ SET_ADDRESS</text>
+    <text x="580" y="392" font-size="13" fill="#4a5568">→ 配置 100 B</text>
+    <text x="580" y="412" font-size="13" fill="#4a5568">→ SET_CONFIGURATION</text>
+    <text x="575" y="432" font-size="13" fill="#c53030">挂起 3 ms / 唤醒 5 ms</text>
+  </g>
+</svg>

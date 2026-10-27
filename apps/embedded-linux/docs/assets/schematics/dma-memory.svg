@@ -42,8 +42,8 @@
   <line x1="260" y1="127" x2="282" y2="127" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
   <line x1="436" y1="127" x2="458" y2="127" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
   <line x1="124" y1="198" x2="146" y2="198" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
-  <polyline points="260,198 340,198 340,154" fill="none" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
-  <text x="250" y="172" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">总线地址或 IOVA</text>
+  <polyline points="260,198 420,198 420,154" fill="none" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="270" y="190" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">总线地址或 IOVA</text>
 
   <text x="24" y="238" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">dma_addr_t 可能是物理地址，也可能是 IOMMU 输出的 IOVA；驱动不要自己做地址换算</text>
 
@@ -83,7 +83,7 @@
 
   <text x="24" y="402" font-size="13.5" font-weight="700" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">3 一致性与散射聚集的取舍</text>
   <rect x="24" y="410" width="344" height="24" rx="4" fill="#eef5fb" stroke="#1a4f8b"/>
-  <text x="36" y="427" font-size="13" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">coherent：长期共享，少 sync，适合描述符环</text>
+  <text x="36" y="427" font-size="13" fill="#1a4f8b" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">coherent：长期共享，适合描述符环</text>
   <rect x="392" y="410" width="344" height="24" rx="4" fill="#e3f0e6" stroke="#2f6b45"/>
   <text x="404" y="427" font-size="13" fill="#2f6b45" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">streaming + SG：按需映射，适合帧与网络包</text>
 </svg>

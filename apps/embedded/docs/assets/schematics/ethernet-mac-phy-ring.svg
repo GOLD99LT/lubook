@@ -1,0 +1,90 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>以太网 MAC/PHY、DMA 描述符环与线路开销</title>
+  <desc>MCU 内的 MAC 与 DMA 描述符环、MII/RMII 接口、PHY、变压器与 RJ45，以及 100 Mbit/s 最小帧的线路开销</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#4a5568"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="20" y="28" font-size="20" font-weight="700" fill="#1a202c">以太网 MAC/PHY、DMA 描述符环与线路开销</text>
+    <text x="20" y="50" font-size="13" fill="#4a5568">100 Mbit/s：最小帧 84 B / 6.72 µs，最大帧 1538 B / 123.04 µs；MII 4 bit × 25 MHz，RMII 2 bit × 50 MHz</text>
+    <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+    <rect x="20" y="78" width="230" height="100" rx="6" fill="#ebf8ff" stroke="#2b6cb0"/>
+    <text x="135" y="100" font-size="15" font-weight="700" fill="#1a365d" text-anchor="middle">MCU</text>
+    <text x="135" y="122" font-size="13" fill="#2d3748" text-anchor="middle">MAC 组帧 / FCS / 统计</text>
+    <text x="135" y="144" font-size="13" fill="#2d3748" text-anchor="middle">DMA 描述符环</text>
+    <text x="135" y="166" font-size="13" fill="#2d3748" text-anchor="middle">D-Cache clean / invalidate</text>
+
+    <rect x="270" y="78" width="120" height="100" rx="6" fill="#fefcbf" stroke="#b7791f"/>
+    <text x="330" y="100" font-size="15" font-weight="700" fill="#744210" text-anchor="middle">MII / RMII</text>
+    <text x="330" y="122" font-size="13" fill="#744210" text-anchor="middle">4 bit × 25 MHz</text>
+    <text x="330" y="142" font-size="13" fill="#744210" text-anchor="middle">2 bit × 50 MHz</text>
+    <text x="330" y="162" font-size="13" fill="#744210" text-anchor="middle">MDIO 2.5 MHz</text>
+
+    <rect x="410" y="78" width="130" height="100" rx="6" fill="#c6f6d5" stroke="#2f855a"/>
+    <text x="475" y="100" font-size="15" font-weight="700" fill="#22543d" text-anchor="middle">PHY</text>
+    <text x="475" y="122" font-size="13" fill="#22543d" text-anchor="middle">自协商 / 并行检测</text>
+    <text x="475" y="142" font-size="13" fill="#22543d" text-anchor="middle">100BASE-TX 编解码</text>
+    <text x="475" y="162" font-size="13" fill="#22543d" text-anchor="middle">BMCR / BMSR / ANAR</text>
+
+    <rect x="560" y="78" width="80" height="100" rx="6" fill="#e2e8f0" stroke="#718096"/>
+    <text x="600" y="120" font-size="13" fill="#2d3748" text-anchor="middle">变压器</text>
+    <text x="600" y="142" font-size="13" fill="#2d3748" text-anchor="middle">隔离 / 共模</text>
+    <text x="600" y="162" font-size="13" fill="#2d3748" text-anchor="middle">阻抗匹配</text>
+
+    <rect x="660" y="78" width="80" height="100" rx="6" fill="#e9d8fd" stroke="#6b46c1"/>
+    <text x="700" y="120" font-size="13" fill="#44337a" text-anchor="middle">RJ45</text>
+    <text x="700" y="142" font-size="13" fill="#44337a" text-anchor="middle">双绞线</text>
+    <text x="700" y="162" font-size="13" fill="#44337a" text-anchor="middle">100 Ω 差分</text>
+
+    <line x1="250" y1="128" x2="266" y2="128" stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="390" y1="128" x2="406" y2="128" stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="540" y1="128" x2="556" y2="128" stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="640" y1="128" x2="656" y2="128" stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <text x="20" y="198" font-size="13" font-weight="700" fill="#2d3748">DMA 描述符环：8 × 16 B 描述符 + 8 × 1536 B 缓冲（100 Mbit/s，最坏延迟 500 µs）</text>
+    <rect x="30" y="210" width="55" height="34" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="100" y="210" width="55" height="34" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="170" y="210" width="55" height="34" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="240" y="210" width="55" height="34" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="310" y="210" width="55" height="34" fill="#bee3f8" stroke="#2b6cb0"/>
+    <text x="57.5" y="232" font-size="13" fill="#1a365d" text-anchor="middle">D0</text>
+    <text x="127.5" y="232" font-size="13" fill="#1a365d" text-anchor="middle">D1</text>
+    <text x="197.5" y="232" font-size="13" fill="#1a365d" text-anchor="middle">D2</text>
+    <text x="267.5" y="232" font-size="13" fill="#1a365d" text-anchor="middle">D3</text>
+    <text x="337.5" y="232" font-size="13" fill="#1a365d" text-anchor="middle">D4</text>
+    <line x1="85" y1="227" x2="96" y2="227" stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="155" y1="227" x2="166" y2="227" stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="225" y1="227" x2="236" y2="227" stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="295" y1="227" x2="306" y2="227" stroke="#4a5568" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="378" y="232" font-size="15" fill="#4a5568">…</text>
+    <text x="410" y="216" font-size="13" fill="#4a5568">OWN=1：归 DMA</text>
+    <text x="410" y="236" font-size="13" fill="#4a5568">OWN=0：归 CPU</text>
+    <text x="410" y="256" font-size="13" fill="#4a5568">环深度 ≥ 5，取 8</text>
+    <text x="410" y="276" font-size="13" fill="#4a5568">缓冲 1536 B，32 B 对齐</text>
+
+    <text x="20" y="306" font-size="15" font-weight="700" fill="#2d3748">100 Mbit/s 线路上的一帧（最小帧 84 B）</text>
+    <rect x="40" y="316" width="64.8" height="34" fill="#c6f6d5" stroke="#2f855a"/>
+    <rect x="104.8" y="316" width="113.3" height="34" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="218.1" y="316" width="372.4" height="34" fill="#c3dafe" stroke="#3182ce"/>
+    <rect x="590.5" y="316" width="32.4" height="34" fill="#fed7d7" stroke="#c53030"/>
+    <rect x="622.9" y="316" width="97.1" height="34" fill="#e2e8f0" stroke="#718096"/>
+    <text x="72" y="338" font-size="13" fill="#22543d" text-anchor="middle">前导 8</text>
+    <text x="161" y="338" font-size="13" fill="#1a365d" text-anchor="middle">帧头 14</text>
+    <text x="404" y="338" font-size="13" fill="#1a365d" text-anchor="middle">载荷 46 B</text>
+    <text x="606" y="338" font-size="13" fill="#822727" text-anchor="middle">FCS</text>
+    <text x="671" y="338" font-size="13" fill="#2d3748" text-anchor="middle">IPG 12</text>
+    <line x1="104.8" y1="312" x2="104.8" y2="334" stroke="#ffffff"/>
+    <line x1="218.1" y1="312" x2="218.1" y2="334" stroke="#ffffff"/>
+    <line x1="590.5" y1="312" x2="590.5" y2="334" stroke="#ffffff"/>
+    <line x1="622.9" y1="312" x2="622.9" y2="334" stroke="#ffffff"/>
+
+    <text x="20" y="374" font-size="13" fill="#4a5568">最小帧：84 B / 6.72 µs / 148809.5 帧/s / 6.845 MB/s（46 B 载荷）</text>
+    <text x="20" y="396" font-size="13" fill="#4a5568">最大帧：1538 B / 123.04 µs / 8127.4 帧/s / 12.191 MB/s（1500 B 载荷）</text>
+    <text x="20" y="418" font-size="13" fill="#4a5568">TCP MSS 1460：效率 94.928%，11.866 MB/s；1 Gbit/s 时帧率与吞吐 ×10</text>
+    <text x="20" y="436" font-size="13" fill="#4a5568">固定开销 38 B = 前导 8 + 帧头 14 + FCS 4 + IPG 12；载荷 46~1500 B</text>
+  </g>
+</svg>

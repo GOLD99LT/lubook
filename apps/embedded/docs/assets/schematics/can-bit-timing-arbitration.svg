@@ -1,0 +1,111 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>CAN FD 位时序、仲裁与错误状态</title>
+  <desc>500 kbit/s 标称位的 16 个时间份额、2 Mbit/s 数据段的 10 个时间份额、三节点仲裁与 Bus-Off 门限</desc>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="20" y="28" font-size="20" font-weight="700" fill="#1a202c">CAN FD 位时序、仲裁与错误状态</text>
+    <text x="20" y="50" font-size="13" fill="#4a5568">80 MHz CAN 时钟：标称 500 kbit/s（16 tq，87.5%），数据段 2 Mbit/s（10 tq，80%），SJW 均为 2 tq</text>
+    <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
+
+    <text x="20" y="88" font-size="13" font-weight="700" fill="#2d3748">标称位：tq = 125 ns，位时间 2 µs，采样点 87.5%</text>
+    <rect x="70" y="100" width="39.4" height="30" fill="#c6f6d5" stroke="#2f855a"/>
+    <rect x="109.4" y="100" width="511.9" height="30" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="621.3" y="100" width="78.7" height="30" fill="#fefcbf" stroke="#b7791f"/>
+    <line x1="70" y1="96" x2="70" y2="134" stroke="#cbd5e0"/>
+    <line x1="109.4" y1="96" x2="109.4" y2="134" stroke="#cbd5e0"/>
+    <line x1="148.8" y1="96" x2="148.8" y2="134" stroke="#cbd5e0"/>
+    <line x1="188.1" y1="96" x2="188.1" y2="134" stroke="#cbd5e0"/>
+    <line x1="227.5" y1="96" x2="227.5" y2="134" stroke="#cbd5e0"/>
+    <line x1="266.9" y1="96" x2="266.9" y2="134" stroke="#cbd5e0"/>
+    <line x1="306.3" y1="96" x2="306.3" y2="134" stroke="#cbd5e0"/>
+    <line x1="345.6" y1="96" x2="345.6" y2="134" stroke="#cbd5e0"/>
+    <line x1="385.0" y1="96" x2="385.0" y2="134" stroke="#cbd5e0"/>
+    <line x1="424.4" y1="96" x2="424.4" y2="134" stroke="#cbd5e0"/>
+    <line x1="463.8" y1="96" x2="463.8" y2="134" stroke="#cbd5e0"/>
+    <line x1="503.1" y1="96" x2="503.1" y2="134" stroke="#cbd5e0"/>
+    <line x1="542.5" y1="96" x2="542.5" y2="134" stroke="#cbd5e0"/>
+    <line x1="581.9" y1="96" x2="581.9" y2="134" stroke="#cbd5e0"/>
+    <line x1="621.3" y1="96" x2="621.3" y2="134" stroke="#cbd5e0"/>
+    <line x1="660.6" y1="96" x2="660.6" y2="134" stroke="#cbd5e0"/>
+    <text x="89.7" y="120" font-size="13" fill="#22543d" text-anchor="middle">Sync</text>
+    <text x="365" y="120" font-size="14" fill="#1a365d" text-anchor="middle">TS1 = 13 tq = 1.625 µs（Prop + Phase1）</text>
+    <text x="660.6" y="120" font-size="13" fill="#744210" text-anchor="middle">TS2 2 tq</text>
+    <line x1="621.3" y1="88" x2="621.3" y2="166" stroke="#c53030" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="621.3" cy="115" r="4" fill="#c53030"/>
+    <line x1="542.5" y1="147" x2="613" y2="147" stroke="#c53030" stroke-width="2"/>
+    <polygon points="542.5,147 550,143 550,151" fill="#c53030"/>
+    <polygon points="613,147 605,143 605,151" fill="#c53030"/>
+    <text x="565" y="164" font-size="13" fill="#c53030" text-anchor="end">SJW 2 tq = 250 ns</text>
+    <text x="621.3" y="181" font-size="13" fill="#c53030" text-anchor="middle">采样点 87.5% = 1.75 µs</text>
+
+    <text x="20" y="200" font-size="13" font-weight="700" fill="#2d3748">数据段：tq = 50 ns，位时间 500 ns，采样点 80%</text>
+    <rect x="70" y="210" width="63" height="28" fill="#c6f6d5" stroke="#2f855a"/>
+    <rect x="133" y="210" width="441" height="28" fill="#bee3f8" stroke="#2b6cb0"/>
+    <rect x="574" y="210" width="126" height="28" fill="#fefcbf" stroke="#b7791f"/>
+    <line x1="70" y1="206" x2="70" y2="242" stroke="#cbd5e0"/>
+    <line x1="133" y1="206" x2="133" y2="242" stroke="#cbd5e0"/>
+    <line x1="196" y1="206" x2="196" y2="242" stroke="#cbd5e0"/>
+    <line x1="259" y1="206" x2="259" y2="242" stroke="#cbd5e0"/>
+    <line x1="322" y1="206" x2="322" y2="242" stroke="#cbd5e0"/>
+    <line x1="385" y1="206" x2="385" y2="242" stroke="#cbd5e0"/>
+    <line x1="448" y1="206" x2="448" y2="242" stroke="#cbd5e0"/>
+    <line x1="511" y1="206" x2="511" y2="242" stroke="#cbd5e0"/>
+    <line x1="574" y1="206" x2="574" y2="242" stroke="#cbd5e0"/>
+    <line x1="637" y1="206" x2="637" y2="242" stroke="#cbd5e0"/>
+    <text x="101.5" y="229" font-size="13" fill="#22543d" text-anchor="middle">Sync</text>
+    <text x="353" y="229" font-size="14" fill="#1a365d" text-anchor="middle">TS1 = 7 tq = 350 ns</text>
+    <text x="637" y="229" font-size="13" fill="#744210" text-anchor="middle">TS2 2 tq</text>
+    <line x1="574" y1="198" x2="574" y2="254" stroke="#c53030" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="574" cy="224" r="4" fill="#c53030"/>
+    <text x="574" y="270" font-size="13" fill="#c53030" text-anchor="middle">采样点 80% = 400 ns</text>
+    <text x="20" y="270" font-size="13" fill="#4a5568">BRS=1 后从下一位切到数据段位时序，CRC 界定符前切回</text>
+
+    <text x="20" y="304" font-size="13" font-weight="700" fill="#2d3748">仲裁：ID 越小越早发显性；输的节点读到显性后立即转为接收</text>
+    <text x="120" y="331" font-size="13" fill="#2d3748" text-anchor="end">0x120</text>
+    <text x="120" y="355" font-size="13" fill="#2d3748" text-anchor="end">0x121</text>
+    <text x="120" y="379" font-size="13" fill="#2d3748" text-anchor="end">0x320</text>
+
+    <rect x="130" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="140" y="331" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="154" y="316" width="20" height="20" fill="#c6f6d5" stroke="#2f855a"/><text x="164" y="331" font-size="13" text-anchor="middle" fill="#22543d">0</text>
+    <rect x="178" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="188" y="331" font-size="13" text-anchor="middle" fill="#2d3748">1</text>
+    <rect x="202" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="212" y="331" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="226" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="236" y="331" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="250" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="260" y="331" font-size="13" text-anchor="middle" fill="#2d3748">1</text>
+    <rect x="274" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="284" y="331" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="298" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="308" y="331" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="322" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="332" y="331" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="346" y="316" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="356" y="331" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="370" y="316" width="20" height="20" fill="#c6f6d5" stroke="#2f855a"/><text x="380" y="331" font-size="13" text-anchor="middle" fill="#22543d">0</text>
+
+    <rect x="130" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="140" y="355" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="154" y="340" width="20" height="20" fill="#c6f6d5" stroke="#2f855a"/><text x="164" y="355" font-size="13" text-anchor="middle" fill="#22543d">0</text>
+    <rect x="178" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="188" y="355" font-size="13" text-anchor="middle" fill="#2d3748">1</text>
+    <rect x="202" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="212" y="355" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="226" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="236" y="355" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="250" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="260" y="355" font-size="13" text-anchor="middle" fill="#2d3748">1</text>
+    <rect x="274" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="284" y="355" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="298" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="308" y="355" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="322" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="332" y="355" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="346" y="340" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="356" y="355" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="370" y="340" width="20" height="20" fill="#fed7d7" stroke="#c53030"/><text x="380" y="355" font-size="13" text-anchor="middle" fill="#822727">1</text>
+
+    <rect x="130" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="140" y="379" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="154" y="364" width="20" height="20" fill="#fed7d7" stroke="#c53030"/><text x="164" y="379" font-size="13" text-anchor="middle" fill="#822727">1</text>
+    <rect x="178" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="188" y="379" font-size="13" text-anchor="middle" fill="#2d3748">1</text>
+    <rect x="202" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="212" y="379" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="226" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="236" y="379" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="250" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="260" y="379" font-size="13" text-anchor="middle" fill="#2d3748">1</text>
+    <rect x="274" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="284" y="379" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="298" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="308" y="379" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="322" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="332" y="379" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="346" y="364" width="20" height="20" fill="#e2e8f0" stroke="#a0aec0"/><text x="356" y="379" font-size="13" text-anchor="middle" fill="#2d3748">0</text>
+    <rect x="370" y="364" width="20" height="20" fill="#c6f6d5" stroke="#2f855a"/><text x="380" y="379" font-size="13" text-anchor="middle" fill="#22543d">0</text>
+
+    <text x="410" y="325" font-size="13" fill="#4a5568">A 与 C 在第二位分道：A 发 0，C 发 1，</text>
+    <text x="410" y="345" font-size="13" fill="#4a5568">C 读到 0 后退出；最后一位 B 发 1，</text>
+    <text x="410" y="365" font-size="13" fill="#4a5568">读到 A 的 0 后退出。A 全程获胜。</text>
+
+    <text x="20" y="406" font-size="13" fill="#4a5568">错误计数：TEC 0 → 128 错误被动 → 256 Bus-Off</text>
+    <text x="20" y="426" font-size="13" fill="#4a5568">恢复：128 × 11 个隐性位 = 1408 位 = 2.816 ms @ 500 kbit/s</text>
+  </g>
+</svg>

@@ -32,7 +32,7 @@
   <text x="417" y="124" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">到期</text>
 
   <polyline points="534,160 534,180 99,180 99,164" fill="none" stroke="#2b3a4a" stroke-width="1.8" marker-end="url(#arrow)"/>
-  <text x="316" y="176" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">get 或中断唤醒，立即 resume</text>
+  <text x="316" y="172" font-size="13" text-anchor="middle" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">get 或中断唤醒，立即 resume</text>
 
   <text x="24" y="198" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">runtime_suspend 里关时钟、关 regulator；runtime_resume 里按相反顺序恢复</text>
 
@@ -84,6 +84,6 @@
   <rect x="150" y="384" width="4" height="16" fill="#1a4f8b"/>
   <text x="162" y="397" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">约 0.96 mA，130 天；条长按比例，几乎不可见</text>
 
-  <text x="24" y="418" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">漏电 5 mW 等于 1.35 mA，每天耗 1.08% 电量；50 mW 只能待机 9.25 天</text>
-  <text x="24" y="436" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">唤醒能量 0.5 mJ 乘 10 次每秒等于 5 mW，与整板待机同一量级</text>
+  <text x="24" y="414" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">漏电 5 mW 等于 1.35 mA，每天耗 1.08% 电量；50 mW 只能待机 9.25 天</text>
+  <text x="24" y="430" font-size="13" fill="#5c6772" font-family="'JetBrains Mono','Noto Sans SC',sans-serif">唤醒能量 0.5 mJ 乘 10 次每秒等于 5 mW，与整板待机同一量级</text>
 </svg>
