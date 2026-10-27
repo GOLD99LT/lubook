@@ -63,7 +63,7 @@
     <text x="378" y="232" font-size="15" fill="#4a5568">…</text>
     <text x="410" y="216" font-size="13" fill="#4a5568">OWN=1：归 DMA</text>
     <text x="410" y="236" font-size="13" fill="#4a5568">OWN=0：归 CPU</text>
-    <text x="410" y="256" font-size="13" fill="#4a5568">环深度 ≥ 5，取 8</text>
+    <text x="410" y="256" font-size="13" fill="#4a5568">环深度 ≥ 6，取 8</text>
     <text x="410" y="276" font-size="13" fill="#4a5568">缓冲 1536 B，32 B 对齐</text>
 
     <text x="20" y="306" font-size="15" font-weight="700" fill="#2d3748">100 Mbit/s 线路上的一帧（最小帧 84 B）</text>

@@ -32,9 +32,9 @@
     <text x="660.6" y="120" font-size="13" fill="#744210" text-anchor="middle">TS2 2 tq</text>
     <line x1="621.3" y1="88" x2="621.3" y2="166" stroke="#c53030" stroke-width="2" stroke-dasharray="4 3"/>
     <circle cx="621.3" cy="115" r="4" fill="#c53030"/>
-    <line x1="542.5" y1="147" x2="613" y2="147" stroke="#c53030" stroke-width="2"/>
+    <line x1="542.5" y1="147" x2="621.3" y2="147" stroke="#c53030" stroke-width="2"/>
     <polygon points="542.5,147 550,143 550,151" fill="#c53030"/>
-    <polygon points="613,147 605,143 605,151" fill="#c53030"/>
+    <polygon points="621.3,147 613.3,143 613.3,151" fill="#c53030"/>
     <text x="565" y="164" font-size="13" fill="#c53030" text-anchor="end">SJW 2 tq = 250 ns</text>
     <text x="621.3" y="181" font-size="13" fill="#c53030" text-anchor="middle">采样点 87.5% = 1.75 µs</text>
 

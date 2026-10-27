@@ -30,7 +30,7 @@
     <rect x="695.7" y="212" width="17.7" height="30" fill="#c6f6d5" stroke="#2f855a"/>
     <rect x="713.4" y="212" width="6.6" height="30" fill="#e2e8f0" stroke="#a0aec0"/>
     <text x="77.6" y="232" font-size="13" fill="#744210" text-anchor="middle">32</text>
-    <text x="395" y="232" font-size="14" fill="#1a365d" text-anchor="middle">数据 544 位：PID 8 + 载荷 512 + CRC16 16</text>
+    <text x="395" y="232" font-size="14" fill="#1a365d" text-anchor="middle">数据 544 位：SYNC 8 + PID 8 + 载荷 512 + CRC16 16</text>
     <text x="704.5" y="232" font-size="13" fill="#22543d" text-anchor="middle">16</text>
     <text x="60" y="262" font-size="13" fill="#4a5568">令牌 32</text>
     <text x="300" y="262" font-size="13" fill="#4a5568">数据 544</text>
@@ -51,11 +51,12 @@
     <text x="20" y="426" font-size="13" fill="#4a5568">EP0 64：100 B 分 64+36 两包，约 81 µs</text>
 
     <text x="580" y="310" font-size="15" font-weight="700" fill="#2d3748">枚举与挂起</text>
-    <text x="580" y="332" font-size="13" fill="#4a5568">复位 → 地址 0</text>
-    <text x="580" y="352" font-size="13" fill="#4a5568">→ 设备描述符 18 B</text>
-    <text x="580" y="372" font-size="13" fill="#4a5568">→ SET_ADDRESS</text>
-    <text x="580" y="392" font-size="13" fill="#4a5568">→ 配置 100 B</text>
-    <text x="580" y="412" font-size="13" fill="#4a5568">→ SET_CONFIGURATION</text>
-    <text x="575" y="432" font-size="13" fill="#c53030">挂起 3 ms / 唤醒 5 ms</text>
+    <text x="580" y="330" font-size="13" fill="#4a5568">复位 → 地址 0</text>
+    <text x="580" y="347" font-size="13" fill="#4a5568">→ 设备描述符前 8 B</text>
+    <text x="580" y="364" font-size="13" fill="#4a5568">→ SET_ADDRESS</text>
+    <text x="580" y="381" font-size="13" fill="#4a5568">→ 完整设备描述符 18 B</text>
+    <text x="580" y="398" font-size="13" fill="#4a5568">→ 配置 100 B</text>
+    <text x="580" y="415" font-size="13" fill="#4a5568">→ SET_CONFIGURATION</text>
+    <text x="580" y="432" font-size="13" fill="#c53030">挂起 3 ms / 唤醒 5 ms</text>
   </g>
 </svg>
