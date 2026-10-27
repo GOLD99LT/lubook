@@ -28,7 +28,7 @@ export const PORTAL_CARDS: PortalCard[] = [
     title: '嵌入式软件手册（MCU）',
     desc: 'Cortex-M 裸机、HAL、RTOS 任务调度、外设驱动与 MCU 软件工程实践。',
     icon: 'embedded',
-    available: false
+    available: true
   },
   {
     type: 'internal',
@@ -36,6 +36,6 @@ export const PORTAL_CARDS: PortalCard[] = [
     title: '嵌入式 Linux 手册',
     desc: 'Cortex-A、交叉编译、启动链、设备树、内核驱动、Buildroot/Yocto 与 OTA。',
     icon: 'linux',
-    available: false
+    available: true
   }
 ]
