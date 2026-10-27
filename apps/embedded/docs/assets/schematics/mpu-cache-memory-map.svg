@@ -3,7 +3,7 @@
   <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
   <rect width="760" height="440" fill="#ffffff"/>
   <text x="20" y="30" font-size="20" font-weight="700" fill="#1a202c">MPU 区域划分、栈保护带与 32 字节缓存行</text>
-  <text x="20" y="52" font-size="13" fill="#4a5568">示例：4 KB 栈区 0x2007_F000 关掉最低 512 B 子区域，作为越界保护带</text>
+  <text x="20" y="52" font-size="13" fill="#4a5568">示例：MSP 自 0x2008_0000 向下生长；4 KB 栈区最低 512 B 由独立 AP=000 区域保护</text>
   <line x1="20" y1="62" x2="740" y2="62" stroke="#e2e8f0"/>
 
   <rect x="20" y="78" width="150" height="44" rx="3" fill="#dbe9f6" stroke="#2b6cb0" stroke-width="1.5"/>
@@ -21,9 +21,9 @@
   <rect x="22" y="222" width="146" height="22" fill="#fde7c7"/>
   <text x="95" y="207" font-size="13" fill="#22543d" text-anchor="middle">可用 3584 B</text>
   <text x="95" y="238" font-size="13" fill="#7b341e" text-anchor="middle">保护带 512 B</text>
-  <text x="180" y="198" font-size="13" fill="#2d3748">栈区 4 KB</text>
-  <text x="180" y="216" font-size="13" fill="#4a5568">SRD=0x01，AP=000</text>
-  <text x="180" y="234" font-size="13" fill="#4a5568">MSP 从顶端向下生长</text>
+  <text x="180" y="198" font-size="13" fill="#2d3748">栈区 4 KB（region 4）</text>
+  <text x="180" y="216" font-size="13" fill="#4a5568">AP=011，SRD=0x00</text>
+  <text x="180" y="234" font-size="13" fill="#4a5568">保护带：region 5，AP=000</text>
 
   <rect x="20" y="254" width="150" height="44" rx="3" fill="#edf2f7" stroke="#4a5568" stroke-width="1.5"/>
   <text x="95" y="281" font-size="13" fill="#2d3748" text-anchor="middle">0x4000_0000</text>
