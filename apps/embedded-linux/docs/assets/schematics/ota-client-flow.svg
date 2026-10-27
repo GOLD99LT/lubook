@@ -1,0 +1,68 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>OTA 客户端：A/B 槽位、状态机与全量/差分升级时间预算</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="30" font-size="20" font-weight="700" fill="#1a2b3a">OTA 客户端：486 MiB 包的 77.1 s 事务</text>
+    <text x="24" y="52" font-size="13" fill="#5a6b7b">上：A/B 槽位与 bundle 落点；中：状态机；下：全量与差分的时间预算（宽度不严格按比例）</text>
+
+    <text x="24" y="78" font-size="14" font-weight="700" fill="#1a2b3a">A/B 槽位：客户端只写候选槽，启动选择权在 bootloader</text>
+    <rect x="24" y="90" width="210" height="32" fill="#eaf3ea" stroke="#4f9e63" stroke-width="1.4"/>
+    <rect x="244" y="90" width="210" height="32" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <rect x="464" y="90" width="250" height="32" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.4"/>
+    <text x="129" y="111" font-size="13" text-anchor="middle" fill="#2f6b40">root_a 720 MiB（active）</text>
+    <text x="349" y="111" font-size="13" text-anchor="middle" fill="#8a4a1f">root_b 720 MiB（candidate）</text>
+    <text x="589" y="111" font-size="13" text-anchor="middle" fill="#1a2b3a">data 1536 MiB：bundle + 应用数据</text>
+    <text x="24" y="142" font-size="13" fill="#5a6b7b">boot_a / boot_b 各 32 MiB；recovery 192 MiB；bundle 486 MiB 先落 data，再写入 root_b</text>
+
+    <text x="24" y="166" font-size="14" font-weight="700" fill="#1a2b3a">状态机：IDLE → CHECK → DOWNLOAD → VERIFY → STAGE → ARM → TRIAL → CONFIRM</text>
+    <rect x="24" y="174" width="78" height="38" rx="5" fill="#eef1f4" stroke="#6b7f95" stroke-width="1.4"/>
+    <text x="63" y="198" font-size="13" text-anchor="middle" fill="#1a2b3a">IDLE</text>
+    <line x1="102" y1="193" x2="110" y2="193" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="111" y="174" width="78" height="38" rx="5" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.4"/>
+    <text x="150" y="198" font-size="13" text-anchor="middle" fill="#1a2b3a">CHECK</text>
+    <line x1="189" y1="193" x2="197" y2="193" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="198" y="174" width="78" height="38" rx="5" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.4"/>
+    <text x="237" y="198" font-size="13" text-anchor="middle" fill="#1a2b3a">DOWNLOAD</text>
+    <line x1="276" y1="193" x2="284" y2="193" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="285" y="174" width="78" height="38" rx="5" fill="#eef4fa" stroke="#8fa8c0" stroke-width="1.4"/>
+    <text x="324" y="198" font-size="13" text-anchor="middle" fill="#1a2b3a">VERIFY</text>
+    <line x1="363" y1="193" x2="371" y2="193" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="372" y="174" width="78" height="38" rx="5" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="411" y="198" font-size="13" text-anchor="middle" fill="#1a2b3a">STAGE</text>
+    <line x1="450" y1="193" x2="458" y2="193" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="459" y="174" width="78" height="38" rx="5" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="498" y="198" font-size="13" text-anchor="middle" fill="#1a2b3a">ARM</text>
+    <line x1="537" y1="193" x2="545" y2="193" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="546" y="174" width="78" height="38" rx="5" fill="#eef4fa" stroke="#1a4f8b" stroke-width="1.4"/>
+    <text x="585" y="198" font-size="13" text-anchor="middle" fill="#1a2b3a">TRIAL</text>
+    <line x1="624" y1="193" x2="632" y2="193" stroke="#2b3a4a" stroke-width="2"/>
+    <rect x="633" y="174" width="78" height="38" rx="5" fill="#eaf3ea" stroke="#4f9e63" stroke-width="1.4"/>
+    <text x="672" y="198" font-size="13" text-anchor="middle" fill="#2f6b40">CONFIRM</text>
+
+    <line x1="585" y1="212" x2="585" y2="222" stroke="#b03a2e" stroke-width="2" stroke-dasharray="5 3"/>
+    <rect x="546" y="222" width="78" height="26" rx="5" fill="#f7e9e7" stroke="#b03a2e" stroke-width="1.4"/>
+    <text x="585" y="239" font-size="13" text-anchor="middle" fill="#8a2a20">ROLLBACK</text>
+    <text x="633" y="240" font-size="13" fill="#b03a2e">bootlimit 用尽</text>
+    <text x="24" y="264" font-size="13" fill="#5a6b7b">ARM 是唯一提交点；mark-good 只在健康检查通过后调用，不能放在安装脚本最后一行</text>
+
+    <text x="24" y="288" font-size="14" font-weight="700" fill="#1a2b3a">时间预算：全量 77.1 s；差分 41.4 s，收益被 30.9 s 固定切换成本稀释</text>
+    <text x="24" y="307" font-size="13" fill="#1a4f8b">全量：传输 40.5 s + 校验 5.7 s + 切换 30.9 s</text>
+    <rect x="24" y="314" width="283.5" height="24" fill="#1a4f8b"/>
+    <rect x="307.5" y="314" width="40" height="24" fill="#b5642e"/>
+    <rect x="347.5" y="314" width="216.3" height="24" fill="#4f9e63"/>
+    <text x="165" y="331" font-size="13" text-anchor="middle" fill="#ffffff">传输 40.5</text>
+    <text x="327" y="331" font-size="13" text-anchor="middle" fill="#ffffff">5.7</text>
+    <text x="455" y="331" font-size="13" text-anchor="middle" fill="#ffffff">切换 30.9</text>
+    <text x="580" y="331" font-size="13" fill="#1a2b3a">77.1 s</text>
+
+    <text x="24" y="360" font-size="13" fill="#8a4a1f">差分：重建 2.1 s + 校验 8.5 s + 切换 30.9 s</text>
+    <rect x="24" y="367" width="14.4" height="24" fill="#c97a45"/>
+    <rect x="38.4" y="367" width="59.3" height="24" fill="#b5642e"/>
+    <rect x="97.7" y="367" width="216.3" height="24" fill="#4f9e63"/>
+    <text x="70" y="384" font-size="13" text-anchor="middle" fill="#ffffff">8.5</text>
+    <text x="206" y="384" font-size="13" text-anchor="middle" fill="#ffffff">切换 30.9</text>
+    <text x="330" y="384" font-size="13" fill="#8a4a1f">41.4 s，降 46.3%</text>
+
+    <text x="24" y="416" font-size="13" fill="#1a2b3a">校验链：CMS 验 manifest → 镜像 SHA-256 → 读回校验 → dm-verity；重试 55% × 5 次 = 98.15%</text>
+  </g>
+</svg>

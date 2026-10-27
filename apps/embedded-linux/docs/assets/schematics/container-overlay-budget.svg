@@ -1,0 +1,51 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>容器存储与内存预算：overlayfs 共享层、6 个容器的磁盘与 1 GiB 内存</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="30" font-size="20" font-weight="700" fill="#1a2b3a">容器存储：372 MiB 共享 vs 1272 MiB 复制</text>
+    <text x="24" y="52" font-size="13" fill="#5a6b7b">上左：overlayfs 的只读层与可写层；上右：6 个容器的磁盘；中：内存；下：data 分区预算</text>
+
+    <text x="24" y="78" font-size="14" font-weight="700" fill="#1a2b3a">overlayfs：lowerdir 共享，upperdir 每容器一份</text>
+    <rect x="24" y="92" width="230" height="34" fill="#1a4f8b"/>
+    <text x="139" y="114" font-size="13" text-anchor="middle" fill="#ffffff">base 180 MiB（共享只读）</text>
+    <rect x="24" y="130" width="150" height="28" fill="#3a6ea5"/>
+    <text x="99" y="149" font-size="13" text-anchor="middle" fill="#ffffff">app 24 MiB</text>
+    <rect x="24" y="162" width="90" height="24" fill="#b5642e"/>
+    <text x="69" y="179" font-size="13" text-anchor="middle" fill="#ffffff">upper 8</text>
+    <rect x="300" y="112" width="110" height="76" rx="6" fill="#eaf3ea" stroke="#4f9e63" stroke-width="1.4"/>
+    <text x="355" y="145" font-size="13" text-anchor="middle" fill="#2f6b40">merged</text>
+    <text x="355" y="163" font-size="13" text-anchor="middle" fill="#2f6b40">容器看到的 /</text>
+    <line x1="254" y1="109" x2="300" y2="130" stroke="#4f9e63" stroke-width="1.6"/>
+    <line x1="174" y1="144" x2="300" y2="150" stroke="#4f9e63" stroke-width="1.6"/>
+    <line x1="114" y1="174" x2="300" y2="170" stroke="#b5642e" stroke-width="1.6"/>
+    <text x="24" y="208" font-size="13" fill="#8a4a1f">copy-up：首次写下层文件时整文件复制到 upper；4 KiB 写可放大成 120 MiB 写</text>
+
+    <text x="390" y="78" font-size="14" font-weight="700" fill="#1a2b3a">6 个容器的磁盘：共享 vs 各存一份</text>
+    <rect x="390" y="92" width="81.8" height="22" fill="#1a4f8b"/>
+    <text x="482" y="108" font-size="13" fill="#1a2b3a">372 MiB</text>
+    <rect x="390" y="124" width="279.8" height="22" fill="#b5642e"/>
+    <text x="680" y="140" font-size="13" fill="#8a4a1f">1,272 MiB</text>
+    <text x="390" y="168" font-size="13" fill="#4f9e63">节省 900 MiB，70.75%</text>
+    <text x="390" y="188" font-size="13" fill="#5a6b7b">共享 = 180 + 6 × (24 + 8) = 372</text>
+    <text x="390" y="208" font-size="13" fill="#5a6b7b">复制 = 6 × (180 + 24 + 8) = 1,272</text>
+
+    <text x="24" y="246" font-size="14" font-weight="700" fill="#1a2b3a">内存：6 × 133 = 798 MiB，加宿主 120 = 918 MiB / 1,024 MiB</text>
+    <rect x="24" y="260" width="438.9" height="26" fill="#1a4f8b"/>
+    <rect x="462.9" y="260" width="66" height="26" fill="#6b7f95"/>
+    <rect x="528.9" y="260" width="58.3" height="26" fill="#eef1f4" stroke="#8fa8c0" stroke-width="1"/>
+    <text x="243" y="278" font-size="13" text-anchor="middle" fill="#ffffff">应用与运行时 798</text>
+    <text x="495" y="278" font-size="13" text-anchor="middle" fill="#ffffff">宿主 120</text>
+    <text x="558" y="278" font-size="13" text-anchor="middle" fill="#1a2b3a">106</text>
+    <text x="24" y="308" font-size="13" fill="#5a6b7b">每容器 96 应用 + 9 运行时 + 16 tmpfs + 12 内核 = 133；6 个 918；上限 144 时 984，余 40</text>
+
+    <text x="24" y="336" font-size="14" font-weight="700" fill="#1a2b3a">data 1,536 MiB：当前 569（37.0%），OTA 双镜像加暂存峰值 1,217（79.2%）</text>
+    <rect x="24" y="348" width="199.2" height="22" fill="#1a4f8b"/>
+    <rect x="223.2" y="348" width="338.4" height="22" fill="#eef1f4" stroke="#8fa8c0" stroke-width="1"/>
+    <text x="232" y="364" font-size="13" fill="#1a2b3a">569 = 324 镜像 + 48 可写 + 192 卷 + 5 元数据</text>
+    <rect x="24" y="376" width="426" height="22" fill="#b5642e"/>
+    <rect x="450" y="376" width="111.6" height="22" fill="#eef1f4" stroke="#8fa8c0" stroke-width="1"/>
+    <text x="238" y="392" font-size="13" fill="#ffffff">1,217 MiB（79.2%）</text>
+    <text x="24" y="412" font-size="13" fill="#5a6b7b">双镜像 648 + 可写 48 + 卷 192 + 元数据 5 + 暂存 324</text>
+    <text x="24" y="432" font-size="13" fill="#8a4a1f">copy-up 120 MiB / 4 KiB = 30,720 倍；若每日重建 upper，单容器 42.77 GiB/年</text>
+  </g>
+</svg>
