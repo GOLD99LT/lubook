@@ -19,7 +19,7 @@ sources:
 
 通用串行总线（Universal Serial Bus，USB）是主机调度的、分层的、以端点（Endpoint）为基本单位的串行总线。设备不会自己"抢总线"：主机每 1 ms 发一个帧起始（Start of Frame，SOF），在帧内按预算安排控制、中断、批量、同步四类传输；设备能做的，是在自己的端点缓冲里准备好数据，等待主机来取或送来。
 
-这种"主机说了算"的结构把设备侧的复杂度压到了三件事：**描述符（Descriptor）要写对**（否则主机不知道你是谁、要多少带宽）、**端点要配对**（方向、类型、包长、间隔）、**缓冲要跟上**（否则溢出或欠载）。三者中任何一项出错，现象都很像：插上没反应、设备管理器里出现黄色感叹号、能识别但传不动数据、休眠后醒不过来。本章按枚举（Enumeration）、描述符、事务预算、CDC/HID、挂起（Suspend）唤醒（Resume）、DMA 双缓冲的顺序展开，并给出可直接复算的帧内预算。
+这种"主机说了算"的结构把设备侧的复杂度压到了三件事：**描述符（Descriptor）要写对**（否则主机不知道你是谁、要多少带宽）、**端点要配对**（方向、类型、包长、间隔）、**缓冲要跟上**（否则溢出或欠载）。三者中任何一项出错，现象都很像：插上没反应、设备管理器里出现黄色感叹号、能识别但传不动数据、休眠后醒不过来。本章按枚举（Enumeration）、描述符、传输类型（Transfer Type）、CDC（Communications Device Class）/HID（Human Interface Device）、挂起（Suspend）唤醒（Resume）、DMA 双缓冲（Double Buffering）的顺序展开，并给出可直接复算的帧内预算。
 
 与 UART 的异步帧对照见 [UART 与 USART](uart.md)，CAN 的多主仲裁见 [CAN 与 CAN FD](can.md)，DMA 的通道与双缓冲见 [DMA：通道映射、双缓冲与带宽](../mcu/dma.md)，低功耗与唤醒源见 [低功耗设计](../practice/low-power.md)。
 
@@ -93,7 +93,7 @@ $$
 
 枚举从主机检测到设备插入开始。主机先给总线复位（SE0 至少 10 ms），设备回到默认状态、地址 0、EP0 包长 8 字节。然后主机发 GET_DESCRIPTOR（设备，前 8 字节），确认 bMaxPacketSize0；再发 SET_ADDRESS 分配唯一地址；接着读完整设备描述符（18 字节）、配置描述符（9 字节）、完整配置集合，最后发 SET_CONFIGURATION 选中配置。类驱动随后发类请求，例如 CDC 的 SET_LINE_CODING、SET_CONTROL_LINE_STATE，HID 的 SET_IDLE、GET_REPORT。
 
-| 传输类型 | 方向 | 带宽/延迟保证 | 典型用途 | 全速最大包 |
+| 传输类型（Transfer Type） | 方向 | 带宽/延迟保证 | 典型用途 | 全速最大包 |
 |---|---|---|---|---|
 | 控制（Control） | 双向 | 每帧预留，尽力而为 | 枚举、类请求、配置 | 64 |
 | 批量（Bulk） | 单向 | 无带宽保证，有 CRC 重传 | 大文件、虚拟串口 | 64 |

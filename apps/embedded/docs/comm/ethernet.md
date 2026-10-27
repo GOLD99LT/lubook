@@ -59,7 +59,7 @@ sources:
 
 ### 2.1 原理图：MAC、PHY、MII/RMII 与变压器
 
-MAC（Media Access Control）是数字域：它负责组帧、插入源地址、计算 FCS、检测冲突（半双工）、统计错误，并通过 DMA 与内存交互。PHY（Physical Layer Transceiver）是模拟域：它把 MAC 的并行数字信号串行化、编码（100BASE-TX 用 4B/5B + MLT-3，1000BASE-T 用 PAM-5），再经网络变压器送到双绞线。
+MAC（Media Access Control）是数字域：它负责组帧、计算 FCS、检测冲突（半双工）、统计错误，并通过 DMA 与内存交互。PHY（Physical Layer Transceiver）是模拟域：它把 MAC 的并行数字信号串行化、编码（100BASE-TX 用 4B/5B + MLT-3，1000BASE-T 用 PAM-5），再经网络变压器送到双绞线。
 
 MAC 与 PHY 之间的接口有三种常见形态：MII、RMII 与千兆精简 MII（Reduced Gigabit MII，RGMII）。
 
@@ -104,7 +104,7 @@ MDIO 的读写要遵循 PHY 手册的寄存器映射。以常见的 100 Mbit/s P
 
 ### 2.3 动态分析：发送/接收描述符环与中断
 
-DMA 描述符环（Descriptor Ring）是 MAC 与软件之间的队列。每个描述符通常 16 字节，包含状态/控制、缓冲长度、缓冲地址和下一个描述符地址。发送时，软件把帧写入缓冲、填写长度与 OWN=1（交给 DMA），MAC 发完后清 OWN 并置完成位；接收时反过来，DMA 把帧写入空缓冲、置 OWN=0 并置帧长度，软件处理完后把 OWN=1 交回。
+DMA 描述符环是 MAC 与软件之间的队列。每个描述符通常 16 字节，包含状态/控制、缓冲长度、缓冲地址和下一个描述符地址。发送时，软件把帧写入缓冲、填写长度与 OWN=1（交给 DMA），MAC 发完后清 OWN 并置完成位；接收时反过来，DMA 把帧写入空缓冲、置 OWN=0 并置帧长度，软件处理完后把 OWN=1 交回。
 
 一个典型的发送流程：
 
@@ -233,7 +233,7 @@ TCP MSS 取 1460，线路字节 1538，效率 94.928%，100 Mbit/s 下理论上�
 
 ### 5.1 抓包与统计计数器
 
-用支持端口镜像的交换机或 MCU 侧的抓包工具，先确认"帧有没有进出 MAC"。MAC 的统计计数器（RMON）能区分 FCS 错误、对齐错误、late collision、丢弃、溢出；如果 FCS 错误持续增长，优先查 PHY、变压器、线缆和双工；如果接收溢出增长，查描述符环深度和中断延迟；如果发送 underrun，查 DMA 带宽和描述符供给。
+用支持端口镜像的交换机或 MCU 侧的抓包工具，先确认"帧有没有进出 MAC"。MAC 的统计计数器（IEEE 802.3 Clause 30）能区分 FCS 错误、对齐错误、late collision、丢弃、溢出；如果 FCS 错误持续增长，优先查 PHY、变压器、线缆和双工；如果接收溢出增长，查描述符环深度和中断延迟；如果发送 underrun，查 DMA 带宽和描述符供给。
 
 抓包位置很重要：在 MCU 的 MII/RMII 侧抓，能看到 MAC 发出的原始帧；在 RJ45 侧抓，能看到经过 PHY 和变压器的帧。两边对比可以判断问题在数字域还是模拟域。
 

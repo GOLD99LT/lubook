@@ -139,7 +139,7 @@ $$
 
 ### 3.1 位时间的四个段与寄存器
 
-设 CAN 时钟频率为 $f_{\mathrm{CAN}}$，波特率预分频（Baud Rate Prescaler，BRP）为整数，则
+设 CAN 时钟频率为 $f_{\mathrm{CAN}}$，波特率预分频（Baud Rate Prescaler，BRP）为整数，则 CAN 的位时序（Bit Timing）由以下两式决定：
 
 $$
 t_q=\frac{\mathrm{BRP}}{f_{\mathrm{CAN}}},\qquad
@@ -151,10 +151,10 @@ $$
 同步跳转宽度（Synchronization Jump Width，SJW）是重同步时一次允许调整的最大 tq 数，必须满足
 
 $$
-N_{\mathrm{SJW}}\leq\min\left(N_{\mathrm{TS1}},N_{\mathrm{TS2}},4\right)
+N_{\mathrm{SJW}}\leq\min\left(N_{\mathrm{Phase1}},N_{\mathrm{TS2}},4\right)\leq\min\left(N_{\mathrm{TS1}},N_{\mathrm{TS2}},4\right)
 $$
 
-其中 $N_{\mathrm{SJW}}$ 是 SJW 的 tq 数。SJW 太小，晶振漂移和边沿抖动吸收不了；SJW 太大，重同步会把采样点拉过头。工程上常取 $N_{\mathrm{SJW}}=2$，在 500 kbit/s、16 tq 下就是 250 ns 的调整余量。
+其中 $N_{\mathrm{SJW}}$ 是 SJW 的 tq 数，$N_{\mathrm{Phase1}}$ 是 Phase_Seg1 的 tq 数。多数控制器只暴露 TS1（Prop_Seg + Phase_Seg1），右边的式子可以作为上界筛选；最终还要按手册确认 Phase_Seg1 不小于 SJW。SJW 太小，晶振漂移和边沿抖动吸收不了；SJW 太大，重同步会把采样点拉过头。工程上常取 $N_{\mathrm{SJW}}=2$，在 500 kbit/s、16 tq 下就是 250 ns 的调整余量。
 
 以 bxCAN 的 CAN_BTR 为例，寄存器编码为
 
@@ -186,7 +186,7 @@ $$
 | 数据 2M | 4 | 50 ns | 10 | 1 | 7 | 2 | 80.0% | 2（100 ns） | 2 Mbit/s |
 | 数据 5M | 1 | 12.5 ns | 16 | 1 | 11 | 4 | 75.0% | 4（50 ns） | 5 Mbit/s |
 
-复算标称行：$t_q=10/80\,\mathrm{MHz}=125$ ns，$t_{\mathrm{bit}}=125\times16=2000$ ns，$B=500$ kbit/s，采样点 $(1+13)/16=87.5\%$，SJW 上限 $\min(13,2,4)=2$。CAN_BTR 值为
+复算标称行：$t_q=10/80\,\mathrm{MHz}=125$ ns，$t_{\mathrm{bit}}=125\times16=2000$ ns，$B=500$ kbit/s，采样点 $(1+13)/16=87.5\%$，SJW 上界 $\min(13,2,4)=2$。CAN_BTR 值为
 
 $$
 (2-1)2^{24}+(2-1)2^{20}+(13-1)2^{16}+(10-1)=\text{0x011C0009}
@@ -194,7 +194,7 @@ $$
 
 按 SJA1000 的字节编码则是 BTR0=0x49、BTR1=0x1C：BTR0 的低 6 位是 BRP-1=9，高 2 位是 SJW-1=1；BTR1 的高 4 位是 TS2-1=1，低 4 位是 TS1-1=12。两种编码都指向同一组时序，可以作为交叉验算。
 
-数据段 2 Mbit/s 行：$t_q=4/80\,\mathrm{MHz}=50$ ns，$t_{\mathrm{bit}}=500$ ns，采样点 $8/10=80\%$，SJW 上限 $\min(7,2,4)=2$。数据段 5 Mbit/s 行：$t_q=12.5$ ns，$t_{\mathrm{bit}}=200$ ns，采样点 $12/16=75\%$，SJW 上限 $\min(11,4,4)=4$。5 Mbit/s 时 1 个 tq 只有 12.5 ns，相当于约 2.5 m 的传播延迟，所以 5 Mbit/s 只适合紧凑节点。
+数据段 2 Mbit/s 行：$t_q=4/80\,\mathrm{MHz}=50$ ns，$t_{\mathrm{bit}}=500$ ns，采样点 $8/10=80\%$，SJW 上界 $\min(7,2,4)=2$。数据段 5 Mbit/s 行：$t_q=12.5$ ns，$t_{\mathrm{bit}}=200$ ns，采样点 $12/16=75\%$，SJW 上界 $\min(11,4,4)=4$。5 Mbit/s 时 1 个 tq 只有 12.5 ns，相当于约 2.5 m 的传播延迟，所以 5 Mbit/s 只适合紧凑节点。
 
 作为对照，42 MHz APB1 的经典 CAN 控制器要跑 500 kbit/s：BRP=6 时 $t_q=142.857$ ns，需要 14 个 tq 才凑出 2 µs，取 TS1=11、TS2=2，采样点 $12/14=85.714\%$，SJW=2（285.7 ns）。此时 $R_{\mathrm{BTR}}=\text{0x011A0005}$。如果坚持 87.5%，需要 $N$ 是 8 的倍数，而 $\mathrm{BRP}\times N=84$ 在 $N=8,16,24$ 时分别要求 BRP=10.5、5.25、3.5，都不是整数——**42 MHz 下 500 kbit/s 无法得到精确的 87.5% 采样点**，只能取 85.7% 或降到 250 kbit/s 再选 8 个 tq。
 
@@ -263,7 +263,7 @@ $$
 
 其中 $L_{\max}$ 是最大总线长度（m），$t_{\mathrm{PS1}}$ 是 TS1 时间（s），$t_{\mathrm{loop}}$ 是收发器环路延迟（s），$t_{\mathrm{prop,unit}}$ 是单位长度传播延迟（约 5 ns/m）。取 $t_{\mathrm{loop}}=100$ ns：
 
-| 位速率 | 位时间 | TS1 时间 | 最大长度（估算） | 工程取值 |
+| 位速率 | 位时间 | TS1 时间（上界） | 最大长度（估算） | 工程取值 |
 |---|---|---|---|---|
 | 500 kbit/s | 2 µs | 1.625 µs | 152.5 m | 100 m 以内 |
 | 2 Mbit/s | 500 ns | 350 ns | 25.0 m | 20 m 以内 |
@@ -382,7 +382,7 @@ CAN 只提供"最多 8 字节（FD 64 字节）的广播帧 + 优先级 + 错误
 
 位时间 $t_{\mathrm{bit}}=1/500000=2$ µs。16 个 tq 时 $t_q=2/16=125$ ns，BRP $=t_q f_{\mathrm{CAN}}=125\,\mathrm{ns}\times80\,\mathrm{MHz}=10$。
 
-采样点 87.5% 表示采样点在 14 个 tq 处：Sync 1 + TS1 13 = 14，所以 TS1=13，TS2=16-1-13=2。SJW 上限 $\min(13,2,4)=2$，取 2。
+采样点 87.5% 表示采样点在 14 个 tq 处：Sync 1 + TS1 13 = 14，所以 TS1=13，TS2=16-1-13=2。SJW 上界 $\min(13,2,4)=2$，取 2。
 
 CAN_BTR $=(2-1)2^{24}+(2-1)2^{20}+(13-1)2^{16}+(10-1)=\text{0x011C0009}$。验算：$125\,\mathrm{ns}\times16=2\,\mu s$，$1/2\,\mu s=500$ kbit/s。
 
