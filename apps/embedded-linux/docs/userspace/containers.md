@@ -429,7 +429,7 @@ PIDs：六个容器各 64，合计 384；宿主 `pids.max` 至少 1,024，给 sy
 - **containerd + nerdctl**：containerd 常驻，功能完整，适合需要 CRI、镜像分发、复杂编排的场景；常驻内存比 Podman 高。
 - **Docker**：开发体验好，但 `dockerd` + `containerd` 常驻，内存和启动时间对 1 GiB 设备不友好；除非团队已有成熟运维体系，否则不建议作为嵌入式默认。
 
-“无守护进程”不等于“没有开销”：Podman 每次 `run` 都会启动 `conmon` 和 `crun`，容器运行期间 `conmon` 常驻（几 MiB），`crun` 在容器启动后退出。六个容器大约 9 MiB 的运行时开销，已经算在上一节的 133 MiB 里。Docker 的 `dockerd` 常驻通常几十到上百 MiB，差距主要在这里。
+“无守护进程”不等于“没有开销”：Podman 每次 `run` 都会启动 `conmon` 和 `crun`，容器运行期间 `conmon` 常驻（每个几 MiB），`crun` 在容器启动后退出。六个容器合计约 54 MiB（9 MiB/容器）的运行时开销，已经算在上一节的 133 MiB 里。Docker 的 `dockerd` 常驻通常几十到上百 MiB，差距主要在这里。
 
 存储驱动优先 `overlay`。`vfs` 不做层共享，六个容器会把磁盘吃光；`fuse-overlayfs` 适合 rootless，但性能低于内核 overlay；`btrfs` 快照在嵌入式上不常用。选驱动后，用 `podman info` 确认 `graphDriverName` 和 `graphRoot`，不要只看配置文件。
 

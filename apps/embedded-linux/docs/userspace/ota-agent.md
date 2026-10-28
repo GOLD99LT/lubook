@@ -12,7 +12,7 @@ sources:
   - SWUpdate 文档 Double Copy、Delta Update 与 suricatta（.swu 的 cpio 结构、sw-description 与签名、raw/bootenv/rdiff handler、hawkBit 集成）
   - Linux 内核文档 Documentation/admin-guide/device-mapper/verity.rst（dm-verity 哈希树、root hash 与块级校验）
   - Linux 内核文档 Documentation/block/writeback_cache_control.rst（write cache、FUA/flush 与断电一致性的关系）
-  - U-Boot 文档 doc/README.bootcount 与 doc/README.distro（bootcount、bootlimit、altbootcmd 与 distro boot 的启动选择）
+  - U-Boot 文档 doc/README.bootchooser 与 doc/README.distro（BOOT_ORDER、BOOT_<name>_LEFT、bootchooser 与 distro boot 的启动选择）
   - RFC 5652（Cryptographic Message Syntax，CMS）与 RFC 8032（Ed25519 签名格式）
   - Eclipse hawkBit 文档（软件模块、部署动作、状态上报与轮询模型）
   - Android Open Source Project A/B Updates（slot metadata、boot_control HAL、max_retries 与 slot-successful 语义）
@@ -100,10 +100,12 @@ RAUC 的 `system.conf` 和 SWUpdate 的 `sw-description` 都应该用 `/dev/disk
 ```text
 BOOT_ORDER=a b
 BOOT_A_LEFT=3
-BOOT_B_LEFT=0
+BOOT_B_LEFT=3
 ```
 
-`BOOT_ORDER=a b` 表示优先尝试 A，再尝试 B；`BOOT_A_LEFT=3` 表示 A 还可以试 3 次。每次从 A 启动，计数减 1；健康检查通过后，用户空间调用 `mark-good` 把计数恢复到 3，并把 B 的计数清零或标记为 bad。若计数减到 0，bootchooser 跳过 A，转向 B。
+`BOOT_ORDER=a b` 表示按顺序尝试 A、B；`BOOT_A_LEFT=3` 表示 A 还有 3 次启动机会。每次从 A 启动，bootchooser 把 `BOOT_A_LEFT` 减 1；减到 0 就跳过 A，按 `BOOT_ORDER` 尝试 B。示例里 B 也写作 3：若 `BOOT_B_LEFT=0`，B 会被直接跳过，“转向 B”永远不会发生。升级到 B 时，`ARM` 把 `BOOT_ORDER` 改成 `b a`，并把 `BOOT_B_LEFT` 设为 3，下次启动才会先试 B。
+
+健康检查通过后，用户空间调用 `mark-good`，把当前槽的 `BOOT_<name>_LEFT` 重置为 3（清掉已消耗的试运行次数），并把 `BOOT_ORDER` 改写为“当前槽在前”；`mark-bad` 则把当前槽的计数置 0，让它立即被跳过。bootchooser 不使用 `bootcount`/`bootlimit`/`altbootcmd`，它靠 `BOOT_ORDER` 与每槽独立的 `BOOT_<name>_LEFT` 完成尝试与回退。
 
 RAUC 把这套交互封装成 `rauc status mark-good`；SWUpdate 通过 `bootenv` handler 或外部脚本改 U-Boot 变量。无论用哪个，**用户空间不能自己决定“当前槽”**，它只能“请求下次启动某个槽”和“确认某个槽是好的”；真正的选择权在 bootloader，因为只有 bootloader 能在内核起不来时执行回退。
 
@@ -133,7 +135,7 @@ size=754974720
 
 [image.boot]
 filename=boot.vfat
-sha256=9a8b7c6d5e4f30211203f4e5d6c7b8a9908172635445362718495061726354
+sha256=9a8b7c6d5e4f30211203f4e5d6c7b8a9908172635445362718495061726354ab
 size=18874368
 ```
 
@@ -202,7 +204,7 @@ software = {
     boot = {
       filename = "boot.vfat";
       device = "/dev/disk/by-partlabel/boot_b";
-      sha256 = "9a8b7c6d5e4f30211203f4e5d6c7b8a9908172635445362718495061726354";
+      sha256 = "9a8b7c6d5e4f30211203f4e5d6c7b8a9908172635445362718495061726354ab";
       handler = "raw";
     };
   };
@@ -221,9 +223,9 @@ SWUpdate 的强项是**handler 生态和流式安装**：它可以在下载的�
 
 ### 2.5 状态机：每一步都要能回答“断电会怎样”
 
-![OTA 客户端的 A/B 槽位、状态机与时间预算：486 MiB 包的全量 77.1 s，差分 41.4 s](../assets/schematics/ota-client-flow.svg)
+![OTA 客户端的 A/B 槽位、状态机与时间预算：486 MiB 包的全量 79.9 s，差分 41.4 s](../assets/schematics/ota-client-flow.svg)
 
-图中上半部分是 A/B 槽位与 bundle 的落点：客户端只写候选的 `root_b`，data 分区存放 bundle 与应用数据。中间是状态机，`ARM` 是唯一的提交点，`TRIAL` 失败后进入 `ROLLBACK`。下半部分是时间预算，全量 77.1 s、差分 41.4 s，两者都要支付 30.9 s 的固定切换成本。
+图中上半部分是 A/B 槽位与 bundle 的落点：客户端只写候选的 `root_b`，data 分区存放 bundle 与应用数据。中间是状态机，`ARM` 是唯一的提交点，`TRIAL` 失败后进入 `ROLLBACK`。下半部分是时间预算，全量 79.9 s、差分 41.4 s，两者都要支付 30.9 s 的固定切换成本。
 
 一个可断电恢复的 OTA 状态机，状态要少、动作要幂等、每步的持久化要明确。下面是一个可落地的版本：
 
@@ -234,8 +236,8 @@ SWUpdate 的强项是**handler 生态和流式安装**：它可以在下载的�
 | `DOWNLOAD` | 下载 bundle 到 data 分区的临时文件 | 临时文件不完整，下次续传或重下 |
 | `VERIFY` | 验 bundle 签名与镜像 hash | 包不可信，删除临时文件 |
 | `STAGE` | 把镜像写入非活动槽 | 非活动槽不完整，当前槽完好 |
-| `ARM` | 写启动元数据：试运行、计数清零 | 元数据双备份，取有效者 |
-| `TRIAL` | 重启进入新槽，bootcount 自增 | 计数达上限后回滚 |
+| `ARM` | 写启动元数据：候选槽置 trial、`BOOT_<name>_LEFT=3` | 元数据双备份，取有效者 |
+| `TRIAL` | 重启进入新槽，`BOOT_<name>_LEFT` 减 1 | 计数到 0 后 bootchooser 跳过并回滚 |
 | `CONFIRM` | 健康检查通过，`mark-good` | 已确认，清理旧包 |
 | `ROLLBACK` | bootloader 切回旧槽，标记新槽 bad | 旧槽仍可启动 |
 
@@ -317,9 +319,9 @@ OTA 客户端和 A/B 的分工可以用一句话概括：**客户端负责“把
 
 1. **只写非活动槽**。当前槽的 rootfs 不挂载可写，升级过程中业务继续从当前槽运行。
 2. **用稳定的分区标识**。`PARTLABEL`/`PARTUUID`，不用 `/dev/mmcblk0pN`。
-3. **提交启动元数据**。设置“下次启动候选槽”“候选槽 pending”，把 `bootcount` 清零、候选槽的剩余尝试设为 `bootlimit`；写完后 `fsync`，确保 bootloader 能读到。
-4. **让 bootloader 计数**。每次从候选槽启动，bootcount 自增；达到 `bootlimit` 仍未被 `mark-good`，执行 `altbootcmd` 回滚。
-5. **健康检查后确认**。`mark-good` 清计数、清 pending、把当前槽标 good；`mark-bad` 立即让 bootloader 放弃候选槽。
+3. **提交启动元数据**。把候选槽标记为 trial，设置 `BOOT_<name>_LEFT=3`，并把 `BOOT_ORDER` 改为“候选槽在前”；写完后 `fsync`，确保 bootloader 能读到。
+4. **让 bootloader 计数**。每次从候选槽启动，bootchooser 把该槽的 `BOOT_<name>_LEFT` 减 1；减到 0 仍未被 `mark-good`，就跳过该槽，按 `BOOT_ORDER` 回退到旧槽。
+5. **健康检查后确认**。`mark-good` 把当前槽的 `BOOT_<name>_LEFT` 重置为 3、把当前槽标 good；`mark-bad` 把计数置 0，立即让 bootloader 放弃候选槽。
 6. **清理旧包**。确认成功后删除旧 bundle，保留上一版用于手动回滚；不要在 `ARM` 之前删，否则回滚后没有包可重装。
 
 一个常见的错误是“升级完成后立刻把旧槽格式化”。旧槽是最直接的回滚退路；只有新系统 `mark-good` 且稳定运行一段时间后，才能考虑复用旧槽。另一个错误是“升级时挂载当前 rootfs 为可写，顺便改配置”。这会让当前槽的 hash 与发布版本不一致，下一次差分的基线就错了；配置应该放 data 分区，而不是改 rootfs。
@@ -328,25 +330,25 @@ OTA 客户端和 A/B 的分工可以用一句话概括：**客户端负责“把
 
 ### 3.1 升级时间
 
-设 bundle 大小为 $S$，网络吞吐 $B_{\mathrm{net}}$，写入吞吐 $B_{\mathrm{write}}$，校验读回吞吐 $B_{\mathrm{verify}}$，切换时间为 $T_{\mathrm{switch}}$。流水线（边下边写）的总时间为
+设 bundle 下载大小为 $S_{\mathrm{dl}}$，解压后写入分区的镜像大小为 $S_{\mathrm{wr}}$，网络吞吐 $B_{\mathrm{net}}$，写入吞吐 $B_{\mathrm{write}}$，校验读回吞吐 $B_{\mathrm{verify}}$，切换时间为 $T_{\mathrm{switch}}$。流水线（边下边写）的总时间为
 
-$$T_{\mathrm{up}}=\max\left(\frac{S}{B_{\mathrm{net}}},\frac{S}{B_{\mathrm{write}}}\right)+\frac{S}{B_{\mathrm{verify}}}+T_{\mathrm{switch}}$$
+$$T_{\mathrm{up}}=\max\left(\frac{S_{\mathrm{dl}}}{B_{\mathrm{net}}},\frac{S_{\mathrm{wr}}}{B_{\mathrm{write}}}\right)+\frac{S_{\mathrm{wr}}}{B_{\mathrm{verify}}}+T_{\mathrm{switch}}$$
 
 非流水线（先下载再写）为
 
-$$T_{\mathrm{up}}=\frac{S}{B_{\mathrm{net}}}+\frac{S}{B_{\mathrm{write}}}+\frac{S}{B_{\mathrm{verify}}}+T_{\mathrm{switch}}$$
+$$T_{\mathrm{up}}=\frac{S_{\mathrm{dl}}}{B_{\mathrm{net}}}+\frac{S_{\mathrm{wr}}}{B_{\mathrm{write}}}+\frac{S_{\mathrm{wr}}}{B_{\mathrm{verify}}}+T_{\mathrm{switch}}$$
 
 切换时间包括提交元数据、重启、健康检查：
 
 $$T_{\mathrm{switch}}=T_{\mathrm{commit}}+T_{\mathrm{reboot}}+T_{\mathrm{health}}$$
 
-这个模型解释了流水线的收益边界：**当网络是瓶颈时，流水线把“下载 + 写入”压成“下载”，省掉的是写入时间**；当写入是瓶颈时，压成“写入”，省掉的是传输时间。只有两者接近时，收益才小。对 486 MiB 的包、12 MB/s 网络、38 MB/s 写入，网络 40.5 s 大于写入 12.8 s，所以流水线省掉写入的 12.8 s，而不是把两者相加。
+这个模型解释了流水线的收益边界：**当网络是瓶颈时，流水线把“下载 + 写入”压成“下载”，省掉的是写入时间**；当写入是瓶颈时，压成“写入”，省掉的是传输时间。只有两者接近时，收益才小。对 486 MiB 的 bundle、解压后 738 MiB 的写入镜像、12 MB/s 网络、38 MB/s 写入，网络 40.5 s 大于写入 19.4 s，所以流水线省掉写入的 19.4 s，而不是把两者相加。
 
 校验时间取决于读回吞吐，而不是 hash 计算速度：
 
-$$T_{\mathrm{verify}}=\frac{S}{\min\left(B_{\mathrm{read}},B_{\mathrm{hash}}\right)}$$
+$$T_{\mathrm{verify}}=\frac{S_{\mathrm{wr}}}{\min\left(B_{\mathrm{read}},B_{\mathrm{hash}}\right)}$$
 
-$B_{\mathrm{hash}}=240$ MB/s、$B_{\mathrm{read}}=85$ MB/s 时，读回是瓶颈，$T_{\mathrm{verify}}=S/85$。如果 hash 在下载时同步计算，则下载阶段已经完成 hash，不需要额外时间；但读回校验仍然要做，因为它检查的是“写入是否成功”，不是“下载是否完整”。
+$B_{\mathrm{hash}}=240$ MB/s、$B_{\mathrm{read}}=85$ MB/s 时，读回是瓶颈，$T_{\mathrm{verify}}=S_{\mathrm{wr}}/85$。如果 hash 在下载时同步计算，则下载阶段已经完成 hash，不需要额外时间；但读回校验仍然要做，因为它检查的是“写入是否成功”，不是“下载是否完整”。
 
 ### 3.2 差分包大小与收益
 
@@ -400,21 +402,21 @@ $$kS+S_{\mathrm{other}}\leq S_{\mathrm{data}}$$
 - data 1,536 MiB 要同时容纳升级包、应用数据和容器存储；升级包不能把 data 吃满。
 - 预留 858 MiB 覆盖 GPT 备份、坏块和未来功能；不要把它当成“可以随便用”的空间。
 
-### 4.2 全量升级：后台 47.1 s，总 77.1 s
+### 4.2 全量升级：后台 49.9 s，总 79.9 s
 
-bundle 486 MiB，网络 12 MB/s，写入 38 MB/s，读回 85 MB/s，提交 0.9 s，重启 22 s，健康检查 8 s。
+bundle 486 MiB；解压后写入 rootfs 720 MiB，另有 boot.vfat 18 MiB，写入合计 738 MiB；网络 12 MB/s，写入 38 MB/s，读回 85 MB/s，提交 0.9 s，重启 22 s，健康检查 8 s。
 
-传输：
+传输（bundle 下载体积）：
 
 $$T_{\mathrm{net}}=\frac{486}{12}=40.5\ \mathrm{s}$$
 
-写入：
+写入（解压后的镜像体积）：
 
-$$T_{\mathrm{write}}=\frac{486}{38}=12.79\ \mathrm{s}$$
+$$T_{\mathrm{write}}=\frac{738}{38}=19.42\ \mathrm{s}$$
 
-读回校验：
+读回校验（按 rootfs 720 MiB 计；若连 boot.vfat 一起读回，则 $738/85=8.68$ s）：
 
-$$T_{\mathrm{verify}}=\frac{486}{85}=5.72\ \mathrm{s}$$
+$$T_{\mathrm{verify}}=\frac{720}{85}=8.47\ \mathrm{s}$$
 
 切换：
 
@@ -422,11 +424,11 @@ $$T_{\mathrm{switch}}=0.9+22+8=30.9\ \mathrm{s}$$
 
 流水线总时间：
 
-$$T_{\mathrm{up}}=\max(40.5,12.79)+5.72+30.9=40.5+5.72+30.9=77.12\ \mathrm{s}$$
+$$T_{\mathrm{up}}=\max(40.5,19.42)+8.47+30.9=40.5+8.47+30.9=79.87\ \mathrm{s}$$
 
-后台阶段（业务不停机）是 $40.5+5.72+0.9=47.12$ s；用户感知的停机主要是重启和健康检查 30 s。非流水线则多出 12.79 s 的下载后写入，总时间 $40.5+12.79+5.72+30.9=89.91$ s。
+后台阶段（业务不停机）是 $40.5+8.47+0.9=49.87$ s；用户感知的停机主要是重启和健康检查 30 s。非流水线则多出 19.42 s 的下载后写入，总时间 $40.5+19.42+8.47+30.9=99.29$ s。
 
-注意 hash 计算：486 MiB / 240 MB/s = 2.03 s，但它在下载过程中完成，不额外增加 2.03 s；读回校验的 5.72 s 才是额外成本。如果读回也做 hash，hash 计算 2.03 s 被 5.72 s 的读时间掩盖，实际增加仍是 5.72 s。
+注意 hash 计算：镜像共 738 MiB，按 240 MB/s 算 $738/240=3.08$ s；它与下载/写入流水线重叠，不额外增加 3.08 s，读回校验的 8.47 s 才是额外成本。如果读回也做 hash，hash 计算 3.08 s 被 8.47 s 的读时间掩盖，实际增加仍是 8.47 s。
 
 ### 4.3 差分升级：后台 11.4 s，总 41.4 s
 
@@ -448,13 +450,13 @@ $$T_{\mathrm{verify}}=\frac{720}{85}=8.47\ \mathrm{s}$$
 
 $$T_{\mathrm{delta}}=2.06+8.47+30.9=41.43\ \mathrm{s}$$
 
-后台阶段 $2.06+8.47+0.9=11.43$ s，相对全量 47.12 s 降低 75.75%；但总时间只从 77.12 s 降到 41.43 s，降低 46.28%。**固定切换成本 30.9 s 吃掉了大部分收益**。
+后台阶段 $2.06+8.47+0.9=11.43$ s，相对全量 49.87 s 降低 77.08%；但总时间只从 79.87 s 降到 41.43 s，降低 48.13%。**固定切换成本 30.9 s 吃掉了大部分收益**。
 
 如果用块级哈希树，只校验 20.79 MiB 的补丁数据：
 
 $$T_{\mathrm{verify}}=\frac{20.79}{85}=0.24\ \mathrm{s}$$
 
-总时间变成 $2.06+0.24+30.9=33.20$ s，相对全量降低 56.95%。这说明差分的真正瓶颈不是传输，而是“重建后的校验策略”：全量校验安全但慢，块级校验快但要求镜像格式支持哈希树。
+总时间变成 $2.06+0.24+30.9=33.20$ s，相对全量降低 58.43%。这说明差分的真正瓶颈不是传输，而是“重建后的校验策略”：全量校验安全但慢，块级校验快但要求镜像格式支持哈希树。
 
 ### 4.4 重试：5 次尝试覆盖 98.15% 的瞬时失败
 
@@ -531,13 +533,13 @@ ExecStart=/usr/bin/health-check --timeout 60
 ExecStartPost=/usr/bin/rauc status mark-good
 ```
 
-`health-check` 失败时退出非零，`ExecStartPost` 不会执行，bootcount 继续累加，最终由 bootloader 回滚。注意 `mark-good` 只能调用一次；重复调用通常无害，但会掩盖“健康检查被跳过”的问题。日志里要记录“哪一次启动、哪个槽、什么检查通过”，否则现场无法判断回滚是健康检查失败还是别的原因。
+`health-check` 失败时退出非零，`ExecStartPost` 不会执行，候选槽的 `BOOT_<name>_LEFT` 继续递减，减到 0 后由 bootchooser 回滚。注意 `mark-good` 只能调用一次；重复调用通常无害，但会掩盖“健康检查被跳过”的问题。日志里要记录“哪一次启动、哪个槽、什么检查通过”，否则现场无法判断回滚是健康检查失败还是别的原因。
 
 ### 5.4 可观测性：状态、日志与指标
 
 OTA 客户端要暴露的最小状态集：
 
-- 当前槽、候选槽、bootcount 剩余次数；
+- 当前槽、候选槽、`BOOT_<name>_LEFT` 剩余次数；
 - 当前任务 ID、阶段、进度、已传输字节、总字节；
 - 最近一次错误码、错误阶段、重试次数、下次重试时间；
 - bundle 版本、构建时间、签名证书指纹；
@@ -590,7 +592,7 @@ OTA 的测试不能只测“升级成功”。至少要在这些点各断电 10 
 
 **原因**：安装脚本在 `rauc install` 返回 0 后立刻调用 `mark-good`，跳过了试运行和健康检查。新系统可能有确定性的启动缺陷（某个服务起不来、网络配置错、存储挂载失败），但 bootloader 已经收到“确认”，不再回滚；看门狗复位后仍然进新系统，形成重启循环，直到人工干预。
 
-**解决**：把 `mark-good` 从安装脚本里删掉，放到健康检查通过的 oneshot 服务里；`health-check` 覆盖系统、网络、存储、业务四类信号；安装脚本只负责“写候选槽 + ARM”，不负责“确认”。测试时故意让健康检查失败，确认 bootloader 会在 `bootlimit` 次后回滚。
+**解决**：把 `mark-good` 从安装脚本里删掉，放到健康检查通过的 oneshot 服务里；`health-check` 覆盖系统、网络、存储、业务四类信号；安装脚本只负责“写候选槽 + ARM”，不负责“确认”。测试时故意让健康检查失败，确认 bootchooser 会在 `BOOT_<name>_LEFT` 减到 0 后回滚。
 :::
 
 ::: pitfall 坑二：验了 bundle 签名，却没验镜像 hash
@@ -627,25 +629,25 @@ OTA 的测试不能只测“升级成功”。至少要在这些点各断电 10 
 
 ## 7. 自测题
 
-<details><summary>题一：bundle 486 MiB，网络 12 MB/s、写入 38 MB/s、读回 85 MB/s、提交 0.9 s、重启 22 s、健康检查 8 s。求流水线总时间、后台时间与非流水线总时间。</summary>
+<details><summary>题一：bundle 486 MiB（解压后写入镜像 738 MiB），网络 12 MB/s、写入 38 MB/s、读回 85 MB/s、提交 0.9 s、重启 22 s、健康检查 8 s。求流水线总时间、后台时间与非流水线总时间。</summary>
 
 切换时间：
 
 $$T_{\mathrm{switch}}=0.9+22+8=30.9\ \mathrm{s}$$
 
-传输 $486/12=40.5$ s；写入 $486/38=12.79$ s；读回 $486/85=5.72$ s。
+传输 $486/12=40.5$ s；写入 $738/38=19.42$ s；读回按 rootfs 720 MiB 计为 $720/85=8.47$ s（若连 boot.vfat 18 MiB 一起读回，则为 $738/85=8.68$ s）。
 
 流水线：
 
-$$T_{\mathrm{up}}=\max(40.5,12.79)+5.72+30.9=40.5+5.72+30.9=77.12\ \mathrm{s}$$
+$$T_{\mathrm{up}}=\max(40.5,19.42)+8.47+30.9=40.5+8.47+30.9=79.87\ \mathrm{s}$$
 
-后台（业务不停机）是 $40.5+5.72+0.9=47.12$ s。
+后台（业务不停机）是 $40.5+8.47+0.9=49.87$ s。
 
 非流水线：
 
-$$T_{\mathrm{up}}=40.5+12.79+5.72+30.9=89.91\ \mathrm{s}$$
+$$T_{\mathrm{up}}=40.5+19.42+8.47+30.9=99.29\ \mathrm{s}$$
 
-流水线省掉 12.79 s 的“下载后再写”，因为写入被网络传输掩盖。若网络升到 50 MB/s，传输 9.72 s，写入 12.79 s 变成瓶颈，流水线总时间变为 $12.79+5.72+30.9=49.41$ s。
+流水线省掉 19.42 s 的“下载后再写”，因为写入被网络传输掩盖。若网络升到 50 MB/s，传输 9.72 s，写入 19.42 s 变成瓶颈，流水线总时间变为 $19.42+8.47+30.9=58.79$ s。
 </details>
 
 <details><summary>题二：720 MiB rootfs，变化块 7.5%，压缩比 2.8，元数据 1.5 MiB，网络 12 MB/s、读 85 MB/s、写 38 MB/s。求差分包大小、传输、重建、全量校验与总时间；为什么总收益远小于流量收益？</summary>
@@ -664,9 +666,9 @@ $$S_{\mathrm{delta}}=\frac{54}{2.8}+1.5=19.29+1.5=20.79\ \mathrm{MiB}$$
 
 $$T_{\mathrm{delta}}=2.06+8.47+30.9=41.43\ \mathrm{s}$$
 
-全量是 77.12 s，总收益 $1-41.43/77.12=46.28\%$；流量从 486 MiB 降到 20.79 MiB，节省 95.72%。收益被 30.9 s 的固定切换成本稀释。
+全量是 79.87 s，总收益 $1-41.43/79.87=48.13\%$；流量从 486 MiB 降到 20.79 MiB，节省 95.72%。收益被 30.9 s 的固定切换成本稀释。
 
-若用块级哈希树只校验 20.79 MiB，校验 0.24 s，总时间 $2.06+0.24+30.9=33.20$ s，收益 56.95%。这说明差分的瓶颈往往不是传输，而是“重建后怎么校验”。
+若用块级哈希树只校验 20.79 MiB，校验 0.24 s，总时间 $2.06+0.24+30.9=33.20$ s，收益 58.43%。这说明差分的瓶颈往往不是传输，而是“重建后怎么校验”。
 </details>
 
 <details><summary>题三：单次重试成功率 55%，最多 5 次，首次退避 2 s、倍率 2。求至少成功一次的概率、期望尝试次数、总退避时间；哪些错误不应重试？</summary>
@@ -726,7 +728,7 @@ dm-verity 保护的是“启动后”的 rootfs 完整性：它把哈希树放�
 - SWUpdate 文档 `Double Copy`、`Delta Update`、`suricatta`：`.swu` 的 cpio 结构、`sw-description` 与 `sw-description.sig`、`raw`/`bootenv`/`rdiff` handler、hawkBit 轮询与状态上报。
 - Linux 内核文档 `Documentation/admin-guide/device-mapper/verity.rst`：dm-verity 哈希树、root hash、块级校验与启动参数。
 - Linux 内核文档 `Documentation/block/writeback_cache_control.rst`：write cache、FUA/flush 与断电一致性的关系。
-- U-Boot 文档 `doc/README.bootcount`、`doc/README.distro`：`bootcount`、`bootlimit`、`altbootcmd` 与 distro boot 的启动选择。
+- U-Boot 文档 `doc/README.bootchooser`、`doc/README.distro`：`BOOT_ORDER`、`BOOT_<name>_LEFT`、bootchooser 与 distro boot 的启动选择。
 - RFC 5652 `Cryptographic Message Syntax (CMS)`：SignedData 结构、证书链与签名属性；RFC 8032 `EdDSA`：Ed25519 签名格式与验证。
 - Eclipse hawkBit 文档：软件模块、部署动作、设备状态上报与轮询模型；RAUC 的 `rauc-hawkbit-updater` 与 SWUpdate 的 `suricatta` 都实现这套接口。
 - Android Open Source Project `A/B Updates`：slot metadata、`boot_control` HAL、`max_retries` 与 `slot-successful` 语义，可作为 A/B 状态机的对照实现。
