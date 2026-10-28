@@ -12,7 +12,7 @@ sources:
   - Arm, *Cortex-M3 Technical Reference Manual*（ARM DDI 0337I），Chapter 7 Exception Handling 与 Chapter 8 Fault Handling，说明异常入口压栈顺序、EXC_RETURN 与 HardFault 升级
   - Arm, *Cortex-M4 Technical Reference Manual*（ARM DDI 0439D），Chapter 7 Exception Handling 的 FPU 扩展栈帧与懒压栈（lazy stacking）
   - Arm, *Application Note 209, Using Cortex-M3 and Cortex-M4 Fault Exceptions*，故障处理函数写法、CFSR 判读流程与栈帧恢复示例
-  - STMicroelectronics, *RM0008 Reference Manual*，NVIC 与 SCB 章（CFSR/HFSR/MMFAR/BFAR 地址）、Flash memory 章（页擦除与半字编程时间）、RCC 章（RCC_CSR 复位原因标志）
+  - STMicroelectronics, *RM0008 Reference Manual*，NVIC 与 SCB 章（CFSR/HFSR/MMFAR/BFAR 地址）、Flash memory 章（页擦除与半字编程时间）、RCC 章（RCC_CSR 复位原因标志）、Backup registers 章（BKP_DR1–DR10 共 10 个 16 位寄存器，合计 20 B）
   - Arm, *CMSIS-Core(M) Documentation*，SCB 结构体的 CFSR/HFSR/MMFAR/BFAR/SHCSR 字段与 NVIC 使能位，用于核对寄存器偏移和位定义
   - IEC 61508-2:2010，Annex A 诊断技术表与 §7.4 硬件安全完整性要求，含程序流监控、栈溢出检测与故障注入的诊断覆盖率口径
 ---
@@ -51,8 +51,8 @@ Cortex-M 的异常机制其实留下了很多证据：进入 HardFault 时，硬
 
 **不算会摔在哪**，四个带数字的代价：
 
-1. **2 KB 栈窗口 dump 只要 185 ms，20 KB 全量要 1.785 s。** 115200 8N1 下每字节 10 位，2,128 B 是 0.185 s；20,560 B 是 1.785 s。看门狗窗口 1 s 时，全量 dump 还没发完就复位了。
-2. **写 Flash 的 20 KB 要 934 ms。** 21 页擦除 420 ms，10,280 个半字编程 514 ms。加上串口输出，超过 1 s；只 dump 2 KB 时，3 页擦除加 1,064 个半字是 113.2 ms。
+1. **2 KB 栈窗口 dump 只要 184 ms，20 KB 全量要 1.784 s。** 115200 8N1 下每字节 10 位，2,120 B 是 0.184 s；20,552 B 是 1.784 s。看门狗窗口 1 s 时，全量 dump 还没发完就复位了。
+2. **写 Flash 的 20 KB 要 934 ms。** 21 页擦除 420 ms，10,276 个半字编程 514 ms。加上串口输出，超过 1 s；只 dump 2 KB 时，3 页擦除加 1,060 个半字是 113.0 ms。
 3. **1/10,000 的复现率，50 次/天要等 200 天。** 单台设备每天启动 50 次，期望 200 天碰到一次；10 台设备并联复现，期望 20 天。没有故障注入，这个反馈周期长到项目结束都等不到。
 4. **200 条断言占 8 KB，是 64 KB Flash 的 12.2%。** 每条断言约 40 B（比较、分支、字符串地址、失败处理），200 条就是 8,000 B。全删能省 12.2%，但现场故障的定位成本远高于这点 Flash。
 
@@ -112,7 +112,7 @@ Cortex-M 的配置故障分四类：
 读法：
 
 - **bit 2** 选择栈：0 表示 MSP，1 表示 PSP。故障发生在使用 PSP 的线程里时，栈帧在 PSP 上，不在 MSP 上。
-- **bit 4** 表示帧类型：1 表示标准帧（32 B），0 表示扩展帧（104 B，含 FPU）。很多代码把这一位写反，结果在 FPU 帧里按 32 B 读，PC 完全错位。
+- **bit 4** 表示帧类型：1 表示标准帧（32 B），0 表示扩展帧（104 B，含 FPU）。这一位只决定栈窗口长度：扩展帧的整数部分仍在 SP 处，`frame[6]` 仍是 PC；真正的错位来自选错栈（bit2）或把整数帧定位到 SP+72。
 - 低 4 位 `0b0001` 表示返回 Handler 模式，`0b1001` 表示返回 Thread 模式 MSP，`0b1101` 表示返回 Thread 模式 PSP。
 
 故障处理函数通常写成 `__attribute__((naked))`，在 C 代码之前用汇编判断 bit2，把对应的栈指针传给 C 函数：
@@ -194,7 +194,7 @@ void HardFault_Handler(void)
 
 - **`.noinit` RAM**：复位后 SRAM 通常保留，读写最快，不磨损 Flash；掉电丢失。适合"看门狗复位/软件复位"的现场。
 - **Flash 保留区**：掉电保留，但写入慢、有擦写寿命；适合"必须跨掉电"的现场。要预留 4 KB 到 8 KB，按页擦除、按半字/字编程，最后写魔数和 CRC。
-- **备份寄存器（backup register）**：VBAT 供电时掉电保留，容量小（STM32F1 有 20 个 32 位寄存器），适合存 PC、CFSR、BFAR、复位次数这几个关键值。
+- **备份寄存器（backup register）**：VBAT 供电时掉电保留，容量小。STM32F1 的 BKP 数据寄存器是 **16 位**（SPL 的 `BKP_WriteBackupRegister(uint16_t, uint16_t)` 可印证）；本章用的 F103x8/xB 中容量型号有 `BKP_DR1`–`BKP_DR10` 共 10 个，合计 **10×16 位 = 20 B**。存 PC、CFSR、BFAR、复位计数这 4 个 32 位值需要 16 B，正好用掉 20 B 的 **80%**，适合存这几个关键值；要存更多现场，得换 Flash 保留区。
 
 coredump 的最小内容：
 
@@ -219,7 +219,7 @@ coredump 的最小内容：
 4. 最后写魔数和 CRC；魔数最后写，保证中途复位时旧数据不会被误认为新 dump。
 5. 复位前回读校验，或至少检查 Flash 状态寄存器。
 
-UART 输出适合研发阶段：2 KB 用 115200 约 185 ms，20 KB 要 1.785 s。量产设备通常没有调试串口，或者串口被业务占用，所以 Flash/备份寄存器更实际。
+UART 输出适合研发阶段：2 KB 用 115200 约 184 ms，20 KB 要 1.784 s。量产设备通常没有调试串口，或者串口被业务占用，所以 Flash/备份寄存器更实际。
 
 ### 2.7 断言与故障注入
 
@@ -402,7 +402,7 @@ $N_a$ 是条数，$s_a$ 是字节/条，$F$ 是字节，$\eta_a$ 是无量纲比
 | R2 | `0x00000004` |
 | R3 | `0x50000000` |
 | R12 | `0x00000000` |
-| LR | `0x08004A1D` |
+| LR | `0x0800491D` |
 | PC | `0x08004A2E` |
 | xPSR | `0x61000000` |
 | CFSR | `0x00008200` |
@@ -454,16 +454,16 @@ $$
 再看 LR：
 
 $$
-LR\ \&\ \sim 1=0x08004A1C
+LR\ \&\ \sim 1=0x0800491C
 $$
 
-`LR` 的末位是 1（Thumb 位），清掉后是 `0x08004A1C`。调用者 `control_task` 起始 `0x08004900`：
+`LR` 的末位是 1（Thumb 位），清掉后是 `0x0800491C`。这里有一个必须满足的约束：**LR 是当前函数的返回地址，必须落在调用者 `control_task` 的代码区间内**；`sensor_update` 从 `0x080049F0` 开始，所以返回地址只能小于 `0x080049F0`。若按栈帧算出的 LR 落在 `sensor_update` 内部（例如 `0x08004A1C`），说明栈选错了或帧定位错了，正常链接不会产生这种调用关系。调用者 `control_task` 起始 `0x08004900`：
 
 $$
-\Delta_{\text{call}}=0x08004A1C-0x08004900=0x11C=284\ \text{B}
+\Delta_{\text{call}}=0x0800491C-0x08004900=0x1C=28\ \text{B}
 $$
 
-`addr2line 0x08004A1C` 给出 `control_task` 的调用行。注意 `0x08004A1C` 是 `BL` 的返回地址，`BL` 指令本身在 `0x08004A18`；要定位调用指令，可以看 `0x08004A18`，或者用 `LR-1` 让 `addr2line` 落在调用行。不要把 `LR` 当 PC 用：LR 是"函数返回后执行到哪里"，PC 是"现在崩在哪里"。
+`addr2line 0x0800491C` 会给出 `control_task` 中调用点附近的文件和行号。注意 `0x0800491C` 是 `BL` 的返回地址，`BL` 指令本身在 `0x08004918`（32 位 Thumb `BL` 占 4 B，返回地址 = 指令地址 + 4）；要精确定位调用指令，直接查 `0x08004918`，或用返回地址减 4。不要把 `LR` 当 PC 用：LR 是"函数返回后执行到哪里"，PC 是"现在崩在哪里"。
 
 为什么不是 `PC-4`？因为 `PRECISERR=1`。精确总线错误是同步的，压栈 PC 指向触发访问的指令；减 4 会指到前一条指令，可能得出完全错误的行号。只有 `IMPRECISERR=1` 时才考虑 `PC-4` 或扫描附近指令。
 
@@ -490,37 +490,39 @@ sensor_update(p);   /* 期望同样的 CFSR/BFAR */
 
 ### 4.4 落盘时间
 
-最小 coredump：2,048 B 栈窗口 + 72 B 头部（含 8 字栈帧、CFSR/HFSR/MMFAR/BFAR、魔数与 CRC）+ 8 B 对齐 = 2,128 B。
+最小 coredump：2,048 B 栈窗口 + 72 B 头部（含 8 字栈帧、CFSR/HFSR/MMFAR/BFAR、魔数与 CRC）= 2,120 B。2,120 是 8 的倍数（$2{,}120\bmod 8=0$），已经满足 8 字节对齐，不需要再补 8 B；只有要求 16 字节对齐时才需要补到 2,128 B。
 
 UART 115200：
 
 $$
-t_{\text{uart}}=\frac{2{,}128\times10}{115{,}200}=0.1847\ \text{s}
+t_{\text{uart}}=\frac{2{,}120\times10}{115{,}200}=0.1840\ \text{s}=184.0\ \text{ms}
 $$
 
 Base64 后：
 
 $$
-N_{\text{b64}}=4\left\lceil\frac{2{,}128}{3}\right\rceil=4\times710=2{,}840\ \text{字符}
+N_{\text{b64}}=4\left\lceil\frac{2{,}120}{3}\right\rceil=4\times707=2{,}828\ \text{字符}
 $$
 
-时间 $2{,}840\times10/115{,}200=0.2465$ s。Base64 比裸二进制多 33%，但能走文本日志通道。
+时间 $2{,}828\times10/115{,}200=0.2455$ s。Base64 比裸二进制多 33%，但能走文本日志通道。
 
-Flash 写入：2,128 B 跨 3 个 1 KB 页（假设起始对齐），1,064 个半字：
-
-$$
-t_{\text{flash}}=3\times20\ \text{ms}+1{,}064\times50\ \mu\text{s}=60+53.2=113.2\ \text{ms}
-$$
-
-全量 20 KB RAM：20,560 B，21 页，10,280 个半字（从页边界开始）：
+Flash 写入：2,120 B 跨 3 个 1 KB 页（假设起始对齐），1,060 个半字：
 
 $$
-t_{\text{flash}}=21\times20+10{,}280\times0.05=420+514=934\ \text{ms}
+t_{\text{flash}}=3\times20\ \text{ms}+1{,}060\times50\ \mu\text{s}=60+53.0=113.0\ \text{ms}
 $$
 
-（若只算 20,480 B RAM，20 页擦除加 10,240 个半字是 912 ms；加上 72 B 头部和 8 B 对齐，就是上面的 934 ms。）
+全量 20 KB RAM：20,552 B（20,480 B RAM + 72 B 头部），21 页，10,276 个半字（从页边界开始）：
 
-看门狗 1 s 预算：最小 dump 的 UART 185 ms + Flash 113 ms + 复位 10 ms = 308 ms，余量 692 ms；全量 dump 的 UART 1.785 s 已经超时，Flash 934 ms 也只剩 66 ms 余量。结论：**默认只 dump 2 KB 栈窗口，全量 dump 作为研发选项。**
+$$
+t_{\text{flash}}=21\times20+10{,}276\times0.05=420+513.8=933.8\approx934\ \text{ms}
+$$
+
+全量 UART：$20{,}552\times10/115{,}200=1.784$ s。
+
+（若只算 20,480 B RAM，20 页擦除加 10,240 个半字是 912 ms；加上 72 B 头部后是 20,552 B，跨入第 21 页，就是上面的 934 ms。）
+
+看门狗 1 s 预算：最小 dump 的 UART 184 ms + Flash 113 ms + 复位 10 ms = 307 ms，余量 693 ms；全量 dump 的 UART 1.784 s 已经超时，Flash 934 ms 也只剩 66 ms 余量。结论：**默认只 dump 2 KB 栈窗口，全量 dump 作为研发选项。**
 
 ### 4.5 复现概率
 
@@ -595,9 +597,9 @@ SCB->SHCSR |= SCB_SHCSR_MEMFAULTENA_Msk
 
 - **PC 减了 4，定位到错误的行**：现象——`addr2line` 给出的行看起来完全无关，甚至在一个不可能崩溃的分支。原因——对精确总线错误/用法错误也做了 `PC-4`；这些故障的压栈 PC 就是出错指令。解决——先看 `BFSR.PRECISERR`：为 1 时直接用 PC；为 0（非精确）时才考虑 `PC-4` 或扫描附近指令；用 `objdump` 交叉验证。
 
-- **FPU 帧按 32 B 读，PC 完全错位**：现象——Cortex-M4F 上 HardFault，按 8 个字读栈帧，PC 看起来像随机数。原因——`EXC_RETURN` 的 bit4 为 0，实际是 104 B 扩展帧；或者读帧时选了错误的栈（MSP/PSP）。解决——先看 `EXC_RETURN` 的 bit2 选栈、bit4 判帧；整数帧仍在 SP 处，但栈窗口大小按 104 B 算；用 `frame[6]` 读 PC，不要从 SP+32 开始读。
+- **把 FPU 扩展帧的整数部分定位到 SP+72，PC 错位**：现象——Cortex-M4F 上 HardFault，读 `frame[6]` 得到的 PC 看起来像随机数，或者像某个浮点值。原因——看到 `EXC_RETURN` 的 bit4 为 0（104 B 扩展帧）后，误以为硬件先压 FPU 上下文再压整数帧，于是从 SP+72 开始读 8 个字；实际上整数帧仍在 SP 处，FPU 上下文（S0–S15、FPSCR 和填充字）位于整数帧之上的高地址（SP+32 到 SP+100）。另一个来源是选错栈（MSP/PSP），读到的整段都是垃圾。解决——先用 bit2 选栈，再用 `frame[6]` 从 SP 读 PC；bit4 只决定栈窗口要按 104 B 算，不改变 PC 的取法；不要从 SP+72 开始读。
 
-- **看门狗在 dump 中途复位，日志半截**：现象——coredump 的 length 是 `0xFFFFFFFF`，CRC 不对，解析工具报错。原因——20 KB 全量 dump 的 Flash 时间 934 ms，加上 UART 1.785 s，超过 1 s 窗口；或者擦除/编程时看门狗没喂。解决——只 dump 2 KB 栈窗口（113 ms Flash/185 ms UART）；分段写并在段间喂狗；魔数最后写，保证半写数据不被误认。
+- **看门狗在 dump 中途复位，日志半截**：现象——coredump 的 length 是 `0xFFFFFFFF`，CRC 不对，解析工具报错。原因——20 KB 全量 dump 的 Flash 时间 934 ms，加上 UART 1.784 s，超过 1 s 窗口；或者擦除/编程时看门狗没喂。解决——只 dump 2 KB 栈窗口（113 ms Flash/184 ms UART）；分段写并在段间喂狗；魔数最后写，保证半写数据不被误认。
 
 - **栈溢出但 CFSR 没有 STKOF**：现象——怀疑栈溢出，读 CFSR 只有 HardFault/FORCED，没有栈溢出位。原因——Cortex-M3/M4 没有 ARMv8-M 的栈限寄存器，`UFSR.STKOF` 不会置位；栈溢出表现为踩坏相邻 RAM 或压栈总线错误。解决——用 MPU 栈底保护区（32 B 不可访问）或金丝雀；检查 `MSTKERR`/`STKERR` 是否置位，结合 SP 与栈底地址判断。
 
@@ -648,7 +650,7 @@ $$
 
 </details>
 
-<details><summary>压栈 PC = `0x08004A2E`，`sensor_update` 起始 `0x080049F0`；LR = `0x08004A1D`，调用者 `control_task` 起始 `0x08004900`。求函数内偏移和调用点偏移。LR 的末位为什么是 1？</summary>
+<details><summary>压栈 PC = `0x08004A2E`，`sensor_update` 起始 `0x080049F0`；LR = `0x0800491D`，调用者 `control_task` 起始 `0x08004900`。求函数内偏移和调用点偏移。LR 的末位为什么是 1？</summary>
 
 函数内偏移：
 
@@ -659,12 +661,14 @@ $$
 调用者偏移：
 
 $$
-LR\ \&\ \sim 1=0x08004A1C
+LR\ \&\ \sim 1=0x0800491C
 $$
 
 $$
-\Delta_{\text{call}}=0x08004A1C-0x08004900=0x11C=284\ \text{B}
+\Delta_{\text{call}}=0x0800491C-0x08004900=0x1C=28\ \text{B}
 $$
+
+验算调用关系：返回地址 `0x0800491C` 小于 `sensor_update` 的起始 `0x080049F0`，落在调用者 `control_task` 的区间内；`BL` 在 `0x08004918`，占 4 B，`0x08004918+4=0x0800491C`。
 
 LR 末位是 1，表示 Thumb 状态。Cortex-M 只支持 Thumb 指令，函数指针/返回地址的最低位用来标识"这是 Thumb 地址"，跳转时硬件会忽略或使用这一位。用 `addr2line` 前要 `& ~1`，否则地址可能落在奇地址，符号解析失败或偏移 1 字节。
 
@@ -672,23 +676,23 @@ LR 末位是 1，表示 Thumb 状态。Cortex-M 只支持 Thumb 指令，函数�
 
 </details>
 
-<details><summary>2,128 B 的 coredump 走 115200 8N1 要多久？写 1 KB 页、页擦除 20 ms、半字编程 50 µs 的 Flash 要多久？1 s 看门狗够不够？</summary>
+<details><summary>2,120 B 的 coredump 走 115200 8N1 要多久？写 1 KB 页、页擦除 20 ms、半字编程 50 µs 的 Flash 要多久？1 s 看门狗够不够？</summary>
 
 UART：
 
 $$
-t_{\text{uart}}=\frac{2{,}128\times10}{115{,}200}=0.1847\ \text{s}=184.7\ \text{ms}
+t_{\text{uart}}=\frac{2{,}120\times10}{115{,}200}=0.1840\ \text{s}=184.0\ \text{ms}
 $$
 
-Flash：2,128 B 跨 3 页（假设起始对齐），1,064 个半字：
+Flash：2,120 B 跨 3 页（假设起始对齐），1,060 个半字：
 
 $$
-t_{\text{flash}}=3\times20+1{,}064\times0.05=60+53.2=113.2\ \text{ms}
+t_{\text{flash}}=3\times20+1{,}060\times0.05=60+53.0=113.0\ \text{ms}
 $$
 
-合计约 298 ms，加复位/启动 10 ms 约 308 ms。1 s 看门狗余量 692 ms，够用。
+合计 297 ms，加复位/启动 10 ms 约 307 ms。1 s 看门狗余量 693 ms，够用。
 
-如果改成 20,560 B 全量 dump：UART 1.785 s，Flash 21 页 420 ms + 10,280 个半字 514 ms = 934 ms。UART 已经超时，Flash 也只剩 66 ms 余量，不可靠。所以默认只 dump 栈窗口。
+如果改成 20,552 B 全量 dump：UART 1.784 s，Flash 21 页 420 ms + 10,276 个半字 513.8 ms = 933.8 ms（约 934 ms）。UART 已经超时，Flash 也只剩 66 ms 余量，不可靠。所以默认只 dump 栈窗口。
 
 </details>
 
@@ -728,7 +732,7 @@ $$
 - Arm, *Cortex-M3 Technical Reference Manual*（ARM DDI 0337I）：Chapter 7 "Exception Handling" 说明压栈顺序、EXC_RETURN 与异常优先级；Chapter 8 "Fault Handling" 说明 HardFault、Lockup 与配置故障升级。本章 2.1、2.3 与 5 节的工程结论按此整理。
 - Arm, *Cortex-M4 Technical Reference Manual*（ARM DDI 0439D）：Chapter 7 "Exception Handling" 给出 FPU 扩展栈帧、`CONTROL.FPCA` 与懒压栈；本章 2.2、3.1 与 6 节关于 104 B 帧的说明依据此章。
 - Arm, *Application Note 209, Using Cortex-M3 and Cortex-M4 Fault Exceptions*：给出 `__attribute__((naked))` 处理函数、MSP/PSP 选择、CFSR 判读和栈帧恢复的参考实现；本章 2.3 的汇编骨架与 2.5 的回溯步骤按此改写。
-- STMicroelectronics, *RM0008 Reference Manual*：NVIC 与 SCB 章列出 CFSR `0xE000ED28`、HFSR `0xE000ED2C`、MMFAR `0xE000ED34`、BFAR `0xE000ED38`、SHCSR `0xE000ED24`；Flash memory 章给出 1 KB 页擦除 20 ms、半字编程 50 µs；RCC 章给出 `RCC_CSR` 的复位原因位。本章 4.4、4.5 与 5 节的时间、预算按此计算。
+- STMicroelectronics, *RM0008 Reference Manual*：NVIC 与 SCB 章列出 CFSR `0xE000ED28`、HFSR `0xE000ED2C`、MMFAR `0xE000ED34`、BFAR `0xE000ED38`、SHCSR `0xE000ED24`；Flash memory 章给出 1 KB 页擦除 20 ms、半字编程 50 µs；RCC 章给出 `RCC_CSR` 的复位原因位；Backup registers 章给出 `BKP_DR1`–`BKP_DR10` 共 10 个 16 位寄存器（合计 20 B）。本章 2.6、4.4、4.5 与 5 节的时间、容量和预算按此计算。
 - Arm, *CMSIS-Core(M) Documentation*：`SCB_Type` 的 `CFSR`、`HFSR`、`MMFAR`、`BFAR`、`SHCSR` 字段与 `SCB_SHCSR_*` 宏，用于核对寄存器偏移和使能位；本章 5 节的 `SCB->SHCSR` 写法按此整理。
 - IEC 61508-2:2010，Annex A 诊断技术表与 §7.4：程序流监控、栈溢出检测、故障注入等诊断技术的覆盖率口径；本章 2.7、5 节把断言、coredump 与注入测试放进同一证据链，依据此标准。
 - Joseph Yiu, *The Definitive Guide to Arm Cortex-M3 and Cortex-M4 Processors*（第 3 版）的 "Exception and Interrupts" 与 "Fault Handling" 两章：异常栈帧、CFSR 位域与故障处理实例，可用于交叉核对本章 2.2 到 2.5 的硬件行为。

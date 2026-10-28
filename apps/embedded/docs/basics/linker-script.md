@@ -566,7 +566,7 @@ $$
 
 链接器会报 "region FLASH overflowed by 13100 bytes"。三个选项：
 
-1. 把 bootloader 缩到 16 KB，应用区 48 KB，45,868 B 放得下，剩 3,268 B。
+1. 把 bootloader 缩到 16 KB，应用区 48 KB，45,868 B 放得下，剩 3,284 B。
 2. 换 128 KB Flash 的型号，应用区 96 KB。
 3. 删功能，至少减 13,100 B；按 45,868 B 的 28.6% 算，等于砍掉四分之一以上的代码。
 

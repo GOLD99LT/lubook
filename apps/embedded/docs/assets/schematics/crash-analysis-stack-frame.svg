@@ -22,7 +22,7 @@
   <rect x="36" y="172" width="344" height="28" rx="4" fill="#e8f1ff" stroke="#3e7cb1" stroke-width="1.8"/>
   <text x="46" y="191" font-size="13.5" fill="#173f5f" font-weight="700">LR</text>
   <text x="120" y="191" font-size="13" fill="#173f5f">SP+20</text>
-  <text x="370" y="191" font-size="13" fill="#173f5f" text-anchor="end" font-weight="600">0x08004A1D</text>
+  <text x="370" y="191" font-size="13" fill="#173f5f" text-anchor="end" font-weight="600">0x0800491D</text>
 
   <rect x="36" y="202" width="344" height="28" rx="4" fill="#ffffff" stroke="#bcccdc" stroke-width="1.2"/>
   <text x="46" y="221" font-size="13.5" fill="#243b53">R12</text>
@@ -32,7 +32,7 @@
   <rect x="36" y="232" width="344" height="28" rx="4" fill="#ffffff" stroke="#bcccdc" stroke-width="1.2"/>
   <text x="46" y="251" font-size="13.5" fill="#243b53">R3</text>
   <text x="120" y="251" font-size="13" fill="#486581">SP+12</text>
-  <text x="370" y="251" font-size="13" fill="#243b53" text-anchor="end">0x00000000</text>
+  <text x="370" y="251" font-size="13" fill="#243b53" text-anchor="end">0x50000000</text>
 
   <rect x="36" y="262" width="344" height="28" rx="4" fill="#ffffff" stroke="#bcccdc" stroke-width="1.2"/>
   <text x="46" y="281" font-size="13.5" fill="#243b53">R2</text>
@@ -73,6 +73,6 @@
 
   <text x="436" y="374" font-size="13" fill="#486581">精确总线错误直接用 PC；非精确从 PC-4 扫描</text>
 
-  <text x="24" y="420" font-size="13.5" fill="#b23f2d" font-weight="600">示例：CFSR=0x00008200 得到 BFSR=0x82，即 PRECISERR+BFARVALID，BFAR=0x00000004</text>
-  <text x="24" y="436" font-size="13" fill="#486581">PC 偏移 = PC - 函数起始 = 0x08004A2E - 0x080049F0 = 0x3E = 62 B；LR 清 Thumb 位后为 0x08004A1C</text>
+  <text x="24" y="420" font-size="13.5" fill="#b23f2d" font-weight="600">示例：CFSR=0x00008200 得到 BFSR=0x82，即 PRECISERR+BFARVALID，BFAR=0x50000004</text>
+  <text x="24" y="436" font-size="13" fill="#486581">PC 偏移 = PC - 函数起始 = 0x08004A2E - 0x080049F0 = 0x3E = 62 B；LR 清 Thumb 位后为 0x0800491C</text>
 </svg>

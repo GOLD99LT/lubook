@@ -12,6 +12,7 @@ sources:
   - ARM, *Procedure Call Standard for the Arm Architecture*（AAPCS32，IHI 0042），4.1 Fundamental Data Types 与 5.1 Parameter Passing，说明 8 字节栈对齐、64 位类型的 8 字节对齐与结构体传参规则
   - Free Software Foundation, *GCC 13.2 Manual*，`-fstrict-aliasing`、`-fno-strict-aliasing`、`-Wcast-align`、`-Wpadded`、`-fstack-usage` 与 `__attribute__((packed))` 章节
   - Arm, *ARMv7-M Architecture Reference Manual*（ARM DDI 0403E），A3.2 Alignment 与 A3.4 Memory Endianness，说明非对齐访问在 Normal 与 Device 内存上的差异
+  - Arm, *ARMv6-M Architecture Reference Manual*（ARM DDI 0419），Chapter A3 Memory Model 的 Alignment 与非对齐访问（unaligned access）规则，说明 Cortex-M0/M0+ 的对齐约束；具体内核支持哪些非对齐访问、失败时进入哪类异常，仍以内核 TRM 为准
   - MISRA, *MISRA C:2012 Guidelines for the use of the C language in critical systems*，Rule 11.3（指针与不同类型的转换）、Rule 19.2（union 的使用）与 Rule 1.3（未定义行为）
   - SEI, *CERT C Coding Standard*，EXP39-C（不要通过不兼容类型访问对象）、INT32-C（有符号整数溢出）、EXP33-C（不要读取未初始化变量）
 ---
@@ -86,7 +87,7 @@ C 标准保证结构体成员按声明顺序排列，但允许在成员之间和
 
 ### 2.4 位域
 
-位域（bit-field）让结构体成员按位分配，例如 `unsigned int mode : 3;`。标准对位域的规定留了很多实现空间：分配单元（storage unit）用哪种整数类型、位域能否跨分配单元、位在单元内从低位还是高位开始、`int` 位域是否有符号，都由实现定义（implementation-defined）。C11 6.7.2.1p5 只要求相邻位域尽可能紧凑，具体怎么紧凑由 ABI 决定。
+位域（bit-field）让结构体成员按位分配，例如 `unsigned int mode : 3;`。标准对位域的规定留了很多实现空间：分配单元（storage unit）用哪种整数类型、位域能否跨分配单元、位在单元内从低位还是高位开始、`int` 位域是否有符号，都由实现定义（implementation-defined）。C11 6.7.2.1p11 只要求相邻位域尽可能紧凑，具体怎么紧凑由 ABI 决定。
 
 AAPCS32 规定小端模式下第一个位域占分配单元的最低有效位，大端模式下占最高有效位；但分配单元大小、是否允许跨越、`packed` 后的行为仍要看编译器版本和选项。一个可复现的例子：
 
@@ -201,7 +202,7 @@ UB 的危险在于它把"运行时错误"变成了"编译期假设"。编译器�
 
 C 编译器遵循 **as-if 规则**：只要最终可观察行为与抽象机一致，怎么改都行。可观察行为包括 `volatile` 访问、`stdio` 输出、`signal` 处理等；普通内存读写不在其中。于是：
 
-- 空循环 `for (volatile int i = 0; i < 1000; ++i) { }` 如果 `i` 不是 volatile，整个循环会被删掉；加了 volatile 才会保留。
+- 空循环 `for (int i = 0; i < 1000; ++i) { }` 没有可观察副作用，整个循环会被删掉；把计数器声明为 `volatile`（`for (volatile int i = 0; i < 1000; ++i) { }`）才会保留。
 - `memset(buf, 0, sizeof buf);` 如果 `buf` 之后没被读，编译器可以删掉这次清零（dead store elimination）。
 - `if (x + 1 < x) { /* 溢出处理 */ }` 对有符号 `x` 是 UB，编译器可以假定永不溢出，直接删掉分支。
 - 通过 `int *` 和 `float *` 访问同一块内存，编译器可以把两次读合并成一次。
@@ -300,7 +301,7 @@ $$
 C_{\text{unaligned}}\approx 2C_{\text{aligned}}
 $$
 
-$C$ 是总线周期数。Cortex-M0/M0+ 通常会把普通数据非对齐访问送入 HardFault（具体看内核实现）；Cortex-M3/M4 对 `LDR/STR` 有硬件支持，但仍有额外周期，且 `LDM/STM`、`LDRD/STRD`、独占访问和 Device 内存要求对齐。这个式子只用于估算，具体周期看内核 TRM 的总线时序表。
+$C$ 是总线周期数。Cortex-M0/M0+ 通常会把普通数据非对齐访问送入 HardFault（具体以内核手册为准）；Cortex-M3/M4 对 `LDR/STR` 有硬件支持，但仍有额外周期，且 `LDM/STM`、`LDRD/STRD`、独占访问和 Device 内存要求对齐。这个式子只用于估算，具体周期看内核 TRM 的总线时序表。
 
 ### 3.6 位域打包公式
 
@@ -574,7 +575,7 @@ static inline uint32_t get_bits(uint32_t w, unsigned pos, unsigned width)
 
 - **浮点值在 `-O2` 下读旧值**：现象——`float f = *(float *)&u;` 在 `-O0` 正确，`-O2` 偶尔返回上一次的值。原因——违反 C11 6.5p7 的严格别名规则，编译器假定 `uint32_t *` 和 `float *` 不重叠。解决——改用 `memcpy`；C 里可以用 union（但 C++ 不行）；旧代码可对该编译单元加 `-fno-strict-aliasing`，但要评估性能。
 
-- **packed 结构体一取地址就 HardFault**：现象——`struct __attribute__((packed))` 的 `uint32_t` 成员取地址后解引用，Cortex-M0 上通常进 HardFault，M3/M4 上对普通 `LDR/STR` 可能正常，但换成 `LDM/STM`、`LDRD/STRD`、独占访问或 Device 内存就可能 fault 或读错值。原因——成员偏移不是 4 的倍数，指针非对齐；M0 通常不支持普通数据非对齐访问，M3/M4 也有指令和内存类型限制。解决——packed 结构体只当字节容器，用 `memcpy` 搬到对齐的局部变量；不要取 packed 成员的地址传给其他函数。
+- **packed 结构体一取地址就 HardFault**：现象——`struct __attribute__((packed))` 的 `uint32_t` 成员取地址后解引用，Cortex-M0 上通常进 HardFault（具体以内核手册为准），M3/M4 上对普通 `LDR/STR` 可能正常，但换成 `LDM/STM`、`LDRD/STRD`、独占访问或 Device 内存就可能 fault 或读错值。原因——成员偏移不是 4 的倍数，指针非对齐；M0/M0+ 通常不支持普通数据非对齐访问，M3/M4 也有指令和内存类型限制。解决——packed 结构体只当字节容器，用 `memcpy` 搬到对齐的局部变量；不要取 packed 成员的地址传给其他函数。
 
 - **位域协议换个编译器就解错**：现象——同一帧数据在 GCC 下解析正确，换 IAR 或换大端配置后字段值错位。原因——位域的分配单元、位序、是否跨单元由实现定义，C 标准没有统一规定。解决——协议字段改用移位和掩码；寄存器映射用位域时加 `_Static_assert` 锁 `sizeof`，并在目标编译器上做字节级测试。
 
@@ -690,6 +691,7 @@ $$
 - ARM, *Procedure Call Standard for the Arm Architecture*（AAPCS32，ARM IHI 0042）：4.1 节列出基本数据类型的大小与对齐，5.1 节规定参数传递和 8 字节栈对齐，5.4 节规定结构体按值传递的规则。本章 2.2 的类型表和 4.1 的 64 位对齐例子按此整理。
 - Free Software Foundation, *GCC 13.2 Manual*：[`-fstrict-aliasing`](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html) 与 `-fno-strict-aliasing` 说明别名优化的开关；`-Wcast-align`、`-Wpadded`、`-fstack-usage` 分别用于对齐、填充和栈帧检查；`__attribute__((packed))`、`__attribute__((aligned))`、`__attribute__((may_alias))` 见 "Common Type Attributes" 与 "Variable Attributes"。
 - Arm, *ARMv7-M Architecture Reference Manual*（ARM DDI 0403E）：A3.2 节定义对齐与未对齐访问的规则，A3.4 节定义内存字节序与 BE8；B3.2 节涉及异常与栈对齐。本章 2.2、2.5 与 3.5 节关于非对齐访问和字节序的结论依据此手册。
+- Arm, *ARMv6-M Architecture Reference Manual*（ARM DDI 0419）：Chapter A3 "Memory Model" 规定对齐要求与非对齐访问的架构约束；Cortex-M0/M0+ 支持哪些普通数据的非对齐访问、失败时进入哪类异常，仍以内核 TRM 为准。本章 1、3.5 与 6 节保留"通常/以内核手册为准"的限定，依据此手册与对应内核文档。
 - MISRA, *MISRA C:2012 Guidelines for the use of the C language in critical systems*：Rule 11.3 限制指针与不兼容类型的转换，Rule 19.2 限制 union 的使用，Rule 1.3 要求避免未定义行为。本章 5 节的编码约束与这些规则一致。
 - SEI, *CERT C Coding Standard*：[EXP39-C](https://wiki.sei.cmu.edu/confluence/display/c/EXP39-C.+Do+not+access+a+variable+through+a+pointer+of+an+incompatible+type) 讨论不兼容类型访问，[INT32-C](https://wiki.sei.cmu.edu/confluence/display/c/INT32-C.+Ensure+that+operations+on+signed+integers+do+not+result+in+overflow) 讨论有符号溢出，[EXP33-C](https://wiki.sei.cmu.edu/confluence/display/c/EXP33-C.+Do+not+read+uninitialized+memory) 讨论未初始化内存。本章 2.8、2.9 节的 UB 清单按这些条目整理。
 - Joseph Yiu, *The Definitive Guide to Arm Cortex-M3 and Cortex-M4 Processors*（第 3 版）的 "Memory System" 与 "Exception and Interrupts" 两章：对齐、总线接口与异常栈帧的硬件背景，可用于核对本章 2.2、4.2 与 4.3 的工程结论。
