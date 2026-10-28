@@ -284,22 +284,20 @@ Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配
 - **门户入口已全量开启**（2026-10-27）：vailable: true，双站门户均显示三个分册卡片，
   链接为 /lubook/embedded/、/lubook/embedded-linux/（镜像站同构），无即将上线标记。
 
-### 第 2 批内容（已完成并上线）
+### 第 3 批内容（已完成并上线）
 
-12 章全部完成，四组审查共 31 条确认错误，全部复算修复：
+12 章，四组审查共 31 条确认错误，全部复算修复：
 
-| 分册 | 篇 | 新增章 | 审查 |
-|---|---|---|---|
-| embedded | 第三篇 通信接口与协议 | CAN/CAN FD、USB 设备、以太网 | 8 条 |
-| embedded | 第二篇 Cortex-M 与 MCU 外设 | MPU 与 Cache、FPU 与 DSP、硬件加速 | 7 条 |
-| embedded-linux | 第二篇 内核与驱动 | 中断与并发、DMA 与内存、电源管理 | 8 条 |
-| embedded-linux | 第四/五篇 | eMMC/UFS/SD、Camera 与 ISP、安全启动 | 8 条 |
+| 分册 | 新增章 | 审查 |
+|---|---|---|
+| embedded | C 内存模型、链接脚本、崩溃分析、RTOS 内存管理、tickless、文件系统 | 7 条 |
+| embedded-linux | 内核裁剪、OTA 客户端、容器、PCIe/USB 主机、产线测试、性能调优 | 8+8+8 条 |
 
-规模：embedded 30 章 / 193,961 字 / 30 图 / 31 路由；embedded-linux 23 章 / 152,703 字 / 23 图 / 24 路由。
-erify:all 退出 0（四个 app 全绿）；两册构建 18.9 s / 18.6 s。
+规模：embedded 36 章 / 238328 字；embedded-linux 29 章 / 198947 字。
+erify:all 退出 0；两册构建 19.7 s / 19.6 s。
 
-典型修订（都以复算为准）：
-- MPU 的 SRD 子区域禁用不是禁止访问，而是该区域不再覆盖该段 → 保护带改用独立 AP=000 区域；
-- CAN FD 的 BRS=1 才切高速率；64 字节 FD 帧 CRC 字段含 7 个固定填充位 → 总帧 579 位、T=342 µs；
-- Linux DMA 的 map/sync/unmap 方向必须一致（统一 DMA_BIDIRECTIONAL）；
-- suspend 阶段顺序：late→noirq→关非启动 CPU；prepare 正序、suspend 逆序。
+典型修订：littlefs 元数据对属于目录（原按文件算，开销虚高约 40 倍）；
+OTA 的读回校验误用 bundle 体积（拆分 S_dl/S_wr）；正态尾部概率算错 44 倍；
+MemAvailable 重复计算；PCIe 128 KiB 单 TLP 违反 4 KiB 上限；DT 地址漏可预取位；
+崩溃分析的 LR 落在被调函数区间内（正常链接不可能）。
+

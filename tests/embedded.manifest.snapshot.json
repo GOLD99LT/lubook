@@ -1,12 +1,14 @@
 {
   "appId": "embedded",
-  "revision": "sha256-c09395dbc505b743",
-  "docCount": 30,
+  "revision": "sha256-bbd83b0d85113a37",
+  "docCount": 36,
   "titles": [
     "嵌入式软件全景：从寄存器到 RTOS",
     "工具链与调试：从源码到芯片的最后一公里 Toolchain and Debug",
     "存储器与外设寄存器：Flash、SRAM 与寄存器语义 Memory and Peripheral Registers",
     "启动流程：从复位向量到 main Startup and Boot",
+    "C 语言与内存模型：对齐、严格别名与编译优化 | C Memory Model: Alignment, Strict Aliasing and Optimization",
+    "链接脚本与内存布局：VMA、LMA 与启动拷贝 | Linker Script and Memory Layout: VMA, LMA and Startup Copy",
     "Cortex-M 内核：寄存器、特权级与异常模型 | Cortex-M Core Architecture",
     "时钟树与低层初始化：从 HSE 到 SysTick | Clock Tree and Low-Level Initialization",
     "GPIO 电气与驱动：从推挽输出到按键消抖 | GPIO Electrical Behavior and Driver Design",
@@ -27,16 +29,20 @@
     "RTOS 调度：任务状态机、优先级抢占与可调度性 RTOS Scheduling",
     "同步原语：临界区、互斥量、事件组与死锁预防 Synchronization Primitives",
     "优先级反转与实时性：继承、天花板与微秒级抖动 Priority Inversion and Jitter",
+    "RTOS 内存管理：静态分配、动态堆与固定块内存池 Memory Management: Static, Heap and Pools",
+    "tickless 与低功耗调度：节拍开销、补偿与实时性权衡 Tickless Idle and Low-Power Scheduling: Tick Cost, Compensation and Real-Time Tradeoffs",
     "Flash 与 EEPROM：擦写粒度、寿命与掉电安全写入 | Flash and EEPROM: Granularity, Endurance and Fail-Safe Writes",
     "Bootloader 与 OTA：A/B 双区、镜像校验与回滚 Bootloader and OTA",
+    "嵌入式文件系统：FAT、LittleFS 与 SPIFFS 的取舍 Embedded File Systems: FAT, LittleFS and SPIFFS Tradeoffs",
     "低功耗设计：功耗构成、睡眠模式与电池寿命 | Low-Power Design: Power Budget, Sleep Modes and Battery Life",
     "可靠性与看门狗体系：故障模型、双看门狗与复位取证 | Reliability and Watchdog Systems",
     "测试与静态分析：单元测试、MISRA C、覆盖率与 HIL | Testing and Static Analysis",
-    "软件能做的 EMC：抖频、边沿控制、采样同步与安全状态 | EMC Measures in Software"
+    "软件能做的 EMC：抖频、边沿控制、采样同步与安全状态 | EMC Measures in Software",
+    "现场崩溃分析：HardFault 栈帧、CFSR 判读与 coredump | Field Crash Analysis: HardFault Frame, CFSR and Coredump"
   ],
-  "imageTotal": 30,
-  "svgCount": 30,
-  "assetsChecksum": "sha256-3c484977d4b38fa2",
+  "imageTotal": 36,
+  "svgCount": 36,
+  "assetsChecksum": "sha256-2a18d797e9c25141",
   "groundsCount": 7,
-  "overallChecksum": "c09395dbc505b743c0445d9f03537c80f565942623599d7fb5b6716a2391ebcc"
+  "overallChecksum": "bbd83b0d85113a375ccf2e196f474b8135cf20a41959f66d9a0621cb183cf40e"
 }

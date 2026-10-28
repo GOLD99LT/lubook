@@ -1,6 +1,8 @@
 [
   "/",
+  "/basics/c-memory-model",
   "/basics/embedded-overview",
+  "/basics/linker-script",
   "/basics/memory-registers",
   "/basics/startup-boot",
   "/basics/toolchain-debug",
@@ -21,13 +23,17 @@
   "/mcu/mpu-cache",
   "/mcu/timer-pwm",
   "/mcu/watchdog-rtc",
+  "/practice/crash-analysis",
   "/practice/emc-software",
   "/practice/low-power",
   "/practice/reliability",
   "/practice/testing-static",
+  "/rtos/memory-pool",
   "/rtos/priority-inversion",
   "/rtos/rtos-scheduling",
   "/rtos/sync-primitives",
+  "/rtos/tickless-lowpower",
   "/storage/bootloader-ota",
+  "/storage/filesystem",
   "/storage/flash-eeprom"
 ]
