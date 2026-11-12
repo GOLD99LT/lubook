@@ -1,0 +1,99 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>视频编码流水线、GOP 结构与链路预算</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a">视频编码：流水线、档次与码率预算</text>
+    <text x="24" y="52" font-size="13" fill="#5a6b7b">原始码率 = 宽 × 高 × 帧率 × 每像素位数；压缩比 = 原始码率 / 编码码率</text>
+
+    <text x="24" y="78" font-size="14" font-weight="700" fill="#1a2b3a">采集到封装：四段链路，每段各有吞吐上限（1080p30）</text>
+
+    <rect x="24" y="88" width="134" height="68" rx="6" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.4"/>
+    <text x="91" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">Sensor RAW10</text>
+    <text x="91" y="132" font-size="13" text-anchor="middle" fill="#5a6b7b">CSI-2 四 lane</text>
+    <text x="91" y="150" font-size="13" text-anchor="middle" fill="#b03a2e">622.1 Mbit/s</text>
+
+    <path d="M162,122 L178,122" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M171,117 L179,122 L171,127" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="182" y="88" width="134" height="68" rx="6" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.4"/>
+    <text x="249" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">ISP</text>
+    <text x="249" y="132" font-size="13" text-anchor="middle" fill="#5a6b7b">去马赛克 / 3A</text>
+    <text x="249" y="150" font-size="13" text-anchor="middle" fill="#b03a2e">输出 NV12</text>
+
+    <path d="M320,122 L336,122" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M329,117 L337,122 L329,127" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="340" y="88" width="134" height="68" rx="6" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="407" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">编码器</text>
+    <text x="407" y="132" font-size="13" text-anchor="middle" fill="#5a6b7b">VPU 或 x264</text>
+    <text x="407" y="150" font-size="13" text-anchor="middle" fill="#b03a2e">8 Mbit/s</text>
+
+    <path d="M478,122 L494,122" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M487,117 L495,122 L487,127" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+
+    <rect x="498" y="88" width="134" height="68" rx="6" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.4"/>
+    <text x="565" y="112" font-size="13" text-anchor="middle" fill="#1a2b3a">封装 / 回传</text>
+    <text x="565" y="132" font-size="13" text-anchor="middle" fill="#5a6b7b">MP4 / RTP</text>
+    <text x="565" y="150" font-size="13" text-anchor="middle" fill="#b03a2e">9.2 Mbit/s</text>
+
+    <path d="M636,122 L654,122" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <path d="M647,117 L655,122 L647,127" fill="none" stroke="#2b3a4a" stroke-width="2"/>
+    <text x="660" y="118" font-size="13" fill="#1a2b3a">86.4 GB/天</text>
+    <text x="660" y="136" font-size="13" fill="#5a6b7b">1 TB 存 11.6 天</text>
+
+    <text x="24" y="180" font-size="14" font-weight="700" fill="#1a2b3a">编码器内部：预测 → 变换 → 量化 → 熵编码，QP 由缓冲水位闭环</text>
+
+    <rect x="24" y="190" width="150" height="56" rx="6" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.4"/>
+    <text x="99" y="214" font-size="13" text-anchor="middle" fill="#1a2b3a">帧内 / 帧间预测</text>
+    <text x="99" y="234" font-size="13" text-anchor="middle" fill="#5a6b7b">I 帧 / P 帧 / B 帧</text>
+
+    <rect x="196" y="190" width="150" height="56" rx="6" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.4"/>
+    <text x="271" y="214" font-size="13" text-anchor="middle" fill="#1a2b3a">变换 + 量化</text>
+    <text x="271" y="234" font-size="13" text-anchor="middle" fill="#5a6b7b">QP 0 至 51</text>
+
+    <rect x="368" y="190" width="150" height="56" rx="6" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.4"/>
+    <text x="443" y="214" font-size="13" text-anchor="middle" fill="#1a2b3a">熵编码</text>
+    <text x="443" y="234" font-size="13" text-anchor="middle" fill="#5a6b7b">CABAC / CAVLC</text>
+
+    <rect x="540" y="190" width="150" height="56" rx="6" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="615" y="214" font-size="13" text-anchor="middle" fill="#1a2b3a">码率控制</text>
+    <text x="615" y="234" font-size="13" text-anchor="middle" fill="#5a6b7b">CBR / VBR / CRF</text>
+
+    <text x="24" y="266" font-size="13" fill="#8a4a1f">闭环：缓冲水位高于目标 → QP 加 1 → 码率约降 11%；QP 加 6 恰好减半</text>
+
+    <text x="24" y="292" font-size="14" font-weight="700" fill="#1a2b3a">GOP 结构：I P B B P B B I，B 帧重排 2 帧，IDR 处出现码率尖峰</text>
+
+    <rect x="24" y="300" width="48" height="28" rx="4" fill="#b03a2e"/>
+    <text x="48" y="319" font-size="13" text-anchor="middle" fill="#ffffff">I</text>
+    <rect x="80" y="300" width="48" height="28" rx="4" fill="#3a6ea5"/>
+    <text x="104" y="319" font-size="13" text-anchor="middle" fill="#ffffff">P</text>
+    <rect x="136" y="300" width="48" height="28" rx="4" fill="#8fa8c0"/>
+    <text x="160" y="319" font-size="13" text-anchor="middle" fill="#1a2b3a">B</text>
+    <rect x="192" y="300" width="48" height="28" rx="4" fill="#8fa8c0"/>
+    <text x="216" y="319" font-size="13" text-anchor="middle" fill="#1a2b3a">B</text>
+    <rect x="248" y="300" width="48" height="28" rx="4" fill="#3a6ea5"/>
+    <text x="272" y="319" font-size="13" text-anchor="middle" fill="#ffffff">P</text>
+    <rect x="304" y="300" width="48" height="28" rx="4" fill="#8fa8c0"/>
+    <text x="328" y="319" font-size="13" text-anchor="middle" fill="#1a2b3a">B</text>
+    <rect x="360" y="300" width="48" height="28" rx="4" fill="#8fa8c0"/>
+    <text x="384" y="319" font-size="13" text-anchor="middle" fill="#1a2b3a">B</text>
+    <rect x="416" y="300" width="48" height="28" rx="4" fill="#b03a2e"/>
+    <text x="440" y="319" font-size="13" text-anchor="middle" fill="#ffffff">I</text>
+
+    <text x="478" y="308" font-size="13" fill="#1a2b3a">I 帧约为 P 帧的 6 倍，B 帧约为 P 帧的 0.55 倍</text>
+    <text x="478" y="328" font-size="13" fill="#5a6b7b">每帧 33.3 ms；B 帧重排 2 帧 = 66.7 ms</text>
+
+    <text x="24" y="352" font-size="13" fill="#1a2b3a">端到端延迟 228 ms：采集 33.3 + ISP 8 + 编码 33.3 + 重排 66.7 + 网络 20 + 解码 33.3 + 显示 33.3</text>
+    <text x="24" y="370" font-size="13" fill="#8a2a20">去掉 B 帧降到 161.3 ms，代价是同质量码率上升约 15%</text>
+
+    <text x="24" y="396" font-size="14" font-weight="700" fill="#1a2b3a">四路 1080p30 的链路预算：可用 60 Mbit/s，视频占 32 Mbit/s</text>
+
+    <rect x="24" y="404" width="341" height="24" fill="#3a6ea5"/>
+    <rect x="365" y="404" width="51" height="24" fill="#b5642e"/>
+    <rect x="416" y="404" width="248" height="24" fill="#e3ecf5" stroke="#8fa8c0" stroke-width="1"/>
+    <text x="194" y="421" font-size="13" text-anchor="middle" fill="#ffffff">视频 4 × 8 = 32</text>
+    <text x="390" y="421" font-size="13" text-anchor="middle" fill="#ffffff">协议 +4.8</text>
+    <text x="540" y="421" font-size="13" text-anchor="middle" fill="#1a2b3a">余量 23.2（38.7%）</text>
+    <text x="24" y="438" font-size="13" fill="#5a6b7b">4K30 每路 25 Mbit/s，四路需 100 Mbit/s，在 60 Mbit/s 链路上超预算 67%</text>
+  </g>
+</svg>

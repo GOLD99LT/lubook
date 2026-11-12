@@ -1,0 +1,89 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>传感器前端与三条数字总线：电桥、仪表放大器、RC 抗混叠、ADC 与 I2C/SPI/1-Wire</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <defs>
+    <marker id="arr1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#b7791f"/>
+    </marker>
+  </defs>
+  <text x="24" y="30" font-size="20" font-weight="700" fill="#1a202c">传感器前端与三条数字总线</text>
+  <text x="24" y="51" font-size="13" fill="#4a5568">10 kg 称重 · 36 V 分压 · 20 kSPS · 图中数值与正文算例一致</text>
+  <line x1="24" y1="62" x2="736" y2="62" stroke="#e2e8f0"/>
+
+  <rect x="40" y="110" width="130" height="80" fill="#f7fafc" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="105" y="136" font-size="14" font-weight="700" fill="#2c5282" text-anchor="middle">应变电桥 350 Ω</text>
+  <text x="105" y="158" font-size="13" fill="#2d3748" text-anchor="middle">3.3 V 比率激励</text>
+  <text x="105" y="177" font-size="13" fill="#2d3748" text-anchor="middle">6.6 mV 满量程</text>
+
+  <line x1="170" y1="135" x2="230" y2="140" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="170" y1="165" x2="230" y2="170" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="210" y="132" font-size="13" fill="#2c5282">+</text>
+  <text x="210" y="186" font-size="13" fill="#2c5282">−</text>
+
+  <polygon points="230,120 230,190 300,155" fill="#f7fafc" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="255" y="148" font-size="14" font-weight="700" fill="#2c5282" text-anchor="middle">INA</text>
+  <text x="265" y="212" font-size="13" fill="#2d3748" text-anchor="middle">×201.4</text>
+
+  <line x1="300" y1="155" x2="330" y2="155" stroke="#2b6cb0" stroke-width="2"/>
+  <rect x="330" y="143" width="56" height="24" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="358" y="136" font-size="13" fill="#2c5282" text-anchor="middle">R_f 10 kΩ</text>
+  <text x="358" y="184" font-size="13" fill="#4a5568" text-anchor="middle">159.15 Hz</text>
+
+  <line x1="386" y1="155" x2="450" y2="155" stroke="#2b6cb0" stroke-width="2"/>
+  <circle cx="410" cy="155" r="4" fill="#2b6cb0"/>
+  <line x1="410" y1="155" x2="410" y2="188" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="398" y1="188" x2="422" y2="188" stroke="#2b6cb0" stroke-width="2.6"/>
+  <line x1="398" y1="196" x2="422" y2="196" stroke="#2b6cb0" stroke-width="2.6"/>
+  <line x1="410" y1="196" x2="410" y2="204" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="401" y1="204" x2="419" y2="204" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="405" y1="209" x2="415" y2="209" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="408" y1="214" x2="412" y2="214" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="400" y="203" font-size="13" fill="#2c5282" text-anchor="end">C_f 100 nF</text>
+
+  <rect x="450" y="112" width="96" height="86" fill="#f7fafc" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="498" y="136" font-size="14" font-weight="700" fill="#2c5282" text-anchor="middle">12 位 ADC</text>
+  <text x="498" y="157" font-size="13" fill="#2d3748" text-anchor="middle">20 kSPS</text>
+  <text x="498" y="176" font-size="13" fill="#2d3748" text-anchor="middle">0.5 LSB 噪声</text>
+  <text x="498" y="193" font-size="13" fill="#4a5568" text-anchor="middle">402.8 µV</text>
+
+  <line x1="546" y1="155" x2="580" y2="155" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="563" y="147" font-size="13" fill="#4a5568" text-anchor="middle">SPI</text>
+
+  <rect x="580" y="105" width="150" height="100" fill="#f7fafc" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="655" y="128" font-size="14" font-weight="700" fill="#2c5282" text-anchor="middle">MCU</text>
+  <text x="655" y="150" font-size="13" fill="#2d3748" text-anchor="middle">16 点 + 20 ms 平均</text>
+  <text x="655" y="170" font-size="13" fill="#2d3748" text-anchor="middle">输出 50 SPS</text>
+  <text x="655" y="190" font-size="13" fill="#2c5282" text-anchor="middle">噪声 0.41 g</text>
+
+  <rect x="40" y="248" width="150" height="74" fill="#fffaf0" stroke="#b7791f" stroke-width="2"/>
+  <text x="115" y="270" font-size="14" font-weight="700" fill="#744210" text-anchor="middle">36 V 分压</text>
+  <text x="115" y="290" font-size="13" fill="#2d3748" text-anchor="middle">332 kΩ / 33.2 kΩ</text>
+  <text x="115" y="308" font-size="13" fill="#2d3748" text-anchor="middle">1/11 · 3.273 V</text>
+
+  <path d="M190,285 H220 V238 H470" fill="none" stroke="#b7791f" stroke-width="1.8" stroke-dasharray="6 4"/>
+  <path d="M470,238 V202" fill="none" stroke="#b7791f" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#arr1)"/>
+  <text x="300" y="232" font-size="13" fill="#744210">→ ADC 通道 2</text>
+
+  <text x="270" y="260" font-size="14" font-weight="700" fill="#2d3748">数字接口：三条总线各自的三笔账</text>
+
+  <rect x="260" y="274" width="150" height="68" fill="#e6fffa" stroke="#2c7a7b" stroke-width="1.8"/>
+  <text x="335" y="294" font-size="14" font-weight="700" fill="#285e61" text-anchor="middle">I²C 400 kHz</text>
+  <text x="335" y="313" font-size="13" fill="#2d3748" text-anchor="middle">SDA/SCL · Rp 1.5 kΩ</text>
+  <text x="335" y="331" font-size="13" fill="#2d3748" text-anchor="middle">200 pF → tr 254 ns</text>
+
+  <rect x="424" y="274" width="140" height="68" fill="#ebf8ff" stroke="#2b6cb0" stroke-width="1.8"/>
+  <text x="494" y="294" font-size="14" font-weight="700" fill="#2c5282" text-anchor="middle">SPI 4 MHz</text>
+  <text x="494" y="313" font-size="13" fill="#2d3748" text-anchor="middle">SCK/MOSI/MISO/CS</text>
+  <text x="494" y="331" font-size="13" fill="#2d3748" text-anchor="middle">16 bit × 20 kSPS</text>
+
+  <rect x="578" y="274" width="152" height="68" fill="#faf5ff" stroke="#6b46c1" stroke-width="1.8"/>
+  <text x="654" y="294" font-size="14" font-weight="700" fill="#553c9a" text-anchor="middle">1-Wire</text>
+  <text x="654" y="313" font-size="13" fill="#2d3748" text-anchor="middle">DQ + 4.7 kΩ 上拉</text>
+  <text x="654" y="331" font-size="13" fill="#2d3748" text-anchor="middle">300 pF → 1.19 µs</text>
+
+  <line x1="24" y1="354" x2="736" y2="354" stroke="#e2e8f0"/>
+  <text x="24" y="376" font-size="13" fill="#2d3748">分压：1% 容差最坏 +1.83% → 3.333 V，超过 3.3 V 参考；换 0.1% 后 3.279 V</text>
+  <text x="24" y="400" font-size="13" fill="#2d3748">采样电荷：0.524 µA × 30.18 kΩ = 15.8 mV = 19.6 码（0.483% 增益误差）</text>
+  <text x="24" y="424" font-size="13" fill="#2d3748">噪声：2.15 µV = 3.26 g；400 点整周期平均后 0.269 µV = 0.41 g</text>
+
+</svg>

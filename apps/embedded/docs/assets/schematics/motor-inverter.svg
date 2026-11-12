@@ -1,0 +1,101 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>三相逆变器与中心对齐 PWM：六只 MOSFET、低边 5 毫欧采样、250 纳秒死区与谷点 ADC 触发</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <text x="24" y="30" font-size="20" font-weight="700" fill="#1a202c">三相逆变器、死区与电流采样窗口</text>
+  <text x="24" y="51" font-size="13" fill="#4a5568">24 V 母线 · 20 kHz 中心对齐 · 250 ns 死区 · 低边 5 mΩ 采样 · 数值与正文一致</text>
+  <line x1="24" y1="62" x2="736" y2="62" stroke="#e2e8f0"/>
+
+  <text x="24" y="86" font-size="14" font-weight="700" fill="#2d3748">三相半桥与低边采样</text>
+
+  <line x1="50" y1="102" x2="400" y2="102" stroke="#2b6cb0" stroke-width="2.4"/>
+  <text x="50" y="95" font-size="13" font-weight="700" fill="#2c5282">+24 V</text>
+
+  <line x1="70" y1="102" x2="70" y2="190" stroke="#2b6cb0" stroke-width="2"/>
+  <line x1="58" y1="190" x2="82" y2="190" stroke="#2b6cb0" stroke-width="2.6"/>
+  <line x1="58" y1="198" x2="82" y2="198" stroke="#2b6cb0" stroke-width="2.6"/>
+  <line x1="70" y1="198" x2="70" y2="322" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="88" y="198" font-size="13" fill="#2c5282">1000 µF</text>
+
+  <line x1="50" y1="322" x2="400" y2="322" stroke="#4a5568" stroke-width="2.4"/>
+  <line x1="50" y1="322" x2="50" y2="330" stroke="#4a5568" stroke-width="2"/>
+  <line x1="40" y1="330" x2="60" y2="330" stroke="#4a5568" stroke-width="2.2"/>
+  <line x1="44" y1="336" x2="56" y2="336" stroke="#4a5568" stroke-width="2.2"/>
+  <line x1="47" y1="342" x2="53" y2="342" stroke="#4a5568" stroke-width="2.2"/>
+  <text x="72" y="336" font-size="13" fill="#4a5568">GND</text>
+
+  <line x1="130" y1="102" x2="130" y2="120" stroke="#2b6cb0" stroke-width="2"/>
+  <rect x="104" y="120" width="52" height="26" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="130" y="138" font-size="13" fill="#2c5282" text-anchor="middle">HS</text>
+  <line x1="130" y1="146" x2="130" y2="214" stroke="#2b6cb0" stroke-width="2"/>
+  <circle cx="130" cy="185" r="4" fill="#2b6cb0"/>
+  <rect x="104" y="214" width="52" height="26" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="130" y="232" font-size="13" fill="#2c5282" text-anchor="middle">LS</text>
+  <line x1="130" y1="240" x2="130" y2="255" stroke="#2b6cb0" stroke-width="2"/>
+  <rect x="122" y="255" width="16" height="24" fill="#fffaf0" stroke="#b7791f" stroke-width="2"/>
+  <line x1="130" y1="279" x2="130" y2="322" stroke="#b7791f" stroke-width="2"/>
+  <text x="148" y="272" font-size="13" fill="#744210">5 mΩ</text>
+
+  <line x1="210" y1="102" x2="210" y2="120" stroke="#2b6cb0" stroke-width="2"/>
+  <rect x="184" y="120" width="52" height="26" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="210" y="138" font-size="13" fill="#2c5282" text-anchor="middle">HS</text>
+  <line x1="210" y1="146" x2="210" y2="214" stroke="#2b6cb0" stroke-width="2"/>
+  <circle cx="210" cy="185" r="4" fill="#2b6cb0"/>
+  <rect x="184" y="214" width="52" height="26" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="210" y="232" font-size="13" fill="#2c5282" text-anchor="middle">LS</text>
+  <line x1="210" y1="240" x2="210" y2="255" stroke="#2b6cb0" stroke-width="2"/>
+  <rect x="202" y="255" width="16" height="24" fill="#fffaf0" stroke="#b7791f" stroke-width="2"/>
+  <line x1="210" y1="279" x2="210" y2="322" stroke="#b7791f" stroke-width="2"/>
+
+  <line x1="290" y1="102" x2="290" y2="120" stroke="#2b6cb0" stroke-width="2"/>
+  <rect x="264" y="120" width="52" height="26" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="290" y="138" font-size="13" fill="#2c5282" text-anchor="middle">HS</text>
+  <line x1="290" y1="146" x2="290" y2="214" stroke="#2b6cb0" stroke-width="2"/>
+  <circle cx="290" cy="185" r="4" fill="#2b6cb0"/>
+  <rect x="264" y="214" width="52" height="26" fill="#ffffff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="290" y="232" font-size="13" fill="#2c5282" text-anchor="middle">LS</text>
+  <line x1="290" y1="240" x2="290" y2="255" stroke="#2b6cb0" stroke-width="2"/>
+  <rect x="282" y="255" width="16" height="24" fill="#fffaf0" stroke="#b7791f" stroke-width="2"/>
+  <line x1="290" y1="279" x2="290" y2="322" stroke="#b7791f" stroke-width="2"/>
+
+  <polyline points="130,185 330,181" fill="none" stroke="#2b6cb0" stroke-width="1.8"/>
+  <polyline points="210,185 340,185" fill="none" stroke="#2c7a7b" stroke-width="1.8"/>
+  <polyline points="290,185 346,189" fill="none" stroke="#6b46c1" stroke-width="1.8"/>
+  <text x="160" y="176" font-size="13" fill="#2b6cb0">U</text>
+  <text x="240" y="176" font-size="13" fill="#2c7a7b">V</text>
+  <text x="318" y="176" font-size="13" fill="#553c9a">W</text>
+
+  <circle cx="372" cy="185" r="26" fill="#f7fafc" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="372" y="182" font-size="14" font-weight="700" fill="#2c5282" text-anchor="middle">M</text>
+  <text x="372" y="200" font-size="13" fill="#2c5282" text-anchor="middle">3~</text>
+
+  <text x="24" y="362" font-size="13" fill="#744210">低边采样：5 mΩ × 20 = 0.1 V/A，10 A → 1.0 V，30 A → 3.0 V</text>
+
+  <text x="446" y="86" font-size="14" font-weight="700" fill="#2d3748">中心对齐 PWM 与采样窗口</text>
+
+  <text x="446" y="120" font-size="13" fill="#4a5568">上管</text>
+  <polyline points="480,128 500,128 500,112 600,112 600,128 720,128" fill="none" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="446" y="160" font-size="13" fill="#4a5568">下管</text>
+  <polyline points="480,168 490,168 490,152 610,152 610,168 720,168" fill="none" stroke="#2c7a7b" stroke-width="2"/>
+
+  <line x1="495" y1="136" x2="495" y2="176" stroke="#c53030" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <line x1="605" y1="136" x2="605" y2="176" stroke="#c53030" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <text x="618" y="142" font-size="13" fill="#822727">死区 250 ns（放大）</text>
+
+  <text x="446" y="216" font-size="13" fill="#4a5568">计数</text>
+  <polyline points="480,250 600,210 720,250" fill="none" stroke="#4a5568" stroke-width="2"/>
+  <text x="600" y="204" font-size="13" fill="#4a5568" text-anchor="middle">峰</text>
+  <text x="480" y="266" font-size="13" fill="#4a5568" text-anchor="middle">谷点</text>
+
+  <text x="446" y="290" font-size="13" fill="#4a5568">ADC</text>
+  <line x1="480" y1="250" x2="480" y2="300" stroke="#c53030" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <polyline points="480,290 490,290 490,282 500,282 500,290 510,290" fill="none" stroke="#c53030" stroke-width="2"/>
+  <rect x="492" y="270" width="16" height="16" fill="#fff5f5" stroke="#c53030" stroke-width="1.2"/>
+  <text x="516" y="300" font-size="13" fill="#822727">谷点后 0.5 µs 采样</text>
+
+  <text x="446" y="326" font-size="13" fill="#4a5568">20 kHz · 周期 50 µs</text>
+  <text x="446" y="344" font-size="13" fill="#4a5568">振铃 35.6 MHz → 消隐 0.5 µs</text>
+
+  <line x1="24" y1="376" x2="736" y2="376" stroke="#e2e8f0"/>
+  <text x="24" y="398" font-size="13" fill="#2d3748">死区 250 ns：ΔD 0.5%，ΔV 0.12 V；直通 1.2 A/ns，重叠 100 ns 即 120 A</text>
+  <text x="24" y="422" font-size="13" fill="#2d3748">电流环 1 kHz：Kp 6.28 V/A，相位裕度 55.8°；速度环 50 Hz，差 20 倍</text>
+</svg>

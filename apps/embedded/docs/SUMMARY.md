@@ -24,6 +24,7 @@
 * [MPU 与 Cache：区域权限、子区域与缓存一致性 | MPU and Cache: Regions, Subregions and Coherency](mcu/mpu-cache.md)
 * [FPU 与 DSP：单双精度、浮点 ABI 与定点化 | FPU and DSP: Precision, ABI and Fixed-Point](mcu/fpu-dsp.md)
 * [硬件加速外设：CRC、AES、TRNG 与加速流水线 | Hardware Accelerators: CRC, AES, TRNG and Pipelines](mcu/hw-accel.md)
+* [传感器接口与信号调理：分压电桥、数字总线与校准](mcu/sensor-interfaces.md)
 
 ## 第三篇 · 通信接口与协议
 
@@ -55,3 +56,4 @@
 * [测试与静态分析：单元测试、MISRA C、覆盖率与 HIL | Testing and Static Analysis](practice/testing-static.md)
 * [软件能做的 EMC：抖频、边沿控制、采样同步与安全状态 | EMC Measures in Software](practice/emc-software.md)
 * [现场崩溃分析：HardFault 栈帧、CFSR 判读与 coredump | Field Crash Analysis: HardFault Frame, CFSR and Coredump](practice/crash-analysis.md)
+* [电机控制：H 桥、死区、电流环与无感换相](practice/motor-control.md)

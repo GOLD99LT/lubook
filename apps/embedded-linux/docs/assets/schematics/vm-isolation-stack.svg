@@ -1,0 +1,64 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>ARM 虚拟化分层、stage-2 翻译、virtio 队列与直通路径</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="30" font-size="19" font-weight="700" fill="#1a2b3a">虚拟化与隔离：异常级别、virtio 队列与直通路径</text>
+    <text x="24" y="52" font-size="13" fill="#5a6b7b">两次翻译：VA → IPA（stage-1，guest 管）→ PA（stage-2，hypervisor 管）</text>
+
+    <text x="24" y="76" font-size="14" font-weight="700" fill="#1a2b3a">异常级别：guest 跑在 EL1，hypervisor 独占 EL2</text>
+
+    <rect x="24" y="86" width="712" height="26" rx="4" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.3"/>
+    <text x="36" y="104" font-size="13" fill="#1a2b3a">EL3  Secure Monitor（TF-A / OP-TEE）：PSCI 调用与安全世界切换</text>
+
+    <rect x="24" y="116" width="712" height="30" rx="4" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.3"/>
+    <text x="36" y="136" font-size="13" fill="#1a2b3a">EL2  Hypervisor（KVM/ARM）：stage-2 页表、vGIC、虚拟定时器、VM exit 处理</text>
+
+    <rect x="24" y="150" width="340" height="30" rx="4" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.3"/>
+    <text x="36" y="170" font-size="13" fill="#1a2b3a">EL1  Guest 内核（stage-1：VA → IPA）</text>
+    <rect x="396" y="150" width="340" height="30" rx="4" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.3"/>
+    <text x="408" y="170" font-size="13" fill="#1a2b3a">EL1  Host 内核（VA → PA）</text>
+
+    <rect x="24" y="184" width="340" height="26" rx="4" fill="#f7f9fb" stroke="#8fa8c0" stroke-width="1.2"/>
+    <text x="36" y="202" font-size="13" fill="#5a6b7b">EL0  Guest 应用</text>
+    <rect x="396" y="184" width="340" height="26" rx="4" fill="#f7f9fb" stroke="#8fa8c0" stroke-width="1.2"/>
+    <text x="408" y="202" font-size="13" fill="#5a6b7b">EL0  Host 进程 / vhost 线程</text>
+
+    <path d="M194,214 L194,150" fill="none" stroke="#b5642e" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <path d="M190,158 L194,150 L198,158" fill="none" stroke="#b5642e" stroke-width="1.6"/>
+    <text x="212" y="224" font-size="13" fill="#8a2a20">stage-2 缺页 → 数据中止 → VM exit → KVM 解码指令并模拟，再返回 EL1</text>
+
+    <text x="24" y="248" font-size="14" font-weight="700" fill="#1a2b3a">virtio split virtqueue：三张表放在同一段共享内存里</text>
+
+    <rect x="24" y="256" width="456" height="22" rx="3" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.2"/>
+    <text x="36" y="272" font-size="13" fill="#1a2b3a">Descriptor Table：256 项 × 16 B = 4 KiB，正好一页</text>
+    <rect x="24" y="282" width="456" height="22" rx="3" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.2"/>
+    <text x="36" y="298" font-size="13" fill="#1a2b3a">Available Ring：guest 写，一次 kick 触发一次 exit</text>
+    <rect x="24" y="308" width="456" height="22" rx="3" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.2"/>
+    <text x="36" y="324" font-size="13" fill="#1a2b3a">Used Ring：host 写，一次 notify 注入一次中断</text>
+
+    <text x="496" y="271" font-size="13" fill="#1a2b3a">共享内存免去数据拷贝，</text>
+    <text x="496" y="289" font-size="13" fill="#1a2b3a">但 kick 与 notify 仍各是一次</text>
+    <text x="496" y="307" font-size="13" fill="#1a2b3a">VM exit；批量 32 包可摊到 1/16</text>
+    <text x="496" y="325" font-size="13" fill="#8a2a20">图例：exit 约 2 微秒，是开销主项</text>
+
+    <text x="24" y="340" font-size="14" font-weight="700" fill="#1a2b3a">两条数据面路径：模拟设备与物理设备直通</text>
+
+    <rect x="24" y="348" width="150" height="34" rx="4" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.2"/>
+    <text x="99" y="370" font-size="13" text-anchor="middle" fill="#1a2b3a">guest 驱动</text>
+    <rect x="194" y="348" width="150" height="34" rx="4" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.2"/>
+    <text x="269" y="370" font-size="13" text-anchor="middle" fill="#1a2b3a">virtqueue + vhost</text>
+    <rect x="364" y="348" width="150" height="34" rx="4" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.2"/>
+    <text x="439" y="370" font-size="13" text-anchor="middle" fill="#1a2b3a">tap / 物理网卡</text>
+    <text x="530" y="363" font-size="13" fill="#1a2b3a">每包 2 次 exit，每次约 2 微秒</text>
+    <text x="530" y="379" font-size="13" fill="#5a6b7b">小包线速下需要约 6 个核</text>
+
+    <rect x="24" y="390" width="150" height="34" rx="4" fill="#eef4fa" stroke="#3a6ea5" stroke-width="1.2"/>
+    <text x="99" y="412" font-size="13" text-anchor="middle" fill="#1a2b3a">guest 驱动</text>
+    <rect x="194" y="390" width="150" height="34" rx="4" fill="#fdf6ee" stroke="#b5642e" stroke-width="1.2"/>
+    <text x="269" y="412" font-size="13" text-anchor="middle" fill="#1a2b3a">VFIO + SMMU</text>
+    <rect x="364" y="390" width="150" height="34" rx="4" fill="#f3f7f2" stroke="#4f9e63" stroke-width="1.2"/>
+    <text x="439" y="412" font-size="13" text-anchor="middle" fill="#1a2b3a">物理设备</text>
+    <text x="530" y="405" font-size="13" fill="#1a2b3a">零 exit，设备整组独占</text>
+    <text x="530" y="421" font-size="13" fill="#5a6b7b">IOMMU group 不完整则绑不上</text>
+  </g>
+</svg>

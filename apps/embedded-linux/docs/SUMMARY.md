@@ -19,6 +19,7 @@
 * [中断与并发：上下半部、原子上下文与锁的选择](kernel/interrupt-concurrency.md)
 * [DMA 与内存：一致性、流式映射与 cache 维护](kernel/dma-memory.md)
 * [电源管理：runtime PM、系统休眠与功耗账](kernel/power-management.md)
+* [虚拟化与隔离：KVM/ARM、virtio、设备直通与实时性](kernel/virtualization.md)
 
 ## 第三篇 · 用户空间与调试
 
@@ -35,6 +36,7 @@
 * [存储：eMMC/UFS/SD 的协议、HS 时序、分区与寿命](hardware/storage-emmc.md)
 * [Camera 与 ISP：CSI-2 速率、V4L2 管线与 3A 收敛](hardware/camera-isp.md)
 * [PCIe 与 USB 主机：链路训练、枚举、BAR 与带宽预算](hardware/pcie-usb.md)
+* [视频编解码：档次与工具、硬编与软编、码率控制与延迟预算](hardware/video-encode.md)
 
 ## 第五篇 · 可靠性与升级
 
@@ -48,3 +50,4 @@
 * [板级 bring-up：从裸板到第一个用户态程序 Board Bring-up](practice/bring-up.md)
 * [板级移植：从参考板到量产的清单 Board Porting Checklist](practice/board-porting.md)
 * [性能调优：启动剖析、CPU 与 IO、火焰图与回归](practice/performance-tuning.md)
+* [安全加固：最小权限、只读 rootfs 与补丁节奏](practice/security-hardening.md)
