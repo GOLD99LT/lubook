@@ -1,7 +1,7 @@
 {
   "appId": "embedded-linux",
-  "revision": "sha256-df04d05f763d0d15",
-  "docCount": 29,
+  "revision": "sha256-605935fa3deed4bc",
+  "docCount": 32,
   "titles": [
     "嵌入式 Linux 全景：从 SoC 上电到应用启动",
     "交叉编译与工具链 Cross Compilation and Toolchains",
@@ -15,6 +15,7 @@
     "中断与并发：上下半部、原子上下文与锁的选择",
     "DMA 与内存：一致性、流式映射与 cache 维护",
     "电源管理：runtime PM、系统休眠与功耗账",
+    "虚拟化与隔离：KVM/ARM、virtio、设备直通与实时性",
     "systemd 与启动管理：unit 依赖、启动耗时与看门狗",
     "网络配置：接口命名、地址、防火墙与 NTP",
     "调试工具链：gdb、strace、perf、ftrace 与 core dump",
@@ -25,17 +26,19 @@
     "存储：eMMC/UFS/SD 的协议、HS 时序、分区与寿命",
     "Camera 与 ISP：CSI-2 速率、V4L2 管线与 3A 收敛",
     "PCIe 与 USB 主机：链路训练、枚举、BAR 与带宽预算",
+    "视频编解码：档次与工具、硬编与软编、码率控制与延迟预算",
     "看门狗与日志：/dev/watchdog、systemd 集成与 journald 落盘",
     "A/B 升级：GPT 分区、启动计数器、镜像校验与断电回滚",
     "安全启动：信任链、密钥层级、防回滚与验签预算",
     "产线测试与校准：测试项设计、节拍预算、良率与追溯",
     "板级 bring-up：从裸板到第一个用户态程序 Board Bring-up",
     "板级移植：从参考板到量产的清单 Board Porting Checklist",
-    "性能调优：启动剖析、CPU 与 IO、火焰图与回归"
+    "性能调优：启动剖析、CPU 与 IO、火焰图与回归",
+    "安全加固：最小权限、只读 rootfs 与补丁节奏"
   ],
-  "imageTotal": 29,
-  "svgCount": 29,
-  "assetsChecksum": "sha256-81a8ada2041f6eda",
+  "imageTotal": 32,
+  "svgCount": 32,
+  "assetsChecksum": "sha256-08b1461c056f06f9",
   "groundsCount": 0,
-  "overallChecksum": "df04d05f763d0d154251db5dfec72645e23b4fa14abd20db1fead2cd0ac6a697"
+  "overallChecksum": "605935fa3deed4bc0d01a79bf18cc3f26e3bce0ad2d3aae9dd0f474daf2e46d5"
 }
