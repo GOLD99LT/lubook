@@ -34,6 +34,7 @@
 * [CAN 与 CAN FD：位时序、仲裁、Bus-Off 与负载率 | CAN and CAN FD: Bit Timing, Arbitration, Bus-Off, and Bus Load](comm/can.md)
 * [USB 设备：枚举、端点、描述符与 SOF | USB Device: Enumeration, Endpoints, Descriptors, and SOF](comm/usb-device.md)
 * [以太网：MAC/PHY、DMA 描述符环与 lwIP 零拷贝 | Ethernet: MAC/PHY, DMA Descriptor Rings, and lwIP Zero-Copy](comm/ethernet.md)
+* [无线模组接入：BLE、LoRa 与 Wi-Fi 的三张账、链路预算与合规](comm/wireless.md)
 
 ## 第四篇 · RTOS 与并发
 

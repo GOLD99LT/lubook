@@ -1,0 +1,85 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>无线模组接入：BLE、LoRa、Wi-Fi 三张账与 470 MHz 链路预算</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+  <text x="24" y="30" font-size="20" font-weight="700" fill="#1a202c">无线模组接入：三张账与链路预算</text>
+  <text x="24" y="52" font-size="13" fill="#4a5568">BLE / LoRa / Wi-Fi 的速率、距离、功耗；470 MHz、10 km、SF9 的 dB 账（与正文算例一致）</text>
+  <line x1="24" y1="64" x2="736" y2="64" stroke="#e2e8f0"/>
+
+  <rect x="24" y="78" width="228" height="130" fill="#f7fafc" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="34" y="102" font-size="16" font-weight="700" fill="#2c5282">BLE 5</text>
+  <text x="34" y="126" font-size="13" fill="#2d3748">2.4 GHz · 1 Mbps PHY</text>
+  <text x="34" y="148" font-size="13" fill="#2d3748">灵敏度 -95 dBm</text>
+  <text x="34" y="170" font-size="13" fill="#2d3748">30 m · 广播 1 s → 3.03 年</text>
+  <text x="34" y="192" font-size="13" fill="#2d3748">连接 7.5 ms → 2.88 天</text>
+
+  <rect x="266" y="78" width="228" height="130" fill="#fffaf0" stroke="#b7791f" stroke-width="2"/>
+  <text x="276" y="102" font-size="16" font-weight="700" fill="#744210">LoRa SF9</text>
+  <text x="276" y="126" font-size="13" fill="#2d3748">470 MHz · 1.76 kbps</text>
+  <text x="276" y="148" font-size="13" fill="#2d3748">灵敏度 -129 dBm</text>
+  <text x="276" y="170" font-size="13" fill="#2d3748">10 km · 6 次/时 → 5.28 年</text>
+  <text x="276" y="192" font-size="13" fill="#2d3748">20 B 单包 → 185.3 ms</text>
+
+  <rect x="508" y="78" width="228" height="130" fill="#faf5ff" stroke="#6b46c1" stroke-width="2"/>
+  <text x="518" y="102" font-size="16" font-weight="700" fill="#553c9a">Wi-Fi 802.11n</text>
+  <text x="518" y="126" font-size="13" fill="#2d3748">2.4 GHz · 65 Mbps PHY</text>
+  <text x="518" y="148" font-size="13" fill="#2d3748">灵敏度 -82 dBm</text>
+  <text x="518" y="170" font-size="13" fill="#2d3748">50 m · 60 s 上报 → 3.8 月</text>
+  <text x="518" y="192" font-size="13" fill="#2d3748">平均电流 120 mA</text>
+
+  <line x1="24" y1="218" x2="736" y2="218" stroke="#e2e8f0"/>
+
+  <rect x="20" y="228" width="396" height="204" fill="#f7fafc" stroke="#e2e8f0"/>
+  <text x="32" y="247" font-size="15" font-weight="700" fill="#1a202c">链路预算：dB 加减（470 MHz、10 km、SF9）</text>
+  <text x="40" y="268" font-size="13" fill="#c53030">S -129</text>
+  <text x="203" y="268" font-size="13" fill="#2c5282" text-anchor="middle">Prx -87.9</text>
+  <line x1="36" y1="285" x2="392" y2="285" stroke="#cbd5e0"/>
+  <rect x="40" y="278" width="163" height="14" fill="#c6f6d5" stroke="#38a169"/>
+  <line x1="203" y1="274" x2="203" y2="298" stroke="#c53030" stroke-width="2"/>
+  <text x="121" y="316" font-size="13" fill="#276749" text-anchor="middle">余量 41.1 dB</text>
+  <text x="32" y="338" font-size="13" fill="#2d3748">EIRP = 16 + 2 - 1 = 17 dBm</text>
+  <text x="32" y="360" font-size="13" fill="#2d3748">FSPL = 32.44 + 20lg470 + 20lg10 = 105.9 dB</text>
+  <text x="32" y="382" font-size="13" fill="#2d3748">Prx = 17 - 105.9 + 2 - 1 = -87.9 dBm</text>
+  <text x="32" y="404" font-size="13" fill="#2d3748">余量 41.1 dB；扣 16 dB 衰落 → 25.1 dB</text>
+  <text x="32" y="426" font-size="13" fill="#2d3748">视距 26 km；预算 57 km，先撞视距</text>
+
+  <rect x="428" y="228" width="308" height="204" fill="#f7fafc" stroke="#e2e8f0"/>
+  <text x="440" y="247" font-size="15" font-weight="700" fill="#1a202c">接入方式：谁跑协议栈、谁负责重连</text>
+
+  <rect x="440" y="258" width="82" height="34" fill="#ebf8ff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="481" y="280" font-size="13" fill="#2c5282" text-anchor="middle">MCU</text>
+  <line x1="522" y1="275" x2="542" y2="275" stroke="#2b6cb0" stroke-width="2"/>
+  <polygon points="552,275 542,270 542,280" fill="#2b6cb0"/>
+  <rect x="552" y="258" width="88" height="34" fill="#ebf8ff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="596" y="280" font-size="13" fill="#2c5282" text-anchor="middle">AT 模组</text>
+  <line x1="640" y1="275" x2="658" y2="275" stroke="#2b6cb0" stroke-width="2"/>
+  <polygon points="668,275 658,270 658,280" fill="#2b6cb0"/>
+  <rect x="668" y="258" width="64" height="34" fill="#ebf8ff" stroke="#2b6cb0" stroke-width="2"/>
+  <text x="700" y="280" font-size="13" fill="#2c5282" text-anchor="middle">天线</text>
+  <text x="440" y="304" font-size="13" fill="#4a5568">UART · 延迟 10-50 ms · URC 状态机</text>
+
+  <rect x="440" y="316" width="82" height="34" fill="#fffaf0" stroke="#b7791f" stroke-width="2"/>
+  <text x="481" y="338" font-size="13" fill="#744210" text-anchor="middle">MCU 跑栈</text>
+  <line x1="522" y1="333" x2="542" y2="333" stroke="#b7791f" stroke-width="2"/>
+  <polygon points="552,333 542,328 542,338" fill="#b7791f"/>
+  <rect x="552" y="316" width="88" height="34" fill="#fffaf0" stroke="#b7791f" stroke-width="2"/>
+  <text x="596" y="338" font-size="13" fill="#744210" text-anchor="middle">PHY 模组</text>
+  <line x1="640" y1="333" x2="658" y2="333" stroke="#b7791f" stroke-width="2"/>
+  <polygon points="668,333 658,328 658,338" fill="#b7791f"/>
+  <rect x="668" y="316" width="64" height="34" fill="#fffaf0" stroke="#b7791f" stroke-width="2"/>
+  <text x="700" y="338" font-size="13" fill="#744210" text-anchor="middle">天线</text>
+  <text x="440" y="362" font-size="13" fill="#4a5568">HCI/SPI · Flash 60-120 KB · 主机认证</text>
+
+  <rect x="440" y="374" width="82" height="34" fill="#faf5ff" stroke="#6b46c1" stroke-width="2"/>
+  <text x="481" y="396" font-size="13" fill="#553c9a" text-anchor="middle">MCU</text>
+  <line x1="522" y1="391" x2="542" y2="391" stroke="#6b46c1" stroke-width="2"/>
+  <polygon points="552,391 542,386 542,396" fill="#6b46c1"/>
+  <rect x="552" y="374" width="88" height="34" fill="#faf5ff" stroke="#6b46c1" stroke-width="2"/>
+  <text x="596" y="396" font-size="13" fill="#553c9a" text-anchor="middle">透传桥</text>
+  <line x1="640" y1="391" x2="658" y2="391" stroke="#6b46c1" stroke-width="2"/>
+  <polygon points="668,391 658,386 658,396" fill="#6b46c1"/>
+  <rect x="668" y="374" width="64" height="34" fill="#faf5ff" stroke="#6b46c1" stroke-width="2"/>
+  <text x="700" y="396" font-size="13" fill="#553c9a" text-anchor="middle">天线</text>
+  <text x="440" y="420" font-size="13" fill="#4a5568">UART 桥 · 缓冲不透明 · 应用层 ACK</text>
+  </g>
+</svg>

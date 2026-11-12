@@ -9,7 +9,7 @@ difficulty: 3
 status: published
 sources:
   - Linux 内核文档 Documentation/userspace-api/seccomp_filter.rst：过滤器模式、BPF 程序结构、返回值语义与 no_new_privs 约束
-  - Linux 内核文档 Documentation/filesystems/verity.rst：dm-verity 的哈希树布局、根哈希与错误处理策略
+  - Linux 内核文档 Documentation/admin-guide/device-mapper/verity.rst：dm-verity 的哈希树布局、根哈希与错误处理策略
   - Linux 内核文档 Documentation/filesystems/integrity.rst：IMA/EVM 的度量、评估与签名扩展属性
   - Linux 内核文档 Documentation/process/security-bugs.rst：内核安全问题的报告流程与披露约定
   - Linux 内核文档 Documentation/admin-guide/kernel-parameters.txt：`ro`、`init_on_alloc`、`slab_nomerge` 等与加固相关的启动参数
@@ -90,7 +90,7 @@ sources:
 
 dm-verity 的原理是把 rootfs 按 4 KiB 切块，每块算一个 SHA-256，这些哈希再按同样方式组成上层，直到只剩一个根哈希。根哈希由引导程序在验签后传给内核，任何一块数据被改，校验就失败。
 
-失败后的行为要显式配置：返回 I/O 错误（`restart_on_corruption`）还是直接重启（`panic_on_corruption`）。默认的"报错继续跑"最危险，因为它把完整性失败降级成了普通 I/O 错误。
+失败后的行为由内核参数显式选择，默认值与三个显式策略不能混为一谈：**默认（不加参数）**在哈希不匹配时返回 `EIO`，读失败但系统继续运行；`ignore_corruption` 只把错误记入日志，然后把数据原样返回，等于校验形同虚设；`restart_on_corruption` 触发系统重启；`panic_on_corruption` 直接 panic。生产设备通常在 `restart_on_corruption` 与 `panic_on_corruption` 之间显式选择，而不是停在默认的 `EIO`。
 
 ### 2.3 SELinux 与 AppArmor
 
@@ -121,7 +121,7 @@ dm-verity 的原理是把 rootfs 按 4 KiB 切块，每块算一个 SHA-256，�
 
 `CAP_SYS_ADMIN` 被称为"新的 root"，因为它覆盖的能力太广。业务进程保留它，等于没有降权。
 
-seccomp 再往下收一层：限制进程能调用哪些系统调用。默认的 Linux 有 300 多个系统调用，一个只做串口读写的守护进程可能只需要几十个。seccomp 过滤器用 BPF 程序实现，匹配失败时可以选择返回错误、杀死进程或杀死整个进程组。
+seccomp 再往下收一层：限制进程能调用哪些系统调用。默认的 Linux 有 300 多个系统调用，一个只做串口读写的守护进程可能只需要几十个。seccomp 过滤器用 BPF 程序实现，匹配到不允许的调用时，由返回值决定动作：`SECCOMP_RET_ERRNO` 返回指定错误码；`SECCOMP_RET_KILL_THREAD` **只终止触发调用的那个线程**；`SECCOMP_RET_KILL_PROCESS` 终止整个进程。此外还有 `TRAP`（发送 `SIGSYS`）、`USER_NOTIF`（交给用户态监督进程裁决）、`LOG`（记录后放行）与 `ALLOW`。注意**不存在"杀死整个进程组"这个动作**：多线程程序里误用 `KILL_THREAD` 只会留下半死的进程，要连坐必须用 `KILL_PROCESS`。
 
 seccomp 有两个硬约束：过滤器一旦加载不能放松，只能更严；使用过滤器通常需要先设置 `no_new_privs`，否则 setuid 程序可以绕过。
 
@@ -284,7 +284,7 @@ $$H = 8 \times \log_2 62 = 47.6\ \text{bit}$$
 
 $$t_{\text{brute}} = \frac{2.18 \times 10^{14}}{10 \times 86400 \times 365} = 6.92 \times 10^5\ \text{年}$$
 
-看起来无懈可击，但这是**在线攻击**的数字。真正的风险在离线场景：拿到哈希后可以用 GPU 每秒尝试上亿次，8 位口令几分钟就破。所以结论不是"8 位够用"，而是：
+看起来无懈可击，但这是**在线攻击**的数字。真正的风险在离线场景：拿到哈希后可以用 GPU 每秒尝试上亿次。按 $10^8$ 次/秒算，$62^8 = 2.18 \times 10^{14}$，穷尽需要 $2.18 \times 10^{14} / 10^8 = 2.18 \times 10^6$ 秒，约 **25 天/哈希**——不是几分钟。要在 600 秒内穷尽同一空间，需要 $2.18 \times 10^{14}/600 \approx 3.64 \times 10^{11}$ 次/秒，比 $10^8$ 次/秒高约 3600 倍；换句话说，"几分钟破"成立的前提是口令弱得多，比如 8 位纯数字（$10^8$ 种，按 $10^8$ 次/秒约 1 秒）。所以结论不是"8 位够用"，而是：
 
 - 在线入口做限速（3 次每 10 分钟，即 $0.005$ 次每秒），破解时间拉到 $1.38 \times 10^9$ 年；
 - 口令存储必须用慢哈希（bcrypt、scrypt、Argon2），不能用 SHA-256；
@@ -516,7 +516,7 @@ $$t_{\text{offline}} = \frac{2.18 \times 10^{14}}{10^8} = 2.18 \times 10^6\ \tex
 ## 8. 参考资料
 
 - Linux 内核文档 `Documentation/userspace-api/seccomp_filter.rst`：过滤器模式、BPF 结构、返回值语义与 `no_new_privs` 约束。
-- Linux 内核文档 `Documentation/filesystems/verity.rst`：dm-verity 的哈希树布局、根哈希传递与 `restart_on_corruption` 等错误策略。
+- Linux 内核文档 `Documentation/admin-guide/device-mapper/verity.rst`：dm-verity 的哈希树布局、根哈希传递与 `restart_on_corruption` 等错误策略。
 - Linux 内核文档 `Documentation/filesystems/integrity.rst`：IMA/EVM 的度量、评估与签名扩展属性。
 - Linux 内核文档 `Documentation/process/security-bugs.rst`：内核安全问题的报告、披露与修复流程。
 - Linux 内核文档 `Documentation/admin-guide/kernel-parameters.txt`：`ro`、`init_on_alloc`、`slab_nomerge` 等加固相关参数的语义。

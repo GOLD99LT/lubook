@@ -83,7 +83,9 @@ ARMv8-A 把特权分成四个异常级别（Exception Level，EL）：
 | EL0 | 用户态应用 | 无特权 |
 | EL1 | guest 内核与 host 内核 | 各自维护自己的页表 |
 | EL2 | hypervisor（KVM/ARM） | 控制 stage-2 翻译、vGIC、虚拟定时器 |
-| EL3 | 安全监控（TF-A、OP-TEE） | PSCI 调用与安全世界切换 |
+| EL3 | 安全监控（TF-A BL31） | PSCI 调用与安全世界切换 |
+
+安全世界要单独看：OP-TEE OS 运行在 **S-EL1**（安全世界的 EL1），并不在 EL3；TF-A 的 BL31 才是 EL3 上的安全监控运行时。
 
 关键在于**地址翻译分成两段**。guest 内核的页表把虚拟地址（VA）翻译成中间物理地址（IPA，Intermediate Physical Address）；hypervisor 的 stage-2 页表再把 IPA 翻译成真正的物理地址（PA）。guest 以为自己管着整块内存，其实它看到的 IPA 空间由 EL2 决定映射到哪里。
 
@@ -247,13 +249,13 @@ $$C_{\text{exit}} = 1.488 \times 10^6 \times 0.1 \times 2 \times 10^{-6} = 0.298
 
 给 guest 映射 2 GiB 的 DMA 地址空间。用 4 KiB 页：
 
-$$P_{\text{pt}} = \frac{2 \times 1024^3}{4096} \times 8 = 524{,}288 \times 8 = 4.19\ \mathrm{MiB}$$
+$$P_{\text{pt}} = \frac{2 \times 1024^3}{4096} \times 8 = 524{,}288 \times 8 = 4{,}194{,}304\ \mathrm{B} = 4\ \mathrm{MiB}\ (4.19\ \mathrm{MB})$$
 
 用 2 MiB 大页：
 
 $$P_{\text{pt}} = \frac{2 \times 1024^3}{2 \times 1024^2} \times 8 = 1024 \times 8 = 8\ \mathrm{KiB}$$
 
-差了 512 倍。对一块只有 512 MB 内存的嵌入式板，4.19 MiB 的额外页表不算致命，但**页表遍历的 IOTLB 未命中代价**才是真问题：4 KiB 页意味着 2 GiB 映射需要更多级遍历，DMA 分散访问时 IOTLB 很快被冲空。
+差了 512 倍。对一块只有 512 MB 内存的嵌入式板，4 MiB（4.19 MB）的额外页表不算致命，但**页表遍历的 IOTLB 未命中代价**才是真问题：4 KiB 页意味着 2 GiB 映射需要更多级遍历，DMA 分散访问时 IOTLB 很快被冲空。
 
 ### 4.4 算例四：实时任务的抖动预算
 
@@ -427,7 +429,7 @@ $$C_{\text{exit}} = 1.488 \times 10^6 \times \frac{1}{32} \times 2 \times 10^{-6
 
 4 KiB 页：
 
-$$P_{\text{pt}} = \frac{2 \times 1024^3}{4096} \times 8 = 524{,}288 \times 8 = 4{,}194{,}304\ \mathrm{B} = 4.19\ \mathrm{MiB}$$
+$$P_{\text{pt}} = \frac{2 \times 1024^3}{4096} \times 8 = 524{,}288 \times 8 = 4{,}194{,}304\ \mathrm{B} = 4\ \mathrm{MiB}\ (4.19\ \mathrm{MB})$$
 
 2 MiB 页：
 
