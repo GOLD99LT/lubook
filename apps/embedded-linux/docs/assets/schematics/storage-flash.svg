@@ -1,0 +1,66 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>闪存介质读带宽、文件系统分层与掉电窗口</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="28" font-size="19" font-weight="700" fill="#1a2b3a">闪存介质、文件系统分层与掉电窗口</text>
+    <text x="24" y="50" font-size="13" fill="#5a6b7b">读带宽 = 位宽 × 时钟 × 每周期采样数 ÷ 8；条形按算术比例，UFS 超出坐标范围</text>
+
+    <text x="24" y="78" font-size="14" font-weight="700" fill="#1a2b3a">读带宽（MB/s）</text>
+    <text x="24" y="106" font-size="13" fill="#1a2b3a">SPI NOR quad 104 MHz</text>
+    <rect x="196" y="90" width="20" height="20" fill="#c9d2da"/>
+    <text x="404" y="106" font-size="13" fill="#1a2b3a">52</text>
+
+    <text x="24" y="134" font-size="13" fill="#1a2b3a">并行 NOR 16 位 133 MHz</text>
+    <rect x="196" y="118" width="100" height="20" fill="#8fa8c0"/>
+    <text x="404" y="134" font-size="13" fill="#1a2b3a">266</text>
+
+    <text x="24" y="162" font-size="13" fill="#1a2b3a">eMMC HS400 8 位双沿</text>
+    <rect x="196" y="146" width="150" height="20" fill="#3a6ea5"/>
+    <text x="404" y="162" font-size="13" fill="#1a2b3a">400</text>
+
+    <text x="24" y="190" font-size="13" fill="#1a2b3a">SLC NAND ONFI 533 MT/s</text>
+    <rect x="196" y="174" width="200" height="20" fill="#b5642e"/>
+    <text x="404" y="190" font-size="13" fill="#1a2b3a">533</text>
+
+    <text x="24" y="214" font-size="13" fill="#8a4a1f">UFS 3.1 双 lane：2.81 GB/s，超出坐标 5 倍</text>
+    <text x="24" y="234" font-size="13" fill="#1a2b3a">擦除粒度：NOR 64 KiB / NAND 128 KiB / eMMC 片内</text>
+    <text x="24" y="254" font-size="13" fill="#1a2b3a">P/E：SLC 约 10 万次，TLC 1000 到 3000 次</text>
+
+    <text x="470" y="78" font-size="14" font-weight="700" fill="#1a2b3a">从应用到介质</text>
+    <rect x="470" y="88" width="266" height="26" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="482" y="106" font-size="13" fill="#1a2b3a">write() / fsync()：应用提交点</text>
+    <line x1="603" y1="114" x2="603" y2="122" stroke="#5a6b7b" stroke-width="2"/>
+    <rect x="470" y="122" width="266" height="26" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="482" y="140" font-size="13" fill="#1a2b3a">VFS：squashfs / ext4 / F2FS</text>
+    <line x1="603" y1="148" x2="603" y2="156" stroke="#5a6b7b" stroke-width="2"/>
+    <rect x="470" y="156" width="266" height="26" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="482" y="174" font-size="13" fill="#1a2b3a">块层 / MTD：bio、坏块、ECC</text>
+    <line x1="603" y1="182" x2="603" y2="190" stroke="#5a6b7b" stroke-width="2"/>
+    <rect x="470" y="190" width="266" height="26" rx="4" fill="#f7f1ea" stroke="#b5642e"/>
+    <text x="482" y="208" font-size="13" fill="#8a4a1f">eMMC FTL / 裸 NAND + UBI</text>
+
+    <text x="24" y="286" font-size="14" font-weight="700" fill="#1a2b3a">掉电窗口：2 MiB/s 持续写入，横轴为秒</text>
+    <line x1="80" y1="306" x2="700" y2="306" stroke="#1a2b3a" stroke-width="2"/>
+    <line x1="80" y1="300" x2="80" y2="312" stroke="#1a2b3a" stroke-width="2"/>
+    <line x1="183" y1="300" x2="183" y2="312" stroke="#1a2b3a" stroke-width="2"/>
+    <line x1="287" y1="300" x2="287" y2="312" stroke="#1a2b3a" stroke-width="2"/>
+    <line x1="493" y1="300" x2="493" y2="312" stroke="#1a2b3a" stroke-width="2"/>
+    <line x1="700" y1="300" x2="700" y2="312" stroke="#1a2b3a" stroke-width="2"/>
+    <text x="80" y="328" font-size="13" text-anchor="middle" fill="#1a2b3a">0</text>
+    <text x="183" y="328" font-size="13" text-anchor="middle" fill="#1a2b3a">5</text>
+    <text x="287" y="328" font-size="13" text-anchor="middle" fill="#1a2b3a">10</text>
+    <text x="493" y="328" font-size="13" text-anchor="middle" fill="#1a2b3a">20</text>
+    <text x="700" y="328" font-size="13" text-anchor="middle" fill="#1a2b3a">30</text>
+
+    <line x1="183" y1="270" x2="183" y2="306" stroke="#b5642e" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="189" y="270" font-size="13" fill="#8a4a1f">commit=5 s</text>
+    <line x1="609" y1="270" x2="609" y2="306" stroke="#a33" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="530" y="270" font-size="13" fill="#a33">脏页上限 25.6 s</text>
+
+    <rect x="183" y="314" width="426" height="10" fill="#f0d6d6"/>
+    <text x="396" y="348" font-size="13" text-anchor="middle" fill="#a33">未 fsync：掉电丢失窗口最长 25.6 s</text>
+    <text x="24" y="372" font-size="13" fill="#1a2b3a">脏页上限 = 256 MiB × 20% = 51.2 MiB；51.2 ÷ 2 = 25.6 s，早于 30 s 过期</text>
+    <text x="24" y="394" font-size="13" fill="#1a2b3a">一次 fsync 约 4 ms，一批 16 KiB 即 250 次/秒；每批 16 条时占用提交能力 50%</text>
+    <text x="24" y="416" font-size="13" fill="#8a4a1f">有 fsync 最多丢一个批次 16 KiB；write_cache=write back 时必须 FLUSH 才真正落盘</text>
+  </g>
+</svg>

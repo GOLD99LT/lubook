@@ -10,6 +10,7 @@
 * [启动流程：从复位向量到 main Startup and Boot](basics/startup-boot.md)
 * [C 语言与内存模型：对齐、严格别名与编译优化 | C Memory Model: Alignment, Strict Aliasing and Optimization](basics/c-memory-model.md)
 * [链接脚本与内存布局：VMA、LMA 与启动拷贝 | Linker Script and Memory Layout: VMA, LMA and Startup Copy](basics/linker-script.md)
+* [调试与追踪：SWD/JTAG、ITM/SWO 与 ETM 指令追踪 Debugging and Tracing](basics/debug-trace.md)
 
 ## 第二篇 · Cortex-M 与 MCU 外设
 
@@ -49,6 +50,7 @@
 * [Flash 与 EEPROM：擦写粒度、寿命与掉电安全写入 | Flash and EEPROM: Granularity, Endurance and Fail-Safe Writes](storage/flash-eeprom.md)
 * [Bootloader 与 OTA：A/B 双区、镜像校验与回滚 Bootloader and OTA](storage/bootloader-ota.md)
 * [嵌入式文件系统：FAT、LittleFS 与 SPIFFS 的取舍 Embedded File Systems: FAT, LittleFS and SPIFFS Tradeoffs](storage/filesystem.md)
+* [安全固件更新与密钥管理：签名、密钥层级与防回滚 Secure Firmware Update and Key Management](storage/secure-firmware.md)
 
 ## 第六篇 · 工程实践与量产
 
@@ -58,3 +60,4 @@
 * [软件能做的 EMC：抖频、边沿控制、采样同步与安全状态 | EMC Measures in Software](practice/emc-software.md)
 * [现场崩溃分析：HardFault 栈帧、CFSR 判读与 coredump | Field Crash Analysis: HardFault Frame, CFSR and Coredump](practice/crash-analysis.md)
 * [电机控制：H 桥、死区、电流环与无感换相](practice/motor-control.md)
+* [功能安全与诊断：SIL/ASIL、诊断覆盖率与安全状态 Functional Safety and Diagnostics](practice/functional-safety.md)

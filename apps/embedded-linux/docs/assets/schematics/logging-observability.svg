@@ -1,0 +1,57 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>日志采集链、30 天存储预算与 ftrace 观测窗口</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="28" font-size="19" font-weight="700" fill="#1a2b3a">日志采集链、存储预算与追踪窗口</text>
+    <text x="24" y="50" font-size="13" fill="#5a6b7b">日志速率 4.22 KiB/s（12 服务 × 1.5 行/秒 × 240 字节）；条形按同一比例</text>
+
+    <text x="24" y="76" font-size="14" font-weight="700" fill="#1a2b3a">设备侧采集链</text>
+    <rect x="24" y="86" width="276" height="32" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="36" y="107" font-size="13" fill="#1a2b3a">应用：stdout / syslog(3)</text>
+    <line x1="162" y1="118" x2="162" y2="126" stroke="#5a6b7b" stroke-width="2"/>
+    <rect x="24" y="126" width="276" height="32" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="36" y="147" font-size="13" fill="#1a2b3a">journald：tmpfs 或 /var/log/journal</text>
+    <line x1="162" y1="158" x2="162" y2="166" stroke="#5a6b7b" stroke-width="2"/>
+    <rect x="24" y="166" width="276" height="32" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="36" y="187" font-size="13" fill="#1a2b3a">rsyslog：内存/磁盘队列 + omfwd</text>
+    <line x1="162" y1="198" x2="162" y2="206" stroke="#5a6b7b" stroke-width="2"/>
+    <rect x="24" y="206" width="276" height="32" rx="4" fill="#f7f1ea" stroke="#b5642e"/>
+    <text x="36" y="227" font-size="13" fill="#8a4a1f">远端：TLS 收集端 / 日志平台</text>
+
+    <text x="24" y="262" font-size="13" fill="#1a2b3a">Storage=auto：无目录即只写内存</text>
+    <text x="24" y="282" font-size="13" fill="#1a2b3a">256M 配额 4.7 分钟写满</text>
+    <text x="24" y="302" font-size="13" fill="#8a4a1f">内存队列只撑 19.8 分钟</text>
+
+    <text x="330" y="76" font-size="14" font-weight="700" fill="#1a2b3a">30 天日志预算（压缩 2.5:1）</text>
+    <text x="330" y="102" font-size="13" fill="#1a2b3a">原始 11.20 GB</text>
+    <rect x="470" y="88" width="260" height="18" fill="#3a6ea5"/>
+    <text x="330" y="130" font-size="13" fill="#1a2b3a">压缩后 4.48 GB</text>
+    <rect x="470" y="116" width="104" height="18" fill="#8fa8c0"/>
+    <text x="330" y="158" font-size="13" fill="#1a2b3a">512 MiB 分区</text>
+    <rect x="470" y="144" width="12" height="18" fill="#a33"/>
+    <text x="330" y="186" font-size="13" fill="#a33">512 MiB 只够 3.6 天，差近一个数量级</text>
+    <text x="330" y="206" font-size="13" fill="#1a2b3a">90 天允许速率仅 172.6 B/s，必须分级保留</text>
+    <text x="330" y="226" font-size="13" fill="#1a2b3a">err 90 天 / warning 30 天 / info 7 天 / debug 关</text>
+
+    <text x="330" y="256" font-size="14" font-weight="700" fill="#1a2b3a">ftrace 观测窗口（1408 KiB/核 × 4）</text>
+    <text x="330" y="282" font-size="13" fill="#1a2b3a">1 千事件/秒：36.0 s</text>
+    <rect x="470" y="268" width="216" height="16" fill="#3a6ea5"/>
+    <text x="330" y="308" font-size="13" fill="#1a2b3a">1 万事件/秒：3.6 s</text>
+    <rect x="470" y="294" width="22" height="16" fill="#8fa8c0"/>
+    <text x="330" y="334" font-size="13" fill="#1a2b3a">5 万事件/秒：0.72 s</text>
+    <rect x="470" y="320" width="5" height="16" fill="#a33"/>
+    <text x="330" y="358" font-size="13" fill="#8a4a1f">窗口由事件率决定：高事件率必须靠 snapshot 冻结</text>
+
+    <text x="24" y="386" font-size="14" font-weight="700" fill="#1a2b3a">现场定位固定流程（时间盒 5 + 10 + 10 + 15 + 20 分钟）</text>
+    <rect x="24" y="396" width="130" height="30" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="89" y="416" font-size="13" text-anchor="middle" fill="#1a2b3a">1 定界</text>
+    <rect x="168" y="396" width="130" height="30" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="233" y="416" font-size="13" text-anchor="middle" fill="#1a2b3a">2 取证</text>
+    <rect x="312" y="396" width="130" height="30" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="377" y="416" font-size="13" text-anchor="middle" fill="#1a2b3a">3 量化</text>
+    <rect x="456" y="396" width="130" height="30" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="521" y="416" font-size="13" text-anchor="middle" fill="#1a2b3a">4 追踪</text>
+    <rect x="600" y="396" width="130" height="30" rx="4" fill="#f7f1ea" stroke="#b5642e"/>
+    <text x="665" y="416" font-size="13" text-anchor="middle" fill="#8a4a1f">5 固化</text>
+  </g>
+</svg>

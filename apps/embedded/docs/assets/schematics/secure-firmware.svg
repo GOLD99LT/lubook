@@ -1,0 +1,80 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>安全固件的密钥层级与验签流水线：OTP 根密钥逐级派生、镜像三段布局、启动预算内的验签耗时</title>
+  <defs>
+    <marker id="sf" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="28" font-size="18" font-weight="700" fill="#222a32">密钥层级与验签流水线</text>
+    <text x="24" y="50" font-size="13" fill="#5c6772">根密钥只存在于 OTP 与安全元件；每次上电先验签、后解密、再跳转</text>
+    <line x1="24" y1="62" x2="736" y2="62" stroke="#e3e0d7"/>
+
+    <text x="24" y="84" font-size="13" font-weight="700" fill="#1a4f8b">三级密钥层级（派生方向向下）</text>
+
+    <rect x="24" y="92" width="264" height="52" rx="3" fill="#fdf6ef" stroke="#b5642e" stroke-width="1.6"/>
+    <text x="34" y="112" font-size="14" font-weight="700" fill="#b5642e">K_root · OTP 256 bit</text>
+    <text x="34" y="129" font-size="13" fill="#b5642e">不可读出，只可由硬件参与派生</text>
+
+    <rect x="24" y="166" width="264" height="52" rx="3" fill="#f7f9fb" stroke="#2b3a4a" stroke-width="1.4"/>
+    <text x="34" y="186" font-size="14" font-weight="700" fill="#222a32">K_dev · 每设备唯一</text>
+    <text x="34" y="203" font-size="13" fill="#3c4650">CMAC(K_root, “dev” ‖ UID ‖ 序号)</text>
+
+    <rect x="24" y="240" width="264" height="52" rx="3" fill="#eef3fa" stroke="#1a4f8b" stroke-width="1.4"/>
+    <text x="34" y="260" font-size="14" font-weight="700" fill="#1a4f8b">K_img · 镜像加密密钥</text>
+    <text x="34" y="277" font-size="13" fill="#1a4f8b">CMAC(K_dev, “img” ‖ 版本 ‖ 用途)</text>
+
+    <rect x="24" y="314" width="264" height="52" rx="3" fill="#e8f3ec" stroke="#2e7d4f" stroke-width="1.4"/>
+    <text x="34" y="334" font-size="14" font-weight="700" fill="#2e7d4f">会话密钥 · 每次握手</text>
+    <text x="34" y="351" font-size="13" fill="#2e7d4f">ECDH 共享秘密 + HKDF，用完即弃</text>
+
+    <line x1="156" y1="144" x2="156" y2="164" stroke="#2b3a4a" stroke-width="2" marker-end="url(#sf)"/>
+    <line x1="156" y1="218" x2="156" y2="238" stroke="#2b3a4a" stroke-width="2" marker-end="url(#sf)"/>
+    <line x1="156" y1="292" x2="156" y2="312" stroke="#2b3a4a" stroke-width="2" marker-end="url(#sf)"/>
+
+    <text x="24" y="392" font-size="13" fill="#5c6772">上级泄露则下级全废：轮换只会从下往上做</text>
+    <text x="24" y="412" font-size="13" fill="#5c6772">OTP 烧写不可逆，派生式里的序号即版本</text>
+
+    <text x="320" y="84" font-size="13" font-weight="700" fill="#1a4f8b">镜像三段布局与静态校验顺序</text>
+
+    <rect x="320" y="92" width="96" height="46" fill="#f3effa" stroke="#7a5fc0" stroke-width="1.4"/>
+    <text x="330" y="112" font-size="13" font-weight="700" fill="#7a5fc0">头 96 B</text>
+    <text x="330" y="128" font-size="13" fill="#7a5fc0">魔数/版本/计数器</text>
+
+    <rect x="416" y="92" width="76" height="46" fill="#fdf6ef" stroke="#b5642e" stroke-width="1.4"/>
+    <text x="426" y="112" font-size="13" font-weight="700" fill="#b5642e">签名</text>
+    <text x="426" y="128" font-size="13" fill="#b5642e">64 B 或 256 B</text>
+
+    <rect x="492" y="92" width="228" height="46" fill="#eef3fa" stroke="#1a4f8b" stroke-width="1.4"/>
+    <text x="502" y="112" font-size="13" font-weight="700" fill="#1a4f8b">加密载荷（AES-CTR）</text>
+    <text x="502" y="128" font-size="13" fill="#1a4f8b">签名覆盖 头 + 载荷 的哈希</text>
+
+    <rect x="320" y="150" width="400" height="22" rx="2" fill="#f7f9fb" stroke="#d7d2c6"/>
+    <text x="330" y="166" font-size="13" fill="#3c4650">1 读头并校验魔数、长度、计数器窗口 0.2 ms</text>
+    <rect x="320" y="178" width="400" height="22" rx="2" fill="#f7f9fb" stroke="#d7d2c6"/>
+    <text x="330" y="194" font-size="13" fill="#3c4650">2 硬件 SHA-256 覆盖 512 KiB 2.1 ms</text>
+    <rect x="320" y="206" width="400" height="22" rx="2" fill="#fdf6ef" stroke="#b5642e"/>
+    <text x="330" y="222" font-size="13" fill="#b5642e">3 公钥验签 Ed25519 16.7 ms（最关键的一段）</text>
+    <rect x="320" y="234" width="400" height="22" rx="2" fill="#f7f9fb" stroke="#d7d2c6"/>
+    <text x="330" y="250" font-size="13" fill="#3c4650">4 AES-CTR 解密 512 KiB 1.1 ms，随即清零密钥</text>
+
+    <text x="320" y="284" font-size="13" font-weight="700" fill="#1a4f8b">同样 512 KiB 镜像的验签耗时（120 MHz）</text>
+
+    <text x="320" y="308" font-size="13" fill="#3c4650">RSA-2048</text>
+    <rect x="406" y="297" width="50" height="14" fill="#2e7d4f"/>
+    <text x="464" y="309" font-size="13" fill="#2e7d4f">12.5 ms · 1.5 M 周期</text>
+
+    <text x="320" y="334" font-size="13" fill="#3c4650">Ed25519</text>
+    <rect x="406" y="323" width="67" height="14" fill="#1a4f8b"/>
+    <text x="481" y="335" font-size="13" fill="#1a4f8b">16.7 ms · 2.0 M 周期</text>
+
+    <text x="320" y="360" font-size="13" fill="#3c4650">ECDSA P-256</text>
+    <rect x="406" y="349" width="167" height="14" fill="#b03a2e"/>
+    <text x="581" y="361" font-size="13" fill="#b03a2e">41.7 ms · 5.0 M 周期</text>
+
+    <text x="320" y="386" font-size="13" fill="#5c6772">软件 SHA-256 需 183.5 ms：必须用硬件哈希</text>
+    <text x="320" y="404" font-size="13" fill="#5c6772">150 ms 预算下，软哈希只剩 342.7 KiB 可用</text>
+    <text x="320" y="422" font-size="13" fill="#5c6772">验签失败即回滚，回滚前不得解密任何字节</text>
+  </g>
+</svg>

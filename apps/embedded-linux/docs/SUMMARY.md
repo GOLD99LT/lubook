@@ -28,6 +28,7 @@
 * [调试工具链：gdb、strace、perf、ftrace 与 core dump](userspace/debugging-tools.md)
 * [OTA 客户端：RAUC/SWUpdate 的槽位、状态机与回滚 OTA Clients](userspace/ota-agent.md)
 * [容器与沙箱：namespace、cgroup 与只读 rootfs Containers and Sandboxes](userspace/containers.md)
+* [日志与可观测性：journald、远程上报与现场定位流程](userspace/logging-observability.md)
 
 ## 第四篇 · 硬件接口与板级支持
 
@@ -37,6 +38,7 @@
 * [Camera 与 ISP：CSI-2 速率、V4L2 管线与 3A 收敛](hardware/camera-isp.md)
 * [PCIe 与 USB 主机：链路训练、枚举、BAR 与带宽预算](hardware/pcie-usb.md)
 * [视频编解码：档次与工具、硬编与软编、码率控制与延迟预算](hardware/video-encode.md)
+* [闪存介质与文件系统：NOR/NAND/eMMC/UFS 的取舍与掉电一致性](hardware/storage-flash.md)
 
 ## 第五篇 · 可靠性与升级
 
@@ -44,6 +46,7 @@
 * [A/B 升级：GPT 分区、启动计数器、镜像校验与断电回滚](reliability/ab-upgrade.md)
 * [安全启动：信任链、密钥层级、防回滚与验签预算](reliability/secure-boot.md)
 * [产线测试与校准：测试项设计、节拍预算、良率与追溯](reliability/factory-test.md)
+* [功耗与热设计：预算、热阻、降频与安全关机](reliability/power-thermal.md)
 
 ## 第六篇 · 板级实战
 

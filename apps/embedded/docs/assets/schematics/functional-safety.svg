@@ -1,0 +1,62 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>安全完整性的分解、SIL 判定与故障响应时间预算：失效率三段分解、PFD 区间与架构封顶、FTTI 逐段占用</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="28" font-size="18" font-weight="700" fill="#222a32">安全完整性：分解、判定与响应时间</text>
+    <text x="24" y="50" font-size="13" fill="#5c6772">PFD 决定“能报几级”，架构约束决定“准报几级”，FTTI 决定“来不来得及”</text>
+    <line x1="24" y1="62" x2="736" y2="62" stroke="#e3e0d7"/>
+
+    <text x="24" y="84" font-size="13" font-weight="700" fill="#1a4f8b">失效率三段分解（200 FIT，Type B，HFT=0）</text>
+    <rect x="24" y="112" width="101" height="26" fill="#e8f3ec" stroke="#2e7d4f"/>
+    <rect x="125" y="112" width="212" height="26" fill="#eef3fa" stroke="#1a4f8b"/>
+    <rect x="337" y="112" width="23" height="26" fill="#fbeceb" stroke="#b03a2e"/>
+    <text x="34" y="130" font-size="13" font-weight="700" fill="#2e7d4f">λS 60</text>
+    <text x="135" y="130" font-size="13" font-weight="700" fill="#1a4f8b">λDD 126</text>
+    <text x="366" y="130" font-size="13" font-weight="700" fill="#b03a2e">λDU 14</text>
+
+    <text x="24" y="160" font-size="13" fill="#3c4650">SFF =（60 + 126）/ 200 = 93%，落在 90–99% 区间</text>
+    <text x="24" y="180" font-size="13" fill="#3c4650">DC = 126 / 140 = 90%，λDU 由 140 FIT 降到 14 FIT</text>
+    <text x="24" y="200" font-size="13" fill="#3c4650">PFDavg = 14e-9 × 8760 / 2 = 6.13e-5（1 年验证间隔）</text>
+
+    <text x="380" y="84" font-size="13" font-weight="700" fill="#1a4f8b">PFDavg 区间与架构封顶</text>
+    <rect x="380" y="96" width="356" height="24" fill="#eef3fa" stroke="#1a4f8b"/>
+    <text x="390" y="112" font-size="13" fill="#1a4f8b">SIL4 · PFD 1e-5 至 1e-4</text>
+    <rect x="380" y="120" width="356" height="24" fill="#f7f9fb" stroke="#5c6772"/>
+    <text x="390" y="136" font-size="13" fill="#3c4650">SIL3 · PFD 1e-4 至 1e-3</text>
+    <rect x="380" y="144" width="356" height="24" fill="#f7f9fb" stroke="#5c6772"/>
+    <text x="390" y="160" font-size="13" fill="#3c4650">SIL2 · PFD 1e-3 至 1e-2</text>
+    <rect x="380" y="168" width="356" height="24" fill="#f7f9fb" stroke="#5c6772"/>
+    <text x="390" y="184" font-size="13" fill="#3c4650">SIL1 · PFD 1e-2 至 1e-1</text>
+
+    <circle cx="580" cy="108" r="5" fill="#1a4f8b"/>
+    <text x="592" y="112" font-size="13" fill="#1a4f8b">A 6.1e-5 → 封顶 SIL3</text>
+    <circle cx="580" cy="132" r="5" fill="#b5642e"/>
+    <text x="592" y="136" font-size="13" fill="#b5642e">B 2.5e-4 → 封顶 SIL2</text>
+    <text x="380" y="208" font-size="13" fill="#5c6772">C 6.1e-6 优于 SIL4 下限，仍按 SIL3 计</text>
+
+    <text x="24" y="232" font-size="13" font-weight="700" fill="#1a4f8b">故障响应时间预算（FTTI = 20 ms）</text>
+    <rect x="24" y="258" width="71" height="28" fill="#f3effa" stroke="#7a5fc0"/>
+    <rect x="95" y="258" width="36" height="28" fill="#fdf6ef" stroke="#b5642e"/>
+    <rect x="131" y="258" width="356" height="28" fill="#fbeceb" stroke="#b03a2e"/>
+    <rect x="487" y="258" width="7" height="28" fill="#f7f9fb" stroke="#5c6772"/>
+    <rect x="494" y="258" width="214" height="28" fill="#e8f3ec" stroke="#2e7d4f"/>
+    <rect x="708" y="258" width="28" height="28" fill="#ffffff" stroke="#c9c2b4"/>
+
+    <text x="26" y="252" font-size="13" fill="#7a5fc0">采样 2</text>
+    <text x="97" y="252" font-size="13" fill="#b5642e">判定 1</text>
+    <text x="140" y="252" font-size="13" fill="#b03a2e">看门狗超时 10 ms</text>
+    <text x="500" y="252" font-size="13" fill="#2e7d4f">安全状态 6 ms</text>
+    <text x="470" y="304" font-size="13" fill="#5c6772" text-anchor="end">复位 0.2</text>
+    <line x1="474" y1="294" x2="486" y2="288" stroke="#5c6772"/>
+    <text x="712" y="304" font-size="13" fill="#8a9299">余量</text>
+
+    <text x="24" y="326" font-size="13" fill="#3c4650">合计 19.2 ms，余量 0.8 ms；看门狗超时若改为 15 ms，合计 21.4 ms 即超标</text>
+    <text x="24" y="344" font-size="13" fill="#3c4650">检测段必须小于 FTTI 减去反应段，且诊断测试间隔不大于检测段</text>
+
+    <line x1="24" y1="356" x2="736" y2="356" stroke="#e3e0d7"/>
+    <text x="24" y="374" font-size="13" font-weight="700" fill="#1a4f8b">冗余与共因失效</text>
+    <text x="24" y="392" font-size="13" fill="#3c4650">1oo2（β=0.1）：独立项 5.0e-9 + 共因项 6.1e-6，共因项大 1223 倍</text>
+    <text x="24" y="410" font-size="13" fill="#3c4650">锁步比较 DC 99%：残余 2 FIT，MTBF 57078 年；DC 90% 时残余 20 FIT</text>
+    <text x="24" y="428" font-size="13" fill="#5c6772">冗余的安全性由 β 与独立性决定，通道数量不是决定因素</text>
+  </g>
+</svg>

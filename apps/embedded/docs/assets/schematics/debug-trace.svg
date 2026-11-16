@@ -1,0 +1,66 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>调试与追踪的三层可观测性：SWD 传输时序、ITM 与 ETM 的带宽代价、TPIU 出口与片上缓冲</title>
+  <defs>
+    <marker id="dt" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="#2b3a4a"/>
+    </marker>
+  </defs>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="28" font-size="18" font-weight="700" fill="#222a32">调试与追踪：三层可观测性</text>
+    <text x="24" y="50" font-size="13" fill="#5c6772">停机调试看状态、ITM 看事件、ETM 看控制流；三者的带宽差三个数量级</text>
+    <line x1="24" y1="62" x2="736" y2="62" stroke="#e3e0d7"/>
+
+    <text x="24" y="84" font-size="13" font-weight="700" fill="#1a4f8b">SWD 一次 32 位读传输：45 个 SWCLK</text>
+    <text x="24" y="104" font-size="13" fill="#7a5fc0">请求 8 位</text>
+    <text x="160" y="104" font-size="13" fill="#b5642e">ACK 3</text>
+    <text x="216" y="104" font-size="13" fill="#1a4f8b">数据 32 位 + 奇偶 1（缩略）</text>
+
+    <rect x="24" y="110" width="128" height="26" fill="#f3effa" stroke="#7a5fc0"/>
+    <rect x="160" y="110" width="48" height="26" fill="#fdf6ef" stroke="#b5642e"/>
+    <rect x="216" y="110" width="140" height="26" fill="#eef3fa" stroke="#1a4f8b"/>
+    <line x1="40" y1="110" x2="40" y2="136" stroke="#7a5fc0"/>
+    <line x1="56" y1="110" x2="56" y2="136" stroke="#7a5fc0"/>
+    <line x1="72" y1="110" x2="72" y2="136" stroke="#7a5fc0"/>
+    <line x1="88" y1="110" x2="88" y2="136" stroke="#7a5fc0"/>
+    <line x1="104" y1="110" x2="104" y2="136" stroke="#7a5fc0"/>
+    <line x1="120" y1="110" x2="120" y2="136" stroke="#7a5fc0"/>
+    <line x1="136" y1="110" x2="136" y2="136" stroke="#7a5fc0"/>
+    <line x1="176" y1="110" x2="176" y2="136" stroke="#b5642e"/>
+    <line x1="192" y1="110" x2="192" y2="136" stroke="#b5642e"/>
+
+    <text x="24" y="158" font-size="13" fill="#3c4650">4 MHz 时 88.9 k 字/s，即 355.6 kB/s</text>
+    <text x="24" y="176" font-size="13" fill="#3c4650">1 MiB 全片读出 2.95 s，512 KiB 为 1.47 s</text>
+    <text x="24" y="194" font-size="13" fill="#3c4650">JTAG 每字 4 + 32 + 4 = 40 TCK，10 MHz 时 1.0 MB/s</text>
+    <text x="24" y="212" font-size="13" fill="#3c4650">写传输无 turnaround，整包约 44 个 SWCLK</text>
+
+    <text x="380" y="84" font-size="13" font-weight="700" fill="#1a4f8b">三层可观测性：代价与盲区</text>
+
+    <rect x="380" y="92" width="356" height="46" rx="3" fill="#f7f9fb" stroke="#2b3a4a"/>
+    <text x="390" y="110" font-size="14" font-weight="700" fill="#222a32">停机调试：断点与观察点</text>
+    <text x="390" y="128" font-size="13" fill="#3c4650">零额外带宽，但停止全部中断，看门狗会复位</text>
+
+    <rect x="380" y="146" width="356" height="46" rx="3" fill="#fdf6ef" stroke="#b5642e"/>
+    <text x="390" y="164" font-size="14" font-weight="700" fill="#b5642e">ITM 与 SWO：实时打印</text>
+    <text x="390" y="182" font-size="13" fill="#b5642e">每行 1.6 µs，2 Mbaud 上限 200 kB/s，溢出即丢</text>
+
+    <rect x="380" y="200" width="356" height="46" rx="3" fill="#eef3fa" stroke="#1a4f8b"/>
+    <text x="390" y="218" font-size="14" font-weight="700" fill="#1a4f8b">ETM 指令追踪：完整控制流</text>
+    <text x="390" y="236" font-size="13" fill="#1a4f8b">不停机，24 MB/s，需 TPIU 或片上缓冲承接</text>
+
+    <text x="24" y="262" font-size="13" font-weight="700" fill="#1a4f8b">ETM 带宽与 TPIU 出口（横轴 0 至 35 MB/s）</text>
+    <line x1="24" y1="330" x2="710" y2="330" stroke="#c9c2b4"/>
+    <rect x="24" y="298" width="343" height="30" fill="#eef3fa" stroke="#1a4f8b" stroke-width="1.6"/>
+    <text x="34" y="318" font-size="13" font-weight="700" fill="#1a4f8b">12 M 分支/s × 2 B = 24 MB/s</text>
+
+    <line x1="238" y1="288" x2="238" y2="342" stroke="#b03a2e" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="234" y="356" font-size="13" fill="#b03a2e" text-anchor="middle">1 位 15</text>
+    <line x1="453" y1="288" x2="453" y2="342" stroke="#2e7d4f" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="449" y="356" font-size="13" fill="#2e7d4f" text-anchor="middle">2 位 30</text>
+
+    <text x="24" y="378" font-size="13" fill="#3c4650">24 MB/s 占 2 位 DDR 出口的 80%；换 1 位出口必然丢包</text>
+    <text x="24" y="396" font-size="13" fill="#3c4650">64 KiB 缓冲只有 2.73 ms 历史，256 KiB 也只有 10.9 ms</text>
+    <text x="24" y="414" font-size="13" fill="#3c4650">10 s 全量追踪是 240 MB，只能靠 TPIU 实时导出</text>
+    <text x="24" y="432" font-size="13" fill="#5c6772">分支密度决定带宽：每 10 周期一次即 12 M 分支/s</text>
+  </g>
+</svg>

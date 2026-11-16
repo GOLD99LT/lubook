@@ -1,0 +1,71 @@
+<svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+  <title>功耗预算、串联热阻与升温曲线</title>
+  <rect width="760" height="440" fill="#ffffff"/>
+  <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
+    <text x="24" y="28" font-size="19" font-weight="700" fill="#1a2b3a">功耗预算、串联热阻与升温曲线</text>
+    <text x="24" y="50" font-size="13" fill="#5a6b7b">输入功率 11.55 W；总热阻 6.0 K/W；τ = 720 s；三种状态功耗比 41:12:1</text>
+
+    <text x="24" y="76" font-size="14" font-weight="700" fill="#1a2b3a">输入功率（W，按 88% 效率）</text>
+    <text x="24" y="110" font-size="13" fill="#1a2b3a">活跃 11.55 W</text>
+    <rect x="150" y="96" width="150" height="20" fill="#b5642e"/>
+    <text x="24" y="140" font-size="13" fill="#1a2b3a">空闲 3.30 W</text>
+    <rect x="150" y="126" width="43" height="20" fill="#3a6ea5"/>
+    <text x="24" y="170" font-size="13" fill="#1a2b3a">待机 0.28 W</text>
+    <rect x="150" y="156" width="4" height="20" fill="#8fa8c0"/>
+    <text x="24" y="196" font-size="13" fill="#1a2b3a">输入 = 10.166 ÷ 0.88 = 11.55 W</text>
+    <text x="24" y="216" font-size="13" fill="#1a2b3a">8h 活跃 + 16h 空闲 = 145.2 Wh</text>
+    <text x="24" y="236" font-size="13" fill="#1a2b3a">年耗 53.0 kWh，待机 24h 6.7 Wh</text>
+
+    <text x="320" y="76" font-size="14" font-weight="700" fill="#1a2b3a">串联热阻路径（P = 5.2 W）</text>
+    <rect x="320" y="100" width="88" height="44" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="364" y="120" font-size="13" text-anchor="middle" fill="#1a2b3a">芯片结</text>
+    <text x="364" y="138" font-size="13" text-anchor="middle" fill="#1a2b3a">1.8 K/W</text>
+    <text x="412" y="128" font-size="13" text-anchor="middle" fill="#5a6b7b">+</text>
+    <rect x="416" y="100" width="88" height="44" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="460" y="120" font-size="13" text-anchor="middle" fill="#1a2b3a">导热界面</text>
+    <text x="460" y="138" font-size="13" text-anchor="middle" fill="#1a2b3a">0.4 K/W</text>
+    <text x="508" y="128" font-size="13" text-anchor="middle" fill="#5a6b7b">+</text>
+    <rect x="512" y="100" width="88" height="44" rx="4" fill="#eef4fa" stroke="#8fa8c0"/>
+    <text x="556" y="120" font-size="13" text-anchor="middle" fill="#1a2b3a">外壳</text>
+    <text x="556" y="138" font-size="13" text-anchor="middle" fill="#1a2b3a">1.2 K/W</text>
+    <text x="604" y="128" font-size="13" text-anchor="middle" fill="#5a6b7b">+</text>
+    <rect x="608" y="100" width="88" height="44" rx="4" fill="#f7f1ea" stroke="#b5642e"/>
+    <text x="652" y="120" font-size="13" text-anchor="middle" fill="#8a4a1f">到环境</text>
+    <text x="652" y="138" font-size="13" text-anchor="middle" fill="#8a4a1f">2.6 K/W</text>
+
+    <text x="320" y="170" font-size="13" fill="#1a2b3a">R 合计 = 1.8+0.4+1.2+2.6 = 6.0 K/W</text>
+    <text x="320" y="190" font-size="13" fill="#1a2b3a">ΔT = 5.2 × 6.0 = 31.2 K</text>
+    <text x="320" y="210" font-size="13" fill="#1a2b3a">Tj@45 度 = 76.2；Tj@85 度 = 116.2</text>
+    <text x="320" y="230" font-size="13" fill="#8a4a1f">85 度环境：R ≤ 3.85，或限功率到 3.33 W</text>
+
+    <text x="24" y="258" font-size="14" font-weight="700" fill="#1a2b3a">升温曲线：τ = 720 s，3τ = 36 min 到 95% 稳态</text>
+    <line x1="60" y1="280" x2="60" y2="400" stroke="#1a2b3a" stroke-width="1.5"/>
+    <line x1="60" y1="400" x2="720" y2="400" stroke="#1a2b3a" stroke-width="1.5"/>
+    <line x1="60" y1="384" x2="720" y2="384" stroke="#e6ecf2"/>
+    <line x1="60" y1="352" x2="720" y2="352" stroke="#e6ecf2"/>
+    <line x1="60" y1="320" x2="720" y2="320" stroke="#e6ecf2"/>
+    <line x1="60" y1="288" x2="720" y2="288" stroke="#e6ecf2"/>
+    <text x="56" y="388" font-size="13" text-anchor="end" fill="#5a6b7b">40</text>
+    <text x="56" y="356" font-size="13" text-anchor="end" fill="#5a6b7b">60</text>
+    <text x="56" y="324" font-size="13" text-anchor="end" fill="#5a6b7b">80</text>
+    <text x="56" y="292" font-size="13" text-anchor="end" fill="#5a6b7b">100</text>
+    <text x="60" y="416" font-size="13" text-anchor="middle" fill="#5a6b7b">0</text>
+    <text x="225" y="416" font-size="13" text-anchor="middle" fill="#5a6b7b">10</text>
+    <text x="390" y="416" font-size="13" text-anchor="middle" fill="#5a6b7b">20</text>
+    <text x="555" y="416" font-size="13" text-anchor="middle" fill="#5a6b7b">30</text>
+    <text x="720" y="416" font-size="13" text-anchor="middle" fill="#5a6b7b">40</text>
+    <text x="726" y="400" font-size="13" fill="#5a6b7b">min</text>
+
+    <line x1="60" y1="296" x2="720" y2="296" stroke="#b5642e" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <line x1="60" y1="280" x2="720" y2="280" stroke="#a33" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="560" y="312" font-size="13" fill="#8a4a1f">95 度：降频点</text>
+    <text x="560" y="276" font-size="13" fill="#a33">105 度：critical</text>
+
+    <polyline points="60,376 142.5,359 225,348 307.5,340 390,335.5 555,330.3 720,327.9" fill="none" stroke="#3a6ea5" stroke-width="2.5"/>
+    <polyline points="60,336 142.5,319 225,308 307.5,300 390,295.5 555,290.3 720,287.9" fill="none" stroke="#b5642e" stroke-width="2.5"/>
+    <circle cx="390" cy="295.5" r="3.5" fill="#a33"/>
+    <text x="72" y="303" font-size="13" fill="#8a4a1f">Ta = 70 度</text>
+    <text x="72" y="394" font-size="13" fill="#3a6ea5">Ta = 45 度</text>
+    <text x="398" y="312" font-size="13" fill="#a33">19.4 min</text>
+  </g>
+</svg>
