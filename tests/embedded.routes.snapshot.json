@@ -1,6 +1,7 @@
 [
   "/",
   "/basics/c-memory-model",
+  "/basics/debug-trace",
   "/basics/embedded-overview",
   "/basics/linker-script",
   "/basics/memory-registers",
@@ -27,6 +28,7 @@
   "/mcu/watchdog-rtc",
   "/practice/crash-analysis",
   "/practice/emc-software",
+  "/practice/functional-safety",
   "/practice/low-power",
   "/practice/motor-control",
   "/practice/reliability",
@@ -38,5 +40,6 @@
   "/rtos/tickless-lowpower",
   "/storage/bootloader-ota",
   "/storage/filesystem",
-  "/storage/flash-eeprom"
+  "/storage/flash-eeprom",
+  "/storage/secure-firmware"
 ]

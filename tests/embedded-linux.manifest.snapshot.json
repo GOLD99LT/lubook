@@ -1,7 +1,7 @@
 {
   "appId": "embedded-linux",
-  "revision": "sha256-605935fa3deed4bc",
-  "docCount": 32,
+  "revision": "sha256-00eab610f267c54e",
+  "docCount": 35,
   "titles": [
     "嵌入式 Linux 全景：从 SoC 上电到应用启动",
     "交叉编译与工具链 Cross Compilation and Toolchains",
@@ -21,24 +21,27 @@
     "调试工具链：gdb、strace、perf、ftrace 与 core dump",
     "OTA 客户端：RAUC/SWUpdate 的槽位、状态机与回滚 OTA Clients",
     "容器与沙箱：namespace、cgroup 与只读 rootfs Containers and Sandboxes",
+    "日志与可观测性：journald、远程上报与现场定位流程",
     "显示与触摸：MIPI DSI、LVDS、RGB 接口取舍与面板时序",
     "音频：I2S/TDM 时序、codec 与 DAPM、时钟树与 pop 音",
     "存储：eMMC/UFS/SD 的协议、HS 时序、分区与寿命",
     "Camera 与 ISP：CSI-2 速率、V4L2 管线与 3A 收敛",
     "PCIe 与 USB 主机：链路训练、枚举、BAR 与带宽预算",
     "视频编解码：档次与工具、硬编与软编、码率控制与延迟预算",
+    "闪存介质与文件系统：NOR/NAND/eMMC/UFS 的取舍与掉电一致性",
     "看门狗与日志：/dev/watchdog、systemd 集成与 journald 落盘",
     "A/B 升级：GPT 分区、启动计数器、镜像校验与断电回滚",
     "安全启动：信任链、密钥层级、防回滚与验签预算",
     "产线测试与校准：测试项设计、节拍预算、良率与追溯",
+    "功耗与热设计：预算、热阻、降频与安全关机",
     "板级 bring-up：从裸板到第一个用户态程序 Board Bring-up",
     "板级移植：从参考板到量产的清单 Board Porting Checklist",
     "性能调优：启动剖析、CPU 与 IO、火焰图与回归",
     "安全加固：最小权限、只读 rootfs 与补丁节奏"
   ],
-  "imageTotal": 32,
-  "svgCount": 32,
-  "assetsChecksum": "sha256-08b1461c056f06f9",
+  "imageTotal": 35,
+  "svgCount": 35,
+  "assetsChecksum": "sha256-2b11811de1a78ec7",
   "groundsCount": 0,
-  "overallChecksum": "605935fa3deed4bc0d01a79bf18cc3f26e3bce0ad2d3aae9dd0f474daf2e46d5"
+  "overallChecksum": "00eab610f267c54ea63815d8fa371abc61abcd519c2ae5009a05c80d5d7fda5c"
 }

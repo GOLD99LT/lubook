@@ -284,20 +284,20 @@ Cloudflare 镜像已改为随 main 自动部署（Secrets 与 Pages 项目已配
 - **门户入口已全量开启**（2026-10-27）：vailable: true，双站门户均显示三个分册卡片，
   链接为 /lubook/embedded/、/lubook/embedded-linux/（镜像站同构），无即将上线标记。
 
-### 第 4 批内容（已完成并上线）
+### 第 5 批内容（已完成并上线）
 
 6 章：
 
 | 分册 | 新增章 | 审查 |
 |---|---|---|
-| embedded | 传感器接口与信号调理、电机控制、无线模组接入 | 8 条 |
-| embedded-linux | 视频编解码、虚拟化与隔离、安全加固 | 5 条 |
+| embedded | 安全固件更新与密钥管理、功能安全与诊断、调试与追踪 | 6 条 |
+| embedded-linux | 闪存介质与文件系统、日志与可观测性、功耗与热设计 | 7 条 |
 
-规模：embedded 39 章 / 259035 字；embedded-linux 32 章 / 216737 字。
-erify:all 退出 0；两册构建 25.9 s / 24.1 s。
+规模：embedded 42 章 / 278286 字；embedded-linux 35 章 / 236529 字。
+erify:all 退出 0；两册构建 25.8 s / 26.3 s。
 
-典型修订：电机连续 10 A 的铜损漏算一倍（37.5→75 W，温升 90→180 K）；
-3000 rpm 的电压余量漏掉 ωL（9.7 A → 3.6 A）；下管采样窗高估 4 倍（1 µs → 0.75 µs）；
-60°/30° 换相时间整体减半；一阶 RC 截止频率算错 10 倍（0.8 → 8.0 Hz）；
-dm-verity 失败策略三档错位；离线破解几分钟实为 25 天/哈希；HEVC 的 QTBT 张冠李戴。
+典型修订：IEC 61508-2 架构约束表按标准原文重排（原表 9 格错 5 格，全章定级高一级）；
+MiB/MB 混算（日写入 181.19 GB、寿命 103.5 天、比 302 倍）；
+/sys/block/*/stat 列号错（第 3/7 列才是读/写扇区）；F2FS 恢复是 roll-forward + roll-back；
+thermal 的 cdev*_type 路径不存在；rsyslog 无 queue.dropMsgWhenFull；效率低估被误当保守量。
 

@@ -1,7 +1,7 @@
 {
   "appId": "embedded",
-  "revision": "sha256-9a2446f4cb5ba7b9",
-  "docCount": 39,
+  "revision": "sha256-a9bf9a4e39758088",
+  "docCount": 42,
   "titles": [
     "嵌入式软件全景：从寄存器到 RTOS",
     "工具链与调试：从源码到芯片的最后一公里 Toolchain and Debug",
@@ -9,6 +9,7 @@
     "启动流程：从复位向量到 main Startup and Boot",
     "C 语言与内存模型：对齐、严格别名与编译优化 | C Memory Model: Alignment, Strict Aliasing and Optimization",
     "链接脚本与内存布局：VMA、LMA 与启动拷贝 | Linker Script and Memory Layout: VMA, LMA and Startup Copy",
+    "调试与追踪：SWD/JTAG、ITM/SWO 与 ETM 指令追踪 Debugging and Tracing",
     "Cortex-M 内核：寄存器、特权级与异常模型 | Cortex-M Core Architecture",
     "时钟树与低层初始化：从 HSE 到 SysTick | Clock Tree and Low-Level Initialization",
     "GPIO 电气与驱动：从推挽输出到按键消抖 | GPIO Electrical Behavior and Driver Design",
@@ -36,16 +37,18 @@
     "Flash 与 EEPROM：擦写粒度、寿命与掉电安全写入 | Flash and EEPROM: Granularity, Endurance and Fail-Safe Writes",
     "Bootloader 与 OTA：A/B 双区、镜像校验与回滚 Bootloader and OTA",
     "嵌入式文件系统：FAT、LittleFS 与 SPIFFS 的取舍 Embedded File Systems: FAT, LittleFS and SPIFFS Tradeoffs",
+    "安全固件更新与密钥管理：签名、密钥层级与防回滚 Secure Firmware Update and Key Management",
     "低功耗设计：功耗构成、睡眠模式与电池寿命 | Low-Power Design: Power Budget, Sleep Modes and Battery Life",
     "可靠性与看门狗体系：故障模型、双看门狗与复位取证 | Reliability and Watchdog Systems",
     "测试与静态分析：单元测试、MISRA C、覆盖率与 HIL | Testing and Static Analysis",
     "软件能做的 EMC：抖频、边沿控制、采样同步与安全状态 | EMC Measures in Software",
     "现场崩溃分析：HardFault 栈帧、CFSR 判读与 coredump | Field Crash Analysis: HardFault Frame, CFSR and Coredump",
-    "电机控制：H 桥、死区、电流环与无感换相"
+    "电机控制：H 桥、死区、电流环与无感换相",
+    "功能安全与诊断：SIL/ASIL、诊断覆盖率与安全状态 Functional Safety and Diagnostics"
   ],
-  "imageTotal": 39,
-  "svgCount": 39,
-  "assetsChecksum": "sha256-cb472cc4eafdf884",
+  "imageTotal": 42,
+  "svgCount": 42,
+  "assetsChecksum": "sha256-c77819b7610fad7b",
   "groundsCount": 10,
-  "overallChecksum": "9a2446f4cb5ba7b9fb60a628a44bb8b88ef553d91423fe1a5da124bdd2f3522a"
+  "overallChecksum": "a9bf9a4e39758088b374fcc3484d57c93d8924038054c89fa0d2a7056bd9bbc0"
 }
