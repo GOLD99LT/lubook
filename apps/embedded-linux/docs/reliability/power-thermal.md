@@ -194,7 +194,7 @@ $$R_{th}<\frac{1}{dP_{leak}/dT}=\frac{1}{0.279}=3.58\ \text{K/W}$$
 
 $$E=\frac{1}{2}C\left(V_1^{2}-V_2^{2}\right),\qquad t_{hold}=\frac{E}{P_{in}}$$
 
-$C=2$ F、从 12 V 放到 9 V，释放 63 J；输入功率 11.55 W 时能撑 5.45 秒。这个时间要覆盖"检测到 critical → 业务保存 → 卸载 → sync → 断电"，通常需要 3 到 5 秒，**5.45 秒只是刚够，没有余量**。电容老化后容量下降 20%，保持时间就掉到 4.4 秒，正好卡在边界上。
+$C=2$ F、从 12 V 放到 9 V，释放 63 J；输入功率 11.55 W 时能撑 5.45 秒（按逐轨效率的 12.1 W 只有 5.21 秒）。这个时间要覆盖"检测到 critical → 业务保存 → 卸载 → sync → 断电"，通常需要 3 到 5 秒，**5.21 到 5.45 秒只是刚够，没有余量**。电容老化后容量下降 20%，保持时间就掉到 4.2 到 4.4 秒，正好卡在边界上。
 
 ## 4. 算例：12 V 供电的边缘盒子
 
@@ -214,7 +214,7 @@ $C=2$ F、从 12 V 放到 9 V，释放 63 J；输入功率 11.55 W 时能撑 5.4
 
 $$P_{in}=\frac{10.166}{0.88}=11.55\ \text{W}$$
 
-这里用统一的 0.88 是为了手算方便；逐轨效率其实不同（核心轨约 0.81、3V3 轨约 0.86），统一值会低估 5% 左右，做散热余量时正好当保守量吃掉。空闲 3.30 W，待机 0.280 W。三个数字的比值是 41:12:1，说明**待机功耗不是小问题**：如果设备 24 小时待机，一年也要 2.45 kWh。
+这里用统一的 0.88 是为了手算方便；逐轨效率其实不同（核心轨约 0.81、3V3 轨约 0.86）。统一值的方向是**低估**输入功率，不是高估：核心轨 $2.88/0.81=3.56$ W，按 0.88 只有 $2.88/0.88=3.27$ W；逐轨折算整机输入约 12.1 W，比 11.55 W 高 0.55 W，落在 6.0 K/W 的热阻上就是 3.3 K 结温。**低估功耗等于低估发热，方向偏乐观，不能当散热余量吃掉**——热设计要按 12.1 W 重算；后文的能量与保持时间仍按 11.55 W 的简化模型计算，结论方向不变，但同样要再打约 5% 的折扣。空闲 3.30 W、待机 0.280 W 也是按 0.88 折算的，同样偏乐观。三个数字的比值是 41:12:1，说明**待机功耗不是小问题**：如果设备 24 小时待机，一年也要 2.45 kWh。
 
 **第二步：算每日能量与电费。** 8 小时活跃、16 小时空闲：
 
@@ -270,7 +270,7 @@ $$t=-\tau\ln\left(1-\frac{25}{31.2}\right)=1163\ \text{s}=19.4\ \text{min}$$
 
 $$E=\frac{1}{2}\times2\times(12^{2}-9^{2})=63\ \text{J},\qquad t_{hold}=\frac{63}{11.55}=5.45\ \text{s}$$
 
-5.45 秒覆盖"检测 + 保存 + 卸载 + sync"是紧的。若电容老化到 1.6 F，只剩 4.36 秒；若输入功率因为 USB 满载升到 13 W，只剩 4.85 秒。**保持时间要按"最坏功率 + 老化后容量"设计，不能按标称值。**
+5.45 秒（按逐轨 12.1 W 算是 5.21 秒）覆盖"检测 + 保存 + 卸载 + sync"是紧的。若电容老化到 1.6 F，只剩 4.2 到 4.4 秒；若输入功率因为 USB 满载升到 13 W，只剩 4.85 秒。**保持时间要按"最坏功率 + 老化后容量"设计，不能按标称值。**
 
 ## 5. 工程含义：预算、配置与实测
 
@@ -285,7 +285,7 @@ $$E=\frac{1}{2}\times2\times(12^{2}-9^{2})=63\ \text{J},\qquad t_{hold}=\frac{63
 | 3V3 外设 | 2.05 W | 0.924 W | 0.083 W | 网口、WiFi |
 | 5V 外设 | 4.25 W | 1.50 W | 0.150 W | USB、硬盘 |
 | 转换损耗 | 1.38 W | 0.40 W | 0.034 W | 按 88% 反推 |
-| 输入合计 | 11.55 W | 3.30 W | 0.280 W | 热设计取此列 |
+| 输入合计 | 11.55 W | 3.30 W | 0.280 W | 统一 88%；热设计按 12.1 W |
 
 三个纪律：**每一格都要有测量或数据手册依据**；峰值要注明持续时间（boost 10 秒和持续 10 分钟，热设计完全不同）；转换损耗单独一行，避免被"负载合计"掩盖。
 
@@ -305,7 +305,15 @@ cat /sys/class/thermal/thermal_zone0/policy
 grep -H "" /sys/class/thermal/cooling_device*/type
 grep -H "" /sys/class/thermal/cooling_device*/cur_state
 grep -H "" /sys/class/thermal/cooling_device*/max_state
+
+# cooling map：zone 的 cdevN 指向哪个 cooling device、各绑在哪个 trip
+ls -l /sys/class/thermal/thermal_zone0/cdev*
+cat /sys/class/thermal/thermal_zone0/cdev0_trip_point
+readlink -f /sys/class/thermal/thermal_zone0/cdev0   # 得到 cooling_deviceN
+cat /sys/class/thermal/cooling_device0/type           # N 换成上一步的编号
 ```
+
+zone 下与 cooling map 相关的文件只有 `cdev[0-*]`、`cdev[0-*]_trip_point`、`cdev[0-*]_weight`，**没有 `cdev*_type`**：cooling device 的类型在 `/sys/class/thermal/cooling_deviceN/type`，zone 侧只记录"绑到哪个 trip、指向哪个 cdev"。核对 map 必须走 `cdev*_trip_point`（值是 trip 序号）+ `cdev*` 符号链接这条链。
 
 `temp` 和 `trip_point_*_temp` 的单位是**毫摄氏度**，读到 `76200` 是 76.2 度，不是 76200 度。这个单位错在自定义脚本里非常常见：把 trip 写成 `95000`（正确）和 `95`（错误）的行为完全不同，后者等于"上电就降频"。
 
@@ -348,7 +356,7 @@ dmesg | grep -i "thermal\|critical\|throttl"
 systemctl list-dependencies --reverse poweroff.target | head -20
 ```
 
-设计要点：`critical` trip 触发后，内核调用 `orderly_poweroff()`，由用户态完成保存与卸载；如果用户态在超时内没有响应，硬件兜底断电。**这个超时必须小于超级电容的保持时间**——算例里只有 5.45 秒，所以常规的 30 秒甚至 90 秒服务停止超时都不可接受，必须把热关机路径压缩到 5 秒以内，否则电容先没电，文件系统半写。
+设计要点：`critical` trip 触发后，内核调用 `orderly_poweroff()`，由用户态完成保存与卸载；如果用户态在超时内没有响应，硬件兜底断电。**这个超时必须小于超级电容的保持时间**——算例里只有 5.2 到 5.45 秒，所以常规的 30 秒甚至 90 秒服务停止超时都不可接受，必须把热关机路径压缩到 5 秒以内，否则电容先没电，文件系统半写。
 
 ### 5.6 实测方法
 
@@ -394,7 +402,7 @@ systemctl list-dependencies --reverse poweroff.target | head -20
 
 **原因**：cooling map 没绑上，或者 trip 温度单位写错（写成 95 而不是 95000），或者 `policy` 是 `user_space` 但没有用户态守护进程。也可能是 cpufreq 的 `scaling_max_freq` 被别处锁死，冷却设备"拉了档"但驱动拒绝执行。
 
-**解决**：按 5.2 节的命令逐项核对：zone 的 trip 类型与温度、cdev 的 `type` 与 `max_state`、map 是否出现在 `/sys/class/thermal/thermal_zone0/cdev*_type`；把 `policy` 临时切成 `step_wise` 验证；用 `cpupower frequency-info` 看 `scaling_max_freq` 是否被改。**验证标准是"满载时 `cur_state` 会变"，不是"设备树里有这个节点"。**
+**解决**：按 5.2 节的命令逐项核对：zone 的 trip 类型与温度、`cdev*_trip_point` 的序号、`cdev*` 符号链接指向的 `cooling_deviceN` 及其 `type`、`max_state`；把 `policy` 临时切成 `step_wise` 验证；用 `cpupower frequency-info` 看 `scaling_max_freq` 是否被改。**注意 zone 目录下没有 `cdev*_type`，照着这个不存在的路径 grep 只会得到空结果，反而被误判成"map 没绑上"——正是本坑的症状。验证标准是"满载时 `cur_state` 会变"，不是"设备树里有这个节点"。**
 :::
 
 ::: pitfall 坑四：热关机时掉电，eMMC 分区损坏
@@ -475,9 +483,9 @@ $$t=-720\ln(1-0.801)=720\times1.615=1163\ \text{s}=19.4\ \text{min}$$
 
 稳定条件 $R<1/0.279=3.58$ K/W。
 
-电容能量 $E=0.5\times2\times(144-81)=63$ J，$t=63/11.55=5.45$ s。
+电容能量 $E=0.5\times2\times(144-81)=63$ J，$t=63/11.55=5.45$ s（按逐轨 12.1 W 为 5.21 s）。
 
-两个结论：高温柔性设计的关键指标是热阻而不是平均温度；关机保持时间只有 5.45 秒，任何 90 秒的服务停止超时都会让关机变成半写。
+两个结论：高温柔性设计的关键指标是热阻而不是平均温度；关机保持时间只有 5.2 到 5.45 秒，任何 90 秒的服务停止超时都会让关机变成半写。
 </details>
 
 ## 8. 参考资料

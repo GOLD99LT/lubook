@@ -3,7 +3,7 @@
   <rect width="760" height="440" fill="#ffffff"/>
   <g font-family="'Noto Sans SC','Microsoft YaHei',sans-serif">
     <text x="24" y="28" font-size="19" font-weight="700" fill="#1a2b3a">功耗预算、串联热阻与升温曲线</text>
-    <text x="24" y="50" font-size="13" fill="#5a6b7b">输入功率 11.55 W；总热阻 6.0 K/W；τ = 720 s；三种状态功耗比 41:12:1</text>
+    <text x="24" y="50" font-size="13" fill="#5a6b7b">输入功率 11.55 W（逐轨约 12.1 W）；总热阻 6.0 K/W；τ = 720 s；三种状态功耗比 41:12:1</text>
 
     <text x="24" y="76" font-size="14" font-weight="700" fill="#1a2b3a">输入功率（W，按 88% 效率）</text>
     <text x="24" y="110" font-size="13" fill="#1a2b3a">活跃 11.55 W</text>

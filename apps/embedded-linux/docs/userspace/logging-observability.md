@@ -105,7 +105,7 @@ journald 只解决"本地"，跨设备聚合要靠 rsyslog。典型链路是：
 3. `omfwd` 用 TCP 或 TLS 转发，或 `omrelp` 用 RELP（可靠事件日志协议，带应用层确认）；
 4. action 自带队列，断网时先缓冲，恢复后重发。
 
-关键在队列。rsyslog 的 action 队列有两种：纯内存队列（`queue.type="LinkedList"`）和磁盘辅助队列（加 `queue.filename` 与 `queue.saveOnShutdown="on"`）。内存队列在断网时能撑多久，完全由"队列条数 × 单条大小 ÷ 日志速率"决定；一旦溢出，rsyslog 默认丢**新**消息（可配 `queue.dropMsgWhenFull`），于是断网期间最关键的现场反而最先丢。
+关键在队列。rsyslog 的 action 队列有两种：纯内存队列（`queue.type="LinkedList"`）和磁盘辅助队列（加 `queue.filename` 与 `queue.saveOnShutdown="on"`）。内存队列在断网时能撑多久，完全由"队列条数 × 单条大小 ÷ 日志速率"决定；一旦溢出，rsyslog 默认丢**新**消息：入队等待超过 `queue.timeoutEnqueue`（动作队列默认 2000 ms，新版 30000 ms）就丢弃这一条；也可以先用 `queue.discardSeverity`/`queue.discardMark` 在队列接近上限时按严重级别丢低优先级消息（默认不丢弃）。于是断网期间最关键的现场反而最先丢。
 
 ### 2.4 指标：/proc、cgroup 与 node_exporter
 
@@ -407,7 +407,7 @@ perf report --stdio | head -40
 ::: pitfall 坑三：断网两小时后恢复，平台缺了那两小时的日志
 **现象**：网络恢复后设备正常上报，但收集端那段时间是空白；设备本地 `journalctl` 里日志齐全。
 
-**原因**：rsyslog 用了纯内存队列（或默认的 `queue.type="FixedArray"`），断网期间队列满，按默认策略丢弃新消息；恢复后只发送队列里残留的旧消息，中间一段永久缺失。
+**原因**：rsyslog 用了纯内存队列（或默认的 `queue.type="FixedArray"`），断网期间队列满，新消息入队等待超过 `queue.timeoutEnqueue` 后被丢弃；恢复后只发送队列里残留的旧消息，中间一段永久缺失。
 
 **解决**：给 action 配磁盘辅助队列（`queue.filename` + `queue.saveOnShutdown="on"`），并把 `queue.size` 调到能覆盖最长断网时间；`action.resumeRetryCount="-1"` 防止重试耗尽后动作被禁用；监控队列深度，超过 80% 时降级上报级别而不是丢消息。**断网缓冲的容量要按"最长断网时长"设计，不是按平均值。**
 :::
